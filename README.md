@@ -1,8 +1,35 @@
-# 🌿 Natulib-OS : Le Système de Bio-Résilience
+<div align="center">
 
-Bienvenue dans **Natulib-OS**.
+# 🌿 Natulib-OS
 
-Natulib-OS est un firmware open-source conçu pour transformer votre ESP32 en un contrôleur autonome dédié à la bio-résilience. De la surveillance de vos cultures à la gestion de vos ressources vitales, Natulib-OS permet à votre installation de s'auto-réguler, tout en donnant une "conscience" à vos projets grâce à notre moteur d'avatar, **Naturochi**.
+**Branchez, flashez, cultivez.**
+
+[![License: Open Source](https://img.shields.io/badge/License-Open%20Source-33a852.svg?style=flat-square)](#)
+[![Status: Expérimental](https://img.shields.io/badge/Status-Exp%C3%A9rimental-fe7d37.svg?style=flat-square)](#)
+[![Hardware: ESP32](https://img.shields.io/badge/Hardware-ESP32-red.svg?style=flat-square)](#)
+
+</div>
+
+---
+
+**Natulib-OS** est un firmware open-source pour ESP32 dédié à la surveillance et à l'automatisation de petits écosystèmes vivants. Il permet de transformer un ESP32 en un contrôleur modulaire capable de lire des capteurs, prendre des décisions locales et piloter des équipements (pompes, éclairage, relais, etc.) tout en donnant une "conscience" à vos projets grâce au moteur d'avatar, **Naturochi**.
+
+Le projet est utilisé comme base expérimentale pour :
+
+🌱 **Cultures connectées** | 🌡️ **Surveillance environnementale** | 🔌 **Automatisation locale** | 📊 **Collecte de données pour améliorer les recettes de culture**
+
+---
+## 📡 Vision
+
+Natulib ne cherche pas à remplacer l'agriculture, mais à fournir une interface technologique entre l'humain et le vivant. 
+
+L'objectif fondamental est de démocratiser des outils robustes pour :
+* **Comprendre :** Appréhender les besoins réels des plantes et des écosystèmes.
+* **Automatiser :** Déléguer les tâches répétitives pour se concentrer sur l'observation.
+* **Partager :** Créer un langage commun de "recettes de culture" ouvertes à tous.
+* **Expérimenter :** Permettre à chacun, du jardinier urbain au chercheur, de prototyper sa propre vision de la bio-résilience.
+
+> ⚠️ **Statut du projet :** Projet expérimental en développement actif. La structure évolue au gré des tests de terrain et des retours d'expérience.
 
 ---
 
@@ -39,12 +66,50 @@ Pour personnaliser le code source :
 ---
 
 ## 🧠 Le concept des "Synapses"
-Au lieu de coder en dur, Natulib utilise des **Synapses** : des fichiers JSON simples qui définissent vos règles de culture. 
-*Exemple de Synapse pour piloter une pompe :*
+
+Natulib-OS utilise des **Synapses** : des fichiers JSON simples qui définissent vos règles de culture sans avoir à modifier le code.
+
 ```json
 {
   "id": "arrosage_auto",
   "active": true,
-  "conditions": [{"sensor": "bme280", "metric": "t", "op": ">", "val": 25}],
-  "actions": [{"type": "local", "target": "pompe1", "cmd": "on"}]
+  "conditions": [
+    {
+      "sensor": "humidite_sol",
+      "metric": "value",
+      "op": "<",
+      "val": 30
+    }
+  ],
+  "actions": [
+    {
+      "type": "local",
+      "target": "pompe1",
+      "cmd": "on"
+    }
+  ]
 }
+```
+
+Exemple : Si l'humidité du sol descend sous 30%, Natulib active la pompe automatiquement.
+
+## 🚀 État du projet
+
+Le système est en évolution constante. Voici les fonctionnalités déjà intégrées et celles en cours de déploiement :
+
+### Fonctionnalités disponibles
+* **✅ Gestion de capteurs :** Support de multiples sondes via architecture polymorphe.
+* **✅ Système "Synapses" :** Règle de calcul et d'automatisation locale en JSON.
+* **✅ Connectivité :** Support MQTT natif et API Web locale.
+* **✅ Interface :** Dashboard Web embarqué et configuration dynamique.
+* **✅ Sécurité :** Watchdog hardware, authentification et protection du système.
+* **✅ Télémétrie :** Export de données en temps réel pour analyse.
+* **✅ Naturochi :** Optimisation du moteur d'avatar et des animations émotives.
+
+### En développement (Roadmap)
+
+* **🚧 Naturo-Dex :** Finalisation de la bibliothèque communautaire de recettes.
+* **🚧 Synchronisation Cloud :** Option de télémétrie distante sécurisée.
+* **🚧 Web Flasher :** Outil de déploiement simplifié pour ESP32.
+
+---

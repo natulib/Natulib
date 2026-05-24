@@ -118,6 +118,11 @@ Exemple de comportement : Si la valeur du capteur d'humidité du sol descend en 
 
 Natulib est un projet sous licence libre, né de la volonté d'explorer la convergence entre électronique sobre, informatique embarquée et agronomie urbaine.
 
-L'idée n'est pas de construire une solution industrielle lourde ou propriétaire, mais de proposer un canevas modulaire, résilient et transparent, redonnant à l'utilisateur le contrôle total sur ses données, ses machines et ses interactions avec le vivant.
+---
+
+## Screenshot
+
+<img width="1233" height="901" alt="Capture d’écran_2026-05-24_16-38-44" src="https://github.com/user-attachments/assets/33a704c9-f806-4e82-809d-7ed2f57d0829" />
+
 
 ---

@@ -2,7 +2,7 @@
 
 # 🌿 Natulib-OS
 
-**Branchez, flashez, cultivez.**
+**Branchez, flashez, expérimentez.**
 
 [![License: Open Source](https://img.shields.io/badge/License-Open%20Source-33a852.svg?style=flat-square)](#)
 [![Status: Expérimental](https://img.shields.io/badge/Status-Exp%C3%A9rimental-fe7d37.svg?style=flat-square)](#)
@@ -12,42 +12,58 @@
 
 ---
 
-**Natulib-OS** est un firmware open-source pour ESP32 dédié à la surveillance et à l'automatisation de petits écosystèmes vivants. Il permet de transformer un ESP32 en un contrôleur modulaire capable de lire des capteurs, prendre des décisions locales et piloter des équipements (pompes, éclairage, relais, etc.) tout en donnant une "conscience" à vos projets grâce au moteur d'avatar, **Naturochi**.
+**Natulib-OS** est un firmware open-source pour ESP32 permettant de surveiller et automatiser de petits écosystèmes vivants : plantes, mini-serres, aquaponie expérimentale ou projets environnementaux.
 
-Le projet est utilisé comme base expérimentale pour :
+Le projet sert actuellement de plateforme d'expérimentation pour :
 
-🌱 **Cultures connectées** | 🌡️ **Surveillance environnementale** | 🔌 **Automatisation locale** | 📊 **Collecte de données pour améliorer les recettes de culture**
+🌱 Cultures connectées  
+🌡️ Surveillance environnementale  
+🔌 Automatisation locale  
+📊 Collecte et partage de données
 
 ---
+
 ## 📡 Vision
 
-Natulib ne cherche pas à remplacer l'agriculture, mais à fournir une interface technologique entre l'humain et le vivant. 
+Natulib cherche à créer un lien simple entre technologie et vivant.
 
-L'objectif fondamental est de démocratiser des outils robustes pour :
+L'objectif est de proposer des outils accessibles permettant de :
+
 * **Comprendre :** Appréhender les besoins réels des plantes et des écosystèmes.
 * **Automatiser :** Déléguer les tâches répétitives pour se concentrer sur l'observation.
 * **Partager :** Créer un langage commun de "recettes de culture" ouvertes à tous.
 * **Expérimenter :** Permettre à chacun, du jardinier urbain au chercheur, de prototyper sa propre vision de la bio-résilience.
 
-> ⚠️ **Statut du projet :** Projet expérimental en développement actif. La structure évolue au gré des tests de terrain et des retours d'expérience.
+> ⚠️ Projet expérimental en développement actif.
+> Certaines fonctionnalités sont encore en test ou susceptibles d'évoluer.
 
 ---
 
-## 🚀 Pourquoi Natulib ?
+## 🚀 Fonctionnalités actuelles
 
-*   **Liberté Totale :** Pas de cloud imposé. Vos données, vos capteurs, vos règles de culture (Synapses). Vous restez maître de votre écosystème, en local ou à distance.
-*   **Intelligence Embarquée (Natulib-Cortex) :** Grâce à notre moteur de règles **Synapses**, votre système évalue vos conditions de culture en temps réel, sans aucune latence, même sans internet.
-*   **Interface Vivante :** Connectez un écran et donnez un visage à votre écosystème avec **Naturochi**. Il réagit à l'environnement, se fatigue, s'éveille et communique l'état de santé de vos modules.
-*   **Modularité Infinie :** Commencez avec une seule sonde (Ressources). Évoluez vers la gestion complète de modules de production, de préservation ou de symbiose.
-
+- ✅ Lecture de capteurs multiples
+- ✅ Système de règles locales ("Synapses")
+- ✅ API Web embarquée
+- ✅ MQTT
+- ✅ Dashboard intégré
+- ✅ Watchdog et mécanismes de sécurité
+- ✅ Télémétrie locale
+- ✅ Naturochi (interface émotionnelle)
+- 🚧 Synchronisation cloud
+- 🚧 Web Flasher
+- 
 ---
 
-## 📦 L'écosystème Natulib
+## 📦 Structure actuelle du projet
 
-*   **[Natulib-OS](https://github.com/natulib/natulib-os) :** Le firmware central (ce dépôt).
-*   **[Natulib-Cortex](https://github.com/natulib/natulib-os/tree/main/natulib-Cortex) :** Le cœur computationnel garantissant la survie de vos écosystèmes.
-*   **[Naturochi](https://github.com/natulib/natulib-os/tree/main/naturochi) :** Moteur de rendu graphique pour l'interface émotive.
-*   **[Natulib-Dex](https://github.com/natulib/natulib-dex) :** La base de connaissances communautaire. Partagez vos "Synapses" (recettes JSON) pour optimiser vos cultures.
+natulib-os/
+
+├── firmware/         → code ESP32
+├── synapses/         → recettes JSON
+├── docs/             → documentation
+├── assets/           → images, avatars Naturochi
+├── cloud/            → futur backend
+└── wiki/             → guides et documentation
 
 ---
 
@@ -67,7 +83,7 @@ Pour personnaliser le code source :
 
 ## 🧠 Le concept des "Synapses"
 
-Natulib-OS utilise des **Synapses** : des fichiers JSON simples qui définissent vos règles de culture sans avoir à modifier le code.
+Les Synapses permettent de créer des automatisations sans modifier le code.
 
 ```json
 {
@@ -93,23 +109,12 @@ Natulib-OS utilise des **Synapses** : des fichiers JSON simples qui définissent
 
 Exemple : Si l'humidité du sol descend sous 30%, Natulib active la pompe automatiquement.
 
-## 🚀 État du projet
+---
 
-Le système est en évolution constante. Voici les fonctionnalités déjà intégrées et celles en cours de déploiement :
+## 🌍 À propos
 
-### Fonctionnalités disponibles
-* **✅ Gestion de capteurs :** Support de multiples sondes via architecture polymorphe.
-* **✅ Système "Synapses" :** Règle de calcul et d'automatisation locale en JSON.
-* **✅ Connectivité :** Support MQTT natif et API Web locale.
-* **✅ Interface :** Dashboard Web embarqué et configuration dynamique.
-* **✅ Sécurité :** Watchdog hardware, authentification et protection du système.
-* **✅ Télémétrie :** Export de données en temps réel pour analyse.
-* **✅ Naturochi :** Optimisation du moteur d'avatar et des animations émotives.
+Natulib est un projet libre développé progressivement à travers des expérimentations réelles.
 
-### En développement (Roadmap)
-
-* **🚧 Naturo-Dex :** Finalisation de la bibliothèque communautaire de recettes.
-* **🚧 Synchronisation Cloud :** Option de télémétrie distante sécurisée.
-* **🚧 Web Flasher :** Outil de déploiement simplifié pour ESP32.
+L'idée n'est pas de construire une solution industrielle, mais d'explorer des outils accessibles mêlant électronique, automatisation et vivant.
 
 ---

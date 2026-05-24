@@ -4,7 +4,8 @@
 
 **Branchez, flashez, expérimentez.**
 
-<img width="275" height="250" alt="Capture d’écran_2026-05-24_16-25-46" src="https://github.com/user-attachments/assets/61de283b-8931-43b5-8b0e-9509fa0f5800" />
+<img width="227" height="227" alt="naturochi" src="https://github.com/user-attachments/assets/eec08ba1-d1e8-4bb2-81cc-cfe79c0f30dd" />
+
 
 [![License: Open Source](https://img.shields.io/badge/License-Open%20Source-33a852.svg?style=flat-square)](#)
 [![Status: Expérimental](https://img.shields.io/badge/Status-Exp%C3%A9rimental-fe7d37.svg?style=flat-square)](#)

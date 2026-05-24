@@ -4,9 +4,6 @@
 
 **Branchez, flashez, expérimentez.**
 
-<img width="227" height="227" alt="naturochi" src="https://github.com/user-attachments/assets/eec08ba1-d1e8-4bb2-81cc-cfe79c0f30dd" />
-
-
 [![License: Open Source](https://img.shields.io/badge/License-Open%20Source-33a852.svg?style=flat-square)](#)
 [![Status: Expérimental](https://img.shields.io/badge/Status-Exp%C3%A9rimental-fe7d37.svg?style=flat-square)](#)
 [![Hardware: ESP32](https://img.shields.io/badge/Hardware-ESP32-red.svg?style=flat-square)](#)

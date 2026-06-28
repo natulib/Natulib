@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌿 Natulib-OS
+#  Natulib-OS
 
 **Une plateforme open-source pour comprendre, cultiver et partager le vivant.**
 

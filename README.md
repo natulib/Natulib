@@ -2,7 +2,7 @@
 
 # 🌿 Natulib-OS
 
-**Branchez, flashez, expérimentez.**
+**Une plateforme open-source pour comprendre, cultiver et partager le vivant.**
 
 [![License: Open Source](https://img.shields.io/badge/License-Open%20Source-33a852.svg?style=flat-square)](#)
 [![Status: Expérimental](https://img.shields.io/badge/Status-Exp%C3%A9rimental-fe7d37.svg?style=flat-square)](#)
@@ -11,14 +11,302 @@
 </div>
 
 ---
-**Natulib-OS** est un firmware open-source pour ESP32 conçu pour surveiller, analyser et automatiser de petits écosystèmes vivants : cultures connectées, mini-serres, systèmes aquaponiques expérimentaux ou stations environnementales isolées.
 
-Propulsé par un noyau multitâche, le projet sert de plateforme d'expérimentation pour :
+**Natulib-OS** est un firmware open-source pour ESP32 conçu pour transformer un simple microcontrôleur en un compagnon capable d'observer, comprendre et automatiser de petits écosystèmes vivants.
 
-🌱 **Cultures connectées** (optimisation des apports hydriques et lumineux)  
-🌡️ **Surveillance environnementale** (collecte de données climatiques et physico-chimiques)  
-🔌 **Automatisation locale** (prise de décision en périphérie / Edge Computing)  
-📊 **Télémétrie & Partage** (flux de données ouverts et intégrations tierces)
+Notre ambition n'est pas seulement de construire un contrôleur horticole.
+
+Nous voulons créer une **infrastructure libre** permettant à chacun de documenter, expérimenter et partager des connaissances reproductibles autour du vivant.
+
+
+Natulib s'adresse aussi bien :
+
+- 🌱 aux cultures d'intérieur
+- 🌿 aux jardins et terrasses
+- 💧 à l'hydroponie
+- 🐟 à l'aquaponie
+- 🍄 aux champignons
+- 🪱 à la bioponie et au compostage
+- 🐝 aux projets de biodiversité (ruches, nichoirs, stations environnementales...)
+
+La technologie ne remplace pas l'observation humaine.
+
+Elle aide simplement à mieux comprendre le vivant.
+
+---
+
+# 🌍 Notre vision
+
+Aujourd'hui, les connaissances autour de la culture sont dispersées :
+
+- livres
+- forums
+- vidéos
+- expériences personnelles
+- savoir-faire locaux
+
+Natulib souhaite transformer ces connaissances en un patrimoine libre, documenté et reproductible.
+
+Notre objectif est qu'une recette de culture puisse être partagée avec la même simplicité qu'un projet GitHub.
+
+Une recette Natulib ne décrit pas uniquement des automatisations.
+
+Elle documente également :
+
+- les variétés utilisées
+- les paramètres environnementaux
+- les observations
+- les résultats obtenus
+- les améliorations proposées par la communauté
+
+Notre conviction est simple :
+
+> **Les connaissances autour du vivant devraient être aussi ouvertes que les connaissances autour du logiciel.**
+
+---
+
+# 🌱 Les cinq piliers de Natulib
+
+## 👀 Observer
+
+Collecter des données fiables grâce à des capteurs simples, robustes et accessibles.
+
+---
+
+## 🧠 Comprendre
+
+Transformer les mesures en informations utiles afin d'aider l'utilisateur à prendre les bonnes décisions.
+
+Natulib privilégie l'assistance plutôt que l'automatisation systématique.
+
+---
+
+## ⚙️ Automatiser
+
+Déléguer les tâches répétitives :
+
+- irrigation
+- éclairage
+- ventilation
+- pompes
+- alarmes
+
+tout en conservant un contrôle local.
+
+---
+
+## 📚 Documenter
+
+Créer des recettes ouvertes décrivant :
+
+- le matériel
+- les paramètres
+- les variétés
+- les observations
+- les résultats
+
+afin qu'elles puissent être reproduites ailleurs.
+
+---
+
+## 🤝 Partager
+
+Construire une bibliothèque ouverte de recettes, de modules matériels et de retours d'expérience accessibles à tous.
+
+---
+
+# 🚀 Fonctionnalités
+
+## 🧠 Natulib-Core
+
+- ✅ Architecture multitâche FreeRTOS
+- ✅ Drivers matériels modulaires
+- ✅ Registre temps réel optimisé O(1)
+- ✅ Cache RAM optimisé
+- ✅ Watchdog matériel
+- ✅ Journalisation locale
+
+---
+
+## 🌐 Connectivité
+
+- ✅ Interface Web embarquée
+- ✅ Point d'accès autonome
+- ✅ MQTT
+- ✅ API REST
+- ✅ ESP-NOW
+- 🚧 Synchronisation communautaire (en développement)
+
+---
+
+## 🌿 Automatisation
+
+- ✅ Règles locales ("Synapses")
+- ✅ Actions simultanées
+- ✅ Décisions locales sans Cloud
+- ✅ Historique local
+- ✅ Télémétrie
+
+---
+
+## 🎨 Naturochi
+
+Le moteur graphique Naturochi représente l'état du système sous la forme d'un avatar vivant.
+
+Il permet de visualiser rapidement :
+
+- la santé du système
+- les alertes
+- les besoins des cultures
+
+sans avoir à interpréter des dizaines de graphiques.
+
+---
+
+# 🧩 Philosophie matérielle
+
+Natulib est conçu autour de quelques principes simples :
+
+- 🔓 Open Source
+- 🔧 Réparable
+- 💰 Peu coûteux
+- 🌞 Compatible solaire
+- 📡 Fonctionnement hors ligne
+- ⚡ Consommation réduite
+- 🧠 Intelligence locale (Edge Computing)
+
+L'objectif est de rester indépendant d'un Cloud et d'éviter les composants propriétaires coûteux.
+
+---
+
+# 🛠️ Installation
+
+## Option 1 — Web Flasher
+
+Flashez votre ESP32 directement depuis votre navigateur.
+
+*A venir.*
+
+---
+
+## Option 2 — Développement
+
+```bash
+git clone https://github.com/natulib/natulib-os.git
+```
+
+Ouvrez le projet avec PlatformIO puis compilez le firmware.
+
+---
+
+# 🧠 Les Synapses
+
+Les Synapses permettent de modifier le comportement du système sans recompiler le firmware.
+
+Exemple :
+
+```json
+{
+  "id": "arrosage_auto",
+  "active": true,
+  "conditions": [
+    {
+      "sensor": "humidite_sol",
+      "metric": "value",
+      "op": "<",
+      "val": 30
+    }
+  ],
+  "actions": [
+    {
+      "type": "local",
+      "target": "pompe1",
+      "cmd": "on"
+    }
+  ]
+}
+```
+
+Dans cet exemple, la pompe est activée lorsque l'humidité du sol passe sous 30 %.
+
+---
+
+# 📂 Structure du projet
+
+```
+natulib-os/
+│
+├── firmware/          Firmware embarqué (Noyō Cortex)
+│   ├── src/
+│   └── platformio.ini
+│
+├── synapses/          Exemples de recettes JSON
+├── docs/              Documentation technique
+├── assets/            Ressources graphiques Naturochi
+├── recipes/           Futures recettes communautaires
+├── modules/           Modules matériels
+└── wiki/              Guides et tutoriels
+```
+
+---
+
+# 🗺️ Roadmap
+
+## 🌱 Phase 1
+
+- Stabilisation du firmware
+- Validation matérielle
+- Bibliothèque de capteurs
+- Système de recettes
+
+## 🌿 Phase 2
+
+- Bibliothèque communautaire
+- Web Flasher
+- Catalogue de modules
+- Boîtiers imprimables
+
+## 🌍 Phase 3
+
+Création d'une bibliothèque ouverte du vivant permettant de partager :
+
+- recettes
+- variétés
+- modules
+- observations
+- retours d'expérience
+
+afin de constituer un patrimoine numérique libre autour de la culture et de la biodiversité.
+
+---
+
+# 🤝 Contribuer
+
+Natulib est un projet Open Source.
+
+Vous pouvez contribuer en :
+
+- développant du code
+- documentant un module
+- proposant une recette
+- testant une variété
+- améliorant la documentation
+- partageant vos observations
+
+Chaque contribution aide à construire une bibliothèque libre des connaissances autour du vivant.
+
+---
+
+# 📜 Licence
+
+Natulib est distribué sous licence Open Source.
+
+Notre objectif est simple :
+
+> **Construire une infrastructure libre qui transforme les connaissances autour du vivant en un patrimoine commun, reproductible et transmissible.**
+
+Parce que les connaissances autour de la nature devraient être aussi ouvertes que celles du logiciel.
+
 
 ---
 

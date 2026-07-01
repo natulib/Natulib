@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash NL-401A via Web Serial</title>
+    <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web-tools.js?module"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f6f8fa;
+            color: #24292f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+        }
+        h1 { font-size: 24px; margin-bottom: 10px; }
+        p { color: #57606a; font-size: 14px; margin-bottom: 25px; }
+        esp-web-install-button {
+            --esp-tools-button-color: #24292f;
+            --esp-tools-button-text-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Installeur Web NL-401A</h1>
+    <p>Connecte ton ESP32-C6 en USB, clique sur le bouton ci-dessous et laisse-toi guider pour flasher le firmware de test.</p>
+    
+    <!-- Le bouton magique lié à ton manifeste -->
+    <esp-web-install-button manifest="manifest.json"></esp-web-install-button>
+</div>
+
+</body>
+</html>

@@ -279,6 +279,7 @@ Installation et mise à jour directement depuis un navigateur compatible Web Ser
 
 # 🤝 Contribuer
 
+
 Les contributions sont les bienvenues.
 
 Vous pouvez participer en :
@@ -288,8 +289,6 @@ Vous pouvez participer en :
 * Réalisation de supports et boîtiers imprimables en 3D ;
 * Tests de cultures, suivi agronomique et retours d'expérience ;
 * Rédaction de documentations ou partage de recettes de culture ;
-
-💬 Pour échanger, poser des questions ou suivre le développement au quotidien, rejoignez le serveur Discord. https://discord.gg/847WkqJug
 
 ---
 

@@ -1,0 +1,13 @@
+{
+  "name": "Module NL-401A Flasher",
+  "version": "1.0.0",
+  "home_assistant_domain": "esp32c6_nl401a",
+  "builds": [
+    {
+      "chipFamily": "ESP32-C6",
+      "parts": [
+        { "path": "firmware.bin", "offset": 0 }
+      ]
+    }
+  ]
+}

@@ -9,9 +9,9 @@
 ![Status](https://img.shields.io/badge/Status-V0.11-orange?style=flat-square)
 ![Hardware](https://img.shields.io/badge/Hardware-ESP32--C6-red?style=flat-square)
 ![License](https://img.shields.io/badge/License-Open%20Source-33a852?style=flat-square)
+[![ESP Web Tools](https://img.shields.io/badge/Installer-Flasher_le_Noyau_CORTEX-00a2ed?style=flat-square&logo=esphome)](https://natulib.github.io/Natulib/)
 [![Discord](https://img.shields.io/badge/Discord-Rejoindre_la_communaut%C3%A9-7289da?style=flat-square&logo=discord)](https://discord.gg/qPMzR2jXK)
 [![YouTube](https://img.shields.io/badge/YouTube-Suivre_l'aventure-ff0000?style=flat-square&logo=youtube)](https://www.youtube.com/@Natulib)
-
 
 > 🚧 **Natulib est un laboratoire Open Source.**
 >
@@ -89,46 +89,15 @@ Quelques secondes suffisent pour savoir si tout fonctionne normalement ou si une
 
 # 📚 Les recettes
 
-Les recettes constituent le cœur de Natulib.
-
-Une recette décrit une culture reproductible.
-
-Elle est composée de deux éléments complémentaires :
+Les recettes constituent le cœur de Natulib. Une recette décrit une culture reproductible. Elle est composée de deux éléments complémentaires :
 
 ### 📖 La fiche recette
-
-La fiche recette est destinée aux utilisateurs.
-
-Elle documente notamment :
-
-- les espèces cultivées ;
-- les modules nécessaires ;
-- les nutriments utilisés ;
-- les conseils de culture ;
-- les photos ;
-- les observations ;
-- les résultats obtenus ;
-- l'historique des versions.
+La fiche recette est destinée aux utilisateurs. Elle documente notamment les espèces cultivées, les modules nécessaires, les nutriments utilisés, les conseils de culture, les photos, les observations, les résultats obtenus et l'historique des versions.
 
 ### ⚙️ Le fichier `recipe.json`
+Le fichier de recette est destiné à l'ESP32. Il contient uniquement les informations nécessaires à l'exécution : paramètres de culture, configuration des modules, Synapses (règles d'automatisation) et paramètres système.
 
-Le fichier de recette est destiné à l'ESP32.
-
-Il contient uniquement les informations nécessaires à l'exécution :
-
-- paramètres de culture ;
-- configuration des modules ;
-- Synapses (règles d'automatisation) ;
-- paramètres système.
-
-Les recettes peuvent être :
-
-- importées ;
-- exportées ;
-- versionnées ;
-- partagées entre utilisateurs.
-
-L'objectif est de transformer une expérience de culture en une connaissance reproductible.
+Les recettes peuvent être importées, exportées, versionnées et partagées librement entre utilisateurs afin de transformer une expérience de culture en une connaissance reproductible.
 
 ---
 
@@ -137,21 +106,19 @@ L'objectif est de transformer une expérience de culture en une connaissance rep
 Natulib est construit comme un ensemble de modules indépendants.
 
 ```text
-ESP32 Core
-├── Écran (Interface Naturochi)
-├── Détecteur de proximité
-├── Bouton / Encodeur
-├── Capteur de climat (BME280)
-├── Sonde d'humidité du sol
-├── Balance
-├── Module de puissance (MOSFET / Pompe)
-├── Éclairage
+ESP32 Core (NL-001-ESP32C6-16)
+├── Écran GC9A01 (NL-101) / Interface Naturochi 
+├── Commutateur de puissance intelligent / PowerSwitch (NL-401A)
+├── Capteur de climat (NL-103 BME280)
+├── Détecteur de proximité (NL-104)
+├── Bouton / Encodeur (NL-105)
+├── Sonde d'humidité du sol capacitive (NL-106)
+├── Module de puissance MOSFET / Pompes (NL-107)
 └── ...
+
 ```
 
-Chaque module possède sa propre documentation, son firmware de test et, lorsque nécessaire, son boîtier imprimable.
-
-L'objectif est de limiter les soudures et de privilégier des composants standards faciles à remplacer.
+Chaque module possède sa propre documentation, son firmware de test et, lorsque nécessaire, son boîtier imprimable. L'objectif est de limiter les soudures et de privilégier des composants standards faciles à remplacer.
 
 ---
 
@@ -159,28 +126,25 @@ L'objectif est de limiter les soudures et de privilégier des composants standar
 
 ```text
 natulib/
-├── firmware/          # Firmware ESP32
-├── hardware/          # Modules matériels
+├── firmware/          # Firmware ESP32 (PlatformIO - Core CORTEX)
+├── hardware/          # Modules matériels et fiches techniques
 │   ├── README.md
-│   ├── NL-001-Core/
-│   ├── NL-101-Naturochi/
-│   ├── NL-102-DisplayPower/
-│   ├── NL-103-BME280/
-│   ├── NL-104-Proximity/
-│   ├── NL-105-Button/
-│   ├── NL-106-SoilHumidity/
-│   ├── NL-107-MOSFET/
+│   ├── NL-001-ESP32C6-16/  # Noyau central durci (16MB Flash)
+│   ├── NL-101-GC9A01/      # Écran circulaire (Visage)
+│   ├── NL-103-BME280/      # Sonde Climat atmosphérique
+│   ├── NL-104-Proximity/   # Capteur de présence
+│   ├── NL-401A-PowerSwitch/# Étage de coupure électrique intelligent
 │   └── ...
-├── enclosure/         # Boîtiers imprimables
-├── docs/              # Documentation
-├── recipes/           # Recettes de culture
+├── enclosure/         # Boîtiers et pièces 3D imprimables (.STL/.STEP)
+├── docs/              # Fichiers de l'installateur Web et documentations
+├── recipes/           # Recettes de culture (Basilic, Menthe...)
 │   ├── Basilic/
 │   │   ├── README.md
 │   │   ├── recipe.json
 │   │   └── images/
 │   └── ...
-├── synapses/          # Exemples de règles
-└── tools/
+└── synapses/          # Exemples de règles d'automatisation
+
 ```
 
 Chaque module matériel possède sa propre documentation, ses fichiers d'impression 3D, son firmware de test et son historique d'évolution.
@@ -248,15 +212,16 @@ Natulib évolue progressivement module par module.
 
 | Organe / Module | État logiciel | Matériel (V1) / Intégration |
 |-----------------|---------------|-----------------------------|
-| ESP32 Core (Noyō Cortex) | ✅ Stable | Boîtier dérivation électrique IP55 |
-| Écran GC9A01 (Naturochi) | ✅ Actif | Boîtier déporté imprimé 3D |
+| ESP32 Core (Noyō Cortex) | ✅ Stable | Test OK sur NL-001-ESP32C6-16 |
+| Écran GC9A01 (Naturochi) | ✅ Actif | Module NL-101 / Boîtier déporté 3D |
+| Coupure Matérielle (Power) | ✅ Actif | Commutateur intelligent NL-401A |
 | Capteur Climat (BME280) | ✅ Actif | Tube de protection ventilé |
 | Humidité du sol | ✅ Actif | Sonde capacitive isolée |
 | Interface Web embarquée | 🚧 En cours | Servie localement via LittleFS |
 | Gestion des pompes (MOSFET) | 🚧 En cours | Circuit de puissance unitaire |
 | API REST / Local Logger | ✅ Stable | 39 routes / Écriture Flash asynchrone |
-| Web Flasher | 🚧 En cours | — |
-| Cloud / IA | 💭 Concept | — |
+| Web Flasher | ✅ Stable | Déploiement universel Web Serial |
+| Cloud / IA | 💭 Concept | Synchronisation asynchrone sécurisée |
 
 ---
 
@@ -264,17 +229,28 @@ Natulib évolue progressivement module par module.
 
 Deux méthodes sont prévues.
 
-### 🚀 Flash rapide (Sans installation)
+### 🚀 ⚡ Méthode 1 : Flash rapide via le Web (Recommandé)
 
-Tu peux flasher le firmware de test directement depuis ton navigateur en te rendant sur la page suivante :
+Le déploiement et le formatage du firmware s'effectuent directement depuis votre navigateur sans installer Python ni aucune ligne de commande, grâce à l'API Web Serial.
 
-[![Flash avec ESP Web Tools](https://img.shields.io/badge/ESP%20Web%20Tools-Flasher%20le%20module-vividcyan?style=for-the-badge&logo=esphome)](https://ton-pseudo.github.io/ton-depot/)
+[![Flash avec ESP Web Tools](https://img.shields.io/badge/ESP%20Web%20Tools-Flasher%20le%20module-vividcyan?style=for-the-badge&logo=esphome)](https://natulib.github.io/Natulib/)
 
 > 💡 *Note : Nécessite un navigateur compatible Web Serial (Google Chrome, Microsoft Edge ou Opera).*
 
-Installation et mise à jour directement depuis un navigateur compatible Web Serial (Chrome / Edge), sans aucun logiciel tiers.
+🔌 Étapes pour programmer la carte :
+Connectez votre carte NL-001-ESP32C6-16 en USB-C à votre appareil.
 
-### Compilation locale
+Cliquez sur le bouton ci-dessous pour ouvrir l'installateur :
+
+Cliquez sur Connect, sélectionnez le port de votre puce.
+
+⚠️ TRÈS IMPORTANT : Lors de la première installation, cochez impérativement la case "Erase device" (Effacer l'appareil). Cela nettoiera l'ancienne structure mémoire pour formater et créer la partition géante LittleFS de ~9.8 Mo indispensable au système.
+
+💡 Note d'accès Configuration (Portail Captif) : > Au premier démarrage, la carte génère un réseau Wi-Fi Point d'Accès nommé NOYO-XXXX. Connectez-vous dessus. Si la page de configuration ne s'affiche pas automatiquement à cause des protections HTTPS de votre navigateur, ouvrez un onglet de navigation privée et tapez manuellement l'adresse IP absolue : http://192.168.4.1.
+
+
+
+### 🛠️ Méthode 2 : Compilation locale
 
 * Installer VS Code et PlatformIO.
 * Cloner le dépôt.

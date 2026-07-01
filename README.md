@@ -264,7 +264,13 @@ Natulib évolue progressivement module par module.
 
 Deux méthodes sont prévues.
 
-### Web Flasher (En cours)
+### 🚀 Flash rapide (Sans installation)
+
+Tu peux flasher le firmware de test directement depuis ton navigateur en te rendant sur la page suivante :
+
+[![Flash avec ESP Web Tools](https://img.shields.io/badge/ESP%20Web%20Tools-Flasher%20le%20module-vividcyan?style=for-the-badge&logo=esphome)](https://ton-pseudo.github.io/ton-depot/)
+
+> 💡 *Note : Nécessite un navigateur compatible Web Serial (Google Chrome, Microsoft Edge ou Opera).*
 
 Installation et mise à jour directement depuis un navigateur compatible Web Serial (Chrome / Edge), sans aucun logiciel tiers.
 

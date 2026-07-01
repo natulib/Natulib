@@ -9,9 +9,9 @@
 ![Status](https://img.shields.io/badge/Status-V0.11-orange?style=flat-square)
 ![Hardware](https://img.shields.io/badge/Hardware-ESP32--C6-red?style=flat-square)
 ![License](https://img.shields.io/badge/License-Open%20Source-33a852?style=flat-square)
-[![ESP Web Tools](https://img.shields.io/badge/Installer-Flasher_le_Noyau_CORTEX-00a2ed?style=flat-square&logo=esphome)](https://natulib.github.io/Natulib/)
-[![Discord](https://img.shields.io/badge/Discord-Rejoindre_la_communaut%C3%A9-7289da?style=flat-square&logo=discord)](https://discord.gg/qPMzR2jXK)
-[![YouTube](https://img.shields.io/badge/YouTube-Suivre_l'aventure-ff0000?style=flat-square&logo=youtube)](https://www.youtube.com/@Natulib)
+[![ESP Web Tools](https://img.shields.io/badge/Installer-Flasher_l'ESP-00a2ed?style=flat-square&logo=esphome)](https://natulib.github.io/Natulib/)
+[![Discord](https://img.shields.io/badge/Discord-Rejoindre-7289da?style=flat-square&logo=discord)](https://discord.gg/qPMzR2jXK)
+[![YouTube](https://img.shields.io/badge/YouTube-Suivre-ff0000?style=flat-square&logo=youtube)](https://www.youtube.com/@Natulib)
 
 > 🚧 **Natulib est un laboratoire Open Source.**
 >

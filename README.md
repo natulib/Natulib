@@ -2,7 +2,7 @@
 
 # 🌱 Natulib
 
-### Plateforme Open Source modulaire au service du vivant.
+### Plateforme Open Source modulaire dédiée à l'observation, la production et la protection du vivant.
 
 **Production alimentaire • Biodiversité • Agriculture connectée • Science participative • Edge Computing**
 
@@ -28,12 +28,12 @@ Qu'il s'agisse de produire des végétaux, de surveiller une ruche, de protéger
 
 Le projet s'articule autour de quatre piliers :
 
-- 🧱 Modules : électronique, schémas, PCB, capteurs et pièces imprimables.
-- 🏗️ Projets : assemblages complets (hydroponie, aquaponie, ruche, etc.).
-- 🌱 Recettes : paramètres biologiques adaptés à une espèce, un projet, un climat ou un objectif de culture.
+- 🧱 Modules : électronique, capteurs, cartes, boîtiers et pièces imprimables.
+- 🏗️ Projets : assemblages complets (hydroponie, aquaponie, serre, ruche, nichoir...).
+- 🌱 Recettes : paramètres biologiques adaptés à une espèce, un projet ou un environnement.
 - 🧠 Synapses : règles d'automatisation exécutées localement sur l'ESP32.
 
-L'objectif est de construire une bibliothèque ouverte de modules, de projets et de connaissances autour du vivant.
+L'objectif de Natulib est de construire une bibliothèque ouverte de modules, de projets, de recettes et de connaissances afin de rendre les technologies au service du vivant libres, reproductibles et accessibles à tous.
 
 ---
 
@@ -60,6 +60,6 @@ Natulib est un projet Open Source. Le code, les modules matériels, les recettes
 
 ---
 
-> 🌱 **Natulib — Une bibliothèque ouverte au service du vivant.**
+> 🌱 **Natulib — Construisons une bibliothèque ouverte au service du vivant.**
 
 ---

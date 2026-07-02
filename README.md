@@ -4,7 +4,7 @@
 
 ### Plateforme Open Source modulaire dédiée à l'observation, la production et la préservation du vivant.
 
-**Production alimentaire • Biodiversité • Agriculture connectée • Science participative • Edge Computing**
+**Production alimentaire • Biodiversité • Automatisation écologique • Science participative • Edge Computing**
 
 
 ![Status](https://img.shields.io/badge/Status-V0.11-orange?style=flat-square)
@@ -24,7 +24,7 @@
 
 **Natulib** est une plateforme Open Source permettant de concevoir des systèmes autonomes au service du vivant.
 
-Qu'il s'agisse de produire des végétaux, de surveiller une ruche, de protéger un nichoir, d'automatiser une serre ou de partager des connaissances agronomiques, Natulib fournit une base matérielle et logicielle commune, libre et reproductible.
+Qu'il s'agisse de produire des végétaux, de surveiller une ruche, de protéger un nichoir, d'automatiser une serre ou de mieux comprendre les écosystèmes, Natulib fournit une base matérielle et logicielle commune, ouverte et reproductible.
 
 Le projet s'articule autour de quatre piliers :
 

@@ -28,10 +28,10 @@ Qu'il s'agisse de produire des végétaux, de surveiller une ruche, de protéger
 
 Le projet s'articule autour de quatre piliers :
 
-- 🧱 Modules : électronique, capteurs, cartes, boîtiers et pièces imprimables.
-- 🏗️ Projets : assemblages complets (hydroponie, aquaponie, serre, ruche, nichoir...).
-- 🌱 Recettes : paramètres biologiques adaptés à une espèce, un projet ou un environnement.
-- 🧠 Synapses : règles d'automatisation exécutées localement sur l'ESP32.
+- 🧱 **Modules** : électronique, capteurs, cartes, boîtiers et pièces imprimables.
+- 🏗️ **Projets** : assemblages complets (hydroponie, aquaponie, serre, ruche, nichoir...).
+- 🌱 **Recettes** : paramètres biologiques adaptés à une espèce, un projet ou un environnement.
+- 🧠 **Synapses** : règles d'automatisation exécutées localement sur l'ESP32.
 
 L'objectif de Natulib est de construire une bibliothèque ouverte de modules, de projets, de recettes et de connaissances afin de rendre les technologies au service du vivant ouvertes, reproductibles et accessibles à tous.
 
@@ -39,12 +39,14 @@ L'objectif de Natulib est de construire une bibliothèque ouverte de modules, de
 
 ## 🚀 Démarrer
 
-Toutes les ressources détaillées sont centralisées et mises à jour automatiquement sur l'espace de documentation :
+Toute la documentation officielle de Natulib est disponible sur le **Wiki** :
 
-* ⚡ **[Web Serial — Installer et flasher Natulib en ligne](https://natulib.github.io/Natulib/)** (Installation automatique sans ligne de commande)
-* 📖 **[Wiki — Explorer la documentation complète](https://natulib.github.io/Natulib/)** (Hardware, Pinout, API, Recettes)
-* 💬 **[Discord — Rejoindre la communauté](https://discord.gg/qPMzR2jXK)** (Aide, entraide technique, partages de cultures)
-* 🎥 **[YouTube — Voir les démonstrations et tutoriels](https://www.youtube.com/@Natulib)** (Suivi des prototypes, logs, et builds)
+- 📖 **[Wiki — Explorer la documentation complète](https://natulib.github.io/Natulib/)** — Installation, Web Flasher, documentation, modules, projets, recettes, API et guides complets.
+
+- 💬 **[Discord — Rejoindre la communauté](https://discord.gg/qPMzR2jXK)** (Questions, entraide et partage des réalisations)
+
+- 🎥 **[YouTube — Voir les démonstrations et tutoriels](https://www.youtube.com/@Natulib)** (Démonstrations, tutoriels et suivi du développement)
+
 
 ---
 

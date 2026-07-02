@@ -41,24 +41,27 @@ L'objectif de Natulib est de construire une bibliothèque ouverte de modules, de
 
 Toute la documentation officielle de Natulib est disponible sur le **Wiki** :
 
-- 📖 **[Wiki — Explorer la documentation complète](https://natulib.github.io/Natulib/)** — Installation, Web Flasher, documentation, modules, projets, recettes, API et guides complets.
+- 📖 **[Wiki — Explorer la documentation complète](https://natulib.github.io/Natulib/)** - Installation, documentation, modules, projets, recettes.
 
-- 💬 **[Discord — Rejoindre la communauté](https://discord.gg/qPMzR2jXK)** (Questions, entraide et partage des réalisations)
+- 💬 **[Discord — Rejoindre la communauté](https://discord.gg/qPMzR2jXK)** - Questions, entraide et partage des réalisations.
 
-- 🎥 **[YouTube — Voir les démonstrations et tutoriels](https://www.youtube.com/@Natulib)** (Démonstrations, tutoriels et suivi du développement)
+- 🎥 **[YouTube — Voir les démonstrations et tutoriels](https://www.youtube.com/@Natulib)** - Démonstrations, tutoriels et suivi du développement.
 
 
 ---
 
 ## 🤝 Contribuer
 
-Les contributions sont les bienvenues ! Le développement matériel et logiciel est réalisé publiquement, brique par brique. Que vous partagiez vos relevés de plantes, vos fichiers d'impression 3D ou vos optimisations C++, vous aidez à enrichir la bibliothèque du vivant.
+Les contributions sont les bienvenues ! 
+Le développement matériel et logiciel est réalisé publiquement, brique par brique.
+Que vous partagiez vos relevés de plantes, vos fichiers d'impression 3D ou vos optimisations C++, vous aidez à enrichir la bibliothèque du vivant.
 
 ---
 
 ## 📜 Licence
 
-Natulib est un projet Open Source. Le code, les modules matériels, les recettes et la documentation sont librement consultables, modifiables et partageables selon les termes de la licence du projet.
+Natulib est un projet Open Source.
+Le code, les modules matériels, les recettes et la documentation sont librement consultables, modifiables et partageables selon les termes de la licence du projet.
 
 ---
 

@@ -11,8 +11,8 @@
 ![Hardware](https://img.shields.io/badge/Hardware-ESP32--C6-red?style=flat-square)
 ![License](https://img.shields.io/badge/License-Open%20Source-33a852?style=flat-square)
 
-[![Installer](https://img.shields.io/badge/Installer-Web_Flasher-00a2ed?style=flat-square)](https://natulib.github.io/Natulib/)
-[![Wiki](https://img.shields.io/badge/Wiki-Documentation-success?style=flat-square)](https://github.com/Natulib/Natulib/wiki)
+[![Installer](https://img.shields.io/badge/Installer-Web_Flasher-00a2ed?style=flat-square)](https://natulib.github.io/Natulib/installation/web-flasher.md)
+[![Wiki](https://img.shields.io/badge/Wiki-Documentation-success?style=flat-square)](https://natulib.github.io/Natulib/)
 [![Discord](https://img.shields.io/badge/Discord-Rejoindre-7289da?style=flat-square&logo=discord)](https://discord.gg/qPMzR2jXK)
 [![YouTube](https://img.shields.io/badge/YouTube-Suivre-ff0000?style=flat-square&logo=youtube)](https://www.youtube.com/@Natulib)
 
@@ -28,10 +28,10 @@ Qu'il s'agisse de produire des végétaux, de surveiller une ruche, de protéger
 
 Le projet s'articule autour de quatre piliers :
 
-- 🧱 **Modules** : électronique, capteurs, cartes, boîtiers et pièces imprimables.
-- 🏗️ **Projets** : assemblages complets (hydroponie, aquaponie, serre, ruche, nichoir...).
-- 🌱 **Recettes** : paramètres biologiques, stratégies de culture et règles d'automatisation.
-- 🧠 **Natulib OS** : système d'exploitation embarqué pilotant les modules et exécutant les recettes localement.
+- 🧱 **[Modules](http://natulib.github.io/Natulib/Modules.md)** : électronique, capteurs, cartes, boîtiers et pièces imprimables.
+- 🏗️ **[Projets](http://natulib.github.io/Natulib/Projets.md)** : assemblages complets (hydroponie, aquaponie, serre, ruche, nichoir...).
+- 🌱 **[Recettes](http://natulib.github.io/Natulib/Recettes.md)** : paramètres biologiques, stratégies de culture et règles d'automatisation.
+- 🧠 **[Natulib OS](http://natulib.github.io/Natulib/Recettes.md)** : système d'exploitation embarqué pilotant les modules et exécutant les recettes localement.
 
 Autour de ces piliers, la communauté peut également partager des avatars, des modèles 3D, des configurations, des interfaces et d'autres ressources réutilisables afin d'enrichir collectivement l'écosystème.
 

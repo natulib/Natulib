@@ -30,8 +30,10 @@ Le projet s'articule autour de quatre piliers :
 
 - 🧱 **Modules** : électronique, capteurs, cartes, boîtiers et pièces imprimables.
 - 🏗️ **Projets** : assemblages complets (hydroponie, aquaponie, serre, ruche, nichoir...).
-- 🌱 **Recettes** : paramètres biologiques adaptés à une espèce, un projet ou un environnement.
-- 🧠 **Synapses** : règles d'automatisation exécutées localement sur l'ESP32.
+- 🌱 **Recettes** : paramètres biologiques, stratégies de culture et règles d'automatisation.
+- 🧠 **Natulib OS** : système d'exploitation embarqué pilotant les modules et exécutant les recettes localement.
+
+Autour de ces piliers, la communauté peut également partager des avatars, des modèles 3D, des configurations, des interfaces et d'autres ressources réutilisables afin d'enrichir collectivement l'écosystème.
 
 L'objectif de Natulib est de construire une bibliothèque ouverte de modules, de projets, de recettes et de connaissances afin de rendre les technologies au service du vivant ouvertes, reproductibles et accessibles à tous.
 
@@ -41,7 +43,7 @@ L'objectif de Natulib est de construire une bibliothèque ouverte de modules, de
 
 Toute la documentation officielle de Natulib est disponible sur le **Wiki** :
 
-- 📖 **[Wiki — Explorer la documentation complète](https://natulib.github.io/Natulib/)** - Installation, documentation, modules, projets, recettes.
+- 📖 **[Wiki — Explorer la documentation complète](https://natulib.github.io/Natulib/)** - Installation, documentation, modules, projets, recettes et Natulib OS.
 
 - 💬 **[Discord — Rejoindre la communauté](https://discord.gg/qPMzR2jXK)** - Questions, entraide et partage des réalisations.
 
@@ -53,15 +55,15 @@ Toute la documentation officielle de Natulib est disponible sur le **Wiki** :
 ## 🤝 Contribuer
 
 Les contributions sont les bienvenues ! 
-Le développement matériel et logiciel est réalisé publiquement, brique par brique.
-Que vous partagiez vos relevés de plantes, vos fichiers d'impression 3D ou vos optimisations C++, vous aidez à enrichir la bibliothèque du vivant.
+Le développement matériel et logiciel est réalisé publiquement, brique par brique. 
+Que vous partagiez un module, un projet, une recette, un avatar, un modèle 3D ou une amélioration logicielle, vous contribuez à enrichir la bibliothèque ouverte du vivant.
 
 ---
 
 ## 📜 Licence
 
 Natulib est un projet Open Source.
-Le code, les modules matériels, les recettes et la documentation sont librement consultables, modifiables et partageables selon les termes de la licence du projet.
+Le code, les modules matériels, les recettes, les avatars et la documentation sont librement consultables, modifiables et partageables selon les termes de la licence du projet.
 
 ---
 

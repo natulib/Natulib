@@ -13,7 +13,7 @@
 
 [![Installer](https://img.shields.io/badge/Installer-Web_Flasher-00a2ed?style=flat-square)](https://natulib.github.io/Natulib/installation/web-flasher.md)
 [![Wiki](https://img.shields.io/badge/Wiki-Documentation-success?style=flat-square)](https://natulib.github.io/Natulib/)
-[![Discord](https://img.shields.io/badge/Discord-Rejoindre-7289da?style=flat-square&logo=discord)](https://discord.gg/qPMzR2jXK)
+[![Discord](https://img.shields.io/badge/Discord-Rejoindre-7289da?style=flat-square&logo=discord)](https://discord.gg/3Xs3HmphJk)
 [![YouTube](https://img.shields.io/badge/YouTube-Suivre-ff0000?style=flat-square&logo=youtube)](https://www.youtube.com/@Natulib)
 
 </div>
@@ -45,7 +45,7 @@ Toute la documentation officielle de Natulib est disponible sur le **Wiki** :
 
 - 📖 **[Wiki — Explorer la documentation complète](https://natulib.github.io/Natulib/)** - Installation, documentation, modules, projets, recettes et Natulib OS.
 
-- 💬 **[Discord — Rejoindre la communauté](https://discord.gg/qPMzR2jXK)** - Questions, entraide et partage des réalisations.
+- 💬 **[Discord — Rejoindre la communauté](https://discord.gg/3Xs3HmphJk)** - Questions, entraide et partage des réalisations.
 
 - 🎥 **[YouTube — Voir les démonstrations et tutoriels](https://www.youtube.com/@Natulib)** - Démonstrations, tutoriels et suivi du développement.
 

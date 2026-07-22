@@ -32,8 +32,8 @@ Le projet s'articule autour de quatre piliers :
 
 - 🧱 **[Modules](https://natulib.github.io/Natulib/Modules.md)** — Cartes électroniques, capteurs, alimentation, boîtiers et autres éléments matériels réutilisables.
 - 🏗️ **[Projets](https://natulib.github.io/Natulib/Projets.md)** — Assemblages complets construits à partir des modules.
-- 🌱 **[Recettes](https://natulib.github.io/Natulib/Recettes.md)** — Scénarios d'automatisation partageables définissant les valeurs à surveiller et les actions à exécuter pour un usage donné.
-- 🧠 **[Natulib OS](https://natulib.github.io/Natulib/Natulib-OS.md)** — Système d'exploitation embarqué détectant les modules, exécutant les recettes et pilotant automatiquement les périphériques.
+- 🌱 **[Recettes](https://natulib.github.io/Natulib/Recettes.md)** — Scénarios d'automatisation partageables définissant les valeurs à surveiller et les actions à exécuter.
+- 🧠 **[Natulib OS](https://natulib.github.io/Natulib/Natulib-OS.md)** — Système d'exploitation embarqué détectant les modules, exécutant les recettes et pilotant les périphériques.
 
 L'objectif de Natulib est de constituer une bibliothèque ouverte et collaborative de modules, de projets et de recettes afin de rendre les technologies au service du vivant **ouvertes, reproductibles et accessibles à tous**.
 

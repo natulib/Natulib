@@ -2,7 +2,7 @@
 
 # 🌱 Natulib
 
-### Plateforme Open Source modulaire dédiée à l'observation, la production et la préservation du vivant.
+### Plateforme Open Source modulaire pour créer des systèmes connectés au service du vivant.
 
 **Production alimentaire • Biodiversité • Automatisation écologique • Science participative • Edge Computing**
 
@@ -22,24 +22,33 @@
 
 # 🌿 À propos
 
-**Natulib** est une plateforme Open Source modulaire permettant de créer facilement des objets connectés dédiés au vivant.
+**Natulib** est une plateforme Open Source modulaire permettant de concevoir facilement des systèmes connectés au service du vivant.
 
-Elle repose sur des **modules matériels réutilisables**, un **système d'exploitation embarqué** et des **recettes** décrivant les règles d'automatisation propres à chaque projet.
-
-À partir des mêmes modules, il est possible de réaliser une station hydroponique, une serre connectée, une ruche, un nichoir, un système d'arrosage autonome ou tout autre projet.
+À partir d'une bibliothèque de **modules matériels réutilisables**, de **recettes d'automatisation** et de **Natulib OS**, il est possible de créer une grande variété de projets : station de plantes aromatiques, serre connectée, hydroponie, ruche instrumentée, nichoir, composteur et bien d'autres.
 
 Le projet s'articule autour de quatre piliers :
 
 - 🧱 **[Modules](https://natulib.github.io/Natulib/Modules.md)** — Cartes électroniques, capteurs, alimentation, boîtiers et autres éléments matériels réutilisables.
 - 🏗️ **[Projets](https://natulib.github.io/Natulib/Projets.md)** — Assemblages complets construits à partir des modules.
-- 🌱 **[Recettes](https://natulib.github.io/Natulib/Recettes.md)** — Scénarios d'automatisation partageables définissant les valeurs à surveiller et les actions à exécuter.
-- 🧠 **[Natulib OS](https://natulib.github.io/Natulib/Natulib-OS.md)** — Système d'exploitation embarqué détectant les modules, exécutant les recettes et pilotant les périphériques.
+- 🌱 **[Recettes](https://natulib.github.io/Natulib/Recettes.md)** — Règles d'automatisation partageables adaptées à chaque usage.
+- 🧠 **[Natulib OS](https://natulib.github.io/Natulib/Natulib-OS.md)** — Système embarqué pilotant les modules et exécutant les recettes.
 
-L'objectif de Natulib est de constituer une bibliothèque ouverte et collaborative de modules, de projets et de recettes afin de rendre les technologies au service du vivant **ouvertes, reproductibles et accessibles à tous**.
+L'objectif de Natulib est de rendre les technologies au service du vivant **ouvertes, reproductibles et accessibles à tous**.
 
 ---
 
-## 🚀 Démarrer
+## ⚡ Prise en main rapide (3 minutes)
+
+1. 🔌 **Branchez** votre carte **ESP32-C6 N16** à votre ordinateur via USB.
+2. 🚀 **Flashez** Natulib OS directement depuis votre navigateur avec le **[Web Flasher Natulib](https://natulib.github.io/Natulib/installation/web-flasher.md)** *(Chrome ou Edge)*.
+3. 📱 **Connectez-vous** au réseau Wi-Fi **`NATULIB-XXXX`** créé par la carte.
+4. ⚙️ **Ouvrez** l'interface de configuration embarquée et configurez votre premier nœud Natulib.
+
+En quelques minutes, votre premier système Natulib est prêt à accueillir des modules et des recettes.
+
+---
+
+# 🚀 Démarrer
 
 Toute la documentation officielle est disponible sur le Wiki.
 

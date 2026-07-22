@@ -20,28 +20,28 @@
 
 ---
 
-## 🌿 À propos
+# 🌿 À propos
 
-**Natulib** est une plateforme Open Source permettant de concevoir des systèmes autonomes au service du vivant.
+**Natulib** est une plateforme Open Source modulaire permettant de créer facilement des objets connectés dédiés au vivant.
 
-Qu'il s'agisse de produire des végétaux, de surveiller une ruche, de protéger un nichoir, d'automatiser une serre ou de mieux comprendre les écosystèmes, Natulib fournit une base matérielle et logicielle commune, ouverte et reproductible.
+Elle repose sur des **modules matériels réutilisables**, un **système d'exploitation embarqué** et des **recettes** décrivant les règles d'automatisation propres à chaque projet.
+
+À partir des mêmes modules, il est possible de réaliser une station hydroponique, une serre connectée, une ruche, un nichoir, un système d'arrosage autonome ou tout autre projet.
 
 Le projet s'articule autour de quatre piliers :
 
-- 🧱 **[Modules](http://natulib.github.io/Natulib/Modules.md)** : électronique, capteurs, cartes, boîtiers et pièces imprimables.
-- 🏗️ **[Projets](http://natulib.github.io/Natulib/Projets.md)** : assemblages complets (hydroponie, aquaponie, serre, ruche, nichoir...).
-- 🌱 **[Recettes](http://natulib.github.io/Natulib/Recettes.md)** : paramètres biologiques, stratégies de culture et règles d'automatisation.
-- 🧠 **[Natulib OS](http://natulib.github.io/Natulib/Recettes.md)** : système d'exploitation embarqué pilotant les modules et exécutant les recettes localement.
+- 🧱 **[Modules](https://natulib.github.io/Natulib/Modules.md)** — Cartes électroniques, capteurs, alimentation, boîtiers et autres éléments matériels réutilisables.
+- 🏗️ **[Projets](https://natulib.github.io/Natulib/Projets.md)** — Assemblages complets construits à partir des modules.
+- 🌱 **[Recettes](https://natulib.github.io/Natulib/Recettes.md)** — Scénarios d'automatisation partageables définissant les valeurs à surveiller et les actions à exécuter pour un usage donné.
+- 🧠 **[Natulib OS](https://natulib.github.io/Natulib/Natulib-OS.md)** — Système d'exploitation embarqué détectant les modules, exécutant les recettes et pilotant automatiquement les périphériques.
 
-Autour de ces piliers, la communauté peut également partager des avatars, des modèles 3D, des configurations, des interfaces et d'autres ressources réutilisables afin d'enrichir collectivement l'écosystème.
-
-L'objectif de Natulib est de construire une bibliothèque ouverte de modules, de projets, de recettes et de connaissances afin de rendre les technologies au service du vivant ouvertes, reproductibles et accessibles à tous.
+L'objectif de Natulib est de constituer une bibliothèque ouverte et collaborative de modules, de projets et de recettes afin de rendre les technologies au service du vivant **ouvertes, reproductibles et accessibles à tous**.
 
 ---
 
 ## 🚀 Démarrer
 
-Toute la documentation officielle de Natulib est disponible sur le **Wiki** :
+Toute la documentation officielle est disponible sur le Wiki.
 
 - 📖 **[Wiki — Explorer la documentation complète](https://natulib.github.io/Natulib/)** - Installation, documentation, modules, projets, recettes et Natulib OS.
 
@@ -52,21 +52,23 @@ Toute la documentation officielle de Natulib est disponible sur le **Wiki** :
 
 ---
 
-## 🤝 Contribuer
+# 🤝 Contribuer
 
-Les contributions sont les bienvenues ! 
-Le développement matériel et logiciel est réalisé publiquement, brique par brique. 
-Que vous partagiez un module, un projet, une recette, un avatar, un modèle 3D ou une amélioration logicielle, vous contribuez à enrichir la bibliothèque ouverte du vivant.
+Natulib est développé publiquement, **module par module**.
+
+Que vous souhaitiez concevoir un module électronique, créer un projet, partager une recette, améliorer Natulib OS, concevoir un boîtier ou une pièce imprimable, corriger la documentation ou simplement tester les prototypes, chaque contribution participe à enrichir la bibliothèque ouverte Natulib.
+Consultez notre guide **[Contribuer](https://natulib.github.io/Natulib/contribuer.md)** pour commencer.
 
 ---
 
-## 📜 Licence
+# 📜 Licence
 
 Natulib est un projet Open Source.
-Le code, les modules matériels, les recettes, les avatars et la documentation sont librement consultables, modifiables et partageables selon les termes de la licence du projet.
+
+Le code source, les modules matériels, la documentation, les modèles 3D et les autres ressources du projet sont librement consultables, modifiables et partageables selon les termes de la licence du projet.
 
 ---
 
-> 🌱 **Natulib — Construisons une bibliothèque ouverte au service du vivant.**
+> 🌱 **Natulib — L'Open Source au service du vivant.**
 
 ---

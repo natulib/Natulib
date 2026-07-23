@@ -2,7 +2,7 @@
 
 # 🌱 Natulib
 
-### Plateforme Open Source modulaire pour créer des systèmes connectés au service du vivant.
+### Plateforme Open Source modulaire pour créer des systèmes autonomes au service du vivant.
 
 **Production alimentaire • Biodiversité • Automatisation écologique • Science participative • Edge Computing**
 
@@ -22,9 +22,11 @@
 
 # 🌿 À propos
 
-**Natulib** est une plateforme Open Source modulaire permettant de concevoir facilement des systèmes connectés au service du vivant.
+**Natulib** est une plateforme Open Source modulaire permettant de concevoir facilement des systèmes autonomes au service du vivant.
 
 À partir d'une bibliothèque de **modules matériels réutilisables**, de **recettes d'automatisation** et de **Natulib OS**, il est possible de créer une grande variété de projets : station de plantes aromatiques, serre connectée, hydroponie, ruche instrumentée, nichoir, composteur et bien d'autres.
+
+Chaque système fonctionne **localement**, sans dépendre d'un service Cloud. Il peut être utilisé de manière totalement autonome ou communiquer avec d'autres systèmes lorsque cela est souhaité.
 
 Le projet s'articule autour de quatre piliers :
 

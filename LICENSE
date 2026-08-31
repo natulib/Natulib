@@ -1,33 +1,142 @@
-Natulib Dual License
-====================
+# Natulib — Licensing
+Copyright © 2026 Natulib
 
-Copyright (C) 2026 Natulib
+Natulib uses different licenses depending on the type of material.
 
-1. SOFTWARE (Natulib OS & Web Tools)
-------------------------------------
-The software components of this project are licensed under the terms of the 
-PolyForm Noncommercial License 1.0.0.
+| Component | License | Commercial use |
+| :--- | :--- | :--- |
+| **Software** — Natulib OS, firmware, applications, web tools, source code | [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/) | ❌ Not permitted without permission |
+| **Hardware & Documentation** — schematics, PCB designs, 3D models, assembly instructions, growing recipes, educational materials | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) | ❌ Not permitted without permission |
+| **Natulib name & logo** | Reserved | ❌ Not granted by the above licenses |
 
-You may copy, modify, and distribute this software for noncommercial purposes only.
-Commercial use, including selling devices with this software pre-installed,
-offering paid hosted services, or integrating into commercial products, 
-is strictly prohibited without prior written permission from the copyright holder.
+---
 
-Full license text: https://polyformproject.org/licenses/noncommercial/1.0.0/
+## 🇬🇧 English
 
+### 1. Software
+The Natulib software components, including Natulib OS, firmware, applications, web tools, and related source code, are licensed under the **PolyForm Noncommercial License 1.0.0**.
 
-2. HARDWARE & DOCUMENTATION (Schematics, 3D Models, Recipes)
-------------------------------------------------------------
-The hardware designs, 3D files, schematics, and documentation are licensed 
-under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0).
+You may use, copy, modify, study, and distribute the software for noncommercial purposes, subject to the terms of the PolyForm Noncommercial License 1.0.0.
 
-You are free to share and adapt the material for noncommercial purposes, 
-provided appropriate credit is given and derivative works are shared under the same terms.
+Commercial use requires prior written permission from the Natulib copyright holder. Examples of commercial use include, but are not limited to:
+* Selling devices containing Natulib software;
+* Integrating Natulib software into a commercial product;
+* Providing paid services substantially based on Natulib software;
+* Using Natulib software as part of a commercial activity.
 
-Full license text: https://creativecommons.org/licenses/by-nc-sa/4.0/
+**Full license:**  
+https://polyformproject.org/licenses/noncommercial/1.0.0/
 
+---
 
-3. COMMERCIAL LICENSING & INQUIRIES
------------------------------------
-For commercial licensing, enterprise partnerships, or hardware distribution rights:
-Contact: contact@natulib.org (ou ton adresse email)
+### 2. Hardware & Documentation
+Natulib hardware designs and documentation, including electronic schematics, PCB designs, 3D models, assembly instructions, growing recipes, educational materials, and related documentation, are licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)**.
+
+You may:
+* Share and redistribute the materials;
+* Copy and adapt the materials;
+* Modify the designs;
+* Build physical prototypes from the designs;
+
+for noncommercial purposes, provided that you comply with the terms of CC BY-NC-SA 4.0, including:
+* Giving appropriate credit to Natulib;
+* Providing a link to the license;
+* Indicating if changes were made;
+* Distributing adaptations under the applicable same or compatible license terms.
+
+**Full license:**  
+https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+---
+
+### 3. Third-Party Materials
+Third-party software, libraries, hardware components, images, fonts, datasets, documentation, trademarks, and other materials included in or referenced by the Natulib project are not necessarily covered by the Natulib licenses.
+
+Such materials remain subject to their respective licenses and terms of use. Where applicable, the relevant third-party license information is provided alongside the corresponding material.
+
+---
+
+### 4. Commercial Licensing
+Natulib is open to commercial licensing, manufacturing, distribution, partnerships, educational projects, and professional use.
+
+Commercial use of Natulib materials covered by the licenses above requires prior written permission from the Natulib copyright holder.
+
+For commercial licensing, manufacturing, partnership, or distribution inquiries:  
+📧 **contact@natulib.org**
+
+---
+
+### 5. Natulib Name & Trademark
+The Natulib name, logo, and associated brand identity are not granted under the software or Creative Commons licenses described above.
+
+Permission to use, modify, or manufacture Natulib materials does not grant permission to use the Natulib name, logo, or other brand elements in a way that implies official endorsement, affiliation, sponsorship, or origin.
+
+---
+
+## 🇫🇷 Français
+
+### 1. Logiciel
+Les composants logiciels de Natulib, notamment Natulib OS, les firmwares, applications, outils web et codes sources associés, sont distribués sous les termes de la **PolyForm Noncommercial License 1.0.0**.
+
+Vous pouvez utiliser, copier, modifier, étudier et distribuer le logiciel à des fins non commerciales, sous réserve du respect des conditions de la PolyForm Noncommercial License 1.0.0.
+
+Toute utilisation commerciale nécessite une autorisation écrite préalable du titulaire des droits Natulib. Cela inclut notamment :
+* La vente d'appareils intégrant le logiciel Natulib ;
+* L'intégration du logiciel Natulib dans un produit commercial ;
+* La fourniture de services payants reposant substantiellement sur Natulib ;
+* L'utilisation de Natulib dans le cadre d'une activité commerciale.
+
+**Licence complète :**  
+https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+---
+
+### 2. Matériel & Documentation
+Les conceptions matérielles et documentations Natulib, notamment les schémas électroniques, conceptions de PCB, modèles 3D, instructions d'assemblage, recettes de culture, supports pédagogiques et documentations associées, sont distribuées sous la licence **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**.
+
+Vous pouvez :
+* Partager et redistribuer les documents ;
+* Copier et adapter les documents ;
+* Modifier les conceptions ;
+* Fabriquer des prototypes physiques à partir des conceptions ;
+
+à des fins non commerciales, sous réserve du respect des conditions de la licence CC BY-NC-SA 4.0, notamment :
+* Créditer correctement Natulib ;
+* Fournir un lien vers la licence ;
+* Indiquer les modifications apportées ;
+* Distribuer les adaptations conformément aux conditions de la licence.
+
+**Licence complète :**  
+https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+---
+
+### 3. Éléments tiers
+Les logiciels, bibliothèques, composants matériels, images, polices, jeux de données, documentations, marques et autres éléments provenant de tiers, inclus dans ou référencés par le projet Natulib, ne sont pas nécessairement couverts par les licences Natulib.
+
+Ces éléments restent soumis à leurs propres licences et conditions d'utilisation. Lorsque cela est applicable, les informations relatives aux licences tierces sont indiquées à proximité des éléments concernés.
+
+---
+
+### 4. Licence commerciale
+Natulib est ouvert aux licences commerciales, à la fabrication, à la distribution, aux partenariats, aux projets éducatifs et aux utilisations professionnelles.
+
+Toute utilisation commerciale des éléments Natulib couverts par les licences mentionnées ci-dessus nécessite une autorisation écrite préalable du titulaire des droits Natulib.
+
+Pour toute demande concernant une licence commerciale, la fabrication, un partenariat ou la distribution :  
+📧 **contact@natulib.org**
+
+---
+
+### 5. Nom & marque Natulib
+Le nom Natulib, le logo Natulib et l'identité de marque associée ne sont pas accordés au titre des licences logicielles ou Creative Commons décrites ci-dessus.
+
+L'autorisation d'utiliser, de modifier ou de fabriquer des éléments Natulib n'accorde pas le droit d'utiliser le nom, le logo ou les autres éléments de marque Natulib d'une manière pouvant laisser entendre une approbation, une affiliation, un parrainage ou une origine officielle.
+
+---
+
+## 📌 Summary
+> **Build it. Learn from it. Improve it. Share it.**  
+> Natulib is intended to encourage experimentation, education, tinkering, and collaborative learning while preserving the possibility of future commercial development.
+
+For questions about licensing: **contact@natulib.org**

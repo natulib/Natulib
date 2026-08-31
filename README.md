@@ -4,7 +4,7 @@
 
 ### Plateforme ouverte et modulaire pour créer des systèmes autonomes au service du vivant.
 
-**Production alimentaire • Biodiversité • Animatronique & Émotions • Science participative • Edge Computing**
+**Production alimentaire • Biodiversité • Automatisation écologique • Science participative • Edge Computing**
 
 ![Status](https://img.shields.io/badge/Status-V0.27-orange?style=flat-square)
 ![Hardware](https://img.shields.io/badge/Hardware-ESP32--C6%20%7C%20S3%20%7C%20Classic-red?style=flat-square)
@@ -22,20 +22,20 @@
 
 # 🌿 À propos
 
-**Natulib** est une plateforme modulaire et accessible permettant de concevoir facilement des systèmes autonomes, expressifs et au service du vivant.
+**Natulib** est une plateforme ouverte et modulaire permettant de concevoir facilement des systèmes autonomes au service du vivant.
 
-À partir d'une bibliothèque de **modules matériels réutilisables**, de **recettes d'automatisation**, d'un **Studio d'avatars/animatronique** et de **Natulib OS**, il est possible de créer une grande variété de projets : station de plantes aromatiques communicante, serre connectée, hydroponie, ruche instrumentée, nichoir, composteur ou compagnon robotique.
+À partir d'une bibliothèque de **modules matériels réutilisables**, de **recettes d'automatisation** et de **Natulib OS**, il est possible de créer une grande variété de projets : station de plantes aromatiques, serre connectée, hydroponie, ruche instrumentée, nichoir, composteur et bien d'autres.
 
-Chaque système fonctionne **100 % localement**, sans dépendre d'un service Cloud. Il peut être utilisé de manière totalement autonome ou communiquer en essaim (MQTT / ESP-NOW) avec d'autres nœuds.
+Chaque système fonctionne **localement**, sans dépendre d'un service Cloud. Il peut être utilisé de manière totalement autonome ou communiquer avec d'autres systèmes lorsque cela est souhaité.
 
 Le projet s'articule autour de quatre piliers :
 
-- 🧱 **[Modules](https://natulib.github.io/Natulib/Modules.md)** — Cartes électroniques, capteurs, actionneurs, écrans expressifs et boîtiers imprimables.
-- 🏗️ **[Projets](https://natulib.github.io/Natulib/Projets.md)** — Assemblages complets clé en main construits à partir des modules.
-- 🌱 **[Recettes](https://natulib.github.io/Natulib/Recettes.md)** — Règles logiques et synapses partageables adaptées à chaque usage biologique.
-- 🧠 **[Natulib OS](https://natulib.github.io/Natulib/Natulib-OS.md)** — Système embarqué ultra-léger pilotant les organes, les émotions et exécutant les recettes.
+- 🧱 **[Modules](https://natulib.github.io/Natulib/Modules.md)** — Cartes électroniques, capteurs, alimentation, boîtiers et autres éléments matériels réutilisables.
+- 🏗️ **[Projets](https://natulib.github.io/Natulib/Projets.md)** — Assemblages complets construits à partir des modules.
+- 🌱 **[Recettes](https://natulib.github.io/Natulib/Recettes.md)** — Règles d'automatisation partageables adaptées à chaque usage.
+- 🧠 **[Natulib OS](https://natulib.github.io/Natulib/Natulib-OS.md)** — Système embarqué pilotant les modules et exécutant les recettes.
 
-L'objectif de Natulib est de rendre les technologies au service du vivant **ouvertes, pédagogiques et reproductibles par tous**.
+L'objectif de Natulib est de rendre les technologies au service du vivant **ouvertes, reproductibles et accessibles à tous**.
 
 ---
 
@@ -54,8 +54,8 @@ En quelques minutes, votre premier système Natulib est prêt à accueillir des 
 
 Toute la documentation officielle est disponible sur le Wiki.
 
-- 📖 **[Wiki — Explorer la documentation complète](https://natulib.github.io/Natulib/)** - Installation, guides de câblage, modules, projets, recettes et Studio.
-- 💬 **[Discord — Rejoindre la communauté](https://discord.gg/3Xs3HmphJk)** - Questions, entraide, projets scolaires et partage des réalisations.
+- 📖 **[Wiki — Explorer la documentation complète](https://natulib.github.io/Natulib/)** - Installation, documentation, modules, projets, recettes et Natulib OS.
+- 💬 **[Discord — Rejoindre la communauté](https://discord.gg/3Xs3HmphJk)** - Questions, entraide et partage des réalisations.
 - 🎥 **[YouTube — Voir les démonstrations et tutoriels](https://www.youtube.com/@Natulib)** - Démonstrations, tutoriels et suivi du développement.
 
 ---
@@ -64,7 +64,7 @@ Toute la documentation officielle est disponible sur le Wiki.
 
 Natulib est développé publiquement, **module par module**.
 
-Que vous souhaitiez concevoir un module électronique, partager une recette de culture, créer un avatar/humeur animatronique, améliorer le code de Natulib OS, concevoir un boîtier 3D, enrichir la documentation ou simplement tester les prototypes dans votre classe ou votre jardin, chaque contribution participe à enrichir la bibliothèque ouverte Natulib.
+Que vous souhaitiez concevoir un module électronique, créer un projet, partager une recette, améliorer Natulib OS, concevoir un boîtier ou une pièce imprimable, corriger la documentation ou simplement tester les prototypes, chaque contribution participe à enrichir la bibliothèque ouverte Natulib.
 
 Consultez notre guide **[Contribuer](https://natulib.github.io/Natulib/contribuer.md)** pour commencer.
 
@@ -72,15 +72,22 @@ Consultez notre guide **[Contribuer](https://natulib.github.io/Natulib/contribue
 
 ## 📜 Licence
 
-Natulib est un projet ouvert mis à disposition sous licence **Non Commerciale** :
-* **Logiciel (Natulib OS & Web Studio) :** [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/)
-* **Matériel, Recettes & Modèles 3D :** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+Natulib utilise des licences différentes selon la nature des ressources du projet :
 
-L'ensemble des ressources est librement consultable, modifiable et utilisable **pour un usage personnel, éducatif et communautaire**. 
+* **Logiciel — Natulib OS, firmware, applications et outils web :**  [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/)
+* **Matériel & Documentation — schémas, PCB, modèles 3D, recettes et supports pédagogiques :**  [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+* **Nom & identité Natulib :**  réservés et non couverts par les licences ci-dessus.
 
-*Toute exploitation commerciale ou revente de kits pré-assemblés est strictement interdite sans autorisation préalable.*  
-Pour toute demande de partenariat ou licence commerciale : `contact@natulib.org`
+Les ressources Natulib peuvent être consultées, utilisées, étudiées, modifiées, adaptées et partagées à des fins non commerciales, dans le respect des licences applicables.
+
+Les usages commerciaux, notamment la fabrication et la vente de produits intégrant Natulib, l'intégration dans des produits commerciaux ou la fourniture de services commerciaux basés sur Natulib, nécessitent une autorisation préalable du titulaire des droits.
+
+Pour consulter les conditions complètes, voir LICENSE.md.
+
+Pour toute demande de licence commerciale ou de partenariat :
+
+📧 contact@natulib.org
 
 ---
 
-> 🌱 **Natulib — La technologie ouverte au service du vivant.**
+

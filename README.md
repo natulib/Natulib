@@ -72,11 +72,16 @@ Consultez notre guide **[Contribuer](https://natulib.github.io/Natulib/contribue
 
 ---
 
-# 📜 Licence
+## 📜 Licence
 
-Natulib est un projet Open Source.
+Natulib est un projet ouvert mis à disposition sous licence **Non Commerciale** :
+* **Logiciel (Natulib OS) :** [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/)
+* **Matériel, Recettes & Modèles 3D :** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-Le code source, les modules matériels, la documentation, les modèles 3D et les autres ressources du projet sont librement consultables, modifiables et partageables selon les termes de la licence du projet.
+L'ensemble des ressources est librement consultable, modifiable et utilisable **pour un usage personnel, éducatif et communautaire**. 
+
+*Toute exploitation commerciale ou revente est strictement interdite sans autorisation préalable.*  
+Pour toute demande de licence commerciale : `contact@natulib...`
 
 ---
 

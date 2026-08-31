@@ -74,15 +74,18 @@ Consultez notre guide **[Contribuer](https://natulib.github.io/Natulib/contribue
 
 Natulib utilise des licences différentes selon la nature des ressources du projet :
 
-* **Logiciel — Natulib OS, firmware, applications et outils web :**  [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/)
-* **Matériel & Documentation — schémas, PCB, modèles 3D, recettes et supports pédagogiques :**  [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-* **Nom & identité Natulib :**  réservés et non couverts par les licences ci-dessus.
+* **Logiciel — Natulib OS, firmware, applications et outils Web :** [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/)
+* **Matériel — schémas, PCB, modèles 3D, boîtiers et conceptions matérielles :** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+* **Recettes — automatisations, configurations, protocoles, paramètres et procédures :** [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+* **Nom & identité Natulib :** réservés et non couverts par les licences ci-dessus.
 
 Les ressources Natulib peuvent être consultées, utilisées, étudiées, modifiées, adaptées et partagées à des fins non commerciales, dans le respect des licences applicables.
 
-Les usages commerciaux, notamment la fabrication et la vente de produits intégrant Natulib, l'intégration dans des produits commerciaux ou la fourniture de services commerciaux basés sur Natulib, nécessitent une autorisation préalable du titulaire des droits.
+Les usages commerciaux, notamment la fabrication et la vente de produits intégrant Natulib, l'intégration dans des produits commerciaux, la commercialisation de recettes ou la fourniture de services basés sur Natulib, nécessitent une autorisation préalable du titulaire des droits.
 
-Pour consulter les conditions complètes, voir LICENSE.md.
+Pour consulter les conditions complètes : 📜 LICENSE.md
+
+Pour toute demande de licence commerciale, de fabrication ou de partenariat :
 
 Pour toute demande de licence commerciale ou de partenariat :
 

@@ -1,0 +1,33 @@
+Natulib Dual License
+====================
+
+Copyright (C) 2026 Natulib
+
+1. SOFTWARE (Natulib OS & Web Tools)
+------------------------------------
+The software components of this project are licensed under the terms of the 
+PolyForm Noncommercial License 1.0.0.
+
+You may copy, modify, and distribute this software for noncommercial purposes only.
+Commercial use, including selling devices with this software pre-installed,
+offering paid hosted services, or integrating into commercial products, 
+is strictly prohibited without prior written permission from the copyright holder.
+
+Full license text: https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+
+2. HARDWARE & DOCUMENTATION (Schematics, 3D Models, Recipes)
+------------------------------------------------------------
+The hardware designs, 3D files, schematics, and documentation are licensed 
+under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0).
+
+You are free to share and adapt the material for noncommercial purposes, 
+provided appropriate credit is given and derivative works are shared under the same terms.
+
+Full license text: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+
+3. COMMERCIAL LICENSING & INQUIRIES
+-----------------------------------
+For commercial licensing, enterprise partnerships, or hardware distribution rights:
+Contact: contact@natulib.org (ou ton adresse email)

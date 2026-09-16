@@ -14,6 +14,11 @@ remote_theme: just-the-docs/just-the-docs
 # vivent dans ce dossier, _config.yml reste à la racine du dépôt.
 source: docs
 
+# URL propres, sans extension : docs/Modules.md -> /Modules/
+# (au lieu du défaut Jekyll /Modules.html). C'est ce que les liens
+# externes (README, réseaux sociaux, README GitHub) doivent utiliser.
+permalink: pretty
+
 markdown: kramdown
 kramdown:
   input: GFM

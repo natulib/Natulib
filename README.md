@@ -11,7 +11,7 @@
 ![License](https://img.shields.io/badge/License-Non--Commercial-33a852?style=flat-square)
 ![i18n](https://img.shields.io/badge/Language-FR%20%7C%20EN%20%7C%20ES-blue?style=flat-square)
 
-[![Installer](https://img.shields.io/badge/Installer-Web_Flasher-00a2ed?style=flat-square)](https://natulib.github.io/Natulib/installation/web-flasher/)
+[![Installer](https://img.shields.io/badge/Installer-Web_Flasher-00a2ed?style=flat-square)](https://natulib.github.io/Natulib/installation/web-flasher.html)
 [![Wiki](https://img.shields.io/badge/Wiki-Documentation-success?style=flat-square)](https://natulib.github.io/Natulib/)
 [![Discord](https://img.shields.io/badge/Discord-Rejoindre-7289da?style=flat-square&logo=discord)](https://discord.gg/3Xs3HmphJk)
 [![YouTube](https://img.shields.io/badge/YouTube-Suivre-ff0000?style=flat-square&logo=youtube)](https://www.youtube.com/@Natulib)
@@ -30,10 +30,10 @@ Chaque système fonctionne **localement**, sans dépendre d'un service Cloud. Il
 
 Le projet s'articule autour de quatre piliers :
 
-- 🧱 **[Modules](https://natulib.github.io/Natulib/Modules/)** — Cartes électroniques, capteurs, alimentation, boîtiers et autres éléments matériels réutilisables.
-- 🏗️ **[Projets](https://natulib.github.io/Natulib/Projets/)** — Assemblages complets construits à partir des modules.
-- 🌱 **[Recettes](https://natulib.github.io/Natulib/Recettes/)** — Règles d'automatisation partageables adaptées à chaque usage.
-- 🧠 **[Natulib OS](https://natulib.github.io/Natulib/Natulib-OS/)** — Système embarqué pilotant les modules et exécutant les recettes.
+- 🧱 **[Modules](https://natulib.github.io/Natulib/Modules.html)** — Cartes électroniques, capteurs, alimentation, boîtiers et autres éléments matériels réutilisables.
+- 🏗️ **[Projets](https://natulib.github.io/Natulib/Projets.html)** — Assemblages complets construits à partir des modules.
+- 🌱 **[Recettes](https://natulib.github.io/Natulib/Recettes.html)** — Règles d'automatisation partageables adaptées à chaque usage.
+- 🧠 **[Natulib OS](https://natulib.github.io/Natulib/Natulib-OS.html)** — Système embarqué pilotant les modules et exécutant les recettes.
 
 L'objectif de Natulib est de rendre les technologies au service du vivant **ouvertes, reproductibles et accessibles à tous**.
 
@@ -44,7 +44,7 @@ L'objectif de Natulib est de rendre les technologies au service du vivant **ouve
 ## ⚡ Prise en main rapide (3 minutes)
 
 1. 🔌 **Branchez** votre carte **ESP32-C6** à votre ordinateur via USB *(support S3 et Classique à venir)*.
-2. 🚀 **Flashez** Natulib OS directement depuis votre navigateur avec le **[Web Flasher Natulib](https://natulib.github.io/Natulib/installation/web-flasher/)** *(Chrome ou Edge)*.
+2. 🚀 **Flashez** Natulib OS directement depuis votre navigateur avec le **[Web Flasher Natulib](https://natulib.github.io/Natulib/installation/web-flasher.html)** *(Chrome ou Edge)*.
 3. 📱 **Connectez-vous** au réseau Wi-Fi **`NATULIB-XXXX`** créé par la carte.
 4. ⚙️ **Ouvrez** l'interface web embarquée (traduite en FR, EN, ES) et configurez votre premier nœud Natulib.
 

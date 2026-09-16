@@ -1,0 +1,55 @@
+# ------------------------------------------------------------------
+# Natulib — configuration GitHub Pages
+# Source Pages : /docs sur la branche main (voir Settings > Pages)
+# ------------------------------------------------------------------
+title: Natulib
+description: Documentation matérielle et logicielle du projet Natulib
+lang: fr
+
+# Thème Just the Docs : navigation latérale, recherche intégrée,
+# fil d'ariane — chargé à distance, aucune installation locale requise.
+remote_theme: just-the-docs/just-the-docs
+
+# GitHub Pages sert le contenu depuis /docs : toutes les pages du site
+# vivent dans ce dossier, _config.yml reste à la racine du dépôt.
+source: docs
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+search_enabled: true
+search:
+  heading_level: 2
+  previews: 3
+  preview_words_before: 5
+  preview_words_after: 10
+  tokenizer_separator: /[\s/]+/
+  rel_url: true
+  button: false
+
+nav_sort: case_insensitive
+heading_anchors: true
+back_to_top: true
+back_to_top_text: "Haut de page"
+
+color_scheme: light
+
+aux_links:
+  "Code source":
+    - "https://github.com/Natulib/Natulib"
+
+footer_content: "Natulib — projet Open Source."
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-relative-links
+
+exclude:
+  - README.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
+  - .obsidian/

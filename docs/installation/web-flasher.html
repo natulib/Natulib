@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Natulib OS via Web Serial</title>
+    <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f6f8fa;
+            color: #24292f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 420px;
+        }
+        h1 { font-size: 22px; margin-bottom: 10px; }
+        p { color: #57606a; font-size: 14px; margin-bottom: 25px; }
+        a.back { display: block; margin-top: 20px; font-size: 13px; color: #57606a; }
+        esp-web-install-button {
+            --esp-tools-button-color: #24292f;
+            --esp-tools-button-text-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Installeur Web — Natulib OS</h1>
+    <p>Connectez votre carte <strong>NL-001A (ESP32-C6)</strong> en USB, cliquez sur le bouton
+    ci-dessous et laissez-vous guider. Fonctionne avec Chrome ou Edge.</p>
+
+    <esp-web-install-button manifest="manifest.json"></esp-web-install-button>
+
+    <a class="back" href="../Installation.html">← Retour à l'installation</a>
+</div>
+
+</body>
+</html>

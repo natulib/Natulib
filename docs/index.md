@@ -1,6 +1,7 @@
 ---
 title: Accueil
 nav_order: 1
+permalink: /
 ---
 
 *   🚀 **[Installation](./Installation.md)** — Flasher le système et configurer son premier nœud.  

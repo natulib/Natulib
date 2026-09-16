@@ -6,7 +6,7 @@
 
 **Production alimentaire • Biodiversité • Automatisation écologique • Science participative • Edge Computing**
 
-![Status](https://img.shields.io/badge/Status-V0.34-orange?style=flat-square)
+![Status](https://img.shields.io/badge/Status-V0.27-orange?style=flat-square)
 ![Hardware](https://img.shields.io/badge/Hardware-ESP32--C6-red?style=flat-square)
 ![License](https://img.shields.io/badge/License-Non--Commercial-33a852?style=flat-square)
 ![i18n](https://img.shields.io/badge/Language-FR%20%7C%20EN%20%7C%20ES-blue?style=flat-square)

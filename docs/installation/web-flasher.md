@@ -19,7 +19,7 @@ Installez Natulib OS directement depuis votre navigateur, sans rien installer su
 
 ## 🚀 Lancer l'installation
 
-<a href="./web-flasher.html" class="btn btn-primary">Ouvrir l'installeur Web →</a>
+<a href="../web-flasher.html" class="btn btn-primary">Ouvrir l'installeur Web →</a>
 
 L'outil utilise [ESP Web Tools](https://esphome.github.io/esp-web-tools/) : il détecte automatiquement le port série, efface la mémoire flash et installe le firmware en un clic.
 

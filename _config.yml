@@ -15,9 +15,16 @@ remote_theme: just-the-docs/just-the-docs
 source: docs
 
 # URL propres, sans extension : docs/Modules.md -> /Modules/
-# (au lieu du défaut Jekyll /Modules.html). C'est ce que les liens
-# externes (README, réseaux sociaux, README GitHub) doivent utiliser.
-permalink: pretty
+# ATTENTION : le réglage global "permalink:" ne s'applique qu'aux
+# articles de blog Jekyll (_posts), jamais aux pages classiques.
+# Pour des pages comme les nôtres, il faut passer par "defaults" avec
+# type: "pages" ci-dessous — c'est lui qui fait réellement le travail.
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      permalink: /:path/
 
 markdown: kramdown
 kramdown:

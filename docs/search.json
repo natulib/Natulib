@@ -1,4 +1,6 @@
 ---
+permalink: /search.json
+layout: null
 ---
 [
   {% for page in site.html_pages %}

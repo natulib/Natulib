@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Natulib</title>
+  <link rel="icon" type="image/jpeg" href="/Natulib/assets/logo.jpeg">
+  <!-- Charge le style officiel GitHub pour un rendu propre de vos notes -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 45px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+    @media (max-width: 767px) { body { padding: 15px; } }
+
+    /* Style du menu instantané */
+    .simple-nav-container {
+      margin: 20px 0 40px 0;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eaecef;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+    }
+    .simple-nav-link {
+      color: #24292e;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none !important;
+      padding-bottom: 4px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .simple-nav-link:hover, .simple-nav-link.active {
+      color: #28a745;
+      border-bottom: 2px solid #28a745;
+    }
+  </style>
+</head>
+<body class="markdown-body">
+
+  <!-- Logo et Menu chargés nativement (zéro saut visuel) -->
+  <div style="text-align: center; margin-bottom: 30px;">
+    <img src="/Natulib/assets/logo.jpeg" style="max-height: 100px; border-radius: 12px;" alt="Logo Natulib">
+  </div>
+  <div class="simple-nav-container">
+    <a href="/Natulib/" class="simple-nav-link">🏠 Accueil</a>
+    <a href="/Natulib/Installation.html" class="simple-nav-link">🚀 Installation</a>
+    <a href="/Natulib/Modules.html" class="simple-nav-link">🧱 Modules</a>
+    <a href="/Natulib/Projets.html" class="simple-nav-link">🏗️ Projets</a>
+    <a href="/Natulib/Recettes.html" class="simple-nav-link">🌱 Recettes</a>
+    <a href="/Natulib/Natulib-OS.html" class="simple-nav-link">🧠 Natulib OS</a>
+    <a href="/Natulib/Contribuer.html" class="simple-nav-link">🤝 Contribuer</a>
+    <a href="/Natulib/FAQ.html" class="simple-nav-link">❓ FAQ</a>
+    <a href="https://github.com/natulib/Natulib" class="simple-nav-link" target="_blank">🔗 GitHub</a>
+  </div>
+
+  <!-- Le contenu de vos notes Obsidian s'insèrera automatiquement ici -->
+  {{ content }}
+
+  <!-- Script ultra-léger juste pour souligner la page active en vert -->
+  <script>
+    var currentPath = window.location.pathname;
+    if (currentPath === '/Natulib') currentPath = '/Natulib/';
+    document.querySelectorAll('.simple-nav-link').forEach(function(link) {
+      if (link.getAttribute('href') === currentPath) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+</body>
+</html>

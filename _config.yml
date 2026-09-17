@@ -20,7 +20,7 @@ defaults:
     values:
       permalink: /:path/
       # Sans cette ligne, aucune page n'a de layout défini dans son
-      # front matter : jekyll-default-layout (activé par défaut sur
+      # front  matter : jekyll-default-layout (activé par défaut sur
       # GitHub Pages) applique alors SON propre gabarit générique à
       # la place de celui de Just the Docs — d'où l'absence totale
       # de sidebar, recherche, et logo, quel que soit le réglage

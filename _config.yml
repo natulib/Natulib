@@ -3,7 +3,7 @@
 # Source Pages : /docs sur la branche main (voir Settings > Pages)
 # ------------------------------------------------------------------
 # Logo affiché dans la barre latérale / header
-logo: "/assets/natulib.png"
+logo: "./docs/assets/natulib.jpeg"
 # Remplace le gros titre textuel par ton slogan sous le logo
 title: Natulib
 site_title: "Plateforme ouverte et modulaire pour créer des systèmes autonomes au service du vivant."

@@ -3,6 +3,9 @@ title: Accueil
 nav_order: 1
 permalink: /
 ---
+[🏠 Accueil](./index.md) | 🚀 [Installation](./Installation.md) | 🧱 [Modules](./Modules.md) | 🏗️ [Projets](./Projets.md) | 🌱 [Recettes](./Recettes.md) | 🧠 [Natulib OS](./Natulib-OS.md) | 🤝 [Contribuer](./Contribuer.md) | ❓ [FAQ](./FAQ.md) | [🔗 GitHub](https://github.com/natulib/Natulib)
+
+***
 
 *   🚀 **[Installation](./Installation.md)** — Flasher le système et configurer son premier nœud.  
 *   🧱 **[Modules](./Modules.md)** — Les briques matérielles et électroniques réutilisables.  

@@ -1,5 +1,21 @@
 <style>
+  /* Masquer le titre par défaut */
   .markdown-body > h1:first-child { 
     display: none !important; 
   }
+
+  /* Injecter le logo en haut de toutes les pages */
+  .markdown-body::before {
+    content: "";
+    display: block;
+    height: 120px; /* Modifiez cette valeur pour ajuster la taille */
+    background-image: url('/Natulib/assets/logo.jpeg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left center;
+    margin-bottom: 30px;
+  }
 </style>
+
+<!-- Afficher le logo dans l'onglet du navigateur (Favicon) -->
+<link rel="icon" type="image/jpeg" href="/Natulib/assets/natulib.jpeg">

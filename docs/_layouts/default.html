@@ -8,36 +8,41 @@
   <!-- Charge le style officiel GitHub pour un rendu propre de vos notes -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
   <style>
+    /* Le fond de la page entière */
     body {
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+
+    /* Le conteneur parfaitement centré au milieu de l'écran */
+    .page-container {
       box-sizing: border-box;
       min-width: 200px;
       max-width: 900px;
-      margin: 0 auto;
+      margin: 0 auto; /* C'est cette ligne qui centre le bloc horizontalement */
       padding: 45px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     }
-    @media (max-width: 767px) { body { padding: 15px; } }
-	
-	/* Style du menu instantané sur une seule ligne */
+    @media (max-width: 767px) { .page-container { padding: 15px; } }
+
+    /* Style du menu instantané sur une seule ligne */
     .simple-nav-container {
       margin: 20px 0 40px 0;
       padding-bottom: 15px;
       border-bottom: 1px solid #eaecef;
       display: flex;
-      flex-wrap: nowrap; /* Force tout sur une seule ligne */
-      gap: 15px; /* Réduit un peu l'écart pour gagner de la place */
+      flex-wrap: nowrap;
+      gap: 15px;
       justify-content: center;
-      overflow-x: auto; /* Permet de faire glisser le menu sur mobile */
-      white-space: nowrap; /* Empêche le texte des boutons de se couper */
-      
-      /* Masque la barre de défilement pour un rendu épuré */
-      -ms-overflow-style: none;  /* IE et Edge */
-      scrollbar-width: none;  /* Firefox */
+      overflow-x: auto;
+      white-space: nowrap;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
     .simple-nav-container::-webkit-scrollbar {
-      display: none; /* Chrome, Safari et Opera */
+      display: none;
     }
-
     .simple-nav-link {
       color: #24292e;
       font-size: 15px;
@@ -53,28 +58,37 @@
     }
   </style>
 </head>
-<body class="markdown-body">
+<body>
 
-  <!-- Logo et Menu chargés nativement (zéro saut visuel) -->
-  <div style="text-align: center; margin-bottom: 30px;">
-    <img src="/Natulib/assets/antulib.png" style="max-height: 100px; border-radius: 12px;" alt="Logo Natulib">
+  <!-- Début du bloc centré -->
+  <div class="page-container">
+
+    <!-- Logo et Menu -->
+    <div style="text-align: center; margin-bottom: 30px;">
+      <img src="/Natulib/assets/natulib.png" style="max-height: 100px; border-radius: 12px;" alt="Logo Natulib">
+    </div>
+    
+    <div class="simple-nav-container">
+      <a href="/Natulib/" class="simple-nav-link">🏠 Accueil</a>
+      <a href="/Natulib/Installation.html" class="simple-nav-link">🚀 Installation</a>
+      <a href="/Natulib/Modules.html" class="simple-nav-link">🧱 Modules</a>
+      <a href="/Natulib/Projets.html" class="simple-nav-link">🏗️ Projets</a>
+      <a href="/Natulib/Recettes.html" class="simple-nav-link">🌱 Recettes</a>
+      <a href="/Natulib/Natulib-OS.html" class="simple-nav-link">🧠 Natulib OS</a>
+      <a href="/Natulib/Contribuer.html" class="simple-nav-link">🤝 Contribuer</a>
+      <a href="/Natulib/FAQ.html" class="simple-nav-link">❓ FAQ</a>
+      <a href="https://github.com/natulib/Natulib" class="simple-nav-link" target="_blank">🔗 GitHub</a>
+    </div>
+
+    <!-- Application du style Markdown uniquement sur le texte des notes -->
+    <div class="markdown-body">
+      {{ content }}
+    </div>
+
   </div>
-  <div class="simple-nav-container">
-    <a href="/Natulib/" class="simple-nav-link">🏠 Accueil</a>
-    <a href="/Natulib/Installation.html" class="simple-nav-link">🚀 Installation</a>
-    <a href="/Natulib/Modules.html" class="simple-nav-link">🧱 Modules</a>
-    <a href="/Natulib/Projets.html" class="simple-nav-link">🏗️ Projets</a>
-    <a href="/Natulib/Recettes.html" class="simple-nav-link">🌱 Recettes</a>
-    <a href="/Natulib/Natulib-OS.html" class="simple-nav-link">🧠 Natulib OS</a>
-    <a href="/Natulib/Contribuer.html" class="simple-nav-link">🤝 Contribuer</a>
-    <a href="/Natulib/FAQ.html" class="simple-nav-link">❓ FAQ</a>
-    <a href="https://github.com/natulib/Natulib" class="simple-nav-link" target="_blank">🔗 GitHub</a>
-  </div>
+  <!-- Fin du bloc centré -->
 
-  <!-- Le contenu de vos notes Obsidian s'insèrera automatiquement ici -->
-  {{ content }}
-
-  <!-- Script ultra-léger juste pour souligner la page active en vert -->
+  <!-- Script pour souligner la page active en vert -->
   <script>
     var currentPath = window.location.pathname;
     if (currentPath === '/Natulib') currentPath = '/Natulib/';

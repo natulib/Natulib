@@ -4,18 +4,51 @@
     display: none !important; 
   }
 
-  /* Injecter le logo en haut de toutes les pages */
+  /* Injecter le logo en haut */
   .markdown-body::before {
     content: "";
     display: block;
-    height: 120px; /* Modifiez cette valeur pour ajuster la taille */
+    height: 120px;
     background-image: url('/Natulib/assets/natulib.png');
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: left center;
+    background-position: center; /* Centré pour mieux s'aligner avec le menu */
+    margin-bottom: 20px;
+  }
+
+  /* Styliser le menu de navigation */
+  .custom-top-nav {
+    text-align: center;
     margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eaecef; /* Ajoute une ligne de séparation propre */
+    line-height: 2; /* Aère les liens pour le confort sur mobile */
+  }
+  .custom-top-nav a {
+    color: #24292e;
+    font-weight: 600;
+    text-decoration: none !important;
+  }
+  .custom-top-nav a:hover {
+    color: #28a745; /* Change la couleur au survol (vert) */
   }
 </style>
 
 <!-- Afficher le logo dans l'onglet du navigateur (Favicon) -->
-<link rel="icon" type="image/jpeg" href="/Natulib/assets/natulib.png">
+<link rel="icon" type="image/png" href="/Natulib/assets/natulib.png">
+
+<!-- Injecter le menu automatiquement sous le logo -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var menuHTML = `
+      <div class="custom-top-nav">
+        <p><a href="/Natulib/">🏠 Accueil</a> · 🚀 <a href="/Natulib/Installation.html">Installation</a> · 🧱 <a href="/Natulib/Modules.html">Modules</a> · 🏗️ <a href="/Natulib/Projets.html">Projets</a> · 🌱 <a href="/Natulib/Recettes.html">Recettes</a> · 🧠 <a href="/Natulib/Natulib-OS.html">Natulib OS</a> · 🤝 <a href="/Natulib/Contribuer.html">Contribuer</a> · ❓ <a href="/Natulib/FAQ.html">FAQ</a> · <a href="https://github.com/natulib/Natulib">🔗 GitHub</a></p>
+      </div>
+    `;
+    
+    var markdownBody = document.querySelector('.markdown-body');
+    if (markdownBody) {
+      markdownBody.insertAdjacentHTML('afterbegin', menuHTML);
+    }
+  });
+</script>

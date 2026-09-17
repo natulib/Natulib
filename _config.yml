@@ -2,9 +2,14 @@
 # Natulib — configuration GitHub Pages
 # Source Pages : /docs sur la branche main (voir Settings > Pages)
 # ------------------------------------------------------------------
+# Nom du repo GitHub Pages : le site est servi sous natulib.github.io/Natulib/
+# Sans ce réglage, les chemins absolus (logo, assets...) pointent à la racine
+# du domaine au lieu du sous-dossier /Natulib/, et le logo ne se charge pas.
+baseurl: "/Natulib"
+
 # Logo affiché dans la barre latérale / header
-logo: "/assets/natulib.jpeg"
-# Remplace le gros titre textuel par ton slogan sous le logo
+# -> remplace le titre texte (voir doc Just the Docs : "displayed instead of the title")
+logo: "/assets/natulib.png"
 title: Natulib
 description: "Plateforme ouverte et modulaire pour créer des systèmes autonomes au service du vivant."
 lang: fr

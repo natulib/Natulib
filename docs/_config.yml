@@ -12,6 +12,7 @@ logo: "assets/natulib.jpeg"
 # Thème Just the Docs : navigation latérale, recherche intégrée,
 # fil d'ariane — chargé à distance, aucune installation locale requise.
 remote_theme: just-the-docs/just-the-docs
+nav_sort: nav_order
 
 # URL propres, sans extension : docs/Modules.md -> /Modules/
 # ATTENTION :  le réglage global "permalink:" ne s'applique qu'aux
@@ -47,7 +48,7 @@ search:
   rel_url: true
   button: false
 
-nav_sort: case_insensitive
+
 heading_anchors: true
 back_to_top: true
 back_to_top_text: "Haut de page"

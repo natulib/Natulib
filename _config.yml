@@ -3,6 +3,11 @@
 # Source Pages : /docs sur la branche main (voir Settings > Pages)
 # ------------------------------------------------------------------
 lang: fr
+url: "https://natulib.github.io"
+baseurl: "/Natulib"
+
+# On retire le / au début pour que le chemin soit relatif
+logo: "assets/natulib.jpeg"
 
 # Thème Just the Docs : navigation latérale, recherche intégrée,
 # fil d'ariane — chargé à distance, aucune installation locale requise.

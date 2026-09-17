@@ -1,0 +1,10 @@
+---
+---
+[
+  {% for page in site.html_pages %}
+    {
+      "title": "{{ page.name | replace: '.md', '' | replace: '.html', '' }}",
+      "url": "{{ page.url | prepend: '/Natulib' }}"
+    }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+]

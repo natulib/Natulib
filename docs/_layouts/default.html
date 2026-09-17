@@ -5,29 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Natulib</title>
   <link rel="icon" type="image/png" href="/Natulib/assets/natulib.png">
-  <!-- Charge le style officiel GitHub pour un rendu propre de vos notes  -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
   <style>
-    /* Le fond de la page entière */
     body {
       background-color: #ffffff;
       margin: 0;
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     }
-
-    /* Le conteneur parfaitement centré au milieu de l'écran */
     .page-container {
+      box-sizing: border-box;
       min-width: 200px;
       max-width: 900px;
-      margin: 0 auto; /* C'est cette ligne qui centre le bloc horizontalement */
+      margin: 0 auto;
       padding: 45px;
     }
     @media (max-width: 767px) { .page-container { padding: 15px; } }
 
-    /* Style du menu instantané sur une seule ligne */
+    /* Navigation */
     .simple-nav-container {
-      margin: 20px 0 40px 0;
+      margin: 20px 0 30px 0;
       padding-bottom: 15px;
       border-bottom: 1px solid #eaecef;
       display: flex;
@@ -39,9 +36,8 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
-    .simple-nav-container::-webkit-scrollbar {
-      display: none;
-    }
+    .simple-nav-container::-webkit-scrollbar { display: none; }
+    
     .simple-nav-link {
       color: #24292e;
       font-size: 15px;
@@ -55,7 +51,59 @@
       color: #28a745;
       border-bottom: 2px solid #28a745;
     }
-    /* Style du nouveau pied de page */
+
+    /* Barre de recherche */
+    .search-wrapper {
+      position: relative;
+      max-width: 400px;
+      margin: 0 auto 40px auto;
+      text-align: center;
+    }
+    .search-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 18px;
+      border: 1px solid #eaecef;
+      border-radius: 24px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-input:focus {
+      border-color: #28a745;
+      box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+    }
+    .search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border: 1px solid #eaecef;
+      border-radius: 12px;
+      margin-top: 8px;
+      padding: 0;
+      list-style: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      z-index: 100;
+      display: none;
+      text-align: left;
+      overflow: hidden;
+    }
+    .search-results li a {
+      display: block;
+      padding: 12px 18px;
+      color: #24292e;
+      text-decoration: none;
+      border-bottom: 1px solid #f6f8fa;
+    }
+    .search-results li a:hover {
+      background-color: #f6f8fa;
+      color: #28a745;
+    }
+    .search-results li:last-child a { border-bottom: none; }
+
+    /* Pied de page */
     .footer-links {
       margin-top: 60px;
       padding-top: 25px;
@@ -72,17 +120,14 @@
       font-weight: 500;
       transition: color 0.2s ease;
     }
-    .footer-links a:hover {
-      color: #28a745;
-    }
+    .footer-links a:hover { color: #28a745; }
   </style>
 </head>
 <body>
 
-  <!-- Début du bloc centré -->
   <div class="page-container">
 
-    <!-- Logo et Menu -->
+    <!-- En-tête -->
     <div style="text-align: center; margin-bottom: 30px;">
       <img src="/Natulib/assets/natulib.png" style="max-height: 100px; border-radius: 12px;" alt="Logo Natulib">
     </div>
@@ -98,11 +143,17 @@
       <a href="/Natulib/FAQ.html" class="simple-nav-link">❓ FAQ</a>
     </div>
 
-    <!-- Application du style Markdown uniquement sur le texte des notes -->
+    <!-- Barre de recherche -->
+    <div class="search-wrapper">
+      <input type="text" id="search-input" class="search-input" placeholder="🔍 Rechercher une page...">
+      <ul id="results-container" class="search-results"></ul>
+    </div>
+
+    <!-- Contenu Markdown -->
     <div class="markdown-body">
       {{ content }}
     </div>
-    
+
     <!-- Pied de page -->
     <div class="footer-links">
       <a href="https://discord.gg/3Xs3HmphJk" target="_blank">💬 Discord</a>
@@ -111,15 +162,41 @@
     </div>
 
   </div>
-  <!-- Fin du bloc centré -->
 
-  <!-- Script pour souligner la page active en vert -->
+  <!-- Scripts : Menu Actif + Moteur de recherche -->
+  <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
   <script>
+    // Soulignement vert du menu courant
     var currentPath = window.location.pathname;
     if (currentPath === '/Natulib') currentPath = '/Natulib/';
     document.querySelectorAll('.simple-nav-link').forEach(function(link) {
       if (link.getAttribute('href') === currentPath) {
         link.classList.add('active');
+      }
+    });
+
+    // Configuration de la recherche
+    var sjs = SimpleJekyllSearch({
+      searchInput: document.getElementById('search-input'),
+      resultsContainer: document.getElementById('results-container'),
+      json: '/Natulib/search.json',
+      searchResultTemplate: '<li><a href="{url}">{title}</a></li>',
+      noResultsText: '<li style="padding: 12px 18px; color: #57606a;">Aucun résultat</li>'
+    });
+
+    // Afficher/Masquer la boîte de résultats intelligemment
+    var searchInput = document.getElementById('search-input');
+    var resultsContainer = document.getElementById('results-container');
+    
+    searchInput.addEventListener('input', function() {
+      resultsContainer.style.display = this.value.length > 0 ? 'block' : 'none';
+    });
+    
+    document.addEventListener('click', function(e) {
+      if (e.target !== searchInput) {
+        resultsContainer.style.display = 'none';
+      } else if (searchInput.value.length > 0) {
+        resultsContainer.style.display = 'block';
       }
     });
   </script>

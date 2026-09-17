@@ -55,6 +55,26 @@
       color: #28a745;
       border-bottom: 2px solid #28a745;
     }
+    /* Style du nouveau pied de page */
+    .footer-links {
+      margin-top: 60px;
+      padding-top: 25px;
+      border-top: 1px solid #eaecef;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: #57606a;
+      font-size: 14px;
+      text-decoration: none !important;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    .footer-links a:hover {
+      color: #28a745;
+    }
   </style>
 </head>
 <body>
@@ -76,12 +96,18 @@
       <a href="/Natulib/Natulib-OS.html" class="simple-nav-link">🧠 Natulib OS</a>
       <a href="/Natulib/Contribuer.html" class="simple-nav-link">🤝 Contribuer</a>
       <a href="/Natulib/FAQ.html" class="simple-nav-link">❓ FAQ</a>
-      <a href="https://github.com/natulib/Natulib" class="simple-nav-link" target="_blank">🔗 GitHub</a>
     </div>
 
     <!-- Application du style Markdown uniquement sur le texte des notes -->
     <div class="markdown-body">
       {{ content }}
+    </div>
+    
+    <!-- Pied de page -->
+    <div class="footer-links">
+      <a href="https://discord.gg/3Xs3HmphJk" target="_blank">💬 Discord</a>
+      <a href="https://www.youtube.com/@Natulib" target="_blank">🎥 YouTube</a>
+      <a href="https://github.com/natulib/Natulib" target="_blank">🔗 GitHub</a>
     </div>
 
   </div>

@@ -3,10 +3,6 @@ title: "Catalogue de la faune"
 statut: redaction
 ---
 
-[🏠 Accueil](../../index.md) | 🚀 [Installation](../../Installation.md) | 🧱 [Modules](../../Modules.md) | 🏗️ [Projets](../../Projets.md) | 🌱 [Recettes](../../Recettes.md) | 🧠 [Natulib OS](../../Natulib-OS.md) | 🤝 [Contribuer](../../Contribuer.md) | ❓ [FAQ](../../FAQ.md)
-
-***
-
 # 🐝 Catalogue de la faune
 
 > 🚧 **Page en cours de rédaction.**

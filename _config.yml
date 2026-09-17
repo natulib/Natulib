@@ -6,8 +6,7 @@
 logo: "/assets/natulib.jpeg"
 # Remplace le gros titre textuel par ton slogan sous le logo
 title: Natulib
-site_title: "Plateforme ouverte et modulaire pour créer des systèmes autonomes au service du vivant."
-description: Documentation matérielle et logicielle du projet Natulib
+description: "Plateforme ouverte et modulaire pour créer des systèmes autonomes au service du vivant."
 lang: fr
 
 # Thème Just the Docs : navigation latérale, recherche intégrée,

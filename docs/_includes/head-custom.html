@@ -1,54 +1,72 @@
 <style>
-  /* Masquer le titre par défaut */
-  .markdown-body > h1:first-child { 
-    display: none !important; 
+  /* Style des onglets imitant l'interface ESP / Natulib OS */
+  .nav-tabs-container {
+    margin: 20px 0 30px 0;
+    padding-bottom: 10px;
+    overflow-x: auto; /* Permet le défilement horizontal sur mobile */
   }
-
-  /* Injecter le logo en haut */
-  .markdown-body::before {
-    content: "";
-    display: block;
-    height: 120px;
-    background-image: url('/Natulib/assets/natulib.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center; /* Centré pour mieux s'aligner avec le menu */
-    margin-bottom: 20px;
+  .nav-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
   }
-
-  /* Styliser le menu de navigation */
-  .custom-top-nav {
-    text-align: center;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eaecef; /* Ajoute une ligne de séparation propre */
-    line-height: 2; /* Aère les liens pour le confort sur mobile */
-  }
-  .custom-top-nav a {
-    color: #24292e;
+  .tab-btn {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    color: #374151;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
     font-weight: 600;
     text-decoration: none !important;
+    transition: all 0.2s ease;
+    white-space: nowrap;
   }
-  .custom-top-nav a:hover {
-    color: #28a745; /* Change la couleur au survol (vert) */
+  .tab-btn:hover {
+    background: #e5e7eb;
+    border-color: #9ca3af;
+    color: #111827;
   }
 </style>
 
-<!-- Afficher le logo dans l'onglet du navigateur (Favicon) -->
-<link rel="icon" type="image/png" href="/Natulib/assets/natulib.png">
+<!-- Favicon pour l'onglet du navigateur -->
+<link rel="icon" type="image/jpeg" href="/Natulib/assets/logo.jpeg">
 
-<!-- Injecter le menu automatiquement sous le logo -->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    var menuHTML = `
-      <div class="custom-top-nav">
-        <p><a href="/Natulib/">🏠 Accueil</a> · 🚀 <a href="/Natulib/Installation.html">Installation</a> · 🧱 <a href="/Natulib/Modules.html">Modules</a> · 🏗️ <a href="/Natulib/Projets.html">Projets</a> · 🌱 <a href="/Natulib/Recettes.html">Recettes</a> · 🧠 <a href="/Natulib/Natulib-OS.html">Natulib OS</a> · 🤝 <a href="/Natulib/Contribuer.html">Contribuer</a> · ❓ <a href="/Natulib/FAQ.html">FAQ</a> · <a href="https://github.com/natulib/Natulib">🔗 GitHub</a></p>
+    var markdownBody = document.querySelector('.markdown-body');
+    if (!markdownBody) return;
+
+    // 1. Chercher et masquer explicitement le titre par défaut généré par GitHub
+    var allH1s = markdownBody.querySelectorAll('h1');
+    allH1s.forEach(function(h1) {
+        if (h1.textContent.trim() === "Natulib") {
+            h1.style.display = "none";
+        }
+    });
+
+    // 2. Injecter le logo et le menu au format onglets ESP
+    var headerHTML = `
+      <div style="text-align: center; margin-bottom: 25px;">
+        <img src="/Natulib/assets/logo.jpeg" style="max-height: 120px; border-radius: 12px;" alt="Logo Natulib">
+      </div>
+      <div class="nav-tabs-container">
+        <div class="nav-tabs">
+          <a href="/Natulib/" class="tab-btn">🏠 Accueil</a>
+          <a href="/Natulib/Installation.html" class="tab-btn">🚀 Installation</a>
+          <a href="/Natulib/Modules.html" class="tab-btn">🧱 Modules</a>
+          <a href="/Natulib/Projets.html" class="tab-btn">🏗️ Projets</a>
+          <a href="/Natulib/Recettes.html" class="tab-btn">🌱 Recettes</a>
+          <a href="/Natulib/Natulib-OS.html" class="tab-btn">🧠 Natulib OS</a>
+          <a href="/Natulib/Contribuer.html" class="tab-btn">🤝 Contribuer</a>
+          <a href="/Natulib/FAQ.html" class="tab-btn">❓ FAQ</a>
+          <a href="https://github.com/natulib/Natulib" class="tab-btn" target="_blank">🔗 GitHub</a>
+        </div>
       </div>
     `;
     
-    var markdownBody = document.querySelector('.markdown-body');
-    if (markdownBody) {
-      markdownBody.insertAdjacentHTML('afterbegin', menuHTML);
-    }
+    // Insertion de notre bloc tout en haut de la page
+    markdownBody.insertAdjacentHTML('afterbegin', headerHTML);
   });
 </script>

@@ -2,11 +2,6 @@
 # Natulib — configuration GitHub Pages
 # Source Pages : /docs sur la branche main (voir Settings > Pages)
 # ------------------------------------------------------------------
-# Nom du repo GitHub Pages : le site est servi sous natulib.github.io/Natulib/
-# Sans ce réglage, les chemins absolus (logo, assets...) pointent à la racine
-# du domaine au lieu du sous-dossier /Natulib/, et le logo ne se charge pas.
-baseurl: "/Natulib"
-
 # Logo affiché dans la barre latérale / header
 # -> remplace le titre texte (voir doc Just the Docs : "displayed instead of the title")
 logo: "/assets/natulib.jpeg"
@@ -17,10 +12,6 @@ lang: fr
 # Thème Just the Docs : navigation latérale, recherche intégrée,
 # fil d'ariane — chargé à distance, aucune installation locale requise.
 remote_theme: just-the-docs/just-the-docs
-
-# GitHub Pages sert le contenu depuis /docs : toutes les pages du site
-# vivent dans ce dossier, _config.yml reste à la racine du dépôt.
-source: docs
 
 # URL propres, sans extension : docs/Modules.md -> /Modules/
 # ATTENTION : le réglage global "permalink:" ne s'applique qu'aux

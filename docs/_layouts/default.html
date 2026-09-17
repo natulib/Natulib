@@ -22,15 +22,21 @@
     }
     @media (max-width: 767px) { .page-container { padding: 15px; } }
 
+    /* Conteneur global du menu (permet d'ancrer les résultats de recherche) */
+    .nav-wrapper {
+      position: relative;
+      margin: 20px 0 40px 0;
+    }
+
     /* Navigation */
     .simple-nav-container {
-      margin: 20px 0 30px 0;
       padding-bottom: 15px;
       border-bottom: 1px solid #eaecef;
       display: flex;
       flex-wrap: nowrap;
       gap: 15px;
       justify-content: center;
+      align-items: center; /* Centre la loupe avec le texte */
       overflow-x: auto;
       white-space: nowrap;
       -ms-overflow-style: none;
@@ -52,36 +58,49 @@
       border-bottom: 2px solid #28a745;
     }
 
-    /* Barre de recherche */
-    .search-wrapper {
-      position: relative;
-      max-width: 400px;
-      margin: 0 auto 40px auto;
+    /* Loupe extensible */
+    .inline-search-input {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: 1px solid transparent;
+      border-radius: 16px;
+      background-color: transparent;
+      font-size: 15px;
+      color: #24292e;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
       text-align: center;
     }
-    .search-input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 10px 18px;
+    .inline-search-input::placeholder {
+      color: #24292e;
+    }
+    .inline-search-input:focus, 
+    .inline-search-input:not(:placeholder-shown) {
+      width: 150px;
+      background-color: #f6f8fa;
       border: 1px solid #eaecef;
-      border-radius: 24px;
-      font-size: 15px;
-      outline: none;
-      transition: border-color 0.2s;
+      padding: 0 12px;
+      text-align: left;
+      cursor: text;
     }
-    .search-input:focus {
-      border-color: #28a745;
-      box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+    .inline-search-input:focus::placeholder {
+      color: transparent; /* Cache la loupe quand on tape */
     }
+
+    /* Résultats de recherche */
     .search-results {
       position: absolute;
       top: 100%;
-      left: 0;
-      right: 0;
+      right: 0; /* Aligne la boîte à droite */
+      width: 280px;
+      max-width: 100%;
       background: #ffffff;
       border: 1px solid #eaecef;
-      border-radius: 12px;
-      margin-top: 8px;
+      border-radius: 8px;
+      margin-top: -10px; /* Remonte un peu sous la ligne */
       padding: 0;
       list-style: none;
       box-shadow: 0 8px 24px rgba(0,0,0,0.1);
@@ -96,6 +115,8 @@
       color: #24292e;
       text-decoration: none;
       border-bottom: 1px solid #f6f8fa;
+      white-space: normal; /* Permet au titre de revenir à la ligne si trop long */
+      line-height: 1.4;
     }
     .search-results li a:hover {
       background-color: #f6f8fa;
@@ -132,20 +153,22 @@
       <img src="/Natulib/assets/natulib.png" style="max-height: 100px; border-radius: 12px;" alt="Logo Natulib">
     </div>
     
-    <div class="simple-nav-container">
-      <a href="/Natulib/" class="simple-nav-link">🏠 Accueil</a>
-      <a href="/Natulib/Installation.html" class="simple-nav-link">🚀 Installation</a>
-      <a href="/Natulib/Modules.html" class="simple-nav-link">🧱 Modules</a>
-      <a href="/Natulib/Projets.html" class="simple-nav-link">🏗️ Projets</a>
-      <a href="/Natulib/Recettes.html" class="simple-nav-link">🌱 Recettes</a>
-      <a href="/Natulib/Natulib-OS.html" class="simple-nav-link">🧠 Natulib OS</a>
-      <a href="/Natulib/Contribuer.html" class="simple-nav-link">🤝 Contribuer</a>
-      <a href="/Natulib/FAQ.html" class="simple-nav-link">❓ FAQ</a>
-    </div>
-
-    <!-- Barre de recherche -->
-    <div class="search-wrapper">
-      <input type="text" id="search-input" class="search-input" placeholder="🔍 Rechercher une page...">
+    <!-- Wrapper du menu et de la recherche -->
+    <div class="nav-wrapper">
+      <div class="simple-nav-container">
+        <a href="/Natulib/" class="simple-nav-link">🏠 Accueil</a>
+        <a href="/Natulib/Installation.html" class="simple-nav-link">🚀 Installation</a>
+        <a href="/Natulib/Modules.html" class="simple-nav-link">🧱 Modules</a>
+        <a href="/Natulib/Projets.html" class="simple-nav-link">🏗️ Projets</a>
+        <a href="/Natulib/Recettes.html" class="simple-nav-link">🌱 Recettes</a>
+        <a href="/Natulib/Natulib-OS.html" class="simple-nav-link">🧠 Natulib OS</a>
+        <a href="/Natulib/Contribuer.html" class="simple-nav-link">🤝 Contribuer</a>
+        <a href="/Natulib/FAQ.html" class="simple-nav-link">❓ FAQ</a>
+        
+        <!-- La loupe discrète -->
+        <input type="text" id="search-input" class="inline-search-input" placeholder="🔍">
+      </div>
+      <!-- La liste de résultats (en dehors du menu défilant) -->
       <ul id="results-container" class="search-results"></ul>
     </div>
 
@@ -163,10 +186,10 @@
 
   </div>
 
-  <!-- Scripts : Menu Actif + Moteur de recherche -->
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
   <script>
-    // Soulignement vert du menu courant
+    // Soulignement
     var currentPath = window.location.pathname;
     if (currentPath === '/Natulib') currentPath = '/Natulib/';
     document.querySelectorAll('.simple-nav-link').forEach(function(link) {
@@ -175,7 +198,7 @@
       }
     });
 
-    // Configuration de la recherche
+    // Recherche
     var sjs = SimpleJekyllSearch({
       searchInput: document.getElementById('search-input'),
       resultsContainer: document.getElementById('results-container'),
@@ -184,7 +207,6 @@
       noResultsText: '<li style="padding: 12px 18px; color: #57606a;">Aucun résultat</li>'
     });
 
-    // Afficher/Masquer la boîte de résultats intelligemment
     var searchInput = document.getElementById('search-input');
     var resultsContainer = document.getElementById('results-container');
     

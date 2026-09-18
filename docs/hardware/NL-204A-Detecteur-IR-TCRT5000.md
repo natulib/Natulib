@@ -75,11 +75,22 @@ Dans Natulib, il sert principalement de **capteur d'interaction** :
   "id": "interaction",
   "type": "tcrt5000",
   "pins": {
-    "signal": 14
+    "digital": 14,
+    "adc": 1
   },
+  "invert": false,
   "active": true
 }
 ```
+
+| Paramètre | Fonction |
+|---|---|
+| `pins.digital` | Broche numérique reliée à `DO` |
+| `pins.adc` | Broche analogique reliée à `AO` (facultative) |
+| `invert` | Inverse la logique de détection (déf. `false`) |
+| `active` | Active / désactive le module |
+
+> 🔵 Le driver `tcrt5000` lit les broches sous les clés `pins.digital` et `pins.adc` (et non `pins.signal`). Métriques exposées : `detected`, `raw`, `error`. Voir **[Drivers](../natulib-os/drivers.md)**.
 
 ---
 

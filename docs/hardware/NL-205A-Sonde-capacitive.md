@@ -69,25 +69,35 @@ Elle permet à Natulib de :
 
 ## ⚙️ Configuration Natulib OS
 
-**Type :** `soil`
+**Type :** `analog`
+
+> 🔵 **Divergence connue** — Il n'existe pas de type `soil` dans Natulib OS. La sonde capacitive est pilotée par le driver générique **`analog`**, le même que pour d'autres capteurs analogiques simples (voir **[Drivers](../natulib-os/drivers.md)**).
 
 ```json
 {
   "id": "humidite_sol",
-  "type": "soil",
+  "type": "analog",
   "pins": {
-    "signal": 0
+    "adc": 0
   },
   "calibration": {
-    "air": 2800,
-    "eau": 1100
+    "min": 1100,
+    "max": 2800
   },
   "interval_ms": 60000,
   "active": true
 }
 ```
 
-> ⚠️ Les valeurs de `calibration` sont des ordres de grandeur : remplacez-les par vos propres relevés. Le nom du type doit être confirmé avec la version de Natulib OS utilisée.
+| Paramètre | Fonction |
+|---|---|
+| `pins.adc` | Broche analogique reliée à `AOUT` |
+| `calibration.min` | Valeur brute (`raw`) correspondant à **100 % d'humidité** (sonde dans l'eau) — déf. 1400 |
+| `calibration.max` | Valeur brute (`raw`) correspondant à **0 % d'humidité** (sonde à l'air libre) — déf. 3200 |
+| `interval_ms` | Intervalle entre deux lectures (60 000 ms par défaut) |
+| `active` | Active / désactive le module |
+
+Le driver convertit la valeur brute en pourcentage (`value`, 0–100 %) à partir de `calibration.min`/`calibration.max` ; la métrique `raw` reste disponible telle quelle. Les valeurs ci-dessus sont des ordres de grandeur : remplacez-les par vos propres relevés (voir la section Calibration ci-dessous — `air` correspond à `calibration.max`, `eau` à `calibration.min`).
 
 ---
 

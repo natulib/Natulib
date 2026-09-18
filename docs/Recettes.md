@@ -14,8 +14,7 @@ Elles regroupent les paramètres environnementaux, les phases de développement,
 
 ## 📚 Explorer les recettes
 
-
-→ **[🌿 Catalogue des plantes](./recipes/plantes/index.md)** — Recettes de culture pour les plantes potagères, aromatiques, fruitières et ornementales.
-→ **[🍄 Catalogue des champignons](./recipes/champignons/index.md)** — Recettes de culture et paramètres de développement des espèces fongiques.
-→ **[🐝 Catalogue de la faune](./recipes/faune/index.md)** — Recettes dédiées aux ruches, nichoirs, bassins et autres écosystèmes.
-→ **[⚙️ Bibliothèque des règles](./recipes/automatisations/index.md)** — Règles d'automatisation réutilisables pouvant être intégrées dans les recettes.
+* **[🌿 Catalogue des plantes](./recipes/plantes/index.md)** — Recettes de culture pour les plantes potagères, aromatiques, fruitières et ornementales.
+* **[🍄 Catalogue des champignons](./recipes/champignons/index.md)** — Recettes de culture et paramètres de développement des espèces fongiques.
+* **[🐝 Catalogue de la faune](./recipes/faune/index.md)** — Recettes dédiées aux ruches, nichoirs, bassins et autres écosystèmes.
+* **[⚙️ Bibliothèque des règles](./recipes/automatisations/index.md)** — Règles d'automatisation réutilisables pouvant être intégrées dans les recettes.

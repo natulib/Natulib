@@ -11,6 +11,10 @@ prix: 1
 interface: gpio | adc | i2c | spi | pwm
 ---
 
+[🏠 Accueil](../index.md) | [🚀 Installation](../Installation.md) | [🧱 Modules](../Modules.md) | [🏗️ Projets](../Projets.md) | [🌱 Recettes](../Recettes.md) | [🧠 Natulib OS](../Natulib-OS.md) | [🤝 Contribuer](../Contribuer.md) | [❓ FAQ](../FAQ.md) | 🔗 [GitHub](https://github.com/Natulib/Natulib)
+
+***
+
 # 🧩 NL-xxxA — Nom du module
 
 > 🟢 Validé · 🟢 Sans soudure · 👤 Débutant · ⏱️ 10 min · 💰 ~1 € · 🔌 GPIO

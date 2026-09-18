@@ -67,15 +67,16 @@ Natulib OS fournit le moteur permettant de transformer ces consignes en décisio
 
 ## 📚 Documentation
 
-- **[🏛️ Architecture](./natulib-os/architecture.md)** —  Organisation générale du système, tâches FreeRTOS, boucle principale, Workers, synchronisation et échanges entre les différents composants.
+- **[🖥️ Fonctionnement - Interface Web](./natulib-os/interface.md)** — Les onglets de l'interface embarquée (Studio, Hardware, Synapses…) et l'API Explorer.
+- **[🏛️ Architecture](./natulib-os/architecture.md)** — Grands principes de fonctionnement interne (tâches de fond, verrous, démarrage résilient).
 - **[🔌 Matériel - Drivers](./natulib-os/drivers.md)** — Gestion des modules matériels, drivers, métriques et actions exposées à Natulib OS.
 - **[🔌 Matériel - Filesystem](./natulib-os/filesystem.md)** — Organisation du stockage LittleFS et des fichiers utilisés par Natulib OS.
 - **[⚙️ Fonctionnement - API REST](./natulib-os/api.md)** — Interface HTTP permettant d'interagir avec la station et d'explorer ses données et fonctionnalités.
 - **[⚙️ Fonctionnement - Automatisations](./natulib-os/automatisations.md)** — Fonctionnement du moteur de règles locales, des conditions, des actions, des temporisations et des synapses.
 - **[⚙️ Fonctionnement - Historique](./natulib-os/historique.md)** — Acquisition, stockage et archivage des données produites par la station.
 - **[🌐 Communication - Réseau & Connectivité](./natulib-os/reseau.md)** — Wi-Fi, MQTT, HTTP et mécanismes de synchronisation avec les services externes.
-- **[🛡️ Système - Sécurité](./natulib-os/securite.md)** — Protection mémoire, Watchdog, gestion des erreurs et mécanismes de récupération.
-- **[🛡️ Système - Développement](./natulib-os/developpement.md)** — Organisation du code, compilation, architecture logicielle et méthodes pour ajouter ou modifier des composants de Natulib OS.
+- **[🛡️ Système - Sécurité](./natulib-os/securite.md)** — Ce qu'il faut savoir avant d'exposer sa station : authentification, protections OTA et chemins sensibles, watchdog.
+- **[🛡️ Système - Développement](./natulib-os/developpement.md)** — Où trouver quoi dans le code source du firmware.
 
 ## 🧪 État du projet
 

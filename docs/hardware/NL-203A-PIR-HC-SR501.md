@@ -88,11 +88,18 @@ Le module comporte deux potentiomètres et un cavalier.
   "id": "presence",
   "type": "pir",
   "pins": {
-    "signal": 10
+    "pin": 10
   },
   "active": true
 }
 ```
+
+| Paramètre | Fonction |
+|---|---|
+| `pins.pin` | Broche numérique reliée à `OUT` |
+| `active` | Active / désactive le module |
+
+> 🔵 Le driver `pir` de Natulib OS lit la broche sous la clé `pins.pin` (et non `pins.signal`). Métriques exposées : `motion`, `idle_time_sec`. Voir **[Drivers](../natulib-os/drivers.md)**.
 
 ---
 

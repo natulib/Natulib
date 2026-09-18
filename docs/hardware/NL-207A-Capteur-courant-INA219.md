@@ -102,14 +102,18 @@ Alimentation GND ─────────────┴── GND
     "sda": 4,
     "scl": 5
   },
-  "address": "0x40",
-  "shunt_ohm": 0.1,
   "interval_ms": 10000,
   "active": true
 }
 ```
 
-> ⚠️ La valeur `shunt_ohm` doit correspondre au shunt réellement monté sur votre module. La plupart des modules du commerce utilisent 0,1 Ω, mais ce n'est pas systématique : vérifiez le marquage avant de fixer les paramètres de calibration.
+| Paramètre | Fonction |
+|---|---|
+| `pins` | Broches I²C (`sda`, `scl`) |
+| `interval_ms` | Intervalle entre deux lectures (1000 ms par défaut ; une lecture rapide est conseillée pour ne pas manquer les pics de courant) |
+| `active` | Active / désactive le module |
+
+> 🔵 **Divergence connue** — Le driver `ina219` de Natulib OS ne lit ni `address` ni `shunt_ohm` : il s'appuie sur la bibliothèque Adafruit INA219 avec sa **calibration par défaut** (plage 32 V / 2 A, correspondant à un shunt de 0,1 Ω) et son adresse I²C par défaut (`0x40`). Si votre module utilise un shunt différent de 0,1 Ω ou une adresse différente de `0x40`, les mesures de courant/puissance seront faussées proportionnellement, sans que la configuration JSON puisse actuellement le corriger. Voir **[Drivers](../natulib-os/drivers.md)**.
 
 ---
 

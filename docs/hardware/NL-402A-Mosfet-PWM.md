@@ -81,24 +81,34 @@ Le câblage exact dépend du bornier de la version reçue.
 
 ## ⚙️ Configuration Natulib OS
 
-**Type :** ⚪ à définir
-
-Le module peut être piloté depuis un GPIO compatible PWM. Configuration indicative :
+**Type :** `pwm`
 
 ```json
 {
   "id": "mosfet_pwm",
   "type": "pwm",
   "pins": {
-    "signal": 6
+    "pin": 6
   },
-  "frequency_hz": 1000,
-  "duty": 0,
   "active": true
 }
 ```
 
-> ⚠️ Cette configuration doit être adaptée au module réel. Le type `pwm` et la gestion des fréquences doivent être confirmés avec **Natulib OS**.
+| Paramètre | Fonction |
+|---|---|
+| `pins.pin` | Broche PWM reliée à l'entrée de commande du module MOSFET |
+| `active` | Active / désactive le module |
+
+> 🔵 **Divergence connue** — Le driver `pwm` ne lit ni `frequency_hz` ni `duty`. La fréquence PWM est **fixée en dur dans le code** à 5 kHz sur 8 bits de résolution (0–255), quelle que soit la configuration JSON. Le rapport cyclique de démarrage est toujours 0 (sortie éteinte) ; il se pilote uniquement **par action**, jamais par un champ statique du fichier `/dev/*.json` :
+
+| Action | Effet |
+|---|---|
+| `off_<id>` | Rapport cyclique 0 % |
+| `pwm_50_<id>` | Rapport cyclique 50 % |
+| `pwm_100_<id>` | Rapport cyclique 100 % |
+| `pwm_<id>_<0-255>` | Rapport cyclique arbitraire (valeur brute 0–255) |
+
+Voir **[Drivers](../natulib-os/drivers.md)** et **[Automatisations](../natulib-os/automatisations.md)** pour déclencher ces actions depuis une règle.
 
 ---
 

@@ -121,21 +121,29 @@ ESP32 / alimentation
 
 ## ⚙️ Configuration Natulib OS
 
-Le PowerSwitch se déclare comme une sortie numérique.
+Le PowerSwitch se déclare comme une sortie numérique, avec le driver générique `relay` — il n'existe pas de type `switch` dédié dans Natulib OS.
 
 ```json
 {
   "id": "alim_ecran",
-  "type": "switch",
+  "type": "relay",
   "pins": {
-    "signal": 21
+    "pin": 21
   },
-  "default_state": true,
+  "invert": false,
   "active": true
 }
 ```
 
-> ⚠️ Le nom du type doit être confirmé avec la version de Natulib OS utilisée.
+| Paramètre | Fonction |
+|---|---|
+| `pins.pin` | Broche numérique reliée à la gâchette du PowerSwitch |
+| `invert` | Inverse la logique de commande (déf. `false`) |
+| `active` | Active / désactive le module |
+
+Actions disponibles : `on_<id>`, `off_<id>`, `toggle_<id>` (voir **[Drivers](../natulib-os/drivers.md)**).
+
+> 🔵 **Divergence connue** — Il n'existe pas de champ `default_state` : au démarrage, le driver `relay` initialise systématiquement la sortie à l'état **éteint** (sauf si `invert: true`, auquel cas la logique électrique est inversée mais l'état logique reste « éteint »). Pour rétablir un état après un redémarrage, utilisez une automatisation dédiée (voir **[Automatisations](../natulib-os/automatisations.md)**).
 
 ---
 

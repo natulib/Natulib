@@ -78,22 +78,36 @@ Le module propose deux sorties :
 
 ## ⚙️ Configuration Natulib OS
 
-**Type :** ⚪ à définir
+**Type :** `rain_analog`
 
-Le module n'est pas encore intégré à Natulib OS. La configuration ci-dessous est indicative et devra être confirmée.
+> 🔵 **Correction** — Ce module est en réalité déjà intégré à Natulib OS via le driver `rain_analog` (contrairement à ce qu'indiquait la version précédente de cette fiche).
 
 ```json
 {
   "id": "pluie",
-  "type": "rain",
+  "type": "rain_analog",
   "pins": {
-    "signal": 20
+    "digital": 20,
+    "adc": 3
+  },
+  "invert": false,
+  "calibration": {
+    "min": 1400,
+    "max": 3200
   },
   "active": true
 }
 ```
 
-> ⚠️ Le type `rain` n'existe pas encore dans Natulib OS. Cette fiche sera mise à jour à son intégration.
+| Paramètre | Fonction |
+|---|---|
+| `pins.digital` | Broche numérique reliée à `DO` |
+| `pins.adc` | Broche analogique reliée à `AO` (facultative) |
+| `invert` | Inverse la logique de la sortie `DO` (déf. `false`) |
+| `calibration.min` / `calibration.max` | Bornes de conversion de la sortie analogique en pourcentage d'intensité (mêmes valeurs par défaut que le driver `analog`, à ajuster selon votre module) |
+| `active` | Active / désactive le module |
+
+Le driver expose les métriques `rain_detected` (booléen, basé sur `DO`), `intensity_pct` (basé sur `AO`, si câblé) et `raw`. L'intervalle de lecture par défaut est de 5000 ms (phénomène lent, pas besoin d'une fréquence élevée).
 
 ---
 
@@ -145,7 +159,7 @@ Le potentiomètre règle la sensibilité de la **sortie DO**.
 
 ## 🚧 Évolutions prévues
 
-- [ ] Intégration du capteur dans Natulib OS
+- [x] Intégration du capteur dans Natulib OS (driver `rain_analog`)
 - [ ] Détection automatique pluie / absence de pluie
 - [ ] Exploitation de la sortie analogique
 - [ ] Support pour boîtier extérieur

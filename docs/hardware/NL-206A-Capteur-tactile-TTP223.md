@@ -78,19 +78,22 @@ Dans Natulib, il peut être utilisé pour :
   },
   "pullup": false,
   "invert": false,
-  "metrics": [
-    {
-      "id": "pressed",
-      "label": "Appuyé",
-      "type": "boolean"
-    }
-  ],
-  "actions": [],
-  "mA": 3,
   "active": true,
   "debug": true
 }
 ```
+
+| Paramètre | Fonction |
+|---|---|
+| `pins.pin` | Broche numérique reliée à `I/O` |
+| `pullup` | Résistance de tirage interne (déf. `true` — ici `false` car le TTP223 pilote activement sa sortie) |
+| `invert` | Inverse la logique de détection (déf. `true` — ici `false`) |
+| `active` | Active / désactive le module |
+| `debug` | Journalisation détaillée |
+
+Le driver `button` produit la métrique `pressed`.
+
+> 🔵 Les champs `metrics`, `actions` et `mA` que l'on peut trouver dans des fichiers `/dev/*.json` existants sont des **métadonnées d'interface** (utilisées par l'éditeur Web pour afficher les capacités du module) : le driver `button` de Natulib OS ne les lit pas au runtime et leur présence ou absence n'a aucun effet sur son fonctionnement. Voir **[Drivers](../natulib-os/drivers.md)**.
 
 ---
 

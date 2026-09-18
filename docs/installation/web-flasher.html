@@ -1,120 +1,349 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flash Natulib OS via Web Serial</title>
-    <!-- Ajout du Favicon -->
-    <link rel="icon" type="image/png" href="/Natulib/assets/natulib.png">
-    <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js"></script>
-    <style>
-        /* Ajustement du fond pour correspondre au site principal */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #ffffff; 
-            color: #24292f;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 45px 15px; /* Marge en haut pour que le logo respire */
-            box-sizing: border-box;
-        }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installer Natulib OS</title>
+<link rel="icon" type="image/png" href="/Natulib/assets/natulib.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --surface: #f6f8fa;
+    --border: #d0d7de;
+    --text: #1f2328;
+    --muted: #59636e;
+    --fw: #0969da;
+    --ota: #8cb8ee;
+    --fs: #1a7f37;
+    --sys: #8c959f;
+    --warn: #9a6700;
+    --btn: #1f2328;
+    --btn-text: #ffffff;
+    --btn-hover: #3b434b;
+    --focus: #0969da;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #9198a1;
+      --fw: #4493f8;
+      --ota: #2a5a99;
+      --fs: #3fb950;
+      --sys: #6e7681;
+      --warn: #d29922;
+      --btn: #e6edf3;
+      --btn-text: #0d1117;
+      --btn-hover: #ffffff;
+      --focus: #4493f8;
+    }
+  }
 
-        /* Style du menu (identique au site) */
-        .simple-nav-container {
-            margin: 0 0 40px 0;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eaecef;
-            display: flex;
-            flex-wrap: nowrap;
-            gap: 15px;
-            justify-content: center;
-            overflow-x: auto;
-            white-space: nowrap;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            width: 100%;
-            max-width: 900px;
-        }
-        .simple-nav-container::-webkit-scrollbar {
-            display: none;
-        }
-        .simple-nav-link {
-            color: #24292e;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none !important;
-            padding-bottom: 4px;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s ease;
-        }
-        .simple-nav-link:hover, .simple-nav-link.active {
-            color: #28a745;
-            border-bottom: 2px solid #28a745;
-        }
+  * { box-sizing: border-box; }
 
-        /* Style de la carte de flashage */
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border: 1px solid #eaecef;
-            text-align: center;
-            max-width: 420px;
-            width: 100%;
-        }
-        h1 { font-size: 22px; margin-bottom: 10px; }
-        p { color: #57606a; font-size: 14px; margin-bottom: 25px; line-height: 1.5; }
-        a.back { display: block; margin-top: 20px; font-size: 13px; color: #57606a; text-decoration: none; transition: color 0.2s; }
-        a.back:hover { color: #28a745; }
-        esp-web-install-button {
-            --esp-tools-button-color: #24292f;
-            --esp-tools-button-text-color: #ffffff;
-        }
-    </style>
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    line-height: 1.6;
+  }
+
+  /* --- STYLES DU MENU ET FOOTER --- */
+  .header-logo { text-align: center; margin: 30px 0 10px; }
+  .header-logo img { max-height: 80px; border-radius: 12px; }
+
+  .nav-wrapper {
+    position: relative;
+    margin: 0 auto 40px auto;
+    max-width: 56rem;
+    padding: 0 1.25rem;
+  }
+
+  .simple-nav-container {
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .simple-nav-container::-webkit-scrollbar { display: none; }
+  
+  .simple-nav-link {
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
+  .simple-nav-link:hover, .simple-nav-link.active {
+    color: var(--fs);
+    border-bottom: 2px solid var(--fs);
+  }
+
+  .inline-search-input {
+    width: 32px; height: 32px; padding: 0;
+    border: 1px solid transparent; border-radius: 16px;
+    background-color: transparent; font-size: 15px;
+    color: var(--text); outline: none; cursor: pointer;
+    transition: all 0.3s ease; flex-shrink: 0; text-align: center;
+  }
+  .inline-search-input::placeholder { color: var(--text); }
+  .inline-search-input:focus, .inline-search-input:not(:placeholder-shown) {
+    width: 150px; background-color: var(--surface);
+    border: 1px solid var(--border); padding: 0 12px;
+    text-align: left; cursor: text;
+  }
+  .inline-search-input:focus::placeholder { color: transparent; }
+
+  .search-results {
+    position: absolute; top: 100%; right: 1.25rem;
+    width: 280px; max-width: calc(100% - 2.5rem);
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 8px; margin-top: -10px; padding: 0;
+    list-style: none; box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    z-index: 100; display: none; text-align: left; overflow: hidden;
+  }
+  .search-results li a {
+    display: block; padding: 12px 18px; color: var(--text);
+    text-decoration: none; border-bottom: 1px solid var(--surface);
+    line-height: 1.4;
+  }
+  .search-results li a:hover { background-color: var(--surface); color: var(--fs); }
+  .search-results li:last-child a { border-bottom: none; }
+
+  .footer-links {
+    margin: 60px auto 40px; padding: 25px 1.25rem 0;
+    border-top: 1px solid var(--border); max-width: 56rem;
+    display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;
+  }
+  .footer-links a {
+    color: var(--muted); font-size: 14px;
+    text-decoration: none; font-weight: 500; transition: color 0.2s ease;
+  }
+  .footer-links a:hover { color: var(--fs); }
+
+  /* --- STYLES DU FLASHER --- */
+  main {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  h1 { margin: 0 0 0.75rem; font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.15; letter-spacing: -0.01em; }
+  p { margin: 0 0 1rem; max-width: 65ch; }
+  .lead { color: var(--muted); font-size: 1.05rem; }
+  a { color: var(--fw); }
+  a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+
+  .notice {
+    margin: 0 0 2rem; padding: 0.75rem 1rem;
+    border-left: 3px solid var(--warn); background: var(--surface); max-width: 65ch;
+  }
+
+  .browser-warning {
+    margin: 0 0 1.5rem; padding: 0.75rem 1rem;
+    border: 1px solid var(--warn); border-radius: 6px;
+  }
+  .browser-warning[hidden] { display: none; }
+
+  .choices {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+    gap: 1.25rem; margin-bottom: 2.5rem;
+  }
+
+  .choice {
+    display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  }
+  .choice h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; margin: 0; font-size: 1.3rem; line-height: 1.3; }
+  .tag { font-size: 0.85rem; font-weight: 600; color: var(--fs); }
+  .choice p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+  .map { display: flex; gap: 2px; height: 0.875rem; }
+  .map .seg { min-width: 2px; }
+  .map .seg:first-child { border-radius: 6px 0 0 6px; }
+  .map .seg:last-child { border-radius: 0 6px 6px 0; }
+  .seg.fw  { background: var(--fw); }
+  .seg.ota { background: var(--ota); }
+  .seg.fs  { background: var(--fs); }
+  .seg.sys { background: var(--sys); }
+
+  .legend { display: grid; gap: 0.35rem; margin: 0; padding: 0; list-style: none; font-size: 0.9rem; }
+  .legend li { display: flex; align-items: center; gap: 0.6rem; }
+  .legend .sw { flex: none; width: 0.75rem; height: 0.75rem; border-radius: 3px; }
+  .legend .size { margin-left: auto; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .install { margin-top: auto; padding-top: 0.5rem; }
+  .btn {
+    font: inherit; font-weight: 600; padding: 0.7rem 1.2rem;
+    border: 0; border-radius: 6px; background: var(--btn);
+    color: var(--btn-text); cursor: pointer; width: 100%; text-align: center;
+  }
+  .btn:hover { background: var(--btn-hover); }
+  .btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+  .hint { color: var(--warn); font-size: 0.9rem; display: block; margin-top: 0.5rem; }
+  h2.section { margin: 0 0 0.75rem; font-size: 1.15rem; }
+  .help { max-width: 65ch; }
+  .help ul { margin: 0 0 1rem; padding-left: 1.25rem; }
+  .help li { margin-bottom: 0.4rem; }
+</style>
 </head>
 <body>
 
-    <!-- Logo -->
-    <div style="text-align: center; margin-bottom: 30px; width: 100%;">
-        <img src="/Natulib/assets/natulib.png" style="max-height: 100px; border-radius: 12px;" alt="Logo Natulib">
-    </div>
-    
-    <!-- Menu -->
+  <!-- EN-TÊTE LOGO -->
+  <div class="header-logo">
+    <img src="/Natulib/assets/natulib.png" alt="Logo Natulib">
+  </div>
+  
+  <!-- MENU DE NAVIGATION -->
+  <div class="nav-wrapper">
     <div class="simple-nav-container">
-        <a href="/Natulib/" class="simple-nav-link">🏠 Accueil</a>
-        <a href="/Natulib/Installation.html" class="simple-nav-link">🚀 Installation</a>
-        <a href="/Natulib/Modules.html" class="simple-nav-link">🧱 Modules</a>
-        <a href="/Natulib/Projets.html" class="simple-nav-link">🏗️ Projets</a>
-        <a href="/Natulib/Recettes.html" class="simple-nav-link">🌱 Recettes</a>
-        <a href="/Natulib/Natulib-OS.html" class="simple-nav-link">🧠 Natulib OS</a>
-        <a href="/Natulib/Contribuer.html" class="simple-nav-link">🤝 Contribuer</a>
-        <a href="/Natulib/FAQ.html" class="simple-nav-link">❓ FAQ</a>
-        <a href="https://github.com/natulib/Natulib" class="simple-nav-link" target="_blank">🔗 GitHub</a>
+      <a href="/Natulib/" class="simple-nav-link">🏠 Accueil</a>
+      <a href="/Natulib/Installation.html" class="simple-nav-link active">🚀 Installation</a>
+      <a href="/Natulib/Modules.html" class="simple-nav-link">🧱 Modules</a>
+      <a href="/Natulib/Projets.html" class="simple-nav-link">🏗️ Projets</a>
+      <a href="/Natulib/Recettes.html" class="simple-nav-link">🌱 Recettes</a>
+      <a href="/Natulib/Natulib-OS.html" class="simple-nav-link">🧠 Natulib OS</a>
+      <a href="/Natulib/Contribuer.html" class="simple-nav-link">🤝 Contribuer</a>
+      <a href="/Natulib/FAQ.html" class="simple-nav-link">❓ FAQ</a>
+      
+      <input type="text" id="search-input" class="inline-search-input" placeholder="🔍">
+    </div>
+    <ul id="results-container" class="search-results"></ul>
+  </div>
+
+  <!-- CONTENU PRINCIPAL (FLASHER) -->
+  <main>
+    <h1>Installer Natulib OS</h1>
+    <p class="lead">Branchez votre carte en USB-C, choisissez la version qui correspond à sa mémoire, puis cliquez sur Installer.</p>
+
+    <p class="notice">
+      Repérez la référence gravée sur le blindage métallique du module ESP32-C6 : <strong>N16</strong> pour 16 Mo, <strong>N8</strong> pour 8 Mo.
+      Ne flashez pas la version 16 Mo sur une carte 8 Mo, la carte risquerait de ne pas démarrer.
+      En cas de doute, choisissez 8 Mo : cette version fonctionne sur les deux cartes.
+    </p>
+
+    <p id="browser-warning" class="browser-warning" hidden>
+      Ce navigateur ne prend pas en charge Web Serial. Ouvrez cette page avec Chrome ou Edge sur ordinateur.
+    </p>
+
+    <div class="choices">
+      <!-- Choix 16 Mo -->
+      <section class="choice" aria-labelledby="t16">
+        <h2 id="t16">Version 16 Mo <span class="tag">recommandée</span></h2>
+        <p>Cartes ESP32-C6-WROOM-1-N16, dont la NL-001A.</p>
+
+        <div class="map" role="img" aria-label="Mémoire de 16 Mo : firmware 3 Mo, copie de mise à jour 3 Mo, fichiers 9,9 Mo">
+          <span class="seg fw"  style="flex: 3"></span>
+          <span class="seg ota" style="flex: 3"></span>
+          <span class="seg fs"  style="flex: 9.86"></span>
+          <span class="seg sys" style="flex: 0.14"></span>
+        </div>
+        <ul class="legend">
+          <li><span class="sw seg fw"></span>Firmware <span class="size">3 Mo</span></li>
+          <li><span class="sw seg ota"></span>Copie pour la mise à jour <span class="size">3 Mo</span></li>
+          <li><span class="sw seg fs"></span>Fichiers et données <span class="size">9,9 Mo</span></li>
+        </ul>
+
+        <div class="install">
+          <esp-web-install-button manifest="manifest_16mb.json">
+            <button class="btn" slot="activate">Installer la version 16 Mo</button>
+            <span class="hint" slot="unsupported">Navigateur non compatible. Utilisez Chrome ou Edge.</span>
+            <span class="hint" slot="not-allowed">L’installation nécessite une page en HTTPS.</span>
+          </esp-web-install-button>
+        </div>
+      </section>
+
+      <!-- Choix 8 Mo -->
+      <section class="choice" aria-labelledby="t8">
+        <h2 id="t8">Version 8 Mo</h2>
+        <p>Cartes ESP32-C6-WROOM-1-N8. Sur une carte 16 Mo, elle fonctionne mais n’exploite que les 8 premiers Mo.</p>
+
+        <div class="map" role="img" aria-label="Mémoire de 8 Mo : firmware 2,5 Mo, copie de mise à jour 2,5 Mo, fichiers 2,9 Mo">
+          <span class="seg fw"  style="flex: 2.5"></span>
+          <span class="seg ota" style="flex: 2.5"></span>
+          <span class="seg fs"  style="flex: 2.86"></span>
+          <span class="seg sys" style="flex: 0.14"></span>
+        </div>
+        <ul class="legend">
+          <li><span class="sw seg fw"></span>Firmware <span class="size">2,5 Mo</span></li>
+          <li><span class="sw seg ota"></span>Copie pour la mise à jour <span class="size">2,5 Mo</span></li>
+          <li><span class="sw seg fs"></span>Fichiers et données <span class="size">2,9 Mo</span></li>
+        </ul>
+
+        <div class="install">
+          <esp-web-install-button manifest="manifest_8mb.json">
+            <button class="btn" slot="activate">Installer la version 8 Mo</button>
+            <span class="hint" slot="unsupported">Navigateur non compatible. Utilisez Chrome ou Edge.</span>
+            <span class="hint" slot="not-allowed">L’installation nécessite une page en HTTPS.</span>
+          </esp-web-install-button>
+        </div>
+      </section>
     </div>
 
-    <!-- Interface du Flasher -->
-    <div class="card">
-        <h1>Installeur Web — Natulib OS</h1>
-        <p>Connectez votre carte <strong>NL-001A (ESP32-C6)</strong> en USB, cliquez sur le bouton
-        ci-dessous et laissez-vous guider. Fonctionne avec Chrome ou Edge.</p>
+    <section class="help">
+      <h2 class="section">Si l’installation ne démarre pas</h2>
+      <ul>
+        <li>Aucun port n’apparaît : essayez un autre câble USB-C, certains ne transportent que l’alimentation.</li>
+        <li>L’écriture échoue en cours de route : maintenez le bouton BOOT de la carte enfoncé quelques secondes après avoir cliqué sur Installer, puis relâchez.</li>
+        <li>Vous changez de version (8 Mo vers 16 Mo ou l’inverse) : cochez l’option d’effacement de l’appareil quand elle est proposée, car la répartition de la mémoire change.</li>
+      </ul>
+      <p>Pour compiler depuis les sources, consultez l’<a href="installation/platformio.html">installation PlatformIO</a>.</p>
+    </section>
+  </main>
 
-        <esp-web-install-button manifest="manifest.json"></esp-web-install-button>
+  <!-- PIED DE PAGE -->
+  <div class="footer-links">
+    <a href="https://discord.gg/3Xs3HmphJk" target="_blank">💬 Discord</a>
+    <a href="https://www.youtube.com/@Natulib" target="_blank">🎥 YouTube</a>
+    <a href="https://github.com/natulib/Natulib" target="_blank">🔗 GitHub</a>
+  </div>
 
-        <a class="back" href="/Natulib/Installation.html">← Retour à l'installation</a>
-    </div>
+  <!-- SCRIPTS FLASHER -->
+  <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+  <script>
+    if (!('serial' in navigator)) {
+      document.getElementById('browser-warning').hidden = false;
+    }
+  </script>
 
-    <!-- Script pour souligner "Installation" puisque nous sommes sur le Flasher -->
-    <script>
-        document.querySelectorAll('.simple-nav-link').forEach(function(link) {
-            if (link.getAttribute('href') === '/Natulib/Installation.html') {
-                link.classList.add('active');
-            }
-        });
-    </script>
+  <!-- SCRIPTS RECHERCHE -->
+  <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+  <script>
+    var sjs = SimpleJekyllSearch({
+      searchInput: document.getElementById('search-input'),
+      resultsContainer: document.getElementById('results-container'),
+      json: '/Natulib/search.json',
+      searchResultTemplate: '<li><a href="{url}">{title}</a></li>',
+      noResultsText: '<li style="padding: 12px 18px; color: var(--muted);">Aucun résultat</li>'
+    });
 
+    var searchInput = document.getElementById('search-input');
+    var resultsContainer = document.getElementById('results-container');
+    
+    searchInput.addEventListener('input', function() {
+      resultsContainer.style.display = this.value.length > 0 ? 'block' : 'none';
+    });
+    
+    document.addEventListener('click', function(e) {
+      if (e.target !== searchInput) {
+        resultsContainer.style.display = 'none';
+      } else if (searchInput.value.length > 0) {
+        resultsContainer.style.display = 'block';
+      }
+    });
+  </script>
 </body>
 </html>

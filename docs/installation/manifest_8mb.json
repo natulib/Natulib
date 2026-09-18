@@ -1,0 +1,16 @@
+{
+  "name": "Natulib OS (8 Mo)",
+  "version": "1.0.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-C6",
+      "parts": [
+        { "path": "8mb/bootloader.bin", "offset": 0 },
+        { "path": "8mb/partitions.bin", "offset": 32768 },
+        { "path": "8mb/boot_app0.bin",  "offset": 57344 },
+        { "path": "8mb/firmware.bin",   "offset": 65536 }
+      ]
+    }
+  ]
+}

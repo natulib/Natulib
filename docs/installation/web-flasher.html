@@ -97,6 +97,8 @@ title: Installer Natulib OS
   <h1>Installer Natulib OS</h1>
   <p class="lead">Branchez votre carte en USB-C, choisissez la version qui correspond à sa mémoire, puis cliquez sur Installer.</p>
 
+  <p>Prérequis : un navigateur <strong>Chrome</strong> ou <strong>Edge</strong> sur ordinateur (Firefox, Safari et les mobiles ne prennent pas en charge Web Serial) et un câble USB-C qui transporte les données.</p>
+
   <p class="notice">
     Repérez la référence gravée sur le blindage métallique du module ESP32-C6 : <strong>N16</strong> pour 16 Mo, <strong>N8</strong> pour 8 Mo.
     Ne flashez pas la version 16 Mo sur une carte 8 Mo, la carte risquerait de ne pas démarrer.
@@ -111,7 +113,7 @@ title: Installer Natulib OS
     <!-- Choix 16 Mo -->
     <section class="choice" aria-labelledby="t16">
       <h2 id="t16">Version 16 Mo <span class="tag">recommandée</span></h2>
-      <p>Cartes ESP32-C6-WROOM-1-N16, dont la NL-001A.</p>
+      <p>Cartes ESP32-C6-WROOM-1-N16, dont la <a href="/Natulib/hardware/NL-001A-ESP32-C6-N16.html">NL-001A</a>.</p>
 
       <div class="map" role="img" aria-label="Mémoire de 16 Mo : firmware 3 Mo, copie de mise à jour 3 Mo, fichiers 9,9 Mo">
         <span class="seg fw"  style="flex: 3"></span>
@@ -164,10 +166,11 @@ title: Installer Natulib OS
   <section class="help">
     <h2 class="section">Si l’installation ne démarre pas</h2>
     <ul>
-      <li>Aucun port n’apparaît : essayez un autre câble USB-C, certains ne transportent que l’alimentation.</li>
+      <li>Aucun port n’apparaît : essayez un autre câble USB-C, certains ne transportent que l’alimentation. Vérifiez aussi que le pilote CP2102 ou CH340 (selon la puce USB-série de votre carte) est installé.</li>
       <li>L’écriture échoue en cours de route : maintenez le bouton BOOT de la carte enfoncé quelques secondes après avoir cliqué sur Installer, puis relâchez.</li>
       <li>Vous changez de version (8 Mo vers 16 Mo ou l’inverse) : cochez l’option d’effacement de l’appareil quand elle est proposée, car la répartition de la mémoire change.</li>
     </ul>
+    <p>L’installeur utilise <a href="https://esphome.github.io/esp-web-tools/" target="_blank" rel="noopener">ESP Web Tools</a> : il détecte le port série et écrit le firmware directement depuis le navigateur.</p>
     <p>Pour compiler depuis les sources, consultez l’<a href="/Natulib/installation/platformio.html">installation PlatformIO</a>.</p>
   </section>
 </div>

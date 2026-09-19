@@ -9,19 +9,319 @@
   <title>{% if page.title and page.url != '/' %}{{ page.title }} · {% endif %}Natulib</title>
   <link rel="icon" type="image/png" href="/Natulib/assets/natulib.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
-  <link rel="stylesheet" href="/Natulib/assets/_layouts/site.css">
+  <style>
+    /* Natulib : menu responsive. Menu déroulé dès 1000 px, bouton ☰ en dessous. */
+    :root {
+      color-scheme: light dark;
+      --bg: #ffffff; --surface: #f6f8fa; --border: #d0d7de;
+      --text: #1f2328; --muted: #59636e;
+      --accent: #1a7f37; --link: #0969da;
+      --page-max: 1080px;
+      --gutter: clamp(16px, 3vw, 40px);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1117; --surface: #161b22; --border: #30363d;
+        --text: #e6edf3; --muted: #9198a1;
+        --accent: #3fb950; --link: #4493f8;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+    }
+    img { max-width: 100%; }
+
+    .skip-link {
+      position: absolute; left: -9999px; top: 8px; z-index: 200;
+      padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px;
+      background: var(--bg); color: var(--text);
+    }
+    .skip-link:focus { left: 8px; }
+
+    .site-header-inner, .page-container, .site-footer {
+      max-width: var(--page-max);
+      margin-left: auto; margin-right: auto;
+      padding-left: max(var(--gutter), env(safe-area-inset-left));
+      padding-right: max(var(--gutter), env(safe-area-inset-right));
+    }
+
+    /* ---------- En-tête et menu : ordinateur ---------- */
+    .site-header { background: var(--bg); }
+    .site-header-inner {
+      display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: space-between; padding-top: 28px;
+    }
+    .brand { flex: 0 0 100%; display: flex; justify-content: center; margin-bottom: 22px; line-height: 0; }
+    .brand img { display: block; width: auto; max-height: 96px; border-radius: 12px; }
+    .nav-toggle { display: none; }
+
+    .site-nav {
+      flex: 0 0 100%; display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: center; gap: 6px clamp(12px, 1.8vw, 26px);
+      padding-bottom: 14px; border-bottom: 1px solid var(--border);
+    }
+    .nav-list {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 6px clamp(12px, 1.8vw, 22px); margin: 0; padding: 0; list-style: none;
+    }
+    .nav-link {
+      display: inline-block; padding: 4px 0; border-bottom: 2px solid transparent;
+      color: var(--text); font-size: 15px; font-weight: 600; line-height: 1.4;
+      text-decoration: none; white-space: nowrap;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .nav-link:hover, .nav-link[aria-current="page"] { color: var(--accent); border-bottom-color: var(--accent); }
+    .nav-link:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 2px; }
+
+    .nav-search { position: relative; flex: none; width: 34px; height: 34px; }
+    .nav-search input {
+      position: absolute; top: 0; right: 0; z-index: 1;
+      width: 34px; height: 34px; margin: 0; padding: 0 34px 0 0;
+      border: 1px solid transparent; border-radius: 17px; background: transparent;
+      color: var(--text); font: inherit; font-size: 15px; outline: none; cursor: pointer;
+      -webkit-appearance: none; appearance: none;
+      transition: width 0.25s ease, background-color 0.2s ease;
+    }
+    .nav-search input::-webkit-search-cancel-button { -webkit-appearance: none; }
+    .nav-search input::placeholder { color: var(--muted); }
+    .nav-search:focus-within input {
+      width: 230px; padding-left: 14px; border-color: var(--border);
+      background: var(--surface); cursor: text;
+    }
+    .nav-search input:focus { border-color: var(--link); }
+    .nav-search-icon {
+      position: absolute; top: 9px; right: 9px; z-index: 2;
+      width: 16px; height: 16px; color: var(--text); pointer-events: none;
+    }
+    .nav-search:hover .nav-search-icon { color: var(--accent); }
+
+    .search-results {
+      display: none; position: absolute; top: calc(100% + 8px); right: 0; z-index: 100;
+      width: min(340px, calc(100vw - 2 * var(--gutter))); max-height: 60vh;
+      margin: 0; padding: 0; overflow-y: auto; list-style: none;
+      border: 1px solid var(--border); border-radius: 8px; background: var(--bg);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); text-align: left;
+    }
+    .search-results.is-visible { display: block; }
+    .search-results a, .search-results .no-result { display: block; padding: 12px 18px; line-height: 1.4; }
+    .search-results a { border-bottom: 1px solid var(--surface); color: var(--text); text-decoration: none; }
+    .search-results a:hover, .search-results a:focus-visible { background: var(--surface); color: var(--accent); outline: none; }
+    .search-results li:last-child a { border-bottom: 0; }
+    .search-results .no-result { color: var(--muted); }
+
+    /* ---------- Contenu ---------- */
+    .page-container { padding-top: 32px; padding-bottom: 24px; }
+    .markdown-body { background: transparent; }
+    .markdown-body > p, .markdown-body > ul, .markdown-body > ol { max-width: 78ch; }
+    .markdown-body img { max-width: 100%; height: auto; }
+    .markdown-body iframe, .markdown-body video { max-width: 100%; }
+
+    .markdown-body .table-scroll { margin-bottom: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .markdown-body .table-scroll > table { display: table; width: 100%; max-width: none; margin: 0; overflow: visible; }
+    .markdown-body .table-scroll.is-wide > table { min-width: 52rem; }
+
+    /* ---------- Pied de page ---------- */
+    .site-footer { padding-bottom: 40px; }
+    .footer-links {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 30px;
+      margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border);
+    }
+    .footer-links a {
+      padding: 8px 0; color: var(--muted); font-size: 14px; font-weight: 500;
+      text-decoration: none; transition: color 0.2s ease;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ---------- Téléphone et tablette (< 1000 px) ---------- */
+    @media (max-width: 999px) {
+      html { scroll-padding-top: 76px; }
+      .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border); }
+      .site-header-inner { padding-top: 8px; padding-bottom: 8px; }
+      .brand { flex: 0 0 auto; margin: 0; }
+      .brand img { max-height: 44px; }
+
+      .nav-toggle {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 44px; height: 44px; padding: 0;
+        border: 1px solid var(--border); border-radius: 10px;
+        background: var(--surface); color: var(--text); cursor: pointer;
+      }
+      .nav-toggle:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+      .nav-toggle-bars, .nav-toggle-bars::before, .nav-toggle-bars::after {
+        display: block; width: 18px; height: 2px; border-radius: 1px; background: currentColor;
+        transition: transform 0.2s ease, top 0.2s ease, background-color 0.2s ease;
+      }
+      .nav-toggle-bars { position: relative; }
+      .nav-toggle-bars::before, .nav-toggle-bars::after { content: ""; position: absolute; left: 0; }
+      .nav-toggle-bars::before { top: -6px; }
+      .nav-toggle-bars::after { top: 6px; }
+      .is-open .nav-toggle-bars { background: transparent; }
+      .is-open .nav-toggle-bars::before { top: 0; transform: rotate(45deg); }
+      .is-open .nav-toggle-bars::after { top: 0; transform: rotate(-45deg); }
+
+      .site-nav {
+        display: none; flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 8px;
+        max-height: calc(100vh - 68px); max-height: calc(100dvh - 68px);
+        padding: 10px 0 14px; overflow-y: auto; border-bottom: 0;
+      }
+      .is-open .site-nav { display: flex; }
+      .nav-list { flex-direction: column; flex-wrap: nowrap; gap: 2px; }
+      .nav-link {
+        display: block; padding: 12px 14px; border-bottom: 0;
+        border-left: 3px solid transparent; border-radius: 6px; font-size: 16px;
+      }
+      .nav-link:hover, .nav-link[aria-current="page"] { border-left-color: var(--accent); background: var(--surface); }
+
+      .nav-search { order: -1; width: 100%; height: auto; }
+      .nav-search input, .nav-search:focus-within input {
+        position: static; display: block; width: 100%; height: 44px;
+        padding: 0 44px 0 14px; border-color: var(--border); border-radius: 10px;
+        background: var(--surface); font-size: 16px; cursor: text; transition: none;
+      }
+      .nav-search input:focus { border-color: var(--link); }
+      .nav-search-icon { top: 14px; right: 14px; }
+      .search-results { position: static; width: 100%; max-height: 40vh; margin-top: 8px; box-shadow: none; }
+
+      .markdown-body table { font-size: 0.9em; }
+      .markdown-body table th, .markdown-body table td { padding: 6px 10px; }
+      .markdown-body .table-scroll.is-wide th:first-child,
+      .markdown-body .table-scroll.is-wide td:first-child {
+        position: sticky; left: 0; z-index: 1;
+        background-color: inherit; box-shadow: 1px 0 0 var(--border);
+      }
+    }
+    @media (max-width: 599px) {
+      .page-container { padding-top: 20px; }
+      .markdown-body h1 { font-size: 1.65em; }
+      .markdown-body h2 { font-size: 1.35em; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .nav-link, .nav-search input, .nav-toggle-bars, .nav-toggle-bars::before,
+      .nav-toggle-bars::after, .footer-links a { transition: none; }
+    }
+  </style>
 </head>
 <body>
 
-  {% include header.html %}
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="site-header" id="site-header">
+    <div class="site-header-inner">
+
+      <a class="brand" href="/Natulib/" aria-label="Natulib, accueil">
+        <img src="/Natulib/assets/natulib.png" alt="Logo Natulib">
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+        <span class="nav-toggle-bars" aria-hidden="true"></span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Navigation principale">
+        <!-- MENU : pour ajouter ou modifier un onglet, c'est ici et nulle part ailleurs.
+             L'onglet s'allume quand l'URL de la page contient un des morceaux testés. -->
+        <ul class="nav-list">
+          <li><a class="nav-link" href="/Natulib/"{% if page.url == '/' %} aria-current="page"{% endif %}>🏠 Accueil</a></li>
+          <li><a class="nav-link" href="/Natulib/Installation.html"{% if page.url contains '/Installation' or page.url contains '/installation/' %} aria-current="page"{% endif %}>🚀 Installation</a></li>
+          <li><a class="nav-link" href="/Natulib/Modules.html"{% if page.url contains '/Modules' or page.url contains '/hardware/' %} aria-current="page"{% endif %}>🧱 Modules</a></li>
+          <li><a class="nav-link" href="/Natulib/Projets.html"{% if page.url contains '/Projets' %} aria-current="page"{% endif %}>🏗️ Projets</a></li>
+          <li><a class="nav-link" href="/Natulib/Recettes.html"{% if page.url contains '/Recettes' %} aria-current="page"{% endif %}>🌱 Recettes</a></li>
+          <li><a class="nav-link" href="/Natulib/Natulib-OS.html"{% if page.url contains '/Natulib-OS' %} aria-current="page"{% endif %}>🧠 Natulib OS</a></li>
+          <li><a class="nav-link" href="/Natulib/Contribuer.html"{% if page.url contains '/Contribuer' %} aria-current="page"{% endif %}>🤝 Contribuer</a></li>
+          <li><a class="nav-link" href="/Natulib/FAQ.html"{% if page.url contains '/FAQ' %} aria-current="page"{% endif %}>❓ FAQ</a></li>
+        </ul>
+
+        <div class="nav-search">
+          <input type="search" id="search-input" placeholder="Rechercher…" aria-label="Rechercher dans la documentation" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <svg class="nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+            <circle cx="10.5" cy="10.5" r="6.5"></circle>
+            <line x1="15.5" y1="15.5" x2="21" y2="21"></line>
+          </svg>
+          <ul id="results-container" class="search-results"></ul>
+        </div>
+      </nav>
+
+    </div>
+  </header>
 
   <main id="contenu" class="page-container">
-    <article class="markdown-body">
+    {% if page.bare %}
       {{ content }}
-    </article>
+    {% else %}
+      <article class="markdown-body">
+        {{ content }}
+      </article>
+    {% endif %}
   </main>
 
-  {% include footer.html %}
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="https://discord.gg/3Xs3HmphJk" target="_blank" rel="noopener">💬 Discord</a>
+      <a href="https://www.youtube.com/@Natulib" target="_blank" rel="noopener">🎥 YouTube</a>
+      <a href="https://github.com/natulib/Natulib" target="_blank" rel="noopener">🔗 GitHub</a>
+    </div>
+  </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    var DESKTOP_MIN = 1000; // = breakpoint du CSS
+
+    var header  = document.getElementById('site-header');
+    var toggle  = header.querySelector('.nav-toggle');
+    var input   = document.getElementById('search-input');
+    var results = document.getElementById('results-container');
+
+    function setMenu(open) {
+      header.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    toggle.addEventListener('click', function () {
+      setMenu(!header.classList.contains('is-open'));
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth >= DESKTOP_MIN) setMenu(false);
+    });
+
+    function showResults(show) { results.classList.toggle('is-visible', show); }
+
+    if (window.SimpleJekyllSearch) {
+      window.SimpleJekyllSearch({
+        searchInput: input,
+        resultsContainer: results,
+        json: '/Natulib/search.json',
+        searchResultTemplate: '<li><a href="{url}">{title}</a></li>',
+        noResultsText: '<li class="no-result">Aucun résultat</li>',
+        limit: 8
+      });
+      input.addEventListener('input', function () { showResults(input.value.length > 0); });
+      input.addEventListener('focus', function () { if (input.value.length > 0) showResults(true); });
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest('.nav-search')) showResults(false);
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      showResults(false);
+      setMenu(false);
+    });
+
+    // Tableaux Markdown : enveloppe défilante (largeur minimale au-delà de 4 colonnes)
+    Array.prototype.forEach.call(document.querySelectorAll('.markdown-body table'), function (table) {
+      if (table.parentNode.classList.contains('table-scroll')) return;
+      var wrap = document.createElement('div');
+      wrap.className = 'table-scroll';
+      if (table.rows.length && table.rows[0].cells.length > 4) wrap.classList.add('is-wide');
+      table.parentNode.insertBefore(wrap, table);
+      wrap.appendChild(table);
+    });
+  })();
+  </script>
 </body>
 </html>

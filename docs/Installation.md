@@ -8,7 +8,7 @@ has_children: true
 
 ### 📋 Choisir une méthode
 
-*   **[Web Flasher](./installation/web-flasher.md)** — Installer le firmware d'origine en un clic depuis votre navigateur.
+*   **[Web Flasher](./installation/web-flasher.html)** — Installer le firmware d'origine en un clic depuis votre navigateur.
 *   **[Installation PlatformIO](./installation/platformio.md)** — Cloner, compiler et téléverser le code source manuellement (`main.cpp`).
 
 ---

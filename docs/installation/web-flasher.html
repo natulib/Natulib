@@ -14,7 +14,6 @@ title: Installer Natulib OS
     --btn: #1f2328;
     --btn-text: #ffffff;
     --btn-hover: #3b434b;
-    --panel-max: 36rem;
     overflow-wrap: break-word;
   }
   @media (prefers-color-scheme: dark) {
@@ -31,14 +30,14 @@ title: Installer Natulib OS
   }
 
   .flasher h1 { margin: 0 0 0.75rem; font-size: clamp(1.6rem, 5vw, 2.5rem); line-height: 1.15; letter-spacing: -0.01em; }
-  .flasher p { margin: 0 0 1rem; max-width: 65ch; }
+  .flasher p { margin: 0 0 1rem; }
   .flasher a { color: var(--link); }
   .flasher a:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; border-radius: 2px; }
   .flasher .lead { color: var(--muted); font-size: 1.05rem; }
 
   .flasher .notice {
     margin: 0 0 2rem; padding: 0.75rem 1rem;
-    border-left: 3px solid var(--warn); background: var(--surface); max-width: 65ch;
+    border-left: 3px solid var(--warn); background: var(--surface);
   }
 
   .flasher .browser-warning {
@@ -48,7 +47,7 @@ title: Installer Natulib OS
   .flasher .browser-warning[hidden] { display: none; }
 
   /* Sélecteur */
-  .flasher .picker { width: 100%; max-width: var(--panel-max); margin-bottom: 1.5rem; }
+  .flasher .picker { width: 100%; margin-bottom: 1.5rem; }
   .flasher .picker label { display: block; margin-bottom: 0.4rem; font-weight: 600; }
   .flasher .picker select {
     display: block; width: 100%; min-height: 48px; padding: 0.6rem 0.8rem;
@@ -62,7 +61,7 @@ title: Installer Natulib OS
   /* Fiche de la version choisie */
   .flasher .choice {
     display: flex; flex-direction: column; gap: 1rem;
-    width: 100%; max-width: var(--panel-max); margin-bottom: 2.5rem; padding: 1.5rem;
+    width: 100%; margin-bottom: 2.5rem; padding: 1.5rem;
     background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
   }
   .flasher .choice[hidden] { display: none; }
@@ -100,7 +99,6 @@ title: Installer Natulib OS
 
   .flasher .hint { color: var(--warn); font-size: 0.9rem; display: block; margin-top: 0.5rem; }
   .flasher h2.section { margin: 0 0 0.75rem; font-size: 1.15rem; }
-  .flasher .help { max-width: 65ch; }
   .flasher .help ul { margin: 0 0 1rem; padding-left: 1.25rem; }
   .flasher .help li { margin-bottom: 0.4rem; }
 

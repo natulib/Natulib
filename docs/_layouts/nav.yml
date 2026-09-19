@@ -1,0 +1,46 @@
+# Menu principal — source unique, utilisée par _includes/header.html
+# (donc par toutes les pages ET par web-flasher.html).
+#
+# url   : chemin de la page, sans le préfixe /Natulib
+# match : morceaux d'URL qui allument l'onglet (page + sous-pages)
+#         ex. Installation reste actif sur /installation/wifi.html
+
+- icon: "🏠"
+  title: Accueil
+  url: /
+  match: ["/"]
+
+- icon: "🚀"
+  title: Installation
+  url: /Installation.html
+  match: ["/Installation", "/installation/"]
+
+- icon: "🧱"
+  title: Modules
+  url: /Modules.html
+  match: ["/Modules", "/hardware/"]
+
+- icon: "🏗️"
+  title: Projets
+  url: /Projets.html
+  match: ["/Projets"]
+
+- icon: "🌱"
+  title: Recettes
+  url: /Recettes.html
+  match: ["/Recettes"]
+
+- icon: "🧠"
+  title: Natulib OS
+  url: /Natulib-OS.html
+  match: ["/Natulib-OS"]
+
+- icon: "🤝"
+  title: Contribuer
+  url: /Contribuer.html
+  match: ["/Contribuer"]
+
+- icon: "❓"
+  title: FAQ
+  url: /FAQ.html
+  match: ["/FAQ"]

@@ -1,18 +1,21 @@
+---
+layout: null
+title: Installer Natulib OS
+---
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Installer Natulib OS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+<title>Installer Natulib OS · Natulib</title>
 <link rel="icon" type="image/png" href="/Natulib/assets/natulib.png">
+<link rel="stylesheet" href="/Natulib/assets/css/site.css">
 <style>
-  :root {
-    color-scheme: light dark;
-    --bg: #ffffff;
-    --surface: #f6f8fa;
-    --border: #d0d7de;
-    --text: #1f2328;
-    --muted: #59636e;
+  /* --- Styles propres au flasher (le menu et la base viennent de site.css) --- */
+  .flasher {
     --fw: #0969da;
     --ota: #8cb8ee;
     --fs: #1a7f37;
@@ -21,15 +24,9 @@
     --btn: #1f2328;
     --btn-text: #ffffff;
     --btn-hover: #3b434b;
-    --focus: #0969da;
   }
   @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #0d1117;
-      --surface: #161b22;
-      --border: #30363d;
-      --text: #e6edf3;
-      --muted: #9198a1;
+    .flasher {
       --fw: #4493f8;
       --ota: #2a5a99;
       --fs: #3fb950;
@@ -38,113 +35,14 @@
       --btn: #e6edf3;
       --btn-text: #0d1117;
       --btn-hover: #ffffff;
-      --focus: #4493f8;
     }
   }
 
-  * { box-sizing: border-box; }
-
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-    line-height: 1.6;
-  }
-
-  /* --- STYLES DU MENU ET FOOTER --- */
-  .header-logo { text-align: center; margin: 30px 0 10px; }
-  .header-logo img { max-height: 80px; border-radius: 12px; }
-
-  .nav-wrapper {
-    position: relative;
-    margin: 0 auto 40px auto;
-    max-width: 56rem;
-    padding: 0 1.25rem;
-  }
-
-  .simple-nav-container {
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-    overflow-x: auto;
-    white-space: nowrap;
-    scrollbar-width: none;
-  }
-  .simple-nav-container::-webkit-scrollbar { display: none; }
-  
-  .simple-nav-link {
-    color: var(--text);
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    padding-bottom: 4px;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s ease;
-  }
-  .simple-nav-link:hover, .simple-nav-link.active {
-    color: var(--fs);
-    border-bottom: 2px solid var(--fs);
-  }
-
-  .inline-search-input {
-    width: 32px; height: 32px; padding: 0;
-    border: 1px solid transparent; border-radius: 16px;
-    background-color: transparent; font-size: 15px;
-    color: var(--text); outline: none; cursor: pointer;
-    transition: all 0.3s ease; flex-shrink: 0; text-align: center;
-  }
-  .inline-search-input::placeholder { color: var(--text); }
-  .inline-search-input:focus, .inline-search-input:not(:placeholder-shown) {
-    width: 150px; background-color: var(--surface);
-    border: 1px solid var(--border); padding: 0 12px;
-    text-align: left; cursor: text;
-  }
-  .inline-search-input:focus::placeholder { color: transparent; }
-
-  .search-results {
-    position: absolute; top: 100%; right: 1.25rem;
-    width: 280px; max-width: calc(100% - 2.5rem);
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: 8px; margin-top: -10px; padding: 0;
-    list-style: none; box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    z-index: 100; display: none; text-align: left; overflow: hidden;
-  }
-  .search-results li a {
-    display: block; padding: 12px 18px; color: var(--text);
-    text-decoration: none; border-bottom: 1px solid var(--surface);
-    line-height: 1.4;
-  }
-  .search-results li a:hover { background-color: var(--surface); color: var(--fs); }
-  .search-results li:last-child a { border-bottom: none; }
-
-  .footer-links {
-    margin: 60px auto 40px; padding: 25px 1.25rem 0;
-    border-top: 1px solid var(--border); max-width: 56rem;
-    display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;
-  }
-  .footer-links a {
-    color: var(--muted); font-size: 14px;
-    text-decoration: none; font-weight: 500; transition: color 0.2s ease;
-  }
-  .footer-links a:hover { color: var(--fs); }
-
-  /* --- STYLES DU FLASHER --- */
-  main {
-    max-width: 56rem;
-    margin: 0 auto;
-    padding: 0 1.25rem;
-  }
-
-  h1 { margin: 0 0 0.75rem; font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.15; letter-spacing: -0.01em; }
-  p { margin: 0 0 1rem; max-width: 65ch; }
+  .flasher h1 { margin: 0 0 0.75rem; font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.15; letter-spacing: -0.01em; }
+  .flasher p { margin: 0 0 1rem; max-width: 65ch; }
+  .flasher a { color: var(--link); }
+  .flasher a:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; border-radius: 2px; }
   .lead { color: var(--muted); font-size: 1.05rem; }
-  a { color: var(--fw); }
-  a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
 
   .notice {
     margin: 0 0 2rem; padding: 0.75rem 1rem;
@@ -186,46 +84,30 @@
 
   .install { margin-top: auto; padding-top: 0.5rem; }
   .btn {
-    font: inherit; font-weight: 600; padding: 0.7rem 1.2rem;
+    font: inherit; font-weight: 600; min-height: 46px; padding: 0.7rem 1.2rem;
     border: 0; border-radius: 6px; background: var(--btn);
     color: var(--btn-text); cursor: pointer; width: 100%; text-align: center;
   }
   .btn:hover { background: var(--btn-hover); }
-  .btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .btn:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
 
   .hint { color: var(--warn); font-size: 0.9rem; display: block; margin-top: 0.5rem; }
-  h2.section { margin: 0 0 0.75rem; font-size: 1.15rem; }
+  .flasher h2.section { margin: 0 0 0.75rem; font-size: 1.15rem; }
   .help { max-width: 65ch; }
   .help ul { margin: 0 0 1rem; padding-left: 1.25rem; }
   .help li { margin-bottom: 0.4rem; }
+
+  @media (max-width: 599px) {
+    .choice { padding: 1.25rem; }
+  }
 </style>
 </head>
 <body>
 
-  <!-- EN-TÊTE LOGO -->
-  <div class="header-logo">
-    <img src="/Natulib/assets/natulib.png" alt="Logo Natulib">
-  </div>
-  
-  <!-- MENU DE NAVIGATION -->
-  <div class="nav-wrapper">
-    <div class="simple-nav-container">
-      <a href="/Natulib/" class="simple-nav-link">🏠 Accueil</a>
-      <a href="/Natulib/Installation.html" class="simple-nav-link active">🚀 Installation</a>
-      <a href="/Natulib/Modules.html" class="simple-nav-link">🧱 Modules</a>
-      <a href="/Natulib/Projets.html" class="simple-nav-link">🏗️ Projets</a>
-      <a href="/Natulib/Recettes.html" class="simple-nav-link">🌱 Recettes</a>
-      <a href="/Natulib/Natulib-OS.html" class="simple-nav-link">🧠 Natulib OS</a>
-      <a href="/Natulib/Contribuer.html" class="simple-nav-link">🤝 Contribuer</a>
-      <a href="/Natulib/FAQ.html" class="simple-nav-link">❓ FAQ</a>
-      
-      <input type="text" id="search-input" class="inline-search-input" placeholder="🔍">
-    </div>
-    <ul id="results-container" class="search-results"></ul>
-  </div>
+  {% include header.html %}
 
   <!-- CONTENU PRINCIPAL (FLASHER) -->
-  <main>
+  <main id="contenu" class="page-container flasher">
     <h1>Installer Natulib OS</h1>
     <p class="lead">Branchez votre carte en USB-C, choisissez la version qui correspond à sa mémoire, puis cliquez sur Installer.</p>
 
@@ -300,16 +182,11 @@
         <li>L’écriture échoue en cours de route : maintenez le bouton BOOT de la carte enfoncé quelques secondes après avoir cliqué sur Installer, puis relâchez.</li>
         <li>Vous changez de version (8 Mo vers 16 Mo ou l’inverse) : cochez l’option d’effacement de l’appareil quand elle est proposée, car la répartition de la mémoire change.</li>
       </ul>
-      <p>Pour compiler depuis les sources, consultez l’<a href="installation/platformio.html">installation PlatformIO</a>.</p>
+      <p>Pour compiler depuis les sources, consultez l’<a href="/Natulib/installation/platformio.html">installation PlatformIO</a>.</p>
     </section>
   </main>
 
-  <!-- PIED DE PAGE -->
-  <div class="footer-links">
-    <a href="https://discord.gg/3Xs3HmphJk" target="_blank">💬 Discord</a>
-    <a href="https://www.youtube.com/@Natulib" target="_blank">🎥 YouTube</a>
-    <a href="https://github.com/natulib/Natulib" target="_blank">🔗 GitHub</a>
-  </div>
+  {% include footer.html %}
 
   <!-- SCRIPTS FLASHER -->
   <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
@@ -317,33 +194,6 @@
     if (!('serial' in navigator)) {
       document.getElementById('browser-warning').hidden = false;
     }
-  </script>
-
-  <!-- SCRIPTS RECHERCHE -->
-  <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
-  <script>
-    var sjs = SimpleJekyllSearch({
-      searchInput: document.getElementById('search-input'),
-      resultsContainer: document.getElementById('results-container'),
-      json: '/Natulib/search.json',
-      searchResultTemplate: '<li><a href="{url}">{title}</a></li>',
-      noResultsText: '<li style="padding: 12px 18px; color: var(--muted);">Aucun résultat</li>'
-    });
-
-    var searchInput = document.getElementById('search-input');
-    var resultsContainer = document.getElementById('results-container');
-    
-    searchInput.addEventListener('input', function() {
-      resultsContainer.style.display = this.value.length > 0 ? 'block' : 'none';
-    });
-    
-    document.addEventListener('click', function(e) {
-      if (e.target !== searchInput) {
-        resultsContainer.style.display = 'none';
-      } else if (searchInput.value.length > 0) {
-        resultsContainer.style.display = 'block';
-      }
-    });
   </script>
 </body>
 </html>

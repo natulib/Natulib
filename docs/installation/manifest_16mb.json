@@ -1,6 +1,6 @@
 {
   "name": "Natulib OS (16 Mo)",
-  "version": "0.346",
+  "version": "0.347",
   "new_install_prompt_erase": true,
   "builds": [
     {

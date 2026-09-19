@@ -1,15 +1,12 @@
 {
   "name": "Natulib OS (16 Mo)",
-  "version": "1.0.0",
+  "version": "0.346",
   "new_install_prompt_erase": true,
   "builds": [
     {
       "chipFamily": "ESP32-C6",
       "parts": [
-        { "path": "16mb/bootloader.bin", "offset": 0 },
-        { "path": "16mb/partitions.bin", "offset": 32768 },
-        { "path": "16mb/boot_app0.bin",  "offset": 57344 },
-        { "path": "16mb/firmware.bin",   "offset": 65536 }
+        { "path": "firmware/natulib-os-16mb.bin", "offset": 0 }
       ]
     }
   ]

@@ -1,12 +1,12 @@
 {
-  "name": "Natulib OS (8 Mo)",
+  "name": "Natulib OS (16 Mo Zigbee)",
   "version": "1.0.0",
   "new_install_prompt_erase": true,
   "builds": [
     {
       "chipFamily": "ESP32-C6",
       "parts": [
-        { "path": "firmware/natulib-os-8mb.bin", "offset": 0 }
+        { "path": "firmware/natulib-os-16mb-zigbee.bin", "offset": 0 }
       ]
     }
   ]

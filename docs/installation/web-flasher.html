@@ -67,6 +67,10 @@ title: Installer Natulib OS
   }
   .flasher .choice[hidden] { display: none; }
   .flasher .choice h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; margin: 0; font-size: 1.3rem; line-height: 1.3; }
+  .flasher .choice .note {
+    padding: 0.6rem 0.8rem; border-left: 3px solid var(--warn);
+    background: var(--bg); color: var(--text); font-size: 0.9rem;
+  }
   .flasher .tag { font-size: 0.85rem; font-weight: 600; color: var(--fs); }
   .flasher .choice p { margin: 0; color: var(--muted); font-size: 0.95rem; }
 
@@ -118,6 +122,7 @@ title: Installer Natulib OS
   <p class="notice">
     Repérez la référence gravée sur le blindage métallique du module ESP32-C6 : <strong>N16</strong> pour 16 Mo, <strong>N8</strong> pour 8 Mo.
     Ne flashez pas une version prévue pour plus de mémoire que celle de votre carte : elle risquerait de ne pas démarrer.
+    La version 16 Mo est présélectionnée : vérifiez la référence de votre carte avant d’installer.
     En cas de doute, choisissez la version 8 Mo : elle fonctionne sur les deux cartes.
   </p>
 
@@ -127,9 +132,7 @@ title: Installer Natulib OS
 
   <div class="picker">
     <label for="release-select">Version à installer</label>
-    <select id="release-select" aria-controls="release-details">
-      <option value="" selected disabled>Choisissez votre version…</option>
-    </select>
+    <select id="release-select" aria-controls="release-details"></select>
   </div>
 
   <section id="release-details" class="choice" aria-live="polite" hidden></section>
@@ -162,39 +165,43 @@ title: Installer Natulib OS
        badge     (facultatif) petite mention verte
        desc      description en HTML
        manifest  fichier manifest ESP Web Tools
+       note      (facultatif) remarque affichée dans un encadré
        map       (facultatif) répartition de la mémoire ; masquée si absente
                  cls : fw | ota | fs | sys   flex : largeur relative
                  name/size : ligne de légende (sans name = segment non listé)
      ============================================================ */
+  var MAP_16 = [
+    { cls: 'fw',  flex: 3,    name: 'Firmware',                     size: '3 Mo' },
+    { cls: 'ota', flex: 3,    name: 'Copie pour la mise à jour',    size: '3 Mo' },
+    { cls: 'fs',  flex: 9.86, name: 'Fichiers et données',          size: '9,9 Mo' },
+    { cls: 'sys', flex: 0.14 }
+  ];
+
   var RELEASES = [
     {
       id: '16', group: '16 Mo (module N16)', label: 'Standard',
       title: 'Version 16 Mo', badge: 'recommandée',
       desc: 'Cartes ESP32-C6-WROOM-1-N16, dont la <a href="/Natulib/hardware/NL-001A-ESP32-C6-N16.html">NL-001A</a>.',
       manifest: 'manifest_16mb.json',
-      map: [
-        { cls: 'fw',  flex: 3,    name: 'Firmware',                     size: '3 Mo' },
-        { cls: 'ota', flex: 3,    name: 'Copie pour la mise à jour',    size: '3 Mo' },
-        { cls: 'fs',  flex: 9.86, name: 'Fichiers et données',          size: '9,9 Mo' },
-        { cls: 'sys', flex: 0.14 }
-      ]
+      map: MAP_16
     },
     {
       id: '16-zigbee', group: '16 Mo (module N16)', label: 'Zigbee',
       title: 'Version 16 Mo Zigbee',
-      desc: 'Cartes ESP32-C6-WROOM-1-N16 uniquement. Variante avec Zigbee.', /* TODO : précisez ce que change cette variante */
-      manifest: 'manifest_16mb_zigbee.json'
-      /* TODO : ajoutez "map" avec la répartition réelle de la mémoire */
+      desc: 'Cartes ESP32-C6-WROOM-1-N16, dont la <a href="/Natulib/hardware/NL-001A-ESP32-C6-N16.html">NL-001A</a>.',
+      note: 'Compatible avec les appareils Zigbee, mais avec moins de RAM disponible que la version Standard.',
+      manifest: 'manifest_16mb_zigbee.json',
+      map: MAP_16
     },
     {
       id: '8', group: '8 Mo (module N8)', label: 'Standard',
       title: 'Version 8 Mo',
-      desc: 'Cartes ESP32-C6-WROOM-1-N8. Sur une carte 16 Mo, elle fonctionne mais n’exploite que les 8 premiers Mo.',
+      desc: 'Cartes ESP32-C6-WROOM-1-N8. Même firmware et même espace de mise à jour que la version 16 Mo, avec moins d’espace pour les fichiers. Sur une carte 16 Mo, elle fonctionne mais n’exploite que les 8 premiers Mo.',
       manifest: 'manifest_8mb.json',
       map: [
-        { cls: 'fw',  flex: 2.5,  name: 'Firmware',                     size: '2,5 Mo' },
-        { cls: 'ota', flex: 2.5,  name: 'Copie pour la mise à jour',    size: '2,5 Mo' },
-        { cls: 'fs',  flex: 2.86, name: 'Fichiers et données',          size: '2,9 Mo' },
+        { cls: 'fw',  flex: 3,    name: 'Firmware',                     size: '3 Mo' },
+        { cls: 'ota', flex: 3,    name: 'Copie pour la mise à jour',    size: '3 Mo' },
+        { cls: 'fs',  flex: 1.86, name: 'Fichiers et données',          size: '1,9 Mo' },
         { cls: 'sys', flex: 0.14 }
       ]
     }
@@ -240,6 +247,7 @@ title: Installer Natulib OS
     details.appendChild(h2);
 
     var p = el('p'); p.innerHTML = r.desc; details.appendChild(p);
+    if (r.note) details.appendChild(el('p', 'note', r.note));
 
     if (r.map) {
       var listed = r.map.filter(function (s) { return s.name; });
@@ -291,13 +299,13 @@ title: Installer Natulib OS
     } catch (e) { /* sans importance */ }
   });
 
-  /* --- Lien direct : ?v=16-zigbee --- */
+  /* --- Version affichée au chargement : ?v=16-zigbee, sinon la 16 Mo --- */
+  var initial = '16';
   try {
     var wanted = new URLSearchParams(window.location.search).get('v');
-    if (wanted && RELEASES.some(function (r) { return r.id === wanted; })) {
-      select.value = wanted;
-      show(wanted);
-    }
+    if (wanted && RELEASES.some(function (r) { return r.id === wanted; })) initial = wanted;
   } catch (e) { /* sans importance */ }
+  select.value = initial;
+  show(initial);
 })();
 </script>

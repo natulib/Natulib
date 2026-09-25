@@ -174,7 +174,7 @@ has_children: true
 
 <div class="catalog-page">
   <h1>🧱 Modules</h1>
-  <p class="lead">Les modules sont les briques matérielles réutilisables de Natulib[cite: 1]. Utilisez la recherche ou filtrez par catégorie ci-dessous[cite: 1].</p>
+  <p class="lead">Les modules sont les briques matérielles réutilisables de Natulib. Utilisez la recherche ou filtrez par catégorie ci-dessous.</p>
 
   <div class="catalog-toolbar">
     <div class="search-box-wrapper">
@@ -265,15 +265,15 @@ has_children: true
 
   <section class="docs-section">
     <h2>🔌 GPIO et brochage</h2>
-    <p>Chaque fiche module propose un <strong>GPIO recommandé</strong> pour un montage isolé[cite: 1].</p>
-    <p>Dans une station réelle, plusieurs modules partagent l'ESP32-C6[cite: 1]. Le câblage final est documenté projet par projet dans la section <a href="{{ '/Projets.html' | relative_url }}">Projets</a>[cite: 1] :</p>
+    <p>Chaque fiche module propose un <strong>GPIO recommandé</strong> pour un montage isolé.</p>
+    <p>Dans une station réelle, plusieurs modules partagent l'ESP32-C6. Le câblage final est documenté projet par projet dans la section <a href="{{ '/Projets.html' | relative_url }}">Projets</a> :</p>
     <ul>
-      <li>Les périphériques <strong>I²C</strong> (BME280, BH1750, INA219, RTC) partagent nativement les broches SDA/SCL sans conflit d'adresse[cite: 1].</li>
-      <li>Les écrans et modules <strong>SPI</strong> partagent l'horloge et les données, mais exigent une broche CS distincte[cite: 1].</li>
+      <li>Les périphériques <strong>I²C</strong> (BME280, BH1750, INA219, RTC) partagent nativement les broches SDA/SCL sans conflit d'adresse.</li>
+      <li>Les écrans et modules <strong>SPI</strong> partagent l'horloge et les données, mais exigent une broche CS distincte.</li>
     </ul>
 
     <div class="notice-box">
-      <strong>⚡ Sécurité électrique :</strong> Les broches de l'ESP32-C6 tolèrent <strong>3,3 V maximum</strong>[cite: 1]. Utilisez toujours un commutateur de puissance (<a href="{{ '/hardware/NL-401A-PowerSwitch.html' | relative_url }}">NL-401A</a>[cite: 1] ou <a href="{{ '/hardware/NL-402A-Mosfet-PWM.html' | relative_url }}">NL-402A</a>[cite: 1]) pour alimenter moteurs, relais ou rubans LED[cite: 1].
+      <strong>⚡ Sécurité électrique :</strong> Les broches de l'ESP32-C6 tolèrent <strong>3,3 V maximum</strong>. Utilisez toujours un commutateur de puissance (<a href="{{ '/hardware/NL-401A-PowerSwitch.html' | relative_url }}">NL-401A</a> ou <a href="{{ '/hardware/NL-402A-Mosfet-PWM.html' | relative_url }}">NL-402A</a>) pour alimenter moteurs, relais ou rubans LED.
     </div>
   </section>
 </div>
@@ -321,7 +321,6 @@ has_children: true
         if (clickedCat === 'all') {
           activeCategory = 'all';
         } else {
-          // Si déjà actif, on désélectionne et on revient à "all"
           if (activeCategory === clickedCat) {
             activeCategory = 'all';
           } else {

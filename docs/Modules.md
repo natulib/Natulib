@@ -33,27 +33,28 @@ has_children: true
   .catalog-page h1 { margin: 0 0 0.5rem; font-size: clamp(1.6rem, 5vw, 2.2rem); }
   .catalog-page .lead { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 1.25rem; }
 
-  /* Barre d'outils : Recherche et Filtres */
+  /* Barre d'outils sur une seule ligne */
   .catalog-page .catalog-toolbar {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 12px;
     margin-bottom: 1.5rem;
-    padding: 14px;
+    padding: 10px 14px;
     background: var(--bg-muted);
     border: 1px solid var(--border-color);
     border-radius: 8px;
+    overflow-x: auto;
+    white-space: nowrap;
   }
 
   .catalog-page .search-box-wrapper {
     position: relative;
-    width: 100%;
-    max-width: 480px;
+    flex: 0 0 260px;
   }
   .catalog-page .table-search-input {
     width: 100%;
-    padding: 8px 36px 8px 12px;
-    font-size: 0.9rem;
+    padding: 6px 32px 6px 10px;
+    font-size: 0.85rem;
     border: 1px solid var(--border-color);
     border-radius: 6px;
     background: var(--bg-surface);
@@ -67,11 +68,11 @@ has_children: true
   }
   .catalog-page .search-icon {
     position: absolute;
-    right: 10px;
+    right: 8px;
     top: 50%;
     transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     color: var(--text-muted);
     pointer-events: none;
   }
@@ -81,20 +82,14 @@ has_children: true
 
   .catalog-page .filters-bar {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     gap: 6px;
-  }
-  .catalog-page .filters-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    margin-right: 4px;
+    flex: 1 1 auto;
   }
   .catalog-page .filter-btn {
     display: inline-block;
-    padding: 4px 12px;
-    font-size: 0.82rem;
+    padding: 4px 10px;
+    font-size: 0.8rem;
     font-weight: 500;
     border-radius: 20px;
     border: 1px solid var(--border-color);
@@ -134,7 +129,7 @@ has_children: true
     display: none;
   }
 
-  /* Tableau et élargissement de la colonne Module */
+  /* Tableau */
   .catalog-page .table-responsive {
     width: 100%;
     overflow-x: auto;
@@ -169,20 +164,19 @@ has_children: true
   }
   .catalog-page .nowrap { white-space: nowrap; }
 
-  /* Élargissement de la colonne Module */
+  /* Colonne Module élargie */
   .catalog-page th.col-module,
   .catalog-page td.col-module {
-    min-width: 220px;
-    width: 22%;
+    min-width: 240px;
+    width: 30%;
     white-space: normal;
   }
 
-  /* Masqué quand exclu par la recherche JS */
+  /* Masqué par le filtre texte */
   .catalog-page tr.is-hidden-by-search {
     display: none !important;
   }
 
-  /* Sections complémentaires */
   .catalog-page .docs-section {
     margin-top: 2rem;
     padding-top: 1.5rem;
@@ -202,7 +196,7 @@ has_children: true
 
 <div class="catalog-page">
   <h1>🧱 Modules</h1>
-  <p class="lead">Les modules sont les briques matérielles réutilisables de Natulib. Utilisez la recherche ou filtrez par famille ci-dessous.</p>
+  <p class="lead">Les modules sont les briques matérielles réutilisables de Natulib. Utilisez la recherche ou filtrez par catégorie ci-dessous[cite: 1].</p>
 
   <!-- Radios de sélection de famille -->
   <input type="radio" name="catalog-cat" id="f-all" class="filter-radio" checked>
@@ -214,27 +208,26 @@ has_children: true
   <input type="radio" name="catalog-cat" id="f-enclosures" class="filter-radio">
   <input type="radio" name="catalog-cat" id="f-connectivity" class="filter-radio">
 
-  <!-- Barre combinée : recherche + boutons -->
+  <!-- Barre d'outils sur une ligne -->
   <div class="catalog-toolbar">
     <div class="search-box-wrapper">
-      <input type="text" id="table-search-box" class="table-search-input" placeholder="Rechercher un module (ex: BME280, I2C, Soudure, NL-201...)" autocomplete="off">
+      <input type="text" id="table-search-box" class="table-search-input" placeholder="Rechercher un module…" autocomplete="off">
       <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
     </div>
 
     <div class="filters-bar">
-      <span class="filters-label">Famille :</span>
       <label for="f-all" class="filter-btn">Tous</label>
-      <label for="f-core" class="filter-btn">🔴 Core (000)</label>
-      <label for="f-displays" class="filter-btn">📺 Displays (100)</label>
-      <label for="f-sensors" class="filter-btn">🌡️ Sensors (200)</label>
-      <label for="f-actuators" class="filter-btn">⚡ Actuators (300)</label>
-      <label for="f-power" class="filter-btn">🔋 Power (400)</label>
-      <label for="f-enclosures" class="filter-btn">📦 Enclosures (500)</label>
-      <label for="f-connectivity" class="filter-btn">📡 Connectivity (600)</label>
+      <label for="f-core" class="filter-btn">🔴 Core</label>
+      <label for="f-displays" class="filter-btn">📺 Displays</label>
+      <label for="f-sensors" class="filter-btn">🌡️ Sensors</label>
+      <label for="f-actuators" class="filter-btn">⚡ Actuators</label>
+      <label for="f-power" class="filter-btn">🔋 Power</label>
+      <label for="f-enclosures" class="filter-btn">📦 Enclosures</label>
+      <label for="f-connectivity" class="filter-btn">📡 Connectivity</label>
     </div>
   </div>
 
-  <!-- Tableau avec colonne Module élargie -->
+  <!-- Tableau sans la colonne Description -->
   <div class="table-responsive">
     <table id="modules-table">
       <thead>
@@ -248,7 +241,6 @@ has_children: true
           <th>Temps</th>
           <th>Niveau</th>
           <th style="text-align: right;">Prix</th>
-          <th>Description</th>
         </tr>
       </thead>
       <tbody>
@@ -297,7 +289,6 @@ has_children: true
                 {% endcase %}
               </td>
               <td style="text-align: right;" class="nowrap">{% if mod.prix %}~{{ mod.prix }} €{% else %}—{% endif %}</td>
-              <td>{{ mod.description | default: mod.excerpt | strip_html | strip_newlines | truncate: 120 }}</td>
             </tr>
           {% endunless %}
         {% endfor %}
@@ -307,15 +298,15 @@ has_children: true
 
   <section class="docs-section">
     <h2>🔌 GPIO et brochage</h2>
-    <p>Chaque fiche module propose un <strong>GPIO recommandé</strong> pour un montage isolé.</p>
-    <p>Dans une station réelle, plusieurs modules partagent l'ESP32-C6. Le câblage final est documenté projet par projet dans la section <a href="{{ '/Projets.html' | relative_url }}">Projets</a> :</p>
+    <p>Chaque fiche module propose un <strong>GPIO recommandé</strong> pour un montage isolé[cite: 1].</p>
+    <p>Dans une station réelle, plusieurs modules partagent l'ESP32-C6[cite: 1]. Le câblage final est documenté projet par projet dans la section <a href="{{ '/Projets.html' | relative_url }}">Projets</a>[cite: 1] :</p>
     <ul>
-      <li>Les périphériques <strong>I²C</strong> (BME280, BH1750, INA219, RTC) partagent nativement les broches SDA/SCL sans conflit d'adresse.</li>
-      <li>Les écrans et modules <strong>SPI</strong> partagent l'horloge et les données, mais exigent une broche CS distincte.</li>
+      <li>Les périphériques <strong>I²C</strong> (BME280, BH1750, INA219, RTC) partagent nativement les broches SDA/SCL sans conflit d'adresse[cite: 1].</li>
+      <li>Les écrans et modules <strong>SPI</strong> partagent l'horloge et les données, mais exigent une broche CS distincte[cite: 1].</li>
     </ul>
 
     <div class="notice-box">
-      <strong>⚡ Sécurité électrique :</strong> Les broches de l'ESP32-C6 tolèrent <strong>3,3 V maximum</strong>. Utilisez toujours un commutateur de puissance (<a href="{{ '/hardware/NL-401A-PowerSwitch.html' | relative_url }}">NL-401A</a> ou <a href="{{ '/hardware/NL-402A-Mosfet-PWM.html' | relative_url }}">NL-402A</a>) pour alimenter moteurs, relais ou rubans LED.
+      <strong>⚡ Sécurité électrique :</strong> Les broches de l'ESP32-C6 tolèrent <strong>3,3 V maximum</strong>[cite: 1]. Utilisez toujours un commutateur de puissance (<a href="{{ '/hardware/NL-401A-PowerSwitch.html' | relative_url }}">NL-401A</a>[cite: 1] ou <a href="{{ '/hardware/NL-402A-Mosfet-PWM.html' | relative_url }}">NL-402A</a>[cite: 1]) pour alimenter moteurs, relais ou rubans LED[cite: 1].
     </div>
   </section>
 </div>

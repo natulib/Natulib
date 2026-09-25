@@ -33,28 +33,27 @@ has_children: true
   .catalog-page h1 { margin: 0 0 0.5rem; font-size: clamp(1.6rem, 5vw, 2.2rem); }
   .catalog-page .lead { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 1.25rem; }
 
-  /* Barre d'outils sur une seule ligne */
+  /* Barre d'outils verticale compacte */
   .catalog-page .catalog-toolbar {
     display: flex;
-    align-items: center;
-    gap: 12px;
+    flex-direction: column;
+    gap: 10px;
     margin-bottom: 1.5rem;
-    padding: 10px 14px;
+    padding: 12px;
     background: var(--bg-muted);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    overflow-x: auto;
-    white-space: nowrap;
   }
 
+  /* Recherche au-dessus */
   .catalog-page .search-box-wrapper {
     position: relative;
-    flex: 0 0 260px;
+    width: 100%;
   }
   .catalog-page .table-search-input {
     width: 100%;
-    padding: 6px 32px 6px 10px;
-    font-size: 0.85rem;
+    padding: 8px 36px 8px 12px;
+    font-size: 0.9rem;
     border: 1px solid var(--border-color);
     border-radius: 6px;
     background: var(--bg-surface);
@@ -68,23 +67,23 @@ has_children: true
   }
   .catalog-page .search-icon {
     position: absolute;
-    right: 8px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
-    width: 15px;
-    height: 15px;
+    width: 16px;
+    height: 16px;
     color: var(--text-muted);
     pointer-events: none;
   }
 
-  /* Filtres par boutons */
+  /* Filtres par boutons en dessous */
   .catalog-page .filter-radio { display: none; }
 
   .catalog-page .filters-bar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 6px;
-    flex: 1 1 auto;
   }
   .catalog-page .filter-btn {
     display: inline-block;
@@ -98,6 +97,7 @@ has_children: true
     cursor: pointer;
     user-select: none;
     transition: background 0.15s ease, border-color 0.15s ease;
+    white-space: nowrap;
   }
   .catalog-page .filter-btn:hover {
     border-color: var(--primary);
@@ -164,15 +164,15 @@ has_children: true
   }
   .catalog-page .nowrap { white-space: nowrap; }
 
-  /* Colonne Module élargie */
+  /* Espace dédié pour le nom du module */
   .catalog-page th.col-module,
   .catalog-page td.col-module {
     min-width: 240px;
-    width: 30%;
+    width: 32%;
     white-space: normal;
   }
 
-  /* Masqué par le filtre texte */
+  /* Masqué par la recherche */
   .catalog-page tr.is-hidden-by-search {
     display: none !important;
   }
@@ -196,7 +196,7 @@ has_children: true
 
 <div class="catalog-page">
   <h1>🧱 Modules</h1>
-  <p class="lead">Les modules sont les briques matérielles réutilisables de Natulib. Utilisez la recherche ou filtrez par catégorie ci-dessous[cite: 1].</p>
+  <p class="lead">Les modules sont les briques matérielles réutilisables de Natulib[cite: 1]. Utilisez la recherche ou filtrez par catégorie ci-dessous[cite: 1].</p>
 
   <!-- Radios de sélection de famille -->
   <input type="radio" name="catalog-cat" id="f-all" class="filter-radio" checked>
@@ -208,26 +208,26 @@ has_children: true
   <input type="radio" name="catalog-cat" id="f-enclosures" class="filter-radio">
   <input type="radio" name="catalog-cat" id="f-connectivity" class="filter-radio">
 
-  <!-- Barre d'outils sur une ligne -->
+  <!-- Barre d'outils : Recherche au-dessus, catégories optimisées en dessous -->
   <div class="catalog-toolbar">
     <div class="search-box-wrapper">
-      <input type="text" id="table-search-box" class="table-search-input" placeholder="Rechercher un module…" autocomplete="off">
+      <input type="text" id="table-search-box" class="table-search-input" placeholder="Rechercher un module (référence, nom, interface, soudure…)" autocomplete="off">
       <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
     </div>
 
     <div class="filters-bar">
       <label for="f-all" class="filter-btn">Tous</label>
-      <label for="f-core" class="filter-btn">🔴 Core</label>
-      <label for="f-displays" class="filter-btn">📺 Displays</label>
-      <label for="f-sensors" class="filter-btn">🌡️ Sensors</label>
-      <label for="f-actuators" class="filter-btn">⚡ Actuators</label>
-      <label for="f-power" class="filter-btn">🔋 Power</label>
-      <label for="f-enclosures" class="filter-btn">📦 Enclosures</label>
-      <label for="f-connectivity" class="filter-btn">📡 Connectivity</label>
+      <label for="f-core" class="filter-btn">🔴 Core (000)</label>
+      <label for="f-displays" class="filter-btn">📺 Displays (100)</label>
+      <label for="f-sensors" class="filter-btn">🌡️ Sensors (200)</label>
+      <label for="f-actuators" class="filter-btn">⚡ Actuators (300)</label>
+      <label for="f-power" class="filter-btn">🔋 Power (400)</label>
+      <label for="f-enclosures" class="filter-btn">📦 Enclosures (500)</label>
+      <label for="f-connectivity" class="filter-btn">📡 Connectivity (600)</label>
     </div>
   </div>
 
-  <!-- Tableau sans la colonne Description -->
+  <!-- Tableau épuré -->
   <div class="table-responsive">
     <table id="modules-table">
       <thead>

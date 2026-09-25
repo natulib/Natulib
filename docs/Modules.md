@@ -33,7 +33,7 @@ has_children: true
   .catalog-page h1 { margin: 0 0 0.5rem; font-size: clamp(1.6rem, 5vw, 2.2rem); }
   .catalog-page .lead { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 1.25rem; }
 
-  /* Barre d'outils verticale compacte */
+  /* Barre d'outils */
   .catalog-page .catalog-toolbar {
     display: flex;
     flex-direction: column;
@@ -45,7 +45,7 @@ has_children: true
     border-radius: 8px;
   }
 
-  /* Recherche au-dessus */
+  /* Recherche */
   .catalog-page .search-box-wrapper {
     position: relative;
     width: 100%;
@@ -76,9 +76,7 @@ has_children: true
     pointer-events: none;
   }
 
-  /* Filtres par boutons en dessous */
-  .catalog-page .filter-radio { display: none; }
-
+  /* Boutons de filtres */
   .catalog-page .filters-bar {
     display: flex;
     flex-wrap: wrap;
@@ -102,31 +100,11 @@ has_children: true
   .catalog-page .filter-btn:hover {
     border-color: var(--primary);
   }
-
-  /* État actif des boutons */
-  .catalog-page #f-all:checked ~ .catalog-toolbar label[for="f-all"],
-  .catalog-page #f-core:checked ~ .catalog-toolbar label[for="f-core"],
-  .catalog-page #f-displays:checked ~ .catalog-toolbar label[for="f-displays"],
-  .catalog-page #f-sensors:checked ~ .catalog-toolbar label[for="f-sensors"],
-  .catalog-page #f-actuators:checked ~ .catalog-toolbar label[for="f-actuators"],
-  .catalog-page #f-power:checked ~ .catalog-toolbar label[for="f-power"],
-  .catalog-page #f-enclosures:checked ~ .catalog-toolbar label[for="f-enclosures"],
-  .catalog-page #f-connectivity:checked ~ .catalog-toolbar label[for="f-connectivity"] {
+  .catalog-page .filter-btn.is-active {
     background: var(--primary);
     color: #ffffff;
     border-color: var(--primary);
     font-weight: 600;
-  }
-
-  /* Masquage CSS selon catégorie sélectionnée */
-  .catalog-page #f-core:checked ~ .table-responsive tr.mod-row:not(.cat-core),
-  .catalog-page #f-displays:checked ~ .table-responsive tr.mod-row:not(.cat-displays),
-  .catalog-page #f-sensors:checked ~ .table-responsive tr.mod-row:not(.cat-sensors),
-  .catalog-page #f-actuators:checked ~ .table-responsive tr.mod-row:not(.cat-actuators),
-  .catalog-page #f-power:checked ~ .table-responsive tr.mod-row:not(.cat-power),
-  .catalog-page #f-enclosures:checked ~ .table-responsive tr.mod-row:not(.cat-enclosures),
-  .catalog-page #f-connectivity:checked ~ .table-responsive tr.mod-row:not(.cat-connectivity) {
-    display: none;
   }
 
   /* Tableau */
@@ -164,7 +142,7 @@ has_children: true
   }
   .catalog-page .nowrap { white-space: nowrap; }
 
-  /* Espace dédié pour le nom du module */
+  /* Colonne Module élargie */
   .catalog-page th.col-module,
   .catalog-page td.col-module {
     min-width: 240px;
@@ -172,8 +150,8 @@ has_children: true
     white-space: normal;
   }
 
-  /* Masqué par la recherche */
-  .catalog-page tr.is-hidden-by-search {
+  /* Masquage des lignes filtrées */
+  .catalog-page tr.is-hidden {
     display: none !important;
   }
 
@@ -196,38 +174,27 @@ has_children: true
 
 <div class="catalog-page">
   <h1>🧱 Modules</h1>
-  <p class="lead">Les modules sont les briques matérielles réutilisables de Natulib. Utilisez la recherche ou filtrez par catégorie ci-dessous.</p>
+  <p class="lead">Les modules sont les briques matérielles réutilisables de Natulib[cite: 1]. Utilisez la recherche ou filtrez par catégorie ci-dessous[cite: 1].</p>
 
-  <!-- Radios de sélection de famille -->
-  <input type="radio" name="catalog-cat" id="f-all" class="filter-radio" checked>
-  <input type="radio" name="catalog-cat" id="f-core" class="filter-radio">
-  <input type="radio" name="catalog-cat" id="f-displays" class="filter-radio">
-  <input type="radio" name="catalog-cat" id="f-sensors" class="filter-radio">
-  <input type="radio" name="catalog-cat" id="f-actuators" class="filter-radio">
-  <input type="radio" name="catalog-cat" id="f-power" class="filter-radio">
-  <input type="radio" name="catalog-cat" id="f-enclosures" class="filter-radio">
-  <input type="radio" name="catalog-cat" id="f-connectivity" class="filter-radio">
-
-  <!-- Barre d'outils : Recherche au-dessus, catégories optimisées en dessous -->
   <div class="catalog-toolbar">
     <div class="search-box-wrapper">
       <input type="text" id="table-search-box" class="table-search-input" placeholder="Rechercher un module (référence, nom, interface, soudure…)" autocomplete="off">
       <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
     </div>
 
-    <div class="filters-bar">
-      <label for="f-all" class="filter-btn">Tous</label>
-      <label for="f-core" class="filter-btn">🔴 Core (000)</label>
-      <label for="f-displays" class="filter-btn">📺 Displays (100)</label>
-      <label for="f-sensors" class="filter-btn">🌡️ Sensors (200)</label>
-      <label for="f-actuators" class="filter-btn">⚡ Actuators (300)</label>
-      <label for="f-power" class="filter-btn">🔋 Power (400)</label>
-      <label for="f-enclosures" class="filter-btn">📦 Enclosures (500)</label>
-      <label for="f-connectivity" class="filter-btn">📡 Connectivity (600)</label>
+    <!-- Boutons de filtrage avec bascule (toggle) -->
+    <div class="filters-bar" id="filters-container">
+      <button type="button" class="filter-btn is-active" data-cat="all">Tous</button>
+      <button type="button" class="filter-btn" data-cat="core">🔴 Core (000)</button>
+      <button type="button" class="filter-btn" data-cat="displays">📺 Displays (100)</button>
+      <button type="button" class="filter-btn" data-cat="sensors">🌡️ Sensors (200)</button>
+      <button type="button" class="filter-btn" data-cat="actuators">⚡ Actuators (300)</button>
+      <button type="button" class="filter-btn" data-cat="power">🔋 Power (400)</button>
+      <button type="button" class="filter-btn" data-cat="enclosures">📦 Enclosures (500)</button>
+      <button type="button" class="filter-btn" data-cat="connectivity">📡 Connectivity (600)</button>
     </div>
   </div>
 
-  <!-- Tableau épuré -->
   <div class="table-responsive">
     <table id="modules-table">
       <thead>
@@ -247,7 +214,7 @@ has_children: true
         {% assign modules = site.pages | where_exp: "item", "item.path contains 'hardware/'" | sort: "ref" %}
         {% for mod in modules %}
           {% unless mod.ref == nil or mod.ref contains 'xxx' or mod.path contains 'TEMPLATE' %}
-            <tr class="mod-row cat-{{ mod.famille | downcase }}">
+            <tr class="mod-row" data-famille="{{ mod.famille | downcase }}">
               <td class="nowrap"><a href="{{ mod.url | relative_url }}"><strong>{{ mod.ref }}</strong></a></td>
               <td class="nowrap">
                 {% case mod.famille %}
@@ -298,15 +265,15 @@ has_children: true
 
   <section class="docs-section">
     <h2>🔌 GPIO et brochage</h2>
-    <p>Chaque fiche module propose un <strong>GPIO recommandé</strong> pour un montage isolé.</p>
-    <p>Dans une station réelle, plusieurs modules partagent l'ESP32-C6. Le câblage final est documenté projet par projet dans la section <a href="{{ '/Projets.html' | relative_url }}">Projets</a> :</p>
+    <p>Chaque fiche module propose un <strong>GPIO recommandé</strong> pour un montage isolé[cite: 1].</p>
+    <p>Dans une station réelle, plusieurs modules partagent l'ESP32-C6[cite: 1]. Le câblage final est documenté projet par projet dans la section <a href="{{ '/Projets.html' | relative_url }}">Projets</a>[cite: 1] :</p>
     <ul>
-      <li>Les périphériques <strong>I²C</strong> (BME280, BH1750, INA219, RTC) partagent nativement les broches SDA/SCL sans conflit d'adresse.</li>
-      <li>Les écrans et modules <strong>SPI</strong> partagent l'horloge et les données, mais exigent une broche CS distincte.</li>
+      <li>Les périphériques <strong>I²C</strong> (BME280, BH1750, INA219, RTC) partagent nativement les broches SDA/SCL sans conflit d'adresse[cite: 1].</li>
+      <li>Les écrans et modules <strong>SPI</strong> partagent l'horloge et les données, mais exigent une broche CS distincte[cite: 1].</li>
     </ul>
 
     <div class="notice-box">
-      <strong>⚡ Sécurité électrique :</strong> Les broches de l'ESP32-C6 tolèrent <strong>3,3 V maximum</strong>. Utilisez toujours un commutateur de puissance (<a href="{{ '/hardware/NL-401A-PowerSwitch.html' | relative_url }}">NL-401A</a> ou <a href="{{ '/hardware/NL-402A-Mosfet-PWM.html' | relative_url }}">NL-402A</a>) pour alimenter moteurs, relais ou rubans LED.
+      <strong>⚡ Sécurité électrique :</strong> Les broches de l'ESP32-C6 tolèrent <strong>3,3 V maximum</strong>[cite: 1]. Utilisez toujours un commutateur de puissance (<a href="{{ '/hardware/NL-401A-PowerSwitch.html' | relative_url }}">NL-401A</a>[cite: 1] ou <a href="{{ '/hardware/NL-402A-Mosfet-PWM.html' | relative_url }}">NL-402A</a>[cite: 1]) pour alimenter moteurs, relais ou rubans LED[cite: 1].
     </div>
   </section>
 </div>
@@ -314,21 +281,61 @@ has_children: true
 <script>
   (function () {
     var searchInput = document.getElementById('table-search-box');
-    var rows = document.querySelectorAll('#modules-table tbody tr.mod-row');
+    var rows = Array.from(document.querySelectorAll('#modules-table tbody tr.mod-row'));
+    var filterBtns = Array.from(document.querySelectorAll('#filters-container .filter-btn'));
+    var allBtn = document.querySelector('#filters-container [data-cat="all"]');
+    var activeCategory = 'all';
 
-    if (!searchInput || !rows.length) return;
-
-    searchInput.addEventListener('input', function () {
-      var query = this.value.trim().toLowerCase();
+    function applyFilters() {
+      var query = searchInput ? searchInput.value.trim().toLowerCase() : '';
 
       rows.forEach(function (row) {
-        var text = row.textContent.toLowerCase();
-        if (query === '' || text.indexOf(query) !== -1) {
-          row.classList.remove('is-hidden-by-search');
+        var rowCat = row.getAttribute('data-famille') || '';
+        var rowText = row.textContent.toLowerCase();
+
+        var matchesCategory = (activeCategory === 'all' || rowCat === activeCategory);
+        var matchesSearch = (query === '' || rowText.indexOf(query) !== -1);
+
+        if (matchesCategory && matchesSearch) {
+          row.classList.remove('is-hidden');
         } else {
-          row.classList.add('is-hidden-by-search');
+          row.classList.add('is-hidden');
         }
       });
+    }
+
+    function setActiveBtn(cat) {
+      filterBtns.forEach(function (btn) {
+        if (btn.getAttribute('data-cat') === cat) {
+          btn.classList.add('is-active');
+        } else {
+          btn.classList.remove('is-active');
+        }
+      });
+    }
+
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var clickedCat = this.getAttribute('data-cat');
+
+        if (clickedCat === 'all') {
+          activeCategory = 'all';
+        } else {
+          // Si déjà actif, on désélectionne et on revient à "all"
+          if (activeCategory === clickedCat) {
+            activeCategory = 'all';
+          } else {
+            activeCategory = clickedCat;
+          }
+        }
+
+        setActiveBtn(activeCategory);
+        applyFilters();
+      });
     });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', applyFilters);
+    }
   })();
 </script>

@@ -197,7 +197,7 @@ has_children: true
       <tbody>
         {% assign modules = site.pages | where_exp: "item", "item.path contains 'hardware/'" | sort: "ref" %}
         {% for mod in modules %}
-          {% if mod.ref %}
+          {% unless mod.ref == nil or mod.ref contains 'xxx' or mod.path contains 'TEMPLATE' %}
             <tr class="mod-row cat-{{ mod.famille | downcase }}">
               <td class="nowrap"><a href="{{ mod.url | relative_url }}"><strong>{{ mod.ref }}</strong></a></td>
               <td class="nowrap">
@@ -242,7 +242,7 @@ has_children: true
               <td style="text-align: right;" class="nowrap">{% if mod.prix %}~{{ mod.prix }} €{% else %}—{% endif %}</td>
               <td>{{ mod.description | default: mod.excerpt | strip_html | strip_newlines | truncate: 120 }}</td>
             </tr>
-          {% endif %}
+          {% endunless %}
         {% endfor %}
       </tbody>
     </table>

@@ -1,28 +1,41 @@
 ---
-description: "Piège électrique activé par détection."
-layout: doc
+layout: projet
 title: "Harpe électrique tueuse de frelons"
-parent: Projets
 ref: PRJ-001
+parent: Projets
+description: "Projet de dispositif de protection des ruches, avec commande Natulib OS et surveillance environnementale."
 statut: planifie
 niveau: avance
-temps: ~3 heures
+temps: "~3 heures"
+# Une photo réelle du projet pourra être ajoutée plus tard :
+# image: /assets/projects/harpe-electrique-frelons/photo-principale.webp
+# images:
+#   - fichier: /assets/projects/harpe-electrique-frelons/photo-principale.webp
+#     titre: Vue d’ensemble du prototype
+capacites:
+  - "🐝 Protection du rucher"
+  - "☀️ Lumière du jour"
+  - "🌧️ Détection de pluie"
+  - "⚡ Suivi énergétique"
+modules:
+  - ref: NL-001A
+    nom: ESP32-C6
+    url: /modules/NL-001A-ESP32-C6-N16.html
+  - ref: NL-207A
+    nom: INA219
+    url: /modules/NL-207A-Capteur-courant-INA219.html
+  - ref: NL-202A
+    nom: BH1750
+    url: /modules/NL-202A-BH1750.html
+  - ref: NL-208A
+    nom: Capteur de pluie
+    url: /modules/NL-208A-Capteur-pluie.html
+  - ref: NL-402A
+    nom: MOSFET D4184
+    url: /modules/NL-402A-Mosfet-PWM.html
 ---
 
----
-title: "Harpe électrique tueuse de frelons"
-parent: Projets
-ref: PRJ-001
-statut: planifie
-niveau: avance
-temps: ~3 heures
----
-
-# 🐝⚡ Harpe électrique tueuse de frelons
-
----
-
-## 1. 👀 Présentation
+## Présentation
 
 ### Rôle et fonctionnement
 La harpe électrique est un maillage de fils conducteurs parallèles alternés, porté à une haute tension (1 500 à 2 000 V) sous faible courant. Au passage d'un frelon asiatique (_Vespa velutina_) entre deux fils, un arc électrique se forme et neutralise l'insecte.
@@ -41,18 +54,18 @@ L'étage haute tension repose sur un module booster (entrée 3,0 à 4,2 V). Natu
 
 ---
 
-## 2. 🛒 Matériel nécessaire
+## Matériel nécessaire
 
 ### Modules Natulib & Électronique
 
 | Composant | Qté | Référence / Fiche Module | Rôle et remarques |
 | :--- | :---: | :--- | :--- |
 | **Microcontrôleur** | 1 | [NL-001A — ESP32-C6 N16](../hardware/NL-001A-ESP32-C6-N16.md) | Cerveau logique, exécute Natulib OS |
-| **Mesure d'énergie HT** | 1 | [NL-207A — INA219](../hardware/NL-207A-Capteur-courant-INA219.md) | Adresse `0x40` (`energie_harpe`), placé **après** le régulateur 3,8 V[cite: 1, 2, 7] |
-| **Mesure batterie (Mode B)** | 1 | [NL-207A — INA219](../hardware/NL-207A-Capteur-courant-INA219.md) | Option solaire : adresse `0x41` (pont A0 soudé), sur le rail 12 V[cite: 1, 2, 7] |
-| **Capteur de lumière** | 1 | [NL-202A — BH1750](../hardware/NL-202A-BH1750.md) | Adresse `0x23` (`soleil_lux`, broche `ADDR` reliée à `GND`)[cite: 1, 2, 4] |
+| **Mesure d'énergie HT** | 1 | [NL-207A — INA219](../hardware/NL-207A-Capteur-courant-INA219.md) | Adresse `0x40` (`energie_harpe`), placé **après** le régulateur 3,8 V |
+| **Mesure batterie (Mode B)** | 1 | [NL-207A — INA219](../hardware/NL-207A-Capteur-courant-INA219.md) | Option solaire : adresse `0x41` (pont A0 soudé), sur le rail 12 V |
+| **Capteur de lumière** | 1 | [NL-202A — BH1750](../hardware/NL-202A-BH1750.md) | Adresse `0x23` (`soleil_lux`, broche `ADDR` reliée à `GND`) |
 | **Capteur de pluie** | 1 | [NL-208A — Capteur de pluie](../hardware/NL-208A-Capteur-pluie.md) | Id `meteo_pluie`, sortie analogique `AO` utilisée |
-| **Commutation puissance** | 1 | [NL-402A — MOSFET D4184](../hardware/NL-402A-Mosfet-PWM.md) | Commutation low-side du booster (`GPIO 21`), placé **après** l'INA219[cite: 1, 2, 6] |
+| **Commutation puissance** | 1 | [NL-402A — MOSFET D4184](../hardware/NL-402A-Mosfet-PWM.md) | Commutation low-side du booster (`GPIO 21`), placé **après** l'INA219 |
 | **Horloge RTC (Option)** | 1 | DS3231 Mini (`0x68`) | Maintien de l'heure haute précision (TCXO ±2 ppm) hors Wi-Fi |
 | **Buck 5 V** | 1 | Buck 5 V fixe (Vin 5–30 V) | Alimente l'ESP32-C6 depuis le rail 12 V |
 | **Régulateur 3,8 V** | 1 | Buck réglable sans voyant (~75 mW) | Fixe la tension d'entrée du booster (≤ 4,0 V), toujours alimenté |
@@ -77,7 +90,7 @@ L'étage haute tension repose sur un module booster (entrée 3,0 à 4,2 V). Natu
 
 ---
 
-## 3. 🛠️ Architecture et montage
+## Architecture et montage
 
 ### Alimentation : deux modes sur un rail 12 V unique
 - **Mode A (Actuel — Banc / Secteur)** : Bloc secteur 12 V régulé.
@@ -152,7 +165,7 @@ Toutes les masses de puissance et de logique convergent vers un unique bornier W
     - Monter le condensateur céramique **100 nF (104)** en parallèle au plus près de l'entrée du booster (isoler les pattes à la gaine thermorétractable).
     - Raccorder les deux fils haute tension isolés vers la grille de la harpe.
 
-## 4. ✅ Mise en service et vérifications
+## ✅ Mise en service et vérifications
 
 Respecter scrupuleusement cet ordre de validation avant de mettre la grille sous haute tension :
 
@@ -169,38 +182,38 @@ Respecter scrupuleusement cet ordre de validation avant de mettre la grille sous
     - _Critère de validation_ : Remontée fluide de `energie_harpe`, `soleil_lux` et `meteo_pluie`, zéro erreur I²C et zéro reboot intempestif de l'ESP32.
 
 4. **Essai du booster à vide (sans la harpe)** :
-    - Couper l'alimentation, brancher le booster seul dans sa boîte HT fermée (sorties HT isolées en l'air)[cite: 1, 2].
-    - Remettre sous tension, déclencher le tir et vérifier que la tension d'entrée lue par `energie_harpe` ne dépasse jamais **4,0 V**[cite: 1, 2].
-    - Relever la **puissance à vide** (`power_mw`, typiquement ~450 à 500 mW) et paramétrer le seuil de coupure de la **Règle 1 (Anti-collage)** à environ **2 × cette valeur** (ex. 750 à 950 mW)[cite: 1, 2].
+    - Couper l'alimentation, brancher le booster seul dans sa boîte HT fermée (sorties HT isolées en l'air).
+    - Remettre sous tension, déclencher le tir et vérifier que la tension d'entrée lue par `energie_harpe` ne dépasse jamais **4,0 V**.
+    - Relever la **puissance à vide** (`power_mw`, typiquement ~450 à 500 mW) et paramétrer le seuil de coupure de la **Règle 1 (Anti-collage)** à environ **2 × cette valeur** (ex. 750 à 950 mW).
         
-    - Bloquer définitivement la vis du potentiomètre du régulateur avec une goutte de vernis[cite: 1, 2].
+    - Bloquer définitivement la vis du potentiomètre du régulateur avec une goutte de vernis.
         
 5. **Validation fonctionnelle des sécurités (Conditions d'arrêt)** :
     
-    - Masquer le BH1750 (≤ 50 lux) → la sortie `extracteur_air` doit passer immédiatement à `OFF`[cite: 1, 2].
+    - Masquer le BH1750 (≤ 50 lux) → la sortie `extracteur_air` doit passer immédiatement à `OFF`.
         
-    - Humidifier le capteur de pluie (`raw` ≤ 2400) → la sortie doit passer immédiatement à `OFF`[cite: 1, 2].
+    - Humidifier le capteur de pluie (`raw` ≤ 2400) → la sortie doit passer immédiatement à `OFF`.
         
 6. **Raccordement final de la harpe** :
     
-    - Basculer l'interrupteur physique MTS-102 sur `OFF`, raccorder la grille de la harpe, refermer les boîtiers et enclencher l'interrupteur[cite: 1, 2].
+    - Basculer l'interrupteur physique MTS-102 sur `OFF`, raccorder la grille de la harpe, refermer les boîtiers et enclencher l'interrupteur.
         
-    - Valider plusieurs heures en Mode A avant tout déploiement en Mode B (solaire/batterie)[cite: 1, 2].
+    - Valider plusieurs heures en Mode A avant tout déploiement en Mode B (solaire/batterie).
         
 
-## 5. 📐 Documentation technique avancée
+## 📐 Documentation technique avancée
 
 ### Plan de brochage complet (ESP32-C6)
 
 |**Signal**|**Broche ESP32-C6**|**Périphérique cible**|**Spécification électrique**|
 |---|---|---|---|
-|**I²C SDA**|`GPIO 6`|INA219 (`0x40`), BH1750 (`0x23`), DS3231 (`0x68`)|Bus à 50 kHz, pull-ups internes aux modules (~6 kΩ équivalent)[cite: 1, 2]|
-|**I²C SCL**|`GPIO 7`|INA219 (`0x40`), BH1750 (`0x23`), DS3231 (`0x68`)|Bus à 50 kHz, 3,3 V strict[cite: 1, 2]|
-|**Commande MOSFET**|`GPIO 21`|Entrée `TRIG/PWM` du D4184|Sortie PWM (0 ou 100 %), pull-down **10 kΩ** vers `GND`<br><br>[cite: 1, 2]|
-|**Pluie Analogique**|`GPIO 3`|Sortie `AO` du capteur de pluie|Entrée ADC1, pull-down **1 MΩ** vers `GND`<br><br>[cite: 5]|
-|**Alimentation Logique**|`3V3` / `GND`|INA219, BH1750, Capteur de pluie|3,3 V max (retour `GND` dédié pour le capteur de pluie)[cite: 1, 2, 5]|
+|**I²C SDA**|`GPIO 6`|INA219 (`0x40`), BH1750 (`0x23`), DS3231 (`0x68`)|Bus à 50 kHz, pull-ups internes aux modules (~6 kΩ équivalent)|
+|**I²C SCL**|`GPIO 7`|INA219 (`0x40`), BH1750 (`0x23`), DS3231 (`0x68`)|Bus à 50 kHz, 3,3 V strict|
+|**Commande MOSFET**|`GPIO 21`|Entrée `TRIG/PWM` du D4184|Sortie PWM (0 ou 100 %), pull-down **10 kΩ** vers `GND`<br><br>|
+|**Pluie Analogique**|`GPIO 3`|Sortie `AO` du capteur de pluie|Entrée ADC1, pull-down **1 MΩ** vers `GND`<br><br>|
+|**Alimentation Logique**|`3V3` / `GND`|INA219, BH1750, Capteur de pluie|3,3 V max (retour `GND` dédié pour le capteur de pluie)|
 
-> ⛔ **Broches interdites sur ESP32-C6** : `GPIO 4, 5, 8, 9, 15` (strapping de boot), `GPIO 12, 13` (USB natif), `GPIO 16, 17` (UART0 console) et `GPIO 24 à 30` (Flash SPI interne)[cite: 1, 2, 3].
+> ⛔ **Broches interdites sur ESP32-C6** : `GPIO 4, 5, 8, 9, 15` (strapping de boot), `GPIO 12, 13` (USB natif), `GPIO 16, 17` (UART0 console) et `GPIO 24 à 30` (Flash SPI interne).
 
 ### Câblage déporté RJ45 (Standard T568B — Longueur max 3 m)
 
@@ -256,39 +269,39 @@ JSON
 ]
 ```
 
-> 💾 **Préservation de la mémoire Flash** : Avec une lecture toutes les 250 ms sur `energie_harpe`, ne jamais déclencher d'écriture LittleFS à chaque échantillon[cite: 1, 2]. Conserver le mécanisme de tampon RAM/RTC avec transfert différé par seuil.
+> 💾 **Préservation de la mémoire Flash** : Avec une lecture toutes les 250 ms sur `energie_harpe`, ne jamais déclencher d'écriture LittleFS à chaque échantillon. Conserver le mécanisme de tampon RAM/RTC avec transfert différé par seuil.
 
 ### Règles de Synapses (Matrice de sécurité)
 
-Toutes les conditions d'une ligne sont liées par un **ET logique**[cite: 1, 2] :
+Toutes les conditions d'une ligne sont liées par un **ET logique** :
 
 |**N°**|**Règle**|**Conditions d'activation**|**Action déclenchée**|
 |---|---|---|---|
-|**1**|**Anti-collage**|`energie_harpe.power_mw` > **750 mW** _(ou 2× P_vide)_ pendant **0,5 s** ET sortie active[cite: 1, 2]|`off_extracteur_air` (cooldown 5 s)[cite: 1, 2]|
-|**2**|**Allumage**|`energie_harpe.online` == **1**, `power_mw` < **600 mW** pendant **5 s**, sortie à l'arrêt, `voltage_v` ≤ **3,8 V**, `soleil_lux.lux` ≥ **60 lux**, `meteo_pluie.raw` > **2500**<br><br>[cite: 1, 2]|`pwm_100_extracteur_air` (cooldown 5 s)[cite: 1, 2]|
-|**3**|**INA219 muet**|`energie_harpe.online` == **0** ET sortie active[cite: 1, 2]|`off_extracteur_air`<br><br>[cite: 1, 2]|
-|**4**|**BH1750 muet**|`soleil_lux.online` == **0** ET sortie active[cite: 1, 2]|`off_extracteur_air`<br><br>[cite: 1, 2]|
-|**5**|**Nuit**|`soleil_lux.lux` ≤ **50 lux** ET sortie active[cite: 1, 2]|`off_extracteur_air`<br><br>[cite: 1, 2]|
-|**6**|**Surtension**|`energie_harpe.voltage_v` > **3,95 V** ET sortie active[cite: 1, 2]|`off_extracteur_air`<br><br>[cite: 1, 2]|
-|**7**|**Pluie**|`meteo_pluie.raw` ≤ **2400** ET sortie active[cite: 1, 2]|`off_extracteur_air`<br><br>[cite: 1, 2]|
+|**1**|**Anti-collage**|`energie_harpe.power_mw` > **750 mW** _(ou 2× P_vide)_ pendant **0,5 s** ET sortie active|`off_extracteur_air` (cooldown 5 s)|
+|**2**|**Allumage**|`energie_harpe.online` == **1**, `power_mw` < **600 mW** pendant **5 s**, sortie à l'arrêt, `voltage_v` ≤ **3,8 V**, `soleil_lux.lux` ≥ **60 lux**, `meteo_pluie.raw` > **2500**<br><br>|`pwm_100_extracteur_air` (cooldown 5 s)|
+|**3**|**INA219 muet**|`energie_harpe.online` == **0** ET sortie active|`off_extracteur_air`<br><br>|
+|**4**|**BH1750 muet**|`soleil_lux.online` == **0** ET sortie active|`off_extracteur_air`<br><br>|
+|**5**|**Nuit**|`soleil_lux.lux` ≤ **50 lux** ET sortie active|`off_extracteur_air`<br><br>|
+|**6**|**Surtension**|`energie_harpe.voltage_v` > **3,95 V** ET sortie active|`off_extracteur_air`<br><br>|
+|**7**|**Pluie**|`meteo_pluie.raw` ≤ **2400** ET sortie active|`off_extracteur_air`<br><br>|
 
 ### Guide de dépannage matériel (Options si symptômes)
 
 |**Symptôme constaté**|**Action corrective**|
 |---|---|
-|**Reboots de l'ESP32 sur les pics Wi-Fi**|Ajouter un condensateur **47 µF 16 V** (puis **470 µF 16 V** si besoin) sur le rail 5 V[cite: 1, 2]|
-|**Erreurs I²C pendant les tirs ou câble RJ45 long**|Ajouter deux résistances de pull-up de **4,7 kΩ** vers `3V3` sur `SDA` et `SCL` côté boîte BT ; en dernier recours, isoler `GPIO 21` par un optocoupleur (PC817)[cite: 1, 2]|
-|**Tension du régulateur 3,8 V qui dérive à vide**|Câbler une résistance permanente de **1 kΩ** en sortie du régulateur[cite: 1, 2]|
-|**Arc électrique trop faible sur la grille**|1. Vérifier qu'aucun condensateur chimique (47 µF) n'est présent à l'entrée du booster[cite: 1, 2].<br><br>  <br><br>2. Contrôler que la règle 1 ou 6 ne coupe pas le tir[cite: 1, 2].<br><br>  <br><br>3. Vérifier la tension en charge sur `energie_harpe` et raccourcir les deux fils (≥ 0,5 mm²) vers le booster[cite: 1, 2].|
+|**Reboots de l'ESP32 sur les pics Wi-Fi**|Ajouter un condensateur **47 µF 16 V** (puis **470 µF 16 V** si besoin) sur le rail 5 V|
+|**Erreurs I²C pendant les tirs ou câble RJ45 long**|Ajouter deux résistances de pull-up de **4,7 kΩ** vers `3V3` sur `SDA` et `SCL` côté boîte BT ; en dernier recours, isoler `GPIO 21` par un optocoupleur (PC817)|
+|**Tension du régulateur 3,8 V qui dérive à vide**|Câbler une résistance permanente de **1 kΩ** en sortie du régulateur|
+|**Arc électrique trop faible sur la grille**|1. Vérifier qu'aucun condensateur chimique (47 µF) n'est présent à l'entrée du booster.<br><br>  <br><br>2. Contrôler que la règle 1 ou 6 ne coupe pas le tir.<br><br>  <br><br>3. Vérifier la tension en charge sur `energie_harpe` et raccourcir les deux fils (≥ 0,5 mm²) vers le booster.|
 
 ### Historique des révisions
 
 |**Version**|**Évolution**|
 |---|---|
-|**A**|Première ébauche théorique du projet[cite: 1, 2]|
-|**B**|Passage sur ESP32-C6 et rail 12 V, brochage `GPIO 6/7` et `21`, révision des seuils de sécurité[cite: 1, 2]|
-|**C**|Régulateur 3,8 V placé avant le D4184 et alimenté en continu ; isolation du booster seul en boîte HT ; retrait du 1 000 µF sur le rail 5 V[cite: 1, 2]|
-|**D**|Validation au banc (Mode A) : INA219 déplacé après le régulateur ; suppression du 47 µF d'entrée booster (seul le 104 est conservé) ; bus I²C à 50 kHz ; asservissement BH1750 et capteur de pluie[cite: 1, 2]|
+|**A**|Première ébauche théorique du projet|
+|**B**|Passage sur ESP32-C6 et rail 12 V, brochage `GPIO 6/7` et `21`, révision des seuils de sécurité|
+|**C**|Régulateur 3,8 V placé avant le D4184 et alimenté en continu ; isolation du booster seul en boîte HT ; retrait du 1 000 µF sur le rail 5 V|
+|**D**|Validation au banc (Mode A) : INA219 déplacé après le régulateur ; suppression du 47 µF d'entrée booster (seul le 104 est conservé) ; bus I²C à 50 kHz ; asservissement BH1750 et capteur de pluie|
 |**E**|Structuration en 5 parties, optimisation veille Mode B (~75 mW sans voyant), plan de câblage RJ45 T568B anti-diaphonie, hystérésis des règles Synapses (lux/tension + `online == 1`) et maillage vers les fiches modules|
    
    

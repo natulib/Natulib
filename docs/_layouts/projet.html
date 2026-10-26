@@ -1,0 +1,39 @@
+---
+layout: default
+bare: true
+---
+<link rel="stylesheet" href="{{ '/assets/css/natulib-projet.css' | relative_url }}">
+<article class="nl-project" data-nl-module>
+  <nav class="nl-project-top" aria-label="Navigation du projet">
+    <a class="nl-project-back" href="{{ '/Projets.html' | relative_url }}" aria-label="Retour au catalogue des projets"><span aria-hidden="true">←</span> Retour aux projets</a>
+    <span class="nl-project-ref">{{ page.ref | escape }}</span>
+  </nav>
+  <header class="nl-project-hero">
+    <div class="nl-project-heading">
+      <p class="nl-project-kicker">Projet Natulib · {{ page.ref | escape }}</p>
+      <h1>{{ page.title | escape }}</h1>
+      {% if page.description %}<p class="nl-project-lead">{{ page.description | escape }}</p>{% endif %}
+      <div class="nl-project-status" aria-label="Informations rapides">
+        {% if page.statut %}<span>🔵 <strong>Statut</strong> {% case page.statut %}{% when 'planifie' %}Planifié{% when 'valide' %}Validé{% when 'test' %}En test{% else %}{{ page.statut | escape }}{% endcase %}</span>{% endif %}
+        {% if page.niveau %}<span>👤 <strong>Niveau</strong> {% case page.niveau %}{% when 'avance' %}Avancé{% when 'intermediaire' %}Intermédiaire{% when 'debutant' %}Débutant{% else %}{{ page.niveau | escape }}{% endcase %}</span>{% endif %}
+        {% if page.temps %}<span>⏱️ <strong>Durée estimée</strong> {{ page.temps | escape }}</span>{% endif %}
+      </div>
+    </div>
+    {% assign hero_image = page.image | default: page.cover | default: page.photo %}
+    {% if hero_image %}
+    <figure class="nl-project-cover"><img src="{{ hero_image | relative_url }}" alt="{{ page.title | escape }}" loading="eager"></figure>
+    {% else %}
+    <div class="nl-project-placeholder" role="note"><span aria-hidden="true">📷</span><strong>Photographie du projet</strong><small>À ajouter lors de la documentation du prototype</small></div>
+    {% endif %}
+  </header>
+  {% if page.capacites and page.capacites.size > 0 %}<div class="nl-project-capacities" aria-label="Fonctions du projet">{% for capacite in page.capacites %}<span>{{ capacite | escape }}</span>{% endfor %}</div>{% endif %}
+  <aside class="nl-project-caution" role="note"><strong>⚠️ Projet à haute tension — sécurité</strong><p>Ce projet comporte une source de haute tension potentiellement mortelle. La documentation correspond à un projet en évolution, pas à une procédure de construction certifiée. Ne pas réaliser de montage ou d'essai sous tension sans qualifications et protections adaptées.</p></aside>
+  {% if page.modules and page.modules.size > 0 %}
+  <section class="nl-project-modules"><h2>Modules Natulib associés</h2><div class="nl-project-module-links">{% for item in page.modules %}<a href="{{ item.url | relative_url }}"><strong>{{ item.ref | escape }}</strong> {{ item.nom | escape }} <span aria-hidden="true">↗</span></a>{% endfor %}</div></section>
+  {% endif %}
+  {% if page.images and page.images.size > 0 %}
+  <section class="nl-project-gallery" aria-label="Galerie du projet"><h2>Photos et illustrations</h2><div class="nl-gallery-view">{% for image in page.images %}<figure class="nl-gallery-slide" {% unless forloop.first %}hidden{% endunless %}><img src="{{ image.fichier | relative_url }}" alt="{{ image.alt | default: image.titre | default: page.title | escape }}" loading="lazy">{% if image.titre %}<figcaption>{{ image.titre | escape }}</figcaption>{% endif %}</figure>{% endfor %}</div>{% if page.images.size > 1 %}<div class="nl-gallery-thumbs">{% for image in page.images %}<button class="nl-gallery-thumb" type="button" data-slide="{{ forloop.index0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Afficher l'image {{ forloop.index }}">{{ forloop.index }}</button>{% endfor %}</div>{% endif %}</section>
+  {% endif %}
+  <section class="nl-project-documentation"><h2>Documentation du projet</h2><div class="nl-project-doc markdown-body" data-nl-document>{{ content }}</div></section>
+</article>
+<script defer src="{{ '/assets/js/natulib-module.js' | relative_url }}"></script>

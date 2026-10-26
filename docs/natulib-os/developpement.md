@@ -5,25 +5,26 @@ parent: Natulib OS
 statut: publie
 ---
 
-# 🧑‍💻 Système — Développement
+# 👨‍💻 Pour contribuer au code
 
-Pour s'y retrouver dans le code source du firmware :
+L'utilisateur de Natulib OS n'a pas besoin de compiler de code. Cette page sert uniquement à ceux qui veulent comprendre ou faire évoluer le firmware.
 
-| Fichier | Rôle |
+| Partie | Fichier principal |
 |---|---|
-| `main.cpp` | Démarrage de la station et boucle principale |
-| `natulib_devices.h` | Tous les drivers de capteurs et actionneurs — voir **[Drivers](./drivers.md)** |
-| `natulib_api.h` | Toutes les routes de l'API Web — voir **[API REST](./api.md)** |
-| `natulib_logic.h` | Le moteur d'automatisations — voir **[Automatisations](./automatisations.md)** |
-| `natulib_history.h` | L'historisation des mesures — voir **[Filesystem](./filesystem.md)** |
-| `natulib_network.h` | Wi-Fi, MQTT et requêtes sortantes |
-| `face_engine.h` | Le rendu des scènes affichées à l'écran |
+| Démarrage | `main.cpp` |
+| Modules et capteurs | `natulib_devices.h` |
+| Interface HTTP | `natulib_api.h` |
+| Synapses | `natulib_logic.h` |
+| Réseau | `natulib_network.h` |
+| Historique | `natulib_history.h` |
+| Diagnostics | `natulib_diagnostics.h` |
+| Affichage | `face_engine.h` |
 
-> 💡 Plusieurs fichiers du firmware contiennent en en-tête des consignes destinées à un assistant IA modifiant le code (invariants à respecter, signatures à ne pas casser…). Elles concernent le code C++ lui-même, pas cette documentation.
+Les fichiers d'interface web (HTML et JavaScript) sont également séparés du cœur C++.
+
+Pour proposer une amélioration : documenter le besoin, vérifier son fonctionnement, puis préciser les essais réalisés.
+
 
 ---
 
-## 🔗 Ressources
-
-- ⬅️ [Retour à 🧠 Natulib OS](../Natulib-OS.md)
-- 🤝 [Contribuer à cette page](../Contribuer.md)
+[⬅️ Retour à Natulib OS](../Natulib-OS.md)

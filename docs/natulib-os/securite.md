@@ -1,24 +1,25 @@
 ---
 layout: doc
-title: "Système — Sécurité"
+title: "Système — Maintenance et sécurité"
 parent: Natulib OS
 statut: publie
 ---
 
-# 🛡️ Système — Sécurité
+# 🛡️ Maintenance et sécurité
 
-Ce qu'il faut savoir avant d'exposer sa station en dehors d'un réseau local de confiance.
+L'onglet **Maintenance** regroupe les outils utiles pour vérifier l'état d'une station, consulter les diagnostics et mettre à jour le firmware.
 
-- **L'authentification web ne protège que la page d'accueil.** Si vous activez `use_auth` dans la configuration, un mot de passe est demandé sur `/` — mais pas sur les routes `/api/*`. Toute personne sur le réseau local peut donc appeler l'API sans identifiants. Ne pas exposer la station directement sur internet sans passer par un accès distant sécurisé (VPN, reverse-proxy avec sa propre authentification…).
-- **Un seul transfert de fichier à la fois.** Que ce soit un flash OTA, une sauvegarde matérielle ou un upload, un verrou global évite que deux écritures se marchent dessus et corrompent la Flash.
-- **Le flash de firmware a un garde-fou.** Natulib OS vérifie que le binaire envoyé correspond à la taille de Flash réelle de la puce et à la variante du firmware (avec ou sans Zigbee) avant de l'installer, pour limiter le risque de brique. Ce contrôle peut être forcé si nécessaire.
-- **Les chemins sensibles sont protégés.** Impossible d'écraser `config.json` ou `hardware.json` par un simple upload, ni d'écrire en dehors du dossier de données via un chemin `..`.
-- **Le watchdog matériel est désactivé par défaut.** Il peut être activé dans la configuration pour redémarrer automatiquement la station en cas de blocage logiciel.
+Quelques règles simples :
+
+- Couper l'alimentation avant de modifier le câblage.
+- Utiliser une alimentation compatible avec les modules et les sorties.
+- Tester une automatisation avec une charge sans danger avant de commander une pompe ou un circuit de puissance.
+- Sauvegarder sa configuration avant une opération importante.
+- **Ne pas exposer directement la station sur Internet** : la protection de l'interface web ne constitue pas à elle seule une protection complète de toutes les routes API.
+
+La console et les outils de diagnostic peuvent aider à comprendre une absence de mesure ou une erreur de communication.
+
 
 ---
 
-## 🔗 Ressources
-
-- ⬅️ [Retour à 🧠 Natulib OS](../Natulib-OS.md)
-- ⚙️ [Fonctionnement — API REST](./api.md)
-- 🤝 [Contribuer à cette page](../Contribuer.md)
+[⬅️ Retour à Natulib OS](../Natulib-OS.md)

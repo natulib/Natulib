@@ -5,33 +5,25 @@ parent: Natulib OS
 statut: publie
 ---
 
-# 🖥️ Fonctionnement — Interface Web
+# 🖥️ Interface web
 
-Natulib OS embarque sa propre interface Web (servie directement par la station, sans compte ni cloud). C'est elle qui permet de configurer une station sans écrire de JSON à la main. Disponible en français, anglais et espagnol.
-
-## 🗂️ Les onglets du tableau de bord
+Natulib OS se pilote dans un navigateur, depuis un ordinateur ou un téléphone connecté à la station. Pas besoin de programmer l'ESP32 pour ajouter un module ou une recette.
 
 | Onglet | À quoi il sert |
 |---|---|
-| **🏠 Tableau de bord** | Avatar animé en direct, état biologique, télémétrie en temps réel, graphique d'historique. |
-| **🎨 Studio** | Éditeur du visage affiché à l'écran : profils multiples, mode *Simulateur* (curseurs température/humidité/luminosité pour prévisualiser les réactions), mode *Scènes* (calques empilés), gestionnaire d'images (recadrage et conversion au format écran), export/import de profils à partager. |
-| **🔌 Hardware** | L'écran d'installation du matériel : choix de la carte, catalogue d'organes à ajouter avec leur guide de câblage, configuration de chaque module, sauvegarde/restauration complète de la configuration matérielle. C'est l'équivalent visuel des fichiers `/dev/*.json` décrits dans **[Drivers](./drivers.md)**. |
-| **⚡ Synapses** | L'éditeur visuel des automatisations : construction d'une règle (Quand / Et que / Alors), import de recettes toutes faites, création de variables internes (« Helpers »). Correspond au moteur décrit dans **[Automatisations](./automatisations.md)**. |
-| **📡 Réseau & Cloud** | Configuration Wi-Fi, MQTT et services externes. |
-| **💾 Fichiers** | Parcours et gestion du système de fichiers LittleFS. |
-| **🛠️ Maintenance** | Redémarrage, réinitialisation, mise à jour du firmware (OTA). |
-| **💻 Console** | Journal des logs de la station en direct. |
+| **Accueil** | Consulter les mesures, les états et l'historique. |
+| **Hardware** | Ajouter un module, choisir ses connexions et ajuster sa configuration. |
+| **Synapses** | Créer des règles et importer des recettes d'automatisation. |
+| **Studio** | Personnaliser l'affichage et les scènes. |
+| **Réseau & Cloud** | Configurer le Wi-Fi et, si souhaité, MQTT. |
+| **Fichiers** | Consulter et gérer les fichiers de la station. |
+| **Maintenance** | Examiner l'état système et réaliser les mises à jour. |
+| **Console** | Voir les messages utiles pour le dépannage. |
 
-## 🧭 API Explorer
+La traduction est disponible en français, anglais et espagnol. **API Explorer** est également accessible séparément pour les utilisateurs avancés.
 
-Une page séparée, accessible sur `/explorer`, permet de tester chaque route de l'**[API REST](./api.md)** directement depuis le navigateur — utile pour découvrir l'API sans écrire de code.
+👉 Pour un premier essai, suivez la [fiche BME280](../modules/NL-201A-BME280.md).
 
 ---
 
-## 🔗 Ressources
-
-- ⬅️ [Retour à 🧠 Natulib OS](../Natulib-OS.md)
-- 🔌 [Matériel — Drivers](./drivers.md)
-- ⚙️ [Fonctionnement — Automatisations](./automatisations.md)
-- ⚙️ [Fonctionnement — API REST](./api.md)
-- 🤝 [Contribuer à cette page](../Contribuer.md)
+[⬅️ Retour à Natulib OS](../Natulib-OS.md)

@@ -1,22 +1,24 @@
 ---
 layout: doc
-title: "Système — Réseau"
+title: "Communication — Réseau"
 parent: Natulib OS
 statut: publie
 ---
 
-# 📡 Système — Réseau
+# 📡 Réseau et communications
 
-- **Wi-Fi avec repli automatique.** Au démarrage, la station essaie de rejoindre le réseau enregistré. Si elle n'y arrive pas, elle crée son propre point d'accès (`NATULIB-<id>`, sans mot de passe, à l'adresse `192.168.4.1`) pour rester configurable depuis un téléphone ou un ordinateur.
-- **MQTT optionnel.** Une fois activé avec l'adresse d'un broker, la station peut publier ses mesures et recevoir des commandes. Les automatisations peuvent aussi publier sur un topic de votre choix (voir **[Automatisations](./automatisations.md)**).
-- **Suivi en direct dans l'interface Web** via une connexion WebSocket, limitée à 3 onglets ouverts simultanément.
-- **Actions HTTP sortantes** : une automatisation peut appeler une URL externe (webhook, service tiers…) sans bloquer le reste de la station.
+Une station Natulib peut fonctionner localement. Le réseau sert à accéder à l'interface, consulter les mesures et, si nécessaire, communiquer avec d'autres services.
+
+- **Wi-Fi** : connecter la station au réseau domestique.
+- **Point d'accès** : retrouver un accès de configuration lorsque la station n'est pas connectée au réseau habituel.
+- **MQTT (optionnel)** : envoyer des mesures vers un serveur domotique et, selon la configuration, échanger des commandes.
+- **API et WebSocket** : accès aux informations depuis d'autres logiciels ou depuis l'interface.
+
+**Précaution :** ne pas exposer directement l'ESP32 sur Internet. Le transport MQTT sans TLS ne chiffre pas les échanges ; la signature des commandes ne remplace pas cette protection.
+
+La configuration se fait dans **Réseau & Cloud**.
+
 
 ---
 
-## 🔗 Ressources
-
-- ⬅️ [Retour à 🧠 Natulib OS](../Natulib-OS.md)
-- ⚙️ [Fonctionnement — Automatisations](./automatisations.md)
-- 🛡️ [Système — Sécurité](./securite.md)
-- 🤝 [Contribuer à cette page](../Contribuer.md)
+[⬅️ Retour à Natulib OS](../Natulib-OS.md)

@@ -1,116 +1,32 @@
 ---
-layout: hub
 title: Natulib OS
-bare: true
-rubrique: Natulib · documentation
-hero_title: Natulib OS
-intro: Le système embarqué qui relie modules, mesures, automatisations, actionneurs et interface utilisateur.
-cartes_titre: Explorer Natulib OS
-cartes:
-- icone: 🖥️
-  titre: Interface Web
-  description: Studio, Hardware, Synapses et API Explorer.
-  url: /natulib-os/interface.html
-- icone: 🏛️
-  titre: Architecture
-  description: Tâches de fond, verrous et démarrage résilient.
-  url: /natulib-os/architecture.html
-- icone: 🔌
-  titre: Drivers
-  description: Matériel, métriques et actions exposées.
-  url: /natulib-os/drivers.html
-- icone: 💾
-  titre: Filesystem
-  description: Organisation de LittleFS.
-  url: /natulib-os/filesystem.html
-- icone: ⚙️
-  titre: API REST
-  description: Interaction HTTP avec la station.
-  url: /natulib-os/api.html
-- icone: 🧠
-  titre: Automatisations
-  description: Règles, conditions, temporisations et synapses.
-  url: /natulib-os/automatisations.html
-- icone: 📈
-  titre: Historique
-  description: Acquisition et conservation des données.
-  url: /natulib-os/historique.html
-- icone: 🌐
-  titre: Réseau
-  description: Wi-Fi, MQTT, HTTP et synchronisation.
-  url: /natulib-os/reseau.html
-- icone: 🛡️
-  titre: Sécurité
-  description: Authentification, OTA et watchdog.
-  url: /natulib-os/securite.html
-- icone: 👨‍💻
-  titre: Développement
-  description: Organisation et évolution du code.
-  url: /natulib-os/developpement.html
+nav_order: 6
+has_children: true
 ---
 
-## 🧠 Une architecture conçue pour fonctionner localement
+# 🧠 Natulib OS
 
-Natulib OS est conçu pour que les fonctions essentielles d'une station puissent fonctionner **localement sur l'ESP32**.
+**Natulib OS transforme une carte ESP32 en station connectée, sans programmation Arduino pour l'utilisateur.** Après installation du firmware, le matériel et les automatisations se configurent depuis un navigateur, sur ordinateur ou téléphone.
 
-Une connexion réseau peut permettre la synchronisation, l'accès à l'API, MQTT, le cloud ou d'autres services, mais elle ne doit pas être nécessaire au fonctionnement des automatisations locales essentielles.
+## 🌱 Du module à l'automatisation
 
-La philosophie est simple :
+1. **Brancher** un module (capteur ou actionneur).
+2. **L'ajouter** dans l'onglet **Hardware**.
+3. **Vérifier ses mesures** dans l'accueil ou la console.
+4. **Créer ou importer une recette** dans **Synapses**.
 
-> **Le cloud peut enrichir Natulib, mais il ne doit pas être nécessaire pour que Natulib fonctionne.**
+La station privilégie le **fonctionnement local** : les automatisations n'ont pas besoin d'un cloud pour fonctionner. Wi-Fi, MQTT et synchronisation sont des possibilités complémentaires.
 
----
+## 📚 Découvrir Natulib OS
 
-## 🔄 Du capteur à l'action
+- **[Interface web](./natulib-os/interface.md)** — Les écrans et leur usage.
+- **[Modules et drivers](./natulib-os/drivers.md)** — Ajouter et identifier le matériel.
+- **[Synapses](./natulib-os/automatisations.md)** — Automatiser sans coder.
+- **[Réseau](./natulib-os/reseau.md)** — Wi-Fi, MQTT et accès local.
+- **[Historique](./natulib-os/historique.md)** — Retrouver ses mesures.
+- **[Maintenance et sécurité](./natulib-os/securite.md)** — Précautions et mises à jour.
+- **[Documentation technique](./natulib-os/architecture.md)** — Pour comprendre le fonctionnement interne.
 
-Le fonctionnement général peut être résumé ainsi :
+## 🧪 Un projet qui évolue avec les essais
 
-```text
-🧱 MODULES
-   │
-   │ mesures / événements
-   ▼
-🧠 NATULIB OS
-   │
-   ├── Acquisition
-   ├── État système
-   ├── Automatisations
-   └── Sécurité
-   │
-   │ décisions
-   ▼
-⚡ ACTIONNEURS
-   │
-   ▼
-🌱 MONDE RÉEL
-```
-
-Les recettes décrivent le comportement souhaité.
-
-Natulib OS fournit le moteur permettant de transformer ces consignes en décisions et en actions locales.
-
----
-
-## 🧪 État du projet
-
-Natulib OS est actuellement en **phase R&D**.
-
-L'architecture et certaines fonctionnalités sont opérationnelles et utilisées sur les prototypes, tandis que d'autres composants continuent d'évoluer au fil des essais.
-
-La documentation distingue autant que possible :
-
-- 🟢 **Fonctionnel / validé** — testé sur un prototype ;
-- 🟡 **Expérimental** — fonctionnel mais encore en cours de validation ;
-- 🔵 **En développement** — prévu ou en cours d'implémentation.
-
-> **Cette documentation décrit l'architecture actuelle de Natulib OS. Elle peut évoluer pendant la phase R&D avant la stabilisation d'une future version.**
-
----
-
-## 👨‍💻 Pour les développeurs
-
-Cette section s'adresse principalement aux personnes souhaitant comprendre ou contribuer au fonctionnement interne de Natulib OS.
-
-L'utilisateur d'une station Natulib **n'a normalement pas besoin de connaître cette architecture** pour utiliser une recette ou un projet.
-
-La complexité technique doit rester autant que possible **à l'intérieur de Natulib**, afin de conserver une expérience simple pour l'utilisateur final.
+Natulib OS est en phase de développement et d'expérimentation. **Un driver présent dans le code n'est pas nécessairement un module validé sur le terrain.** Chaque fiche Module présente sa configuration, ses tests et les améliorations encore envisagées, notamment pour faciliter un montage **sans soudure**.

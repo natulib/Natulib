@@ -1,31 +1,25 @@
 ---
 layout: doc
-title: "Matériel — Filesystem"
+title: "Système — Fichiers et données"
 parent: Natulib OS
 statut: publie
 ---
 
-# 🗂️ Matériel — Filesystem
+# 💾 Fichiers et données
 
-Toute la configuration et les données de Natulib OS vivent sur une partition LittleFS.
+Natulib OS utilise **LittleFS**, une zone de stockage interne de l'ESP32, pour conserver les configurations et les données.
 
-| Chemin | Contenu |
+| Contenu | Emplacement (pour utilisateurs avancés) |
 |---|---|
-| `/config.json` | Configuration globale (Wi-Fi, MQTT, sécurité, historique…) |
-| `/hardware.json` | Sauvegarde de la configuration matérielle |
-| `/dev/*.json` | Un fichier par périphérique — voir **[Drivers](./drivers.md)** |
-| `/synapses/*.json` | Une règle d'automatisation par fichier — voir **[Automatisations](./automatisations.md)** |
-| `/faces/`, `/face.json` | Profils et configuration du visage affiché à l'écran |
-| `/AAAAMMJJ.jsonl` | Historique du jour, une mesure par ligne |
+| Configuration générale | `/config.json` |
+| Modules matériels | `/dev/` |
+| Règles Synapses | `/synapses/` |
+| Affichages personnalisés | `/faces/` et `/face.json` |
+| Historique | Fichiers `.jsonl` datés |
 
-- Les écritures de fichiers critiques passent par un fichier temporaire puis un renommage, pour ne jamais laisser un fichier à moitié écrit en cas de coupure.
-- Les uploads génériques refusent d'écraser `config.json`/`hardware.json` et bloquent tout chemin contenant `..` — voir **[Sécurité](./securite.md)**.
+Pour l'usage courant, **il n'est pas nécessaire de modifier ces fichiers à la main** : l'interface web s'en charge. Avant une restauration ou une intervention importante, conserver une sauvegarde des réglages.
+
 
 ---
 
-## 🔗 Ressources
-
-- ⬅️ [Retour à 🧠 Natulib OS](../Natulib-OS.md)
-- 🔌 [Matériel — Drivers](./drivers.md)
-- ⚙️ [Fonctionnement — Historique](./historique.md)
-- 🤝 [Contribuer à cette page](../Contribuer.md)
+[⬅️ Retour à Natulib OS](../Natulib-OS.md)

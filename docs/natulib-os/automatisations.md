@@ -1,49 +1,23 @@
 ---
 layout: doc
-title: "Fonctionnement — Automatisations"
+title: "Fonctionnement — Synapses"
 parent: Natulib OS
 statut: publie
 ---
 
-# ⚙️ Fonctionnement — Automatisations
+# ⚡ Automatisations avec Synapses
 
-Le moteur d'automatisation local ("synapses") évalue des règles condition → action, en continu et sans dépendre du réseau. Chaque règle est un fichier JSON dans `/synapses/`.
+**Synapses** permet de faire réagir une station à ses mesures, sans programmer.
 
-## 📐 Une règle en un coup d'œil
+Une règle se lit simplement : **Quand** une condition est remplie, **alors** Natulib exécute une action. Il est possible de combiner plusieurs conditions et d'ajouter des temporisations pour éviter les déclenchements intempestifs.
 
-```json
-{
-  "id": "usr_exemple",
-  "active": true,
-  "trigger": "hold",
-  "for_ms": 2000,
-  "conditions": [
-    {"logic": "START", "sensor": "climat", "metric": "t", "op": ">", "val": 28}
-  ],
-  "actions": [
-    {"type": "local", "target": "ventilateur", "cmd": "on"}
-  ]
-}
-```
+**Exemple :** « Si la température dépasse un seuil pendant une durée définie, activer une sortie configurée ». Les seuils et les actions se règlent dans l'interface.
 
-- **`trigger`** : `"hold"` déclenche pendant que la condition reste vraie ; `"release"` déclenche au relâchement (utile pour un tap court vs un appui long).
-- **`for_ms`** : durée minimale (ou maximale, selon `trigger`) que la condition doit tenir.
-- **`conditions`** : combinables avec `"logic": "AND"` / `"OR"` ; `sensor` peut aussi valoir `"chronos"` pour une condition temporelle (ex. « une fois toutes les 5 minutes »).
-- **`actions`** : `local` (commande `<cmd>_<target>` à un périphérique), `mqtt`, `http`, `system` (scènes, profils, veille d'écran) ou `visibility` (afficher/masquer un calque d'écran).
+Les **recettes** permettent de retrouver ou partager un ensemble d'automatisations. Avant d'en importer une, vérifier que les modules et les identifiants attendus sont bien présents sur sa station.
 
-Dans les actions `mqtt`/`http`, `{capteur.metrique}` insère la dernière valeur mesurée — par exemple `{climat.t}` dans un payload.
+Les règles locales restent utilisables sans connexion à un service cloud. Pour aller plus loin, les fichiers correspondants sont stockés dans `/synapses/`.
 
-## 🗂️ Préfixes de fichiers
-
-- `usr_*` — créée depuis l'interface Web ;
-- `sys_*` — règle système, recréée automatiquement (réveil d'écran sur mouvement, interaction tactile…) selon le matériel détecté ;
-- `rcp_*` — fournie par une recette.
 
 ---
 
-## 🔗 Ressources
-
-- ⬅️ [Retour à 🧠 Natulib OS](../Natulib-OS.md)
-- 🔌 [Matériel — Drivers](./drivers.md)
-- ⚙️ [Fonctionnement — API REST](./api.md)
-- 🤝 [Contribuer à cette page](../Contribuer.md)
+[⬅️ Retour à Natulib OS](../Natulib-OS.md)

@@ -22,6 +22,8 @@ images: []
 photos_a_ajouter: true
 elements:
   - "📍 Proximité"
+natulib_os_driver: "DeviceTCRT5000"
+natulib_os_type: "tcrt5000"
 ---
 ## 👀 En bref
 
@@ -166,3 +168,27 @@ Dans Natulib, il sert principalement de **capteur d'interaction** :
 | Version | Évolution |
 |---|---|
 | A | Première intégration du TCRT5000 |
+
+## 🔧 Compatibilité Natulib OS — relevée dans le code
+
+**Driver :** `DeviceTCRT5000` · **Type JSON :** `tcrt5000`
+
+### Mesures / états exposés
+
+- `detected (0/1)`
+- `raw (si ADC)`
+- `online (0/1)`
+
+### Paramètres de configuration reconnus
+
+- `pins.digital`
+- `pins.adc (optionnel)`
+- `invert: false`
+- `interval_ms: 500`
+- `debug: false`
+
+### Notes de fonctionnement
+
+Peut utiliser la sortie digitale et une entrée analogique optionnelle. Les GPIO ADC sont vérifiés avant lecture.
+
+*Source : `natulib_devices.h` fourni pour cette mise à jour. Les valeurs indiquées comme « par défaut » proviennent du code ; les tensions, prix, soudures, temps d’installation et limites du matériel nécessitent une validation indépendante. Le fichier décrit le comportement logiciel et ne prouve pas qu’un montage physique a été testé.*

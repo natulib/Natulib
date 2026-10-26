@@ -21,6 +21,8 @@ images: []
 photos_a_ajouter: true
 elements:
   - "⚡ Commande PWM"
+natulib_os_driver: "DevicePWM"
+natulib_os_type: "pwm"
 ---
 ## 👀 En bref
 
@@ -180,3 +182,24 @@ Voir **[Drivers](../natulib-os/drivers.md)** et **[Automatisations](../natulib-o
 | Version | Évolution |
 |---|---|
 | A | Première intégration du module MOSFET PWM |
+
+## 🔧 Compatibilité Natulib OS — relevée dans le code
+
+**Driver :** `DevicePWM` · **Type JSON :** `pwm`
+
+### Mesures / états exposés
+
+- `state (0/1)`
+- `value (0–100 %)`
+
+### Paramètres de configuration reconnus
+
+- `pins.pin`
+- `flow_rate_ml_s: 0`
+- `debug: false`
+
+### Notes de fonctionnement
+
+Le driver PWM commande une sortie, sans valider les limites de courant ou tension du module MOSFET. Commandes : on_<id>, off_<id>, toggle_<id>, pwm_50_<id>, pwm_100_<id>, pwm_<id>_<valeur>. Vérifier l’ordre exact dans la documentation du driver avant de lancer des commandes.
+
+*Source : `natulib_devices.h` fourni pour cette mise à jour. Les valeurs indiquées comme « par défaut » proviennent du code ; les tensions, prix, soudures, temps d’installation et limites du matériel nécessitent une validation indépendante. Le fichier décrit le comportement logiciel et ne prouve pas qu’un montage physique a été testé.*

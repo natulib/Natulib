@@ -22,6 +22,8 @@ images: []
 photos_a_ajouter: true
 elements:
   - "👆 Toucher"
+natulib_os_driver: "DeviceButton (entrée digitale générique)"
+natulib_os_type: "button"
 ---
 ## 👀 En bref
 
@@ -156,3 +158,25 @@ Le driver `button` produit la métrique `pressed`.
 | Version | Évolution |
 |---|---|
 | A | Première intégration du TTP223 |
+
+## 🔧 Compatibilité Natulib OS — relevée dans le code
+
+**Driver :** `DeviceButton (entrée digitale générique)` · **Type JSON :** `button`
+
+### Mesures / états exposés
+
+- `pressed (0/1)`
+- `online (0/1)`
+
+### Paramètres de configuration reconnus
+
+- `pins.pin`
+- `pullup: false`
+- `invert: false`
+- `debug: false`
+
+### Notes de fonctionnement
+
+La compatibilité est une correspondance fonctionnelle avec le driver bouton numérique, pas la preuve d’un driver TTP223 dédié. L’intervalle varie entre 200 ms et 25 ms selon l’état.
+
+*Source : `natulib_devices.h` fourni pour cette mise à jour. Les valeurs indiquées comme « par défaut » proviennent du code ; les tensions, prix, soudures, temps d’installation et limites du matériel nécessitent une validation indépendante. Le fichier décrit le comportement logiciel et ne prouve pas qu’un montage physique a été testé.*

@@ -20,6 +20,7 @@ images: []
 photos_a_ajouter: true
 elements:
   - "🔌 Extension GPIO"
+natulib_os_driver: "Aucun driver dédié"
 ---
 ## 👀 En bref
 
@@ -123,3 +124,13 @@ Le shield est **passif** : il n'apparaît pas dans la configuration de Natulib O
 | Version | Évolution |
 |---|---|
 | A | Première version du shield 30 broches |
+
+## 🔧 Compatibilité Natulib OS — relevée dans le code
+
+**Driver :** `Aucun driver dédié`
+
+### Notes de fonctionnement
+
+Shield de connexion passif : la compatibilité mécanique et l’ordre des broches ne peuvent pas être déduits de natulib_devices.h.
+
+*Source : `natulib_devices.h` fourni pour cette mise à jour. Les valeurs indiquées comme « par défaut » proviennent du code ; les tensions, prix, soudures, temps d’installation et limites du matériel nécessitent une validation indépendante. Le fichier décrit le comportement logiciel et ne prouve pas qu’un montage physique a été testé.*

@@ -21,6 +21,8 @@ images: []
 photos_a_ajouter: true
 elements:
   - "🔌 Commutation"
+natulib_os_driver: "DeviceRelay (commande GPIO analogue, pas driver PN2222A dédié)"
+natulib_os_type: "relay"
 ---
 ## 👀 En bref
 
@@ -206,3 +208,24 @@ Actions disponibles : `on_<id>`, `off_<id>`, `toggle_<id>` (voir **[Drivers](../
 | Version | Évolution |
 |---|---|
 | A | Première version du PowerSwitch PN2222A |
+
+## 🔧 Compatibilité Natulib OS — relevée dans le code
+
+**Driver :** `DeviceRelay (commande GPIO analogue, pas driver PN2222A dédié)` · **Type JSON :** `relay`
+
+### Mesures / états exposés
+
+- `state (0/1)`
+
+### Paramètres de configuration reconnus
+
+- `pins.pin`
+- `invert: false`
+- `default_on: false`
+- `debug: false`
+
+### Notes de fonctionnement
+
+Le driver Relay pilote un GPIO ; il ne garantit pas à lui seul le schéma électrique du PowerSwitch PN2222A. Commandes : on_<id>, off_<id>, toggle_<id>. Attention au choix des broches et à la commande côté masse.
+
+*Source : `natulib_devices.h` fourni pour cette mise à jour. Les valeurs indiquées comme « par défaut » proviennent du code ; les tensions, prix, soudures, temps d’installation et limites du matériel nécessitent une validation indépendante. Le fichier décrit le comportement logiciel et ne prouve pas qu’un montage physique a été testé.*

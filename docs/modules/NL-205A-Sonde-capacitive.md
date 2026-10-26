@@ -22,6 +22,8 @@ images: []
 photos_a_ajouter: true
 elements:
   - "💧 Humidité du sol"
+natulib_os_driver: "DeviceAnalog (générique)"
+natulib_os_type: "analog"
 ---
 ## 👀 En bref
 
@@ -179,3 +181,27 @@ Ces valeurs servent ensuite de références à **Natulib OS** pour convertir la 
 | Version | Évolution |
 |---|---|
 | A | Première intégration de la sonde capacitive V2.0 |
+
+## 🔧 Compatibilité Natulib OS — relevée dans le code
+
+**Driver :** `DeviceAnalog (générique)` · **Type JSON :** `analog`
+
+### Mesures / états exposés
+
+- `value (0–100 %)`
+- `raw`
+- `online (0/1)`
+
+### Paramètres de configuration reconnus
+
+- `pins.adc`
+- `calibration.min: 1400`
+- `calibration.max: 3200`
+- `interval_ms: 60000`
+- `debug: false`
+
+### Notes de fonctionnement
+
+Il s’agit d’un driver analogique générique : les valeurs de calibration par défaut ne garantissent pas un pourcentage réel d’humidité. À étalonner avec la sonde et le substrat.
+
+*Source : `natulib_devices.h` fourni pour cette mise à jour. Les valeurs indiquées comme « par défaut » proviennent du code ; les tensions, prix, soudures, temps d’installation et limites du matériel nécessitent une validation indépendante. Le fichier décrit le comportement logiciel et ne prouve pas qu’un montage physique a été testé.*

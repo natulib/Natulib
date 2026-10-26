@@ -21,6 +21,8 @@ photos_a_ajouter: true
 elements:
   - "⚡ Courant"
   - "🔋 Tension"
+natulib_os_driver: "DeviceINA219"
+natulib_os_type: "ina219"
 ---
 ## 👀 En bref
 
@@ -178,3 +180,27 @@ Alimentation GND ─────────────┴── GND
 | Version | Évolution |
 |---|---|
 | A | Première intégration du INA219 |
+
+## 🔧 Compatibilité Natulib OS — relevée dans le code
+
+**Driver :** `DeviceINA219` · **Type JSON :** `ina219`
+
+### Mesures / états exposés
+
+- `voltage_v (V)`
+- `current_ma (mA)`
+- `power_mw (mW)`
+- `online (0/1)`
+
+### Paramètres de configuration reconnus
+
+- `pins.sda`
+- `pins.scl`
+- `interval_ms: 1000`
+- `debug: false`
+
+### Notes de fonctionnement
+
+Lecture de tension, courant et puissance. La configuration et la précision dépendent notamment de la calibration du capteur et du shunt. Ne pas assimiler la tension mesurée à la tension d’alimentation du breakout.
+
+*Source : `natulib_devices.h` fourni pour cette mise à jour. Les valeurs indiquées comme « par défaut » proviennent du code ; les tensions, prix, soudures, temps d’installation et limites du matériel nécessitent une validation indépendante. Le fichier décrit le comportement logiciel et ne prouve pas qu’un montage physique a été testé.*

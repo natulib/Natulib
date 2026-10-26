@@ -21,6 +21,8 @@ images: []
 photos_a_ajouter: true
 elements:
   - "🌧️ Pluie"
+natulib_os_driver: "DeviceRainAnalog"
+natulib_os_type: "rain_analog"
 ---
 ## 👀 En bref
 
@@ -232,3 +234,34 @@ Le potentiomètre règle la sensibilité de la **sortie DO**.
 |Version|Évolution|
 |---|---|
 |01092026|Première intégration du capteur de pluie|
+
+## 🔧 Compatibilité Natulib OS — relevée dans le code
+
+**Driver :** `DeviceRainAnalog` · **Type JSON :** `rain_analog`
+
+### Mesures / états exposés
+
+- `rain_detected (0/1)`
+- `intensity_pct`
+- `raw`
+- `idle_time_sec`
+- `online (0/1)`
+
+### Paramètres de configuration reconnus
+
+- `pins.digital (optionnel)`
+- `pins.adc (optionnel)`
+- `pins.power (optionnel)`
+- `calibration.min: 1400`
+- `calibration.max: 3200`
+- `invert: false`
+- `hold_sec: 60`
+- `analog_threshold_pct: 5`
+- `disconnect_below (optionnel)`
+- `interval_ms: 5000`
+
+### Notes de fonctionnement
+
+Driver pluie avec voie numérique et/ou analogique, temporisation de maintien et seuil analogique. Les plages et seuils par défaut doivent être adaptés au capteur réel.
+
+*Source : `natulib_devices.h` fourni pour cette mise à jour. Les valeurs indiquées comme « par défaut » proviennent du code ; les tensions, prix, soudures, temps d’installation et limites du matériel nécessitent une validation indépendante. Le fichier décrit le comportement logiciel et ne prouve pas qu’un montage physique a été testé.*

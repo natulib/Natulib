@@ -22,6 +22,8 @@ images: []
 photos_a_ajouter: true
 elements:
   - "🚶 Mouvement"
+natulib_os_driver: "DevicePIR"
+natulib_os_type: "pir"
 ---
 ## 👀 En bref
 
@@ -165,3 +167,25 @@ Le module comporte deux potentiomètres et un cavalier.
 | Version | Évolution |
 |---|---|
 | A | Première intégration du PIR HC-SR501 |
+
+## 🔧 Compatibilité Natulib OS — relevée dans le code
+
+**Driver :** `DevicePIR` · **Type JSON :** `pir`
+
+### Mesures / états exposés
+
+- `motion (0/1)`
+- `idle_time_sec`
+- `online (0/1)`
+
+### Paramètres de configuration reconnus
+
+- `pins.pin`
+- `interval_ms: 1000`
+- `debug: false`
+
+### Notes de fonctionnement
+
+Détecte l’état GPIO et utilise une interruption CHANGE pour accélérer le traitement du mouvement.
+
+*Source : `natulib_devices.h` fourni pour cette mise à jour. Les valeurs indiquées comme « par défaut » proviennent du code ; les tensions, prix, soudures, temps d’installation et limites du matériel nécessitent une validation indépendante. Le fichier décrit le comportement logiciel et ne prouve pas qu’un montage physique a été testé.*

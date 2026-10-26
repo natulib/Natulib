@@ -36,3 +36,39 @@
 .nl-card-main-link:hover{text-decoration:underline}
 .nl-capacity-chip:focus-visible,.nl-card-main-link:focus-visible{outline:2px solid var(--nl-green);outline-offset:3px}
 .nl-catalog .nl-module-card[hidden]{display:none!important}
+
+/* Natulib : affichage catalogue cartes / liste, même source de données et filtres. */
+.nl-catalog-display{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 12px}
+.nl-catalog-display .nl-section-heading{margin:0}
+.nl-view-switch{display:inline-flex;gap:3px;padding:3px;border:1px solid var(--nl-line);border-radius:12px;background:var(--nl-soft)}
+.nl-view-button{border:0;border-radius:9px;padding:7px 12px;color:var(--nl-muted);background:transparent;font:inherit;font-size:.83rem;font-weight:700;cursor:pointer}
+.nl-view-button[aria-pressed=true]{color:var(--nl-ink);background:var(--nl-paper);box-shadow:0 1px 5px #00000012}
+.nl-view-button:focus-visible,.nl-module-card a:focus-visible{outline:2px solid var(--nl-green);outline-offset:3px}
+.nl-module-card{overflow:hidden}
+.nl-module-media{width:100%;aspect-ratio:16/9;border:1px solid var(--nl-line);border-radius:11px;background:var(--nl-soft);display:grid;place-items:center;overflow:hidden;position:relative;text-decoration:none!important}
+.nl-module-media img{width:100%;height:100%;object-fit:contain;display:block;position:relative;z-index:1;padding:7px}
+.nl-module-media img[hidden]{display:none}
+.nl-module-media-fallback{position:absolute;font-size:2rem;opacity:.55;z-index:0}
+.nl-module-info{display:flex;flex-direction:column;gap:9px;min-width:0;flex:1}
+.nl-module-card .nl-chips,.nl-module-card .nl-capacity-chips{display:flex;flex-wrap:wrap;gap:5px}
+.nl-module-card .nl-chip{max-width:100%;overflow-wrap:anywhere}
+.nl-module-grid[data-view=list]{display:flex;flex-direction:column;gap:9px}
+.nl-module-grid[data-view=list] .nl-module-card{display:grid;grid-template-columns:68px minmax(100px,1fr) minmax(0,4fr);gap:12px;align-items:center;padding:10px 13px;border-radius:12px}
+.nl-module-grid[data-view=list] .nl-module-top{display:flex;flex-direction:column;gap:2px;justify-content:center;align-items:flex-start}
+.nl-module-grid[data-view=list] .nl-module-media{grid-column:1;grid-row:1;aspect-ratio:1/1;border-radius:9px}
+.nl-module-grid[data-view=list] .nl-module-media-fallback{font-size:1.5rem}
+.nl-module-grid[data-view=list] .nl-module-info{grid-column:3;grid-row:1;display:grid;grid-template-columns:minmax(125px,1.2fr) minmax(130px,2.2fr);gap:4px 14px;align-items:center}
+.nl-module-grid[data-view=list] .nl-module-info .nl-module-title{grid-column:1;font-size:.95rem}
+.nl-module-grid[data-view=list] .nl-module-info .nl-module-desc{grid-column:1;line-height:1.4}
+.nl-module-grid[data-view=list] .nl-capacity-chips{grid-column:2;grid-row:1}
+.nl-module-grid[data-view=list] .nl-chips{grid-column:2;grid-row:2}
+.nl-module-grid[data-view=list] .nl-module-card:hover{transform:none}
+@media(max-width:760px){
+ .nl-module-grid[data-view=list] .nl-module-card{grid-template-columns:60px minmax(0,1fr);gap:9px}
+ .nl-module-grid[data-view=list] .nl-module-top{grid-column:2;grid-row:1;flex-direction:row;justify-content:flex-start;gap:7px;align-items:center;align-self:start}
+ .nl-module-grid[data-view=list] .nl-module-media{grid-column:1;grid-row:1 / span 2;align-self:start}
+ .nl-module-grid[data-view=list] .nl-module-info{grid-column:2;grid-row:2;display:flex;gap:5px}
+ .nl-module-grid[data-view=list] .nl-module-info .nl-module-desc{font-size:.77rem}
+ .nl-module-grid[data-view=list] .nl-module-info .nl-chips{font-size:.8rem}
+}
+@media(max-width:410px){.nl-view-button{padding:7px 9px}.nl-module-grid[data-view=list] .nl-module-card{padding:9px}}

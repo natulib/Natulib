@@ -27,8 +27,14 @@ has_children: true
       <button class="nl-filter" data-family="connectivity" aria-pressed="false">📡 Connectivity</button>
     </div>
   </div>
+  <div class="nl-catalog-display">
   <p id="nl-catalog-count" aria-live="polite" class="nl-section-heading"><span>Catalogue des modules</span></p>
-  <div class="nl-module-grid" id="nl-module-grid">
+  <div class="nl-view-switch" role="group" aria-label="Mode d’affichage du catalogue">
+    <button class="nl-view-button" type="button" data-view="cards" aria-pressed="true" title="Vue cartes">▦ <span>Cartes</span></button>
+    <button class="nl-view-button" type="button" data-view="list" aria-pressed="false" title="Vue liste">☰ <span>Liste</span></button>
+  </div>
+</div>
+  <div class="nl-module-grid" id="nl-module-grid" data-view="cards">
   {% assign modules = site.pages | where_exp: 'item', "item.path contains 'modules/'" | sort: 'ref' %}
   {% for mod in modules %}
   {% assign module_ref = mod.ref | default: mod.reference %}
@@ -39,6 +45,14 @@ has_children: true
     {% assign module_caps = mod.elements | default: mod.fonctions %}
     <article class="nl-module-card" data-family="{{ mod.famille | downcase | escape }}" data-capacities="{% for elem in module_caps %}{% assign c = elem.label | default: elem %}{{ c | slugify }} {% endfor %}">
       <span class="nl-module-top"><span class="nl-module-ref">{{ module_ref | escape }}</span><span class="nl-module-family">{{ mod.famille | default: mod.categorie | escape }}</span></span>
+      {% assign first_image = mod.images | first %}
+      <a class="nl-module-media" href="{{ mod.url | relative_url }}" tabindex="-1" aria-hidden="true">
+        {% if first_image and first_image.fichier %}
+          <img src="{{ first_image.fichier | relative_url }}" alt="" loading="lazy" decoding="async" onerror="this.hidden=true;this.parentNode.classList.add('nl-media-unavailable')">
+        {% endif %}
+        <span class="nl-module-media-fallback" aria-hidden="true">{% case mod.famille %}{% when 'displays' %}📺{% when 'sensors' %}🌡️{% when 'power' %}🔋{% when 'actuators' %}⚡{% when 'connectivity' %}📡{% when 'enclosures' %}📦{% else %}🧩{% endcase %}</span>
+      </a>
+      <div class="nl-module-info">
       <a class="nl-module-title nl-card-main-link" href="{{ mod.url | relative_url }}">{{ mod.title | escape }}</a>
       {% if mod.description %}<span class="nl-module-desc">{{ mod.description | escape }}</span>{% endif %}
       {% if module_caps and module_caps.size > 0 %}
@@ -58,6 +72,7 @@ has_children: true
         {% if mod.niveau %}<span class="nl-chip">👤 {{ mod.niveau | replace: 'debutant','Débutant' | replace: 'intermediaire','Intermédiaire' | replace: 'avance','Avancé' | escape }}</span>{% endif %}
         {% if mod.prix %}{% assign prix_txt = mod.prix | append: '' %}<span class="nl-chip">💶 {{ prix_txt | escape }}{% unless prix_txt contains '€' %} €{% endunless %}</span>{% endif %}
       </span>
+      </div>
     </article>
   {% endunless %}
   {% endfor %}

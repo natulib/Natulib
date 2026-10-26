@@ -4,6 +4,13 @@ const search=root.querySelector('#nl-module-search'),cards=Array.from(root.query
 filters=Array.from(root.querySelectorAll('.nl-filter[data-family]')),count=root.querySelector('#nl-catalog-count'),
 empty=root.querySelector('#nl-catalog-empty'), select=root.querySelector('#nl-capability-select'),reset=root.querySelector('#nl-filter-reset');
 let active='all';
+const grid=root.querySelector('#nl-module-grid'),viewButtons=Array.from(root.querySelectorAll('.nl-view-button'));
+let initialView='cards';
+try{initialView=window.localStorage.getItem('natulib.catalog.view')||'cards'}catch(err){}
+function setView(view){const chosen=view==='list'?'list':'cards';grid.dataset.view=chosen;viewButtons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===chosen)));try{window.localStorage.setItem('natulib.catalog.view',chosen)}catch(err){}}
+viewButtons.forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+setView(initialView);
+
 const labelMap=new Map();
 root.querySelectorAll('.nl-capacity-chip').forEach(a=>{const u=new URL(a.href);const slug=u.searchParams.get('capacite');if(slug&&!labelMap.has(slug))labelMap.set(slug,a.textContent.trim().replace(/^[^\p{L}\p{N}]+/u,''));});
 Array.from(labelMap.entries()).sort((a,b)=>a[1].localeCompare(b[1],'fr')).forEach(([slug,label])=>{const opt=document.createElement('option');opt.value=slug;opt.textContent=label;select.append(opt)});

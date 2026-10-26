@@ -4,8 +4,25 @@ bare: true
 ---
 <link rel="stylesheet" href="{{ '/assets/css/natulib-module.css' | relative_url }}">
 <article class="nl-module" data-nl-module>
+  {% comment %}Compatibilité avec l'ancien format infos_rapides : champs explicites prioritaires.{% endcomment %}
+  {% assign alimentation = page.alimentation %}
+  {% assign interface_module = page.interface %}
+  {% assign prix = page.prix %}
+  {% for info in page.infos_rapides %}
+    {% assign nom_info = info.nom | downcase %}
+    {% if alimentation == nil and nom_info == 'alimentation' %}{% assign alimentation = info.valeur %}{% endif %}
+    {% if interface_module == nil and nom_info == 'interface' %}{% assign interface_module = info.valeur %}{% endif %}
+    {% if prix == nil and nom_info contains 'prix' %}{% assign prix = info.valeur %}{% endif %}
+  {% endfor %}
   <nav class="nl-module-nav" aria-label="Navigation du module">
     <a class="nl-back" href="{{ '/Modules.html' | relative_url }}"><span class="nl-back-icon" aria-hidden="true">←</span><span><small>Catalogue Natulib</small><strong>Retour aux modules</strong></span></a>
+    {% if alimentation or interface_module or prix %}
+    <div class="nl-top-specs" aria-label="Informations techniques rapides">
+      {% if alimentation %}<span class="nl-top-chip" title="Alimentation"><span aria-hidden="true">⚡</span><span class="nl-top-chip-label">Alimentation</span><strong>{{ alimentation | escape }}</strong></span>{% endif %}
+      {% if interface_module %}<span class="nl-top-chip" title="Interface"><span aria-hidden="true">🔌</span><span class="nl-top-chip-label">Interface</span><strong>{{ interface_module | escape }}</strong></span>{% endif %}
+      {% if prix %}<span class="nl-top-chip" title="Prix indicatif"><span aria-hidden="true">💶</span><span class="nl-top-chip-label">Prix</span><strong>{{ prix | escape }}</strong></span>{% endif %}
+    </div>
+    {% endif %}
   </nav>
   <header class="nl-hero">
     <div>
@@ -38,12 +55,6 @@ bare: true
     </div>
     {% endif %}
   </section>
-  {% endif %}
-  {% assign facts = page.infos_rapides %}
-  {% if facts and facts.size > 0 %}
-  <div class="nl-facts" aria-label="Informations essentielles">
-    {% for fact in facts %}<div class="nl-fact"><strong>{{ fact.valeur | escape }}</strong><span>{{ fact.nom | escape }}</span></div>{% endfor %}
-  </div>
   {% endif %}
   {% if page.images and page.images.size > 0 %}
   <section class="nl-gallery" aria-label="Images du module">

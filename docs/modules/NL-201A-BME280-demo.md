@@ -17,13 +17,9 @@ elements:
   - 🌡️ Température
   - 💧 Humidité
   - 🌦️ Pression
-infos_rapides:
-  - nom: Alimentation
-    valeur: 3,3 V
-  - nom: Interface
-    valeur: I²C
-  - nom: Prix indicatif
-    valeur: ≈ 3 €
+alimentation: "3,3 V"
+interface: "I²C"
+prix: "≈ 3 €"
 images:
   - fichier: /assets/starter/bme280/bme280-brochage.svg
     titre: Brochage et connexions

@@ -33,3 +33,14 @@
 @media(max-width:550px){.nl-identity{padding:.75rem}.nl-chip{font-size:.78rem;padding:.32rem .6rem}}
 @media(prefers-color-scheme:dark){.nl-chip-element{background:#294936;color:#d8f1d8;border-color:#486c50}.nl-chip-info{background:#1d2e24;color:#ebf1eb}}
 @media print{.nl-identity{box-shadow:none}}
+
+/* V4 — barre de navigation technique, compactée sur ordinateur. */
+.nl-module .nl-module-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.55rem 1rem;margin-bottom:1.1rem}
+.nl-module .nl-back{flex:0 0 auto;margin:0}
+.nl-module .nl-top-specs{margin-left:auto;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:.45rem}
+.nl-module .nl-top-chip{display:inline-flex;align-items:center;gap:.36rem;min-height:2.2rem;padding:.4rem .73rem;border:1px solid var(--nl-stroke);border-radius:999px;background:var(--nl-soft);color:var(--text,#283b30);font-size:.83rem;line-height:1.2;white-space:normal}
+.nl-module .nl-top-chip strong{font-weight:750;overflow-wrap:anywhere}
+.nl-module .nl-top-chip-label{font-size:.73rem;opacity:.7}
+@media(max-width:680px){.nl-module .nl-top-specs{width:100%;justify-content:flex-start;margin-left:0}.nl-module .nl-top-chip{padding:.35rem .6rem;font-size:.78rem}}
+@media(prefers-color-scheme:dark){.nl-module .nl-top-chip{background:#253b2d;color:#e4f0e6}}
+@media print{.nl-module .nl-top-specs{display:flex}.nl-module .nl-module-nav{display:flex}.nl-module .nl-back{display:none}}

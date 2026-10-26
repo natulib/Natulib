@@ -1,10 +1,10 @@
 /* Natulib Accueil v1 — classes confinées à la page d'accueil. */
 .nl-home { --nl-green:#216e42; --nl-green-soft:#e9f4e9; --nl-card:#fff; --nl-card-border:#dce7dc; --nl-hero:#f5faf4; color:var(--text); }
 .nl-home * { box-sizing:border-box; }
-.nl-home-hero { background:linear-gradient(130deg,var(--nl-hero),var(--bg)); padding:clamp(25px,4vw,48px); border:1px solid var(--nl-card-border); border-radius:24px; }
+.nl-home-hero { background:linear-gradient(130deg,var(--nl-hero),var(--bg)); padding:clamp(18px,2.6vw,28px); border:1px solid var(--nl-card-border); border-radius:24px; }
 .nl-home-eyebrow { margin:0 0 9px; color:var(--nl-green); font-size:.77rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; }
-.nl-home h1 { margin:0; font-size:clamp(1.85rem,3.7vw,2.8rem); line-height:1.12; letter-spacing:-.035em; font-weight:800; }
-.nl-home-lead { max-width:690px; margin:16px 0 22px; font-size:clamp(.96rem,1.3vw,1.07rem); line-height:1.7; color:var(--muted); }
+.nl-home h1 { margin:0; font-size:clamp(1.6rem,2.8vw,2.1rem); line-height:1.12; letter-spacing:-.035em; font-weight:800; }
+.nl-home-lead { max-width:690px; margin:9px 0 15px; font-size:clamp(.9rem,1.2vw,.97rem); line-height:1.55; color:var(--muted); }
 .nl-home-actions { display:flex; flex-wrap:wrap; gap:10px; }
 .nl-home-btn { min-height:44px; display:inline-flex; align-items:center; justify-content:center; gap:9px; padding:10px 17px; border-radius:12px; font-size:.92rem; font-weight:700; text-decoration:none; transition:transform .16s,background .16s,border-color .16s; }
 .nl-home-btn:hover { transform:translateY(-1px); text-decoration:none; }
@@ -12,7 +12,7 @@
 .nl-home-btn-primary:hover { background:#185332; color:#fff; }
 .nl-home-btn-secondary { color:var(--text); border:1px solid var(--nl-card-border); background:var(--bg); }
 .nl-home-btn-secondary:hover { border-color:var(--nl-green); color:var(--text); }
-.nl-home-explore { margin-top:32px; }
+.nl-home-explore { margin-top:23px; }
 .nl-home-heading { display:flex; flex-wrap:wrap; align-items:end; justify-content:space-between; gap:8px 24px; margin-bottom:16px; }
 .nl-home-heading h2 { margin:0; font-size:1.45rem; line-height:1.25; }
 .nl-home-heading>p { margin:0; font-size:.88rem; color:var(--muted); }
@@ -26,6 +26,6 @@
 .nl-home-extra { margin-top:30px; }
 .nl-home a:focus-visible { outline:3px solid var(--link); outline-offset:3px; }
 @media(max-width:790px) { .nl-home-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-@media(max-width:520px) { .nl-home-hero { border-radius:17px; padding:22px 18px; } .nl-home-grid { grid-template-columns:1fr; gap:10px; } .nl-home-card { min-height:112px; padding:13px 40px 13px 58px; } .nl-home-card-icon { position:absolute; top:15px; left:12px; width:36px; height:36px; } .nl-home-card-arrow { right:14px; bottom:14px; } .nl-home-btn { width:100%; } }
+@media(max-width:520px) { .nl-home-hero { border-radius:17px; padding:17px 16px; } .nl-home-grid { grid-template-columns:1fr; gap:10px; } .nl-home-card { min-height:112px; padding:13px 40px 13px 58px; } .nl-home-card-icon { position:absolute; top:15px; left:12px; width:36px; height:36px; } .nl-home-card-arrow { right:14px; bottom:14px; } .nl-home-btn { width:100%; } }
 @media(prefers-color-scheme:dark) { .nl-home { --nl-green:#70cc8d; --nl-green-soft:#1a3524; --nl-card:var(--surface); --nl-card-border:var(--border); --nl-hero:#14231a; } .nl-home-btn-primary { color:#092112; background:#70cc8d; border-color:#70cc8d; } .nl-home-btn-primary:hover { background:#92e7aa; color:#092112; } .nl-home-card:hover { border-color:#5da877; } }
 @media(prefers-reduced-motion:reduce) { .nl-home-btn,.nl-home-card { transition:none; } }

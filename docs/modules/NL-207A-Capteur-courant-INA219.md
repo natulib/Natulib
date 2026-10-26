@@ -55,6 +55,73 @@ La configuration se fait depuis l'interface, **sans modifier de code Arduino**.
 
 *Les préfixes de mesures dépendent de l'identifiant donné au module dans Hardware.*
 
+## 🧩 Configuration JSON d’usine
+
+Extrait **exact** de `DEFAULT_ORG_INA219` dans `factory_defaults.h` (firmware fourni, V0.448), mis en forme pour la lecture. Il s’agit d’un **exemple**, pas d’un relevé de ton montage : contrôler les broches avant branchement.
+
+```json
+{
+  "id": "energie_harpe",
+  "name": "⚡ Capteur INA219",
+  "category": "sys",
+  "type": "ina219",
+  "pins": {
+    "sda": 4,
+    "scl": 5
+  },
+  "interval_ms": 1000,
+  "mA": 2,
+  "factory": true,
+  "icon": "⚡",
+  "metrics": [
+    {
+      "id": "voltage_v",
+      "label": "Tension",
+      "type": "number",
+      "unit": "V"
+    },
+    {
+      "id": "current_ma",
+      "label": "Courant",
+      "type": "number",
+      "unit": "mA"
+    },
+    {
+      "id": "power_mw",
+      "label": "Puissance",
+      "type": "number",
+      "unit": "mW"
+    },
+    {
+      "id": "online",
+      "label": "En ligne (capteur actif)",
+      "type": "boolean"
+    }
+  ],
+  "actions": []
+}
+```
+
+### Comprendre les paramètres
+
+| Paramètre | Signification |
+|---|---|
+| `id` | Identifiant unique du module ; sert de préfixe aux mesures et dans les Synapses. |
+| `name` | Nom visible dans l’interface. |
+| `category` | Famille utilisée pour organiser les modules dans l’interface. |
+| `type` | Type de driver sélectionné par Natulib OS. |
+| `pins` | Association entre les fonctions électriques et les GPIO ; **adapter au câblage réel**. |
+| `pins.sda` | Ligne de données I²C. |
+| `pins.scl` | Ligne d’horloge I²C. |
+| `interval_ms` | Intervalle de mesure demandé, en millisecondes (1 000 ms = 1 seconde). Le comportement exact dépend du driver. |
+| `mA` | Consommation indicative saisie dans le catalogue, **pas une mesure électrique certifiée**. |
+| `factory` | Marqueur de configuration proposée par le catalogue d’usine. |
+| `icon` | Icône du module dans l’interface. |
+| `metrics` | Liste descriptive des mesures exposées dans Natulib OS (identifiants, intitulés et unités). |
+| `actions` | Actions proposées dans l’interface et utilisables selon le driver. |
+
+Pour débuter, utiliser l’onglet **Hardware** de Natulib OS : il génère la configuration. La modification manuelle du JSON est facultative.
+
 ## 🧪 Cahier de validation
 
 **Configuration testée :** date ______ · firmware ______ · référence matérielle ______ · carte/shield ______ · broches ______.
@@ -94,3 +161,166 @@ La configuration se fait depuis l'interface, **sans modifier de code Arduino**.
 `DeviceINA219` ; intervalle par défaut 1 000 ms ; tentative de réinitialisation I²C et moyennage matériel 16 échantillons.
 
 Retrouver les bases dans [l'interface Natulib OS](../natulib-os/interface.md) et [les modules et drivers](../natulib-os/drivers.md).
+
+## 📚 Documentation approfondie et archives
+
+Cette partie conserve **les informations détaillées de la fiche antérieure** : matériel, étapes de montage, astuces, précautions, dépannage, évolutions et historique. Elle s’adresse aux personnes qui veulent aller plus loin.
+
+> **Attention : contenu historique conservé.** Certains exemples de brochage, de JSON ou de fonctionnement peuvent différer du firmware V0.448. Pour la configuration actuelle, se référer à **« Configuration JSON d’usine »** et au tableau de paramètres plus haut ; vérifier les broches et tensions de la carte exacte avant le montage. Les tests matériels restent à documenter.
+
+### 👀 En bref
+
+Le **INA219** est un capteur de courant et de tension communiquant en **I²C**.
+
+Il permet à Natulib de surveiller en temps réel la consommation électrique d'un périphérique ou d'une partie de la station.
+
+Il mesure :
+
+- 🔋 la tension ;
+- ⚡ le courant ;
+- 🔌 la puissance ;
+- ↔️ le courant dans les deux sens.
+
+**Plage de tension annoncée :** 0–26 V · **Adresse I²C par défaut :** `0x40` · **Calibration :** dépend du shunt.
+
+---
+
+### 📷 Aperçu
+
+> 📷 *Photo à ajouter : `assets/NL-207A-Capteur-courant-INA219-1.png`*
+
+<!-- Décommentez cette ligne une fois la photo ajoutée :
+
+-->
+
+---
+
+### 🛒 Ce qu'il vous faut
+
+| Composant | Qté | Obligatoire | Fournisseur |
+|---|--:|:-:|---|
+| Module INA219 | 1 | ✅ | Amazon / AliExpress |
+| Câbles Dupont | 4 | ✅ | AliExpress |
+
+> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
+
+---
+
+### 🔌 Câblage
+
+| INA219 | ESP32-C6 | Fonction |
+|---|---|---|
+| VCC | 3V3 | Alimentation |
+| GND | GND | Masse |
+| SDA | GPIO4 | Données I²C |
+| SCL | GPIO5 | Horloge I²C |
+
+#### ⚡ Insertion sur la ligne de puissance
+
+Le INA219 se place **en série sur la ligne d'alimentation** du périphérique à surveiller.
+
+```text
+Alimentation +
+      │
+      ▼
+   VIN+ ── INA219 ── VIN- ──► + Périphérique
+                              │
+Alimentation GND ─────────────┴── GND
+```
+
+> ⚠️ Ne branchez pas le INA219 en parallèle sur la charge. Le courant à mesurer doit traverser le **shunt** du module.
+
+#### 🔗 Adressage
+
+| A0 | A1 | Adresse |
+|:---:|:---:|:---:|
+| ouvert | ouvert | `0x40` |
+| pontée | ouvert | `0x41` |
+| ouvert | pontée | `0x44` |
+| pontée | pontée | `0x45` |
+
+> 💡 Quatre adresses permettent de placer jusqu'à quatre INA219 sur le même bus I²C.
+
+---
+
+### ⚙️ Configuration Natulib OS
+
+**Type :** `ina219`
+
+```json
+{
+  "id": "energie",
+  "type": "ina219",
+  "pins": {
+    "sda": 4,
+    "scl": 5
+  },
+  "interval_ms": 10000,
+  "active": true
+}
+```
+
+| Paramètre | Fonction |
+|---|---|
+| `pins` | Broches I²C (`sda`, `scl`) |
+| `interval_ms` | Intervalle entre deux lectures (1000 ms par défaut ; une lecture rapide est conseillée pour ne pas manquer les pics de courant) |
+| `active` | Active / désactive le module |
+
+> 🔵 **Divergence connue** — Le driver `ina219` de Natulib OS ne lit ni `address` ni `shunt_ohm` : il s'appuie sur la bibliothèque Adafruit INA219 avec sa **calibration par défaut** (plage 32 V / 2 A, correspondant à un shunt de 0,1 Ω) et son adresse I²C par défaut (`0x40`). Si votre module utilise un shunt différent de 0,1 Ω ou une adresse différente de `0x40`, les mesures de courant/puissance seront faussées proportionnellement, sans que la configuration JSON puisse actuellement le corriger. Voir **[Drivers](../natulib-os/drivers.md)**.
+
+---
+
+### 🛠️ Montage en 10 minutes
+
+1. Soudez la barrette de broches si le module en est dépourvu.
+2. Connectez `VCC`, `GND`, `SDA` et `SCL` à l'ESP32-C6.
+3. Insérez le INA219 **en série** sur l'alimentation du périphérique à surveiller.
+4. Vérifiez le sens `VIN+` → `VIN-`.
+5. Mettez le circuit sous tension.
+6. Vérifiez les mesures de tension et de courant dans Natulib OS.
+
+---
+
+### 🧩 Problèmes courants
+
+**Le courant lu est toujours nul**
+→ Le module est branché en parallèle, ou le sens `VIN+` / `VIN-` est inversé.
+
+**Deux INA219 ne sont pas vus simultanément**
+→ Les deux modules partagent l'adresse `0x40` ; pontez A0 ou A1 sur l'un d'eux.
+
+---
+
+### 💡 À retenir
+
+- Le INA219 mesure **tension, courant et puissance**.
+- Il communique en **I²C** et cohabite avec les autres capteurs du bus.
+- Le courant peut être mesuré dans les **deux directions**.
+- La tension maximale annoncée pour ce module est de **26 V**.
+- Le courant mesuré doit traverser le **shunt intégré**.
+- Le module peut moyenner plusieurs échantillons pour réduire le bruit.
+- La précision réelle dépend du **shunt monté** et de sa configuration.
+
+---
+
+### 🚧 Évolutions prévues
+
+- [ ] Affichage de la consommation instantanée dans Natulib OS
+- [ ] Historique de consommation
+- [ ] Alertes en cas de surconsommation
+- [ ] Support de plusieurs INA219 sur le même bus I²C
+
+---
+
+### 🔗 Ressources
+
+- 🔧 [NL-401A — PowerSwitch](./NL-401A-PowerSwitch.md)
+- 🧱 [Retour au catalogue des modules](../Modules.md)
+
+---
+
+### 🕓 Historique
+
+| Version | Évolution |
+|---|---|
+| A | Première intégration du INA219 |

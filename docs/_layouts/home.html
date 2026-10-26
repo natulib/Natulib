@@ -1,0 +1,43 @@
+---
+layout: default
+---
+{% assign natulib_base = site.baseurl | default: "/Natulib" %}
+<link rel="stylesheet" href="{{ natulib_base }}/assets/css/natulib-home.css">
+<div class="nl-home">
+  <section class="nl-home-hero" aria-labelledby="nl-home-title">
+    {% if page.hero_label %}<p class="nl-home-eyebrow">{{ page.hero_label | escape }}</p>{% endif %}
+    <h1 id="nl-home-title">{{ page.hero_title | default: 'Natulib' | escape }}</h1>
+    {% if page.hero_description %}<p class="nl-home-lead">{{ page.hero_description | escape }}</p>{% endif %}
+    <div class="nl-home-actions">
+      <a class="nl-home-btn nl-home-btn-primary" href="{{ natulib_base }}/Installation.html">🚀 Commencer l'installation <span aria-hidden="true">→</span></a>
+      <a class="nl-home-btn nl-home-btn-secondary" href="{{ natulib_base }}/Modules.html">🧱 Explorer les modules</a>
+    </div>
+  </section>
+
+  {% if page.rubriques and page.rubriques.size > 0 %}
+  <section class="nl-home-explore" aria-labelledby="nl-home-explore-title">
+    <div class="nl-home-heading">
+      <div>
+        <p class="nl-home-eyebrow">Documentation</p>
+        <h2 id="nl-home-explore-title">Explorer Natulib</h2>
+      </div>
+      <p>Choisissez une rubrique pour avancer à votre rythme.</p>
+    </div>
+    <div class="nl-home-grid">
+      {% for item in page.rubriques %}
+      <a class="nl-home-card" href="{{ natulib_base }}{{ item.url }}">
+        <span class="nl-home-card-icon" aria-hidden="true">{{ item.icone | escape }}</span>
+        <span class="nl-home-card-title">{{ item.titre | escape }}</span>
+        <span class="nl-home-card-description">{{ item.description | escape }}</span>
+        <span class="nl-home-card-arrow" aria-hidden="true">↗</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% assign addition = content | strip %}
+  {% if addition != '' %}
+  <section class="nl-home-extra markdown-body" aria-label="Informations complémentaires">{{ content }}</section>
+  {% endif %}
+</div>

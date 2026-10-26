@@ -79,3 +79,9 @@
 @media(prefers-reduced-motion:reduce){.nl-module .nl-back{transition:none}}
 
 .nl-photo-todo{border:1px dashed var(--border,#cbd5cc);background:var(--surface,#f6f8fa);border-radius:12px;padding:12px 16px;margin:16px 0;color:var(--muted,#59636e);font-size:.88rem}
+
+/* Capacités cliquables dans la même barre que les spécifications techniques */
+.nl-module .nl-top-capacity{background:var(--nl-soft);text-decoration:none;color:var(--text,#283b30);border-color:var(--nl-stroke);font-weight:650}
+.nl-module .nl-top-capacity:hover{border-color:var(--nl-green);text-decoration:none;filter:brightness(.97)}
+.nl-module .nl-top-capacity:focus-visible{outline:2px solid var(--nl-green);outline-offset:2px}
+.nl-module .nl-top-specs{row-gap:.4rem}

@@ -19,8 +19,9 @@ description: Le NL-402A est un module MOSFET permettant de commander une charge 
   depuis un signal GPIO ou PWM.
 images: []
 photos_a_ajouter: true
+elements:
+  - "⚡ Commande PWM"
 ---
-
 ## 👀 En bref
 
 Le **NL-402A** est un module MOSFET permettant de commander une charge en courant continu depuis un signal **GPIO ou PWM**.

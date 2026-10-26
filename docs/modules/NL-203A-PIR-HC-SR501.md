@@ -20,8 +20,9 @@ description: Le HC-SR501, souvent vendu sous la marque D-SUN, détecte les mouve
   du rayonnement infrarouge.
 images: []
 photos_a_ajouter: true
+elements:
+  - "🚶 Mouvement"
 ---
-
 ## 👀 En bref
 
 Le **HC-SR501**, souvent vendu sous la marque **D-SUN**, détecte les mouvements grâce aux variations du rayonnement infrarouge.

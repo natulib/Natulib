@@ -14,10 +14,16 @@ bare: true
     {% if interface_module == nil and nom_info == 'interface' %}{% assign interface_module = info.valeur %}{% endif %}
     {% if prix == nil and nom_info contains 'prix' %}{% assign prix = info.valeur %}{% endif %}
   {% endfor %}
+  {% assign elements = page.elements | default: page.fonctions %}
   <nav class="nl-module-nav" aria-label="Navigation du module">
     <a class="nl-back" href="{{ '/Modules.html' | relative_url }}"><span class="nl-back-icon" aria-hidden="true">←</span><span><small>Catalogue Natulib</small><strong>Retour aux modules</strong></span></a>
-    {% if alimentation or interface_module or prix %}
+    {% if elements.size > 0 or alimentation or interface_module or prix %}
     <div class="nl-top-specs" aria-label="Informations techniques rapides">
+      {% for element in elements %}
+        {% assign capacity_name = element.label | default: element %}
+        {% assign capacity_label = capacity_name | remove_first: '🌡️ ' | remove_first: '💧 ' | remove_first: '🌦️ ' | remove_first: '🧠 ' | remove_first: '📡 ' | remove_first: '📶 ' | remove_first: '🔌 ' | remove_first: '📺 ' | remove_first: '☀️ ' | remove_first: '🚶 ' | remove_first: '📍 ' | remove_first: '👆 ' | remove_first: '⚡ ' | remove_first: '🔋 ' | remove_first: '🌧️ ' %}
+        <a class="nl-top-chip nl-top-capacity" href="{{ '/Modules.html' | relative_url }}?capacite={{ capacity_label | slugify }}" title="Voir les modules : {{ capacity_label | escape }}">{{ capacity_name | escape }}</a>
+      {% endfor %}
       {% if alimentation %}<span class="nl-top-chip" title="Alimentation"><span aria-hidden="true">⚡</span><span class="nl-top-chip-label">Alimentation</span><strong>{{ alimentation | escape }}</strong></span>{% endif %}
       {% if interface_module %}<span class="nl-top-chip" title="Interface"><span aria-hidden="true">🔌</span><span class="nl-top-chip-label">Interface</span><strong>{{ interface_module | escape }}</strong></span>{% endif %}
       {% if prix %}<span class="nl-top-chip" title="Prix indicatif"><span aria-hidden="true">💶</span><span class="nl-top-chip-label">Prix</span><strong>{{ prix | escape }}</strong></span>{% endif %}
@@ -32,20 +38,12 @@ bare: true
     </div>
     {% if page.presentation %}<div class="nl-intro-card"><h2>Présentation</h2><div>{{ page.presentation | markdownify }}</div></div>{% endif %}
   </header>
-  {% assign elements = page.elements | default: page.fonctions %}
   {% assign statut = page.statut %}
   {% assign soudure = page.soudure %}
   {% assign niveau = page.niveau %}
   {% assign duree = page.duree | default: page.temps_installation %}
-  {% if elements.size > 0 or statut or soudure != nil or niveau or duree %}
+  {% if statut or soudure != nil or niveau or duree %}
   <section class="nl-identity" aria-label="Identité et informations pratiques">
-    {% if elements and elements.size > 0 %}
-    <div class="nl-identity-row nl-identity-elements" aria-label="Fonctions du module">
-      {% for element in elements %}
-        <span class="nl-chip nl-chip-element">{% if element.label %}{% if element.icon %}<span aria-hidden="true">{{ element.icon | escape }}</span>{% endif %}{{ element.label | escape }}{% else %}{{ element | escape }}{% endif %}</span>
-      {% endfor %}
-    </div>
-    {% endif %}
     {% if statut or soudure != nil or niveau or duree %}
     <div class="nl-identity-row nl-identity-status" aria-label="Installation et validation">
       {% if statut %}<span class="nl-chip nl-chip-info"><span aria-hidden="true">{% if statut == 'Validé' %}🟢{% elsif statut == 'En test' %}🟠{% else %}🔵{% endif %}</span>{{ statut | escape }}</span>{% endif %}

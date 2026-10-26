@@ -19,8 +19,9 @@ alimentation: 3,3 à 5 V
 description: Le capteur de pluie détecte la présence d'eau sur une plaque conductrice.
 images: []
 photos_a_ajouter: true
+elements:
+  - "🌧️ Pluie"
 ---
-
 ## 👀 En bref
 
 Le **capteur de pluie** détecte la présence d'eau sur une plaque conductrice.

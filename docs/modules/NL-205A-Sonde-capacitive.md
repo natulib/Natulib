@@ -20,8 +20,9 @@ description: La sonde capacitive V2.0 mesure l'humidité du sol par variation de
   métalliques exposées au substrat.
 images: []
 photos_a_ajouter: true
+elements:
+  - "💧 Humidité du sol"
 ---
-
 ## 👀 En bref
 
 La **sonde capacitive V2.0** mesure l'humidité du sol par variation de capacité, sans électrodes métalliques exposées au substrat.

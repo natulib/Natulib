@@ -20,8 +20,9 @@ description: Le TTP223 est un capteur tactile capacitif qui transforme une simpl
   en bouton sans contact mécanique.
 images: []
 photos_a_ajouter: true
+elements:
+  - "👆 Toucher"
 ---
-
 ## 👀 En bref
 
 Le **TTP223** est un capteur tactile capacitif qui transforme une simple surface conductrice en **bouton sans contact mécanique**.

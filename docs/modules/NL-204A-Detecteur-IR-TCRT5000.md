@@ -20,8 +20,9 @@ description: Le TCRT5000 est un capteur infrarouge réfléchissant qui détecte 
   distance.
 images: []
 photos_a_ajouter: true
+elements:
+  - "📍 Proximité"
 ---
-
 ## 👀 En bref
 
 Le **TCRT5000** est un capteur infrarouge réfléchissant qui détecte les objets à **très courte distance**.

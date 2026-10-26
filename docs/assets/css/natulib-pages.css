@@ -24,3 +24,15 @@
 @media(prefers-reduced-motion:reduce){.nl-card,.nl-module-card{transition:none}}
 
 .nl-module-card[hidden],.nl-empty[hidden]{display:none!important}
+
+/* Filtres de capacités et fiches cliquables sans liens imbriqués */
+.nl-capability-filter{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin:.55rem 0}
+.nl-capability-filter label{font-size:.85rem;font-weight:650}
+.nl-capability-filter select{max-width:100%;padding:.52rem .7rem;border:1px solid var(--nl-line);border-radius:9px;background:var(--nl-paper);color:var(--nl-ink);font:inherit;font-size:.86rem}
+.nl-capacity-chips{display:flex;gap:.4rem;flex-wrap:wrap;margin:.2rem 0 .5rem}
+.nl-capacity-chip{display:inline-flex;text-decoration:none!important;color:var(--nl-green)!important;background:var(--nl-soft);border:1px solid var(--nl-line);border-radius:99px;padding:.25rem .6rem;font-size:.78rem;font-weight:650}
+.nl-capacity-chip:hover{border-color:var(--nl-green)}
+.nl-card-main-link{text-decoration:none;color:inherit}
+.nl-card-main-link:hover{text-decoration:underline}
+.nl-capacity-chip:focus-visible,.nl-card-main-link:focus-visible{outline:2px solid var(--nl-green);outline-offset:3px}
+.nl-catalog .nl-module-card[hidden]{display:none!important}

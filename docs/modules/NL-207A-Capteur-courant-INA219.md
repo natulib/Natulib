@@ -18,8 +18,10 @@ prix: ≈ 1.5 €
 description: Le INA219 est un capteur de courant et de tension communiquant en I²C.
 images: []
 photos_a_ajouter: true
+elements:
+  - "⚡ Courant"
+  - "🔋 Tension"
 ---
-
 ## 👀 En bref
 
 Le **INA219** est un capteur de courant et de tension communiquant en **I²C**.

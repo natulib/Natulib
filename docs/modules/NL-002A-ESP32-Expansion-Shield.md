@@ -18,8 +18,9 @@ prix: ≈ 3 €
 description: Le NL-002A est un shield d'extension pour ESP32 DevKit 30 broches.
 images: []
 photos_a_ajouter: true
+elements:
+  - "🔌 Extension GPIO"
 ---
-
 ## 👀 En bref
 
 Le **NL-002A** est un shield d'extension pour **ESP32 DevKit 30 broches**.

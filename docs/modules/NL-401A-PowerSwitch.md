@@ -19,8 +19,9 @@ description: Le NL-401A PowerSwitch coupe l'alimentation d'un petit périphériq
   de l'ESP32-C6.
 images: []
 photos_a_ajouter: true
+elements:
+  - "🔌 Commutation"
 ---
-
 ## 👀 En bref
 
 Le **NL-401A PowerSwitch** coupe l'alimentation d'un petit périphérique à l'aide d'une **GPIO de l'ESP32-C6**.

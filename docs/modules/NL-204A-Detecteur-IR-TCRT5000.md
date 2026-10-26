@@ -16,179 +16,81 @@ temps: 5
 interface: GPIO
 prix: ≈ 1 €
 alimentation: 3,3 V
-description: Le TCRT5000 est un capteur infrarouge réfléchissant qui détecte les objets à très courte
-  distance.
+description: Le TCRT5000 est un capteur infrarouge réfléchissant qui détecte les objets à très courte distance.
 images: []
 photos_a_ajouter: true
 elements:
-  - "📍 Proximité"
-natulib_os_driver: "DeviceTCRT5000"
-natulib_os_type: "tcrt5000"
+- 📍 Proximité
+natulib_os_driver: DeviceTCRT5000
+natulib_os_type: tcrt5000
+validation_statut: Cahier de tests à renseigner
+documentation_modele: Natulib V3
+validation_note: Statut repris du catalogue antérieur ; essais détaillés non fournis
 ---
-## 👀 En bref
+**Détecteur IR de proximité TCRT5000** — Détecter la proximité d’un objet à courte distance par réflexion infrarouge.
 
-Le **TCRT5000** est un capteur infrarouge réfléchissant qui détecte les objets à **très courte distance**.
+> **État de documentation :** informations issues du catalogue existant et du firmware Natulib OS V0.448. Le statut historique « Validé » est conservé ; les essais ci-dessous restent à consigner.
 
-Dans Natulib, il sert principalement de **capteur d'interaction** :
+## 🌱 À quoi sert ce module ?
 
-- ✋ détection d'une main devant l'écran ;
-- 🌱 réveil de Naturochi ;
-- 📺 changement d'affichage ;
-- ⚡ déclenchement d'une action sans contact.
+Détecter la proximité d’un objet à courte distance par réflexion infrarouge.
 
-**Alimentation :** 3,3 V · **Sortie principale :** DO · **Sortie analogique :** AO *(optionnelle)* · **Calibration :** potentiomètre.
+## 🔌 Branchement
 
----
+Relier alimentation et GND ; connecter la sortie de détection à un GPIO compatible selon la carte TCRT5000.
 
-## 📷 Aperçu
+**Avant toute connexion :** couper l'alimentation, identifier la variante exacte et vérifier la tension et les GPIO utilisés. Les GPIO4/5 des anciens exemples de câblage I²C ne doivent pas être considérés comme une recommandation universelle pour ESP32-C6.
 
-> 📷 *Photo à ajouter : `assets/NL-204A-Detecteur-IR-TCRT5000-1.png`*
+## 🚀 Installation dans Natulib OS
 
-<!-- Décommentez cette ligne une fois la photo ajoutée :
+1. Brancher le module hors tension, puis ouvrir l'interface web Natulib.
+2. Dans Hardware, choisir le détecteur TCRT5000 et sélectionner la broche d’entrée.
+3. Vérifier le résultat dans **Accueil** ; consulter **Console** et **Maintenance** en cas d'erreur.
 
--->
+La configuration se fait depuis l'interface, **sans modifier de code Arduino**.
 
----
+## 📊 Mesures ou fonctions
 
-## 🛒 Ce qu'il vous faut
+État de détection et variables du driver `tcrt5000`.
 
-| Composant | Qté | Obligatoire | Fournisseur |
-|---|--:|:-:|---|
-| Module TCRT5000 (LM393) | 1 | ✅ | AliExpress |
-| Câbles Dupont | 3–4 | ✅ | AliExpress |
+*Les préfixes de mesures dépendent de l'identifiant donné au module dans Hardware.*
 
-> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
+## 🧪 Cahier de validation
 
----
+**Configuration testée :** date ______ · firmware ______ · référence matérielle ______ · carte/shield ______ · broches ______.
 
-## 🔌 Câblage
-
-| TCRT5000 | ESP32-C6 | Fonction |
+| Vérification | Résultat | Notes / preuves |
 |---|---|---|
-| VCC | 3V3 | Alimentation |
-| GND | GND | Masse |
-| DO | GPIO14 | Détection numérique |
-| AO *(optionnel)* | GPIO1 | Mesure analogique |
+| ☐ Référence et photo du module vérifiées | Non testé | ______ |
+| ☐ Alimentation et câblage contrôlés | Non testé | ______ |
+| ☐ Ajout du module dans Hardware | Non testé | ______ |
+| ☐ Réaction ou mesures cohérentes | Non testé | ______ |
+| ☐ Comparaison / calibration si pertinente | Non testé | ______ |
+| ☐ Redémarrage et reprise du fonctionnement | Non testé | ______ |
+| ☐ Essai prolongé avec durée notée | Non testé | ______ |
 
-> 💡 Natulib utilise principalement **DO**. La sortie **AO** fournit une mesure analogique de la réflexion infrarouge.
+**Test spécifique :** Approcher différents matériaux et distances ; tester l’influence de la lumière ambiante et du seuil réglable.
 
-> 💡 Les GPIO indiqués ci-dessus sont une **recommandation par défaut**, utilisable telle quelle pour un montage isolé. Dans une station qui combine plusieurs modules, le câblage réel peut différer : reportez-vous au plan de brochage de votre fiche **[Projet](../Projets.md)**.
+**Décision :** ☐ En cours · ☐ À corriger · ☐ Validé sur le montage documenté.
 
----
+**Observations :** ______  
+**Photos / logs :** ______
 
-## ⚙️ Configuration Natulib OS
+## 🛠️ En cas de problème
 
-**Type :** `tcrt5000`
+- Vérifier les connexions, l'alimentation et les paramètres saisis dans **Hardware**.
+- Consulter **Console** pour les erreurs et **Maintenance** pour les diagnostics.
+- La réponse varie beaucoup avec la couleur et la réflectivité des surfaces ; ne pas déduire une distance précise.
 
-```json
-{
-  "id": "interaction",
-  "type": "tcrt5000",
-  "pins": {
-    "digital": 14,
-    "adc": 1
-  },
-  "invert": false,
-  "active": true
-}
-```
+## 🔧 Améliorations pour un montage plus simple
 
-| Paramètre | Fonction |
-|---|---|
-| `pins.digital` | Broche numérique reliée à `DO` |
-| `pins.adc` | Broche analogique reliée à `AO` (facultative) |
-| `invert` | Inverse la logique de détection (déf. `false`) |
-| `active` | Active / désactive le module |
+- [ ] Boîtier préassemblé avec prise numérique détrompée.
+- [ ] Vérifier qu'une personne débutante peut réaliser le montage sans soudure et sans choix ambigu de GPIO.
 
-> 🔵 Le driver `tcrt5000` lit les broches sous les clés `pins.digital` et `pins.adc` (et non `pins.signal`). Métriques exposées : `detected`, `raw`, `error`. Voir **[Drivers](../natulib-os/drivers.md)**.
+*Ces pistes ne sont pas des fonctions annoncées comme disponibles ou validées.*
 
----
+## ⚙️ Pour aller plus loin (facultatif)
 
-## 🛠️ Montage en 5 minutes
+`DeviceTCRT5000` (`type: tcrt5000`).
 
-1. Connectez le TCRT5000 à l'ESP32-C6 selon le tableau de câblage.
-2. Positionnez le capteur derrière une petite ouverture dans la façade.
-3. Orientez-le vers la zone d'interaction.
-4. Réglez la sensibilité avec le potentiomètre.
-5. Testez la détection avec la main ou l'objet à détecter.
-
----
-
-## 📏 Calibration
-
-1. Laissez la zone de détection dégagée.
-2. Tournez le potentiomètre jusqu'à ce que la LED de sortie s'éteigne.
-3. Approchez la main à la distance de déclenchement souhaitée.
-4. Ajustez jusqu'à obtenir un basculement franc.
-5. Répétez le test plusieurs fois pour vérifier la stabilité du seuil.
-
-> 💡 Refaites ce réglage **après** l'installation dans la façade : l'épaisseur et la matière modifient la réflexion.
-
----
-
-## 🧩 Problèmes courants
-
-**Aucune détection sur un objet sombre**
-→ Les surfaces noires ou mates réfléchissent peu l'infrarouge ; augmentez la sensibilité ou réduisez la distance.
-
-**Détections aléatoires en journée**
-→ Une lumière ambiante forte, notamment le soleil direct, perturbe la mesure.
-
----
-
-## 💡 À retenir
-
-- Le **DO** fournit une détection numérique simple.
-- Le **AO** est facultatif et fournit une mesure analogique.
-- La portée dépend fortement de la **distance, de la couleur et de la matière** de l'objet.
-- Ce capteur est destiné à la **proximité**, pas à la détection de présence dans une pièce — voir le [NL-203A](./NL-203A-PIR-HC-SR501.md) pour cet usage.
-- Ajustez le potentiomètre après l'installation pour obtenir un seuil fiable.
-
----
-
-## 🚧 Évolutions prévues
-
-- [ ] Assistant de calibration dans Natulib OS
-- [ ] Seuil réglable depuis l'interface Web
-- [ ] Petit support imprimable orientable
-- [ ] Version sur PCB Natulib
-
----
-
-## 🔗 Ressources
-
-- 👁️ [NL-203A — PIR HC-SR501](./NL-203A-PIR-HC-SR501.md)
-- 👆 [NL-206A — Capteur tactile TTP223](./NL-206A-Capteur-tactile-TTP223.md)
-- 🧱 [Retour au catalogue des modules](../Modules.md)
-
----
-
-## 🕓 Historique
-
-| Version | Évolution |
-|---|---|
-| A | Première intégration du TCRT5000 |
-
-## 🔧 Compatibilité Natulib OS — relevée dans le code
-
-**Driver :** `DeviceTCRT5000` · **Type JSON :** `tcrt5000`
-
-### Mesures / états exposés
-
-- `detected (0/1)`
-- `raw (si ADC)`
-- `online (0/1)`
-
-### Paramètres de configuration reconnus
-
-- `pins.digital`
-- `pins.adc (optionnel)`
-- `invert: false`
-- `interval_ms: 500`
-- `debug: false`
-
-### Notes de fonctionnement
-
-Peut utiliser la sortie digitale et une entrée analogique optionnelle. Les GPIO ADC sont vérifiés avant lecture.
-
-*Source : `natulib_devices.h` fourni pour cette mise à jour. Les valeurs indiquées comme « par défaut » proviennent du code ; les tensions, prix, soudures, temps d’installation et limites du matériel nécessitent une validation indépendante. Le fichier décrit le comportement logiciel et ne prouve pas qu’un montage physique a été testé.*
+Retrouver les bases dans [l'interface Natulib OS](../natulib-os/interface.md) et [les modules et drivers](../natulib-os/drivers.md).

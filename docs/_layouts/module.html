@@ -12,23 +12,32 @@ bare: true
       {% if page.reference or page.categorie %}<p class="nl-eyebrow">{{ page.categorie | default: 'Module Natulib' | escape }}{% if page.reference %} · {{ page.reference | escape }}{% endif %}</p>{% endif %}
       <h1>{{ page.title | escape }}</h1>
       {% if page.description %}<p class="nl-desc">{{ page.description | escape }}</p>{% endif %}
-      {% if page.fonctions and page.fonctions.size > 0 %}
-      <div class="nl-pills">{% for feature in page.fonctions %}<span>{{ feature | escape }}</span>{% endfor %}</div>
-      {% endif %}
     </div>
     {% if page.presentation %}<div class="nl-intro-card"><h2>Présentation</h2><div>{{ page.presentation | markdownify }}</div></div>{% endif %}
   </header>
+  {% assign elements = page.elements | default: page.fonctions %}
   {% assign statut = page.statut %}
   {% assign soudure = page.soudure %}
   {% assign niveau = page.niveau %}
   {% assign duree = page.duree | default: page.temps_installation %}
-  {% if statut or soudure or niveau or duree %}
-  <div class="nl-practical" aria-label="Informations pratiques du module">
-    {% if statut %}<div class="nl-practical-item"><span class="nl-practical-icon" aria-hidden="true">{% if statut == 'Validé' %}🟢{% elsif statut == 'En test' %}🟠{% else %}🔵{% endif %}</span><span><small>Statut</small><strong>{{ statut | escape }}</strong></span></div>{% endif %}
-    {% if soudure != nil %}<div class="nl-practical-item"><span class="nl-practical-icon" aria-hidden="true">{% if soudure == true or soudure == 'Oui' or soudure == 'Requise' %}🟠{% else %}🟢{% endif %}</span><span><small>Soudure</small><strong>{% if soudure == true %}Requise{% elsif soudure == false %}Sans soudure{% else %}{{ soudure | escape }}{% endif %}</strong></span></div>{% endif %}
-    {% if niveau %}<div class="nl-practical-item"><span class="nl-practical-icon" aria-hidden="true">👤</span><span><small>Niveau</small><strong>{{ niveau | escape }}</strong></span></div>{% endif %}
-    {% if duree %}<div class="nl-practical-item"><span class="nl-practical-icon" aria-hidden="true">⏱️</span><span><small>Installation</small><strong>{{ duree | escape }}</strong></span></div>{% endif %}
-  </div>
+  {% if elements.size > 0 or statut or soudure != nil or niveau or duree %}
+  <section class="nl-identity" aria-label="Identité et informations pratiques">
+    {% if elements and elements.size > 0 %}
+    <div class="nl-identity-row nl-identity-elements" aria-label="Fonctions du module">
+      {% for element in elements %}
+        <span class="nl-chip nl-chip-element">{% if element.label %}{% if element.icon %}<span aria-hidden="true">{{ element.icon | escape }}</span>{% endif %}{{ element.label | escape }}{% else %}{{ element | escape }}{% endif %}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if statut or soudure != nil or niveau or duree %}
+    <div class="nl-identity-row nl-identity-status" aria-label="Installation et validation">
+      {% if statut %}<span class="nl-chip nl-chip-info"><span aria-hidden="true">{% if statut == 'Validé' %}🟢{% elsif statut == 'En test' %}🟠{% else %}🔵{% endif %}</span>{{ statut | escape }}</span>{% endif %}
+      {% if soudure != nil %}<span class="nl-chip nl-chip-info"><span aria-hidden="true">{% if soudure == false or soudure == 'Sans soudure' or soudure == 'Non' %}🟢{% else %}🟠{% endif %}</span>{% if soudure == true %}Soudure requise{% elsif soudure == false %}Sans soudure{% else %}{{ soudure | escape }}{% endif %}</span>{% endif %}
+      {% if niveau %}<span class="nl-chip nl-chip-info"><span aria-hidden="true">👤</span>{{ niveau | escape }}</span>{% endif %}
+      {% if duree %}<span class="nl-chip nl-chip-info"><span aria-hidden="true">⏱️</span>{{ duree | escape }}</span>{% endif %}
+    </div>
+    {% endif %}
+  </section>
   {% endif %}
   {% assign facts = page.infos_rapides %}
   {% if facts and facts.size > 0 %}

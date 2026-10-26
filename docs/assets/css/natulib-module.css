@@ -18,3 +18,18 @@
 @media(max-width:760px){.nl-practical{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:390px){.nl-practical-item{padding:.75rem .55rem;gap:.4rem}.nl-practical-icon{font-size:1.1rem}.nl-practical-item strong{font-size:.83rem}}
 @media print{.nl-module-nav{display:none}}
+
+/* V3 — identité de module compacte, inspirée des stats de cartes de collection */
+.nl-identity{display:grid;gap:.55rem;padding:.85rem 1rem;margin:1rem 0 1.15rem;border:1px solid var(--nl-stroke);border-radius:16px;background:linear-gradient(125deg,var(--nl-soft),var(--nl-cream));box-shadow:0 5px 20px #1738210c}
+.nl-identity-row{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem .55rem}
+.nl-identity-status{padding-top:.6rem;border-top:1px solid var(--nl-stroke)}
+.nl-chip{display:inline-flex;align-items:center;gap:.37rem;max-width:100%;min-height:2rem;padding:.36rem .72rem;border:1px solid var(--nl-stroke);border-radius:999px;font-size:.83rem;font-weight:650;line-height:1.25;white-space:normal}
+.nl-chip-element{background:#dfebd8;color:#284c35;border-color:#c6dbc1}
+.nl-chip-info{background:var(--bg,#fffdf6);color:var(--text,#283b30)}
+.nl-chip span[aria-hidden]{line-height:1;flex-shrink:0}
+.nl-module .nl-back{padding:.45rem .75rem .45rem .48rem;border-radius:999px;gap:.55rem;box-shadow:none;font-size:.86rem}
+.nl-back-icon{height:1.9rem;width:1.9rem;border-radius:50%;font-size:1.05rem}
+.nl-back small{font-size:.65rem}.nl-back strong{font-size:.84rem}
+@media(max-width:550px){.nl-identity{padding:.75rem}.nl-chip{font-size:.78rem;padding:.32rem .6rem}}
+@media(prefers-color-scheme:dark){.nl-chip-element{background:#294936;color:#d8f1d8;border-color:#486c50}.nl-chip-info{background:#1d2e24;color:#ebf1eb}}
+@media print{.nl-identity{box-shadow:none}}

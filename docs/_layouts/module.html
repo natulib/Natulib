@@ -77,6 +77,9 @@ bare: true
     {% endif %}
   </section>
   {% endif %}
+  {% if page.photos_a_ajouter %}{% unless page.images and page.images.size > 0 %}
+  <aside class="nl-photo-todo" aria-label="Photos à ajouter">📷 Photos du module à ajouter dans le YAML <code>images</code>.</aside>
+  {% endunless %}{% endif %}
   {% if page.caracteristiques and page.caracteristiques.size > 0 %}
     <section class="nl-specs" aria-label="Caractéristiques principales">
       <h2>Caractéristiques principales</h2>

@@ -77,3 +77,5 @@
 @media(max-width:750px){.nl-hero{gap:.8rem}.nl-gallery-view{height:clamp(205px,55vw,285px)}.nl-gallery,.nl-specs,.nl-details-section{padding:.75rem}.nl-hero h1{font-size:clamp(1.85rem,7vw,2.3rem)}}
 @media(max-width:420px){.nl-hero{padding:.95rem}.nl-gallery-view{height:215px}.nl-identity{padding:.65rem}.nl-gallery-thumb{width:57px;height:46px}}
 @media(prefers-reduced-motion:reduce){.nl-module .nl-back{transition:none}}
+
+.nl-photo-todo{border:1px dashed var(--border,#cbd5cc);background:var(--surface,#f6f8fa);border-radius:12px;padding:12px 16px;margin:16px 0;color:var(--muted,#59636e);font-size:.88rem}

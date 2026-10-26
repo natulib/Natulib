@@ -24,7 +24,7 @@ has_children: true
   </div>
   <p id="nl-catalog-count" aria-live="polite" class="nl-section-heading"><span>Catalogue des modules</span></p>
   <div class="nl-module-grid" id="nl-module-grid">
-  {% assign modules = site.pages | where_exp: 'item', "item.path contains 'hardware/'" | sort: 'ref' %}
+  {% assign modules = site.pages | where_exp: 'item', "item.path contains 'modules/'" | sort: 'ref' %}
   {% for mod in modules %}
   {% assign module_ref = mod.ref | default: mod.reference %}
   {% unless module_ref == nil or module_ref contains 'xxx' or mod.path contains 'TEMPLATE' %}
@@ -33,13 +33,13 @@ has_children: true
     {% assign module_temps = mod.temps | default: mod.duree %}
     <a href="{{ mod.url | relative_url }}" class="nl-module-card" data-family="{{ mod.famille | downcase | escape }}">
       <span class="nl-module-top"><span class="nl-module-ref">{{ module_ref | escape }}</span><span class="nl-module-family">{{ mod.famille | default: mod.categorie | escape }}</span></span>
-      <span class="nl-module-title">{{ mod.title | split: '—' | last | strip | escape }}</span>
+      <span class="nl-module-title">{{ mod.title | escape }}</span>
       {% if mod.description %}<span class="nl-module-desc">{{ mod.description | escape }}</span>{% endif %}
       <span class="nl-chips">
-        {% case module_status %}{% when 'valide' %}<span class="nl-chip">🟢 Validé</span>{% when 'test' %}<span class="nl-chip">🟡 En test</span>{% when 'planifie' %}<span class="nl-chip">⚪ Planifié</span>{% else %}{% if module_status %}<span class="nl-chip">{{ module_status | escape }}</span>{% endif %}{% endcase %}
+        {% case module_status %}{% when 'valide' %}<span class="nl-chip">🟢 Validé</span>{% when 'test' %}<span class="nl-chip">🟡 En test</span>{% when 'planifie' %}<span class="nl-chip">⚪ Planifié</span>{% when 'Validé' %}<span class="nl-chip">🟢 Validé</span>{% when 'En test' %}<span class="nl-chip">🟡 En test</span>{% when 'Planifié' %}<span class="nl-chip">⚪ Planifié</span>{% else %}{% if module_status %}<span class="nl-chip">{{ module_status | escape }}</span>{% endif %}{% endcase %}
         {% if mod.interface %}<span class="nl-chip">🔌 {{ mod.interface | escape }}</span>{% endif %}
         {% case module_montage %}{% when 'sans_outil' %}<span class="nl-chip">🟢 Sans outil</span>{% when 'sans_soudure' %}<span class="nl-chip">🟢 Sans soudure</span>{% when 'soudure' %}<span class="nl-chip">🟠 Soudure</span>{% else %}{% if module_montage %}<span class="nl-chip">🟠 {{ module_montage | escape }}</span>{% endif %}{% endcase %}
-        {% if module_temps %}<span class="nl-chip">⏱️ {{ module_temps | escape }}{% if mod.temps %} min{% endif %}</span>{% endif %}
+        {% if module_temps %}<span class="nl-chip">⏱️ {% if mod.duree %}{{ mod.duree | escape }}{% else %}{{ mod.temps | escape }} min{% endif %}</span>{% endif %}
         {% if mod.niveau %}<span class="nl-chip">👤 {{ mod.niveau | replace: 'debutant','Débutant' | replace: 'intermediaire','Intermédiaire' | replace: 'avance','Avancé' | escape }}</span>{% endif %}
         {% if mod.prix %}{% assign prix_txt = mod.prix | append: '' %}<span class="nl-chip">💶 {{ prix_txt | escape }}{% unless prix_txt contains '€' %} €{% endunless %}</span>{% endif %}
       </span>

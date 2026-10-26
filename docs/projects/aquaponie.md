@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Aquaponie"
 parent: Projets
 statut: redaction

@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Jardinière aromatique et radis"
 parent: Projets
 ref: PRJ-002

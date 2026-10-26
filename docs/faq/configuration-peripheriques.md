@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Périphériques JSON"
 parent: FAQ
 statut: redaction

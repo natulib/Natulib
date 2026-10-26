@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Restauration d'usine"
 parent: FAQ
 statut: redaction

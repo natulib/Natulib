@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Nom du projet"
 parent: Projets
 ref: PRJ-xxx

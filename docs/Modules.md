@@ -16,6 +16,16 @@ has_children: true
       <select id="nl-capability-select" aria-label="Filtrer par capacité"><option value="">Toutes les capacités</option></select>
       <button type="button" id="nl-filter-reset" class="nl-filter">Effacer les filtres</button>
     </div>
+    <div class="nl-advanced-filters" aria-label="Filtres et tri détaillés">
+      <label>Statut<select id="nl-status-select"><option value="">Tous</option></select></label>
+      <label>Niveau<select id="nl-level-select"><option value="">Tous</option></select></label>
+      <label>Montage / soudure<select id="nl-mount-select"><option value="">Tous</option></select></label>
+      <label>Interface<select id="nl-interface-select"><option value="">Toutes</option></select></label>
+      <label>Alimentation<select id="nl-power-select"><option value="">Toutes</option></select></label>
+      <label>Durée max (min)<input id="nl-max-time" type="number" min="0" step="1" placeholder="Sans limite"></label>
+      <label>Prix max (€)<input id="nl-max-price" type="number" min="0" step="0.5" placeholder="Sans limite"></label>
+      <label>Trier par<select id="nl-sort"><option value="reference">Référence</option><option value="name">Nom A → Z</option><option value="name-desc">Nom Z → A</option><option value="status">Statut</option><option value="level">Niveau</option><option value="mount">Soudure / montage</option><option value="interface">Interface</option><option value="time">Durée croissante</option><option value="time-desc">Durée décroissante</option><option value="price">Prix croissant</option><option value="price-desc">Prix décroissant</option></select></label>
+    </div>
     <div class="nl-filters" aria-label="Filtrer par famille">
       <button class="nl-filter" data-family="all" aria-pressed="true">Tous</button>
       <button class="nl-filter" data-family="core" aria-pressed="false">🔴 Core</button>
@@ -43,7 +53,8 @@ has_children: true
     {% assign module_montage = mod.montage | default: mod.soudure %}
     {% assign module_temps = mod.temps | default: mod.duree %}
     {% assign module_caps = mod.elements | default: mod.fonctions %}
-    <article class="nl-module-card" data-family="{{ mod.famille | downcase | escape }}" data-capacities="{% for elem in module_caps %}{% assign c = elem.label | default: elem %}{{ c | slugify }} {% endfor %}">
+    {% assign module_alim = mod.alimentation | default: mod.tension %}
+    <article class="nl-module-card" data-name="{{ mod.title | downcase | escape }}" data-ref="{{ module_ref | escape }}" data-status="{{ module_status | downcase | escape }}" data-level="{{ mod.niveau | downcase | escape }}" data-mount="{{ module_montage | downcase | escape }}" data-interface="{{ mod.interface | downcase | escape }}" data-power="{{ module_alim | downcase | escape }}" data-time="{{ module_temps | escape }}" data-price="{{ mod.prix | escape }}" data-family="{{ mod.famille | downcase | escape }}" data-capacities="{% for elem in module_caps %}{% assign c = elem.label | default: elem %}{{ c | slugify }} {% endfor %}">
       <span class="nl-module-top"><span class="nl-module-ref">{{ module_ref | escape }}</span><span class="nl-module-family">{{ mod.famille | default: mod.categorie | escape }}</span></span>
       {% assign first_image = mod.images | first %}
       <a class="nl-module-media" href="{{ mod.url | relative_url }}" tabindex="-1" aria-hidden="true">

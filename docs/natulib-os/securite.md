@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Système — Sécurité"
 parent: Natulib OS
 statut: publie

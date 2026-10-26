@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Système — Réseau"
 parent: Natulib OS
 statut: publie

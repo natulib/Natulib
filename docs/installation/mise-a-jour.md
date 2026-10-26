@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Mise à jour"
 parent: Installation
 statut: redaction

@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Développer Natulib OS"
 parent: Contribuer
 statut: redaction

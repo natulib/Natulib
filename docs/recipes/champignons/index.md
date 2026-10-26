@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Catalogue des champignons"
 statut: redaction
 ---

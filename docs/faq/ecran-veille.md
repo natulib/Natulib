@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Écran et veille"
 parent: FAQ
 statut: redaction

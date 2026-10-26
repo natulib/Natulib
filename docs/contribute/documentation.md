@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Améliorer la documentation"
 parent: Contribuer
 statut: redaction

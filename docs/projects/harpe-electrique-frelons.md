@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Harpe électrique tueuse de frelons"
 parent: Projets
 ref: PRJ-001

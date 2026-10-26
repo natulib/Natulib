@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Système — Développement"
 parent: Natulib OS
 statut: publie

@@ -1,0 +1,19 @@
+---
+layout: default
+---
+{% assign nl_base = site.baseurl | default: '/Natulib' %}
+{% assign nl_area = page.path | split: '/' | first %}
+{% case nl_area %}
+  {% when 'installation' %}{% assign nl_parent = 'Installation' %}
+  {% when 'natulib-os' %}{% assign nl_parent = 'Natulib OS' %}
+  {% when 'faq' %}{% assign nl_parent = 'FAQ' %}
+  {% when 'contribute' %}{% assign nl_parent = 'Contribuer' %}
+  {% when 'projects' %}{% assign nl_parent = 'Projets' %}
+  {% when 'recipes' %}{% assign nl_parent = 'Recettes' %}
+  {% else %}{% assign nl_parent = 'Accueil' %}
+{% endcase %}
+<link rel="stylesheet" href="{{ nl_base }}/assets/css/natulib-pages.css">
+<div class="nl-doc">
+  <nav class="nl-doc-nav" aria-label="Navigation documentaire"><a class="nl-doc-back" href="{{ nl_base }}/{% unless nl_parent == 'Accueil' %}{{ nl_parent | replace: ' ', '-' }}.html{% endunless %}">← Retour : {{ nl_parent }}</a><span class="nl-doc-eyebrow">Documentation Natulib</span></nav>
+  <article class="nl-doc-section markdown-body">{{ content }}</article>
+</div>

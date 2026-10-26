@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Fonctionnement — Automatisations"
 parent: Natulib OS
 statut: publie

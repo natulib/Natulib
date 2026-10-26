@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Serre connectée"
 parent: Projets
 statut: redaction

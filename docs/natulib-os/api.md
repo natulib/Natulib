@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Fonctionnement — API REST"
 parent: Natulib OS
 statut: publie

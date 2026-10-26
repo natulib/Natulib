@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Créer un module"
 parent: Contribuer
 statut: valide

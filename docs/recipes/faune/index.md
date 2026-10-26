@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Catalogue de la faune"
 statut: redaction
 ---

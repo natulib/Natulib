@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Premiers tests"
 parent: Installation
 statut: redaction

@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Système — Architecture"
 parent: Natulib OS
 statut: publie

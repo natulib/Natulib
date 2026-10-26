@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Bibliothèque des règles"
 statut: redaction
 ---

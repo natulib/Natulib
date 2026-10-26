@@ -72,3 +72,23 @@
  .nl-module-grid[data-view=list] .nl-module-info .nl-chips{font-size:.8rem}
 }
 @media(max-width:410px){.nl-view-button{padding:7px 9px}.nl-module-grid[data-view=list] .nl-module-card{padding:9px}}
+
+/* Catalogue : filtres transversaux */
+.nl-advanced-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px;width:100%}
+.nl-advanced-filters label{display:flex;flex-direction:column;gap:4px;font-size:.75rem;font-weight:700;color:var(--nl-muted)}
+.nl-advanced-filters select,.nl-advanced-filters input{width:100%;min-width:0;padding:8px 9px;border-radius:10px;border:1px solid var(--nl-line);background:var(--nl-paper);color:var(--nl-ink);font:inherit;font-size:.85rem}
+.nl-advanced-filters :is(input,select):focus-visible{outline:2px solid var(--nl-green);outline-offset:2px}
+/* Style des sous-pages de documentation, partagé avec les pages principales */
+.nl-doc{--nl-line:var(--border,#d0d7de);--nl-soft:var(--surface,#f6f8fa);--nl-muted:var(--muted,#59636e);--nl-green:var(--accent,#1a7f37);max-width:100%}
+.nl-doc-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin:0 0 13px}
+.nl-doc-back{border:1px solid var(--nl-line);border-radius:999px;padding:7px 12px;text-decoration:none!important;color:var(--text)!important;font-size:.84rem;font-weight:650}
+.nl-doc-back:hover{border-color:var(--nl-green)}
+.nl-doc-section{min-width:0;border:1px solid var(--nl-line);border-radius:16px;padding:clamp(16px,2.3vw,24px);background:var(--bg);}
+.nl-doc-section>h1:first-child{font-size:clamp(1.48rem,2.6vw,1.85rem);line-height:1.2;letter-spacing:-.025em;margin:0 0 14px;padding:0;border:0}
+.nl-doc-section h2{font-size:1.17rem;margin:1.65em 0 .65em;padding-bottom:6px;border-bottom:1px solid var(--nl-line)}
+.nl-doc-section h3{font-size:1rem;margin:1.3em 0 .5em}
+.nl-doc-section table{display:table;max-width:100%}
+.nl-doc-section pre{overflow-x:auto}
+.nl-doc-section img{max-width:100%;height:auto}
+.nl-doc-eyebrow{font-size:.75rem;text-transform:uppercase;letter-spacing:.09em;color:var(--nl-green);font-weight:750}
+@media(max-width:640px){.nl-doc-section{padding:14px;border-radius:12px}.nl-advanced-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}

@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Historique et rétention"
 parent: FAQ
 statut: redaction

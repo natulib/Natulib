@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Ruche connectée"
 parent: Projets
 statut: redaction

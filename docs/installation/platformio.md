@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Installation PlatformIO"
 parent: Installation
 statut: redaction

@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Créer un avatar"
 parent: Contribuer
 statut: redaction

@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Fonctionnement — Interface Web"
 parent: Natulib OS
 statut: publie

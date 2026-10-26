@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Fonctionnement — Historique"
 parent: Natulib OS
 statut: publie

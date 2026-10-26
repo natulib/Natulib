@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Mises à jour OTA"
 parent: FAQ
 statut: redaction

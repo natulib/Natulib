@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Premier démarrage & Wi-Fi"
 parent: Installation
 statut: redaction

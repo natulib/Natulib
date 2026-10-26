@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Nichoir connecté"
 parent: Projets
 statut: redaction

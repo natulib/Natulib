@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Matériel — Filesystem"
 parent: Natulib OS
 statut: publie

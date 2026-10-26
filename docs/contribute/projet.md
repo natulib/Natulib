@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Créer un projet"
 parent: Contribuer
 statut: redaction

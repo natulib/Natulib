@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Créer une recette"
 parent: Contribuer
 statut: redaction

@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Bioponie"
 parent: Projets
 statut: redaction

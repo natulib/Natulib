@@ -14,16 +14,41 @@ setView(initialView);
 const labelMap=new Map();
 root.querySelectorAll('.nl-capacity-chip').forEach(a=>{const u=new URL(a.href);const slug=u.searchParams.get('capacite');if(slug&&!labelMap.has(slug))labelMap.set(slug,a.textContent.trim().replace(/^[^\p{L}\p{N}]+/u,''));});
 Array.from(labelMap.entries()).sort((a,b)=>a[1].localeCompare(b[1],'fr')).forEach(([slug,label])=>{const opt=document.createElement('option');opt.value=slug;opt.textContent=label;select.append(opt)});
+const controls={status:root.querySelector('#nl-status-select'),level:root.querySelector('#nl-level-select'),mount:root.querySelector('#nl-mount-select'),interface:root.querySelector('#nl-interface-select'),power:root.querySelector('#nl-power-select')};
+const maxTime=root.querySelector('#nl-max-time'),maxPrice=root.querySelector('#nl-max-price'),sort=root.querySelector('#nl-sort');
+const clean=s=>(s||'').toString().trim().toLocaleLowerCase('fr');
+const numeric=v=>{const n=parseFloat(String(v||'').replace(',','.').replace(/[^0-9.]/g,''));return Number.isFinite(n)?n:Infinity};
+Object.entries(controls).forEach(([key,sel])=>{
+ const vals=[...new Set(cards.map(c=>clean(c.dataset[key])).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'fr'));
+ vals.forEach(v=>{const option=document.createElement('option');option.value=v;option.textContent=v.replace(/_/g,' ');sel.append(option)});
+});
 const url=new URL(window.location.href);let param=url.searchParams.get('capacite')||'';
 // A direct link from any module can activate a capacity on arrival.
 if(labelMap.has(param))select.value=param;
 function update(){const q=search.value.trim().toLocaleLowerCase('fr'),cap=select.value;let shown=0;
-cards.forEach(card=>{const caps=new Set((card.dataset.capacities||'').split(/\s+/));const match=(active==='all'||card.dataset.family===active)&&(!cap||caps.has(cap))&&card.textContent.toLocaleLowerCase('fr').includes(q);card.hidden=!match;if(match)shown++});
-count.textContent=shown+' module'+(shown!==1?'s':'')+' affiché'+(shown!==1?'s':'');empty.hidden=shown!==0;
+cards.forEach(card=>{const caps=new Set((card.dataset.capacities||'').split(/\s+/));const match=(active==='all'||card.dataset.family===active)&&(!cap||caps.has(cap))&&card.textContent.toLocaleLowerCase('fr').includes(q)
+&&Object.entries(controls).every(([key,sel])=>!sel.value||clean(card.dataset[key])===sel.value)
+&&(!maxTime.value||numeric(card.dataset.time)<=Number(maxTime.value))
+&&(!maxPrice.value||numeric(card.dataset.price)<=Number(maxPrice.value));card.hidden=!match;if(match)shown++});
+const field=sort.value, desc=field.endsWith('-desc');
+const base=desc?field.slice(0,-5):field;
+const order={debutant:0,intermediaire:1,avance:2};
+const statusOrder={valide:0,'validé':0,test:1,'en test':1,planifie:2,'planifié':2};
+const items=cards.slice().sort((a,b)=>{
+ let va=a.dataset[base]||'',vb=b.dataset[base]||'';
+ if(base==='reference'){va=a.dataset.ref||'';vb=b.dataset.ref||''}
+ if(base==='level'){va=order[clean(va)]??99;vb=order[clean(vb)]??99}
+ if(base==='status'){va=statusOrder[clean(va)]??99;vb=statusOrder[clean(vb)]??99}
+ if(base==='price'||base==='time'){va=numeric(va);vb=numeric(vb)}
+ const result=(typeof va==='number'&&typeof vb==='number')?va-vb:String(va).localeCompare(String(vb),'fr',{numeric:true});
+ return (desc?-1:1)*result;
+ });
+ items.forEach(card=>grid.append(card));
+ count.textContent=shown+' module' +(shown!==1?'s':'')+' affiché'+(shown!==1?'s':'');empty.hidden=shown!==0;
 const next=new URL(window.location.href);if(cap)next.searchParams.set('capacite',cap);else next.searchParams.delete('capacite');history.replaceState(null,'',next.pathname+next.search+next.hash);
 }
 filters.forEach(btn=>btn.addEventListener('click',()=>{active=btn.dataset.family;filters.forEach(item=>item.setAttribute('aria-pressed',String(item===btn)));update()}));
-search.addEventListener('input',update);select.addEventListener('change',update);
-reset.addEventListener('click',()=>{search.value='';select.value='';active='all';filters.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.family==='all')));update()});
+search.addEventListener('input',update);select.addEventListener('change',update);Object.values(controls).forEach(x=>x.addEventListener('change',update));[maxTime,maxPrice].forEach(x=>x.addEventListener('input',update));sort.addEventListener('change',update);
+reset.addEventListener('click',()=>{search.value='';select.value='';Object.values(controls).forEach(x=>x.value='');maxTime.value='';maxPrice.value='';sort.value='reference';active='all';filters.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.family==='all')));update()});
 update();
 })();

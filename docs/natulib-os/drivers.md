@@ -1,4 +1,5 @@
 ---
+layout: doc
 title: "Matériel — Drivers"
 parent: Natulib OS
 statut: publie

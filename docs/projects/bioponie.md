@@ -1,4 +1,5 @@
 ---
+description: "Culture hydroponique à nutriments organiques."
 layout: doc
 title: "Bioponie"
 parent: Projets

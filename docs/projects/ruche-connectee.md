@@ -1,4 +1,5 @@
 ---
+description: "Suivi par pesée continue et acoustique."
 layout: doc
 title: "Ruche connectée"
 parent: Projets

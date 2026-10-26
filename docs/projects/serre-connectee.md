@@ -1,4 +1,5 @@
 ---
+description: "Gestion du climat, de l’ombrage et de l’arrosage."
 layout: doc
 title: "Serre connectée"
 parent: Projets

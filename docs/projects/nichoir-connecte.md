@@ -1,4 +1,5 @@
 ---
+description: "Observation faunique avec capteurs et caméra."
 layout: doc
 title: "Nichoir connecté"
 parent: Projets

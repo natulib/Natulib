@@ -16,6 +16,7 @@ root.querySelectorAll('.nl-capacity-chip').forEach(a=>{const u=new URL(a.href);c
 Array.from(labelMap.entries()).sort((a,b)=>a[1].localeCompare(b[1],'fr')).forEach(([slug,label])=>{const opt=document.createElement('option');opt.value=slug;opt.textContent=label;select.append(opt)});
 const controls={status:root.querySelector('#nl-status-select'),level:root.querySelector('#nl-level-select'),mount:root.querySelector('#nl-mount-select'),interface:root.querySelector('#nl-interface-select'),power:root.querySelector('#nl-power-select')};
 const maxTime=root.querySelector('#nl-max-time'),maxPrice=root.querySelector('#nl-max-price'),sort=root.querySelector('#nl-sort');
+const activeBar=root.querySelector('#nl-active-filters'),filterBadge=root.querySelector('#nl-filter-badge');
 const clean=s=>(s||'').toString().trim().toLocaleLowerCase('fr');
 const numeric=v=>{const n=parseFloat(String(v||'').replace(',','.').replace(/[^0-9.]/g,''));return Number.isFinite(n)?n:Infinity};
 Object.entries(controls).forEach(([key,sel])=>{
@@ -44,6 +45,16 @@ const items=cards.slice().sort((a,b)=>{
  return (desc?-1:1)*result;
  });
  items.forEach(card=>grid.append(card));
+ const selected=[];
+ if(search.value.trim())selected.push(['Recherche : '+search.value.trim(),()=>{search.value=''}]);
+ if(select.value)selected.push(['Capacité : '+select.options[select.selectedIndex].text,()=>{select.value=''}]);
+ if(active!=='all')selected.push(['Famille : '+(filters.find(b=>b.dataset.family===active)?.textContent||active),()=>{active='all';filters.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.family==='all')))}]);
+ Object.entries(controls).forEach(([key,control])=>{if(control.value)selected.push([control.parentElement.textContent.trim().split('\n')[0]+ ' : '+control.options[control.selectedIndex].text,()=>{control.value=''}])});
+ if(maxTime.value)selected.push(['Durée ≤ '+maxTime.value+' min',()=>{maxTime.value=''}]);
+ if(maxPrice.value)selected.push(['Prix ≤ '+maxPrice.value+' €',()=>{maxPrice.value=''}]);
+ activeBar.replaceChildren(); selected.forEach(([label,clear])=>{const b=document.createElement('button');b.type='button';b.className='nl-active-chip';b.textContent=label+' ×';b.title='Retirer le filtre '+label;b.addEventListener('click',()=>{clear();update()});activeBar.append(b)});
+ const extra=selected.length-(select.value?1:0)-(search.value.trim()?1:0);
+ filterBadge.hidden=extra<=0;if(extra>0)filterBadge.textContent=extra;
  count.textContent=shown+' module' +(shown!==1?'s':'')+' affiché'+(shown!==1?'s':'');empty.hidden=shown!==0;
 const next=new URL(window.location.href);if(cap)next.searchParams.set('capacite',cap);else next.searchParams.delete('capacite');history.replaceState(null,'',next.pathname+next.search+next.hash);
 }

@@ -1,4 +1,5 @@
 ---
+description: "Piège électrique activé par détection."
 layout: doc
 title: "Harpe électrique tueuse de frelons"
 parent: Projets

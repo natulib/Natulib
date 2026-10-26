@@ -1,4 +1,5 @@
 ---
+description: "Culture hors-sol automatisée en intérieur."
 layout: doc
 title: "Hydroponie"
 parent: Projets

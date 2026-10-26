@@ -92,3 +92,26 @@
 .nl-doc-section img{max-width:100%;height:auto}
 .nl-doc-eyebrow{font-size:.75rem;text-transform:uppercase;letter-spacing:.09em;color:var(--nl-green);font-weight:750}
 @media(max-width:640px){.nl-doc-section{padding:14px;border-radius:12px}.nl-advanced-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* V5 — navigation filtrée compacte, commune aux deux catalogues */
+.nl-compact-toolbar{display:block;padding:10px 12px;border:1px solid var(--nl-line);border-radius:14px;background:var(--nl-soft);margin-bottom:14px}
+.nl-quick-filters{display:flex;align-items:center;flex-wrap:wrap;gap:9px;width:100%}
+.nl-quick-filters .nl-catalog-search{flex:1 1 250px;min-width:0}
+.nl-quick-filters .nl-capability-filter{display:flex;flex:0 1 auto;flex-wrap:wrap;align-items:center;gap:8px}
+.nl-quick-filters .nl-capability-filter label{font-size:.8rem}
+.nl-quick-select{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--nl-muted);font-weight:700}
+.nl-quick-select select,.nl-quick-filters select{border:1px solid var(--nl-line);border-radius:9px;padding:8px;background:var(--nl-paper);color:var(--nl-ink);max-width:190px}
+.nl-filter-drawer{width:100%;margin-top:9px;border-top:1px solid var(--nl-line);padding-top:8px}
+.nl-filter-drawer>summary{cursor:pointer;width:max-content;max-width:100%;font-size:.84rem;font-weight:750;list-style:none;color:var(--nl-ink);padding:5px 2px}
+.nl-filter-drawer>summary::-webkit-details-marker{display:none}
+.nl-filter-drawer[open]>summary{margin-bottom:9px}
+.nl-filter-drawer .nl-advanced-filters{margin-bottom:12px}
+.nl-filter-drawer .nl-filters{padding:8px 0 3px}
+.nl-filter-badge{display:inline-flex;border-radius:100px;background:var(--nl-green);color:white;padding:1px 7px;font-size:.7rem;margin-left:4px}
+.nl-filter-badge[hidden]{display:none}
+.nl-active-filters{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
+.nl-active-filters:empty{display:none}
+.nl-active-chip{font:inherit;font-size:.75rem;cursor:pointer;color:var(--nl-ink);background:var(--nl-paper);border:1px solid var(--nl-line);border-radius:100px;padding:5px 10px}
+.nl-active-chip:hover{border-color:var(--nl-green)}
+.nl-project-grid .nl-module-title{font-size:1rem}
+@media(max-width:650px){.nl-quick-filters .nl-catalog-search{flex-basis:100%}.nl-quick-filters .nl-capability-filter{width:100%}.nl-quick-filters .nl-capability-filter select{flex:1;max-width:none}.nl-compact-toolbar{padding:10px}.nl-quick-select select{max-width:none}}

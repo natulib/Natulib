@@ -9,13 +9,16 @@ has_children: true
 <link rel="stylesheet" href="{{ nl_base }}/assets/css/natulib-pages.css">
 <section class="nl-catalog" id="nl-catalog">
   <header class="nl-catalog-hero"><p class="nl-eyebrow">Catalogue matériel</p><h1>🧱 Modules Natulib</h1><p class="nl-catalog-intro">Explorez les briques matérielles de Natulib : recherche, famille, statut et informations pratiques en un coup d’œil.</p></header>
-  <div class="nl-catalog-toolbar">
+  <div class="nl-catalog-toolbar nl-compact-toolbar">
+    <div class="nl-quick-filters">
     <input id="nl-module-search" class="nl-catalog-search" type="search" placeholder="Rechercher un module, une interface, une référence…" aria-label="Rechercher des modules">
     <div class="nl-capability-filter">
       <label for="nl-capability-select">Capacité</label>
       <select id="nl-capability-select" aria-label="Filtrer par capacité"><option value="">Toutes les capacités</option></select>
       <button type="button" id="nl-filter-reset" class="nl-filter">Effacer les filtres</button>
     </div>
+    </div>
+    <details class="nl-filter-drawer" id="nl-filter-drawer"><summary>⚙️ Filtres avancés <span id="nl-filter-badge" class="nl-filter-badge" hidden></span></summary>
     <div class="nl-advanced-filters" aria-label="Filtres et tri détaillés">
       <label>Statut<select id="nl-status-select"><option value="">Tous</option></select></label>
       <label>Niveau<select id="nl-level-select"><option value="">Tous</option></select></label>
@@ -36,6 +39,8 @@ has_children: true
       <button class="nl-filter" data-family="enclosures" aria-pressed="false">📦 Enclosures</button>
       <button class="nl-filter" data-family="connectivity" aria-pressed="false">📡 Connectivity</button>
     </div>
+    </details>
+    <div id="nl-active-filters" class="nl-active-filters" aria-label="Filtres actifs" aria-live="polite"></div>
   </div>
   <div class="nl-catalog-display">
   <p id="nl-catalog-count" aria-live="polite" class="nl-section-heading"><span>Catalogue des modules</span></p>

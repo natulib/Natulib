@@ -1,4 +1,5 @@
 ---
+description: "Culture de plantes et élevage de poissons."
 layout: doc
 title: "Aquaponie"
 parent: Projets

@@ -1,4 +1,5 @@
 ---
+description: "Arrosage automatique sur seuil d’humidité."
 layout: doc
 title: "Jardinière aromatique et radis"
 parent: Projets

@@ -4,6 +4,10 @@ bare: true
 title: BME280
 reference: NL-201A
 categorie: Climat & Air
+statut: Validé
+soudure: Requise si barrette non montée
+niveau: Intermédiaire
+duree: 20 min
 description: Capteur de température, humidité relative et pression atmosphérique.
 presentation: >-
   Le BME280 mesure l'air ambiant et communique avec l'ESP32-C6 en I²C.
@@ -18,8 +22,6 @@ infos_rapides:
     valeur: 3,3 V
   - nom: Interface
     valeur: I²C
-  - nom: Installation estimée
-    valeur: 20 min
   - nom: Prix indicatif
     valeur: ≈ 3 €
 images:

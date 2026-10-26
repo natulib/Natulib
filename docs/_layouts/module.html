@@ -4,7 +4,9 @@ bare: true
 ---
 <link rel="stylesheet" href="{{ '/assets/css/natulib-module.css' | relative_url }}">
 <article class="nl-module" data-nl-module>
-  <a class="nl-back" href="{{ '/Modules.html' | relative_url }}">← Retour aux modules</a>
+  <nav class="nl-module-nav" aria-label="Navigation du module">
+    <a class="nl-back" href="{{ '/Modules.html' | relative_url }}"><span class="nl-back-icon" aria-hidden="true">←</span><span><small>Catalogue Natulib</small><strong>Retour aux modules</strong></span></a>
+  </nav>
   <header class="nl-hero">
     <div>
       {% if page.reference or page.categorie %}<p class="nl-eyebrow">{{ page.categorie | default: 'Module Natulib' | escape }}{% if page.reference %} · {{ page.reference | escape }}{% endif %}</p>{% endif %}
@@ -16,6 +18,18 @@ bare: true
     </div>
     {% if page.presentation %}<div class="nl-intro-card"><h2>Présentation</h2><div>{{ page.presentation | markdownify }}</div></div>{% endif %}
   </header>
+  {% assign statut = page.statut %}
+  {% assign soudure = page.soudure %}
+  {% assign niveau = page.niveau %}
+  {% assign duree = page.duree | default: page.temps_installation %}
+  {% if statut or soudure or niveau or duree %}
+  <div class="nl-practical" aria-label="Informations pratiques du module">
+    {% if statut %}<div class="nl-practical-item"><span class="nl-practical-icon" aria-hidden="true">{% if statut == 'Validé' %}🟢{% elsif statut == 'En test' %}🟠{% else %}🔵{% endif %}</span><span><small>Statut</small><strong>{{ statut | escape }}</strong></span></div>{% endif %}
+    {% if soudure != nil %}<div class="nl-practical-item"><span class="nl-practical-icon" aria-hidden="true">{% if soudure == true or soudure == 'Oui' or soudure == 'Requise' %}🟠{% else %}🟢{% endif %}</span><span><small>Soudure</small><strong>{% if soudure == true %}Requise{% elsif soudure == false %}Sans soudure{% else %}{{ soudure | escape }}{% endif %}</strong></span></div>{% endif %}
+    {% if niveau %}<div class="nl-practical-item"><span class="nl-practical-icon" aria-hidden="true">👤</span><span><small>Niveau</small><strong>{{ niveau | escape }}</strong></span></div>{% endif %}
+    {% if duree %}<div class="nl-practical-item"><span class="nl-practical-icon" aria-hidden="true">⏱️</span><span><small>Installation</small><strong>{{ duree | escape }}</strong></span></div>{% endif %}
+  </div>
+  {% endif %}
   {% assign facts = page.infos_rapides %}
   {% if facts and facts.size > 0 %}
   <div class="nl-facts" aria-label="Informations essentielles">

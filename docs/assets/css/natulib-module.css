@@ -44,3 +44,36 @@
 @media(max-width:680px){.nl-module .nl-top-specs{width:100%;justify-content:flex-start;margin-left:0}.nl-module .nl-top-chip{padding:.35rem .6rem;font-size:.78rem}}
 @media(prefers-color-scheme:dark){.nl-module .nl-top-chip{background:#253b2d;color:#e4f0e6}}
 @media print{.nl-module .nl-top-specs{display:flex}.nl-module .nl-module-nav{display:flex}.nl-module .nl-back{display:none}}
+
+
+/* V5 — proportions resserrées, galerie réduite et typographie cohérente */
+.nl-module{max-width:1080px;margin-bottom:2.5rem}
+.nl-module .nl-module-nav{margin-bottom:.8rem}
+.nl-hero{gap:1.1rem;padding:clamp(1rem,2.2vw,1.55rem);border-radius:15px;align-items:center}
+.nl-hero h1{font-size:clamp(1.9rem,3.7vw,2.8rem);line-height:1.12;letter-spacing:-.035em;margin:.25rem 0 .45rem;font-weight:780}
+.nl-eyebrow{font-size:.73rem;letter-spacing:.065em;margin:0}
+.nl-desc{font-size:clamp(.94rem,1.25vw,1.04rem);line-height:1.48;margin:0}
+.nl-intro-card{padding:1rem 1.15rem;border-radius:12px}
+.nl-intro-card h2{font-size:1rem;margin:0 0 .4rem}
+.nl-intro-card p{font-size:.9rem;line-height:1.55}
+.nl-identity{margin:.8rem 0 1rem;padding:.7rem .85rem;gap:.45rem;border-radius:13px;box-shadow:none}
+.nl-identity-status{padding-top:.48rem}
+.nl-chip{min-height:1.85rem;font-size:.8rem;padding:.31rem .65rem}
+.nl-top-chip{box-shadow:none}
+.nl-gallery,.nl-specs,.nl-details-section{margin:.8rem 0;padding:1rem;border-radius:14px}
+.nl-gallery{max-width:100%}
+.nl-gallery-view{height:clamp(205px,27vw,320px);border-radius:10px}
+.nl-gallery-slide{padding:.65rem}
+.nl-gallery-slide img{max-height:calc(100% - 1.7rem)}
+.nl-gallery-slide figcaption{font-size:.76rem;margin-top:.25rem}
+.nl-gallery-thumbs{gap:.45rem;margin-top:.55rem}
+.nl-gallery-thumb{width:64px;height:50px;padding:3px;border-radius:8px}
+.nl-specs h2,.nl-details-section>h2{font-size:1.12rem;margin:0 0 .7rem}
+.nl-specs dl>div{padding:.52rem 0;font-size:.9rem}
+.nl-accordion{margin:.45rem 0;border-radius:10px}
+.nl-accordion summary{padding:.75rem .9rem;font-size:.93rem}
+.nl-accordion-content{padding:.85rem 1rem}
+@media(min-width:960px){.nl-gallery{width:min(100%,880px);margin-left:auto;margin-right:auto}}
+@media(max-width:750px){.nl-hero{gap:.8rem}.nl-gallery-view{height:clamp(205px,55vw,285px)}.nl-gallery,.nl-specs,.nl-details-section{padding:.75rem}.nl-hero h1{font-size:clamp(1.85rem,7vw,2.3rem)}}
+@media(max-width:420px){.nl-hero{padding:.95rem}.nl-gallery-view{height:215px}.nl-identity{padding:.65rem}.nl-gallery-thumb{width:57px;height:46px}}
+@media(prefers-reduced-motion:reduce){.nl-module .nl-back{transition:none}}

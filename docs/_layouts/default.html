@@ -203,6 +203,50 @@
       .nav-link, .nav-search input, .nav-toggle-bars, .nav-toggle-bars::before,
       .nav-toggle-bars::after, .footer-links a { transition: none; }
     }
+
+    /* Natulib V5 — en-tête horizontal sur ordinateur ; menu mobile conservé */
+    @media (min-width: 1000px) {
+      .site-header { border-bottom: 1px solid var(--border); }
+      .site-header-inner {
+        max-width: 1240px;
+        flex-wrap: nowrap;
+        gap: clamp(16px,2vw,30px);
+        padding-top: 11px;
+        padding-bottom: 11px;
+      }
+      .brand { flex: 0 0 auto; margin: 0; }
+      .brand img { max-height: 52px; width: auto; border-radius: 8px; }
+      .site-nav {
+        flex: 1 1 auto;
+        min-width: 0;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+        gap: 10px;
+        padding: 0;
+        border-bottom: 0;
+      }
+      .nav-list {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 2px clamp(7px,1vw,14px);
+      }
+      .nav-link { font-size: clamp(12px,1vw,14px); padding: 7px 0; }
+      .nav-search { margin-left: 4px; }
+    }
+    @media (min-width: 1000px) and (max-width: 1099px) {
+      .site-header-inner { gap: 12px; }
+      .brand img { max-height: 42px; }
+      .nav-list { gap: 1px 8px; }
+      .nav-link { font-size: 12px; }
+    }
+    @media (max-width: 999px) {
+      .site-header { backdrop-filter: blur(12px); }
+      .site-header-inner { min-height: 62px; }
+      .brand img { max-height: 39px; }
+      .site-nav { max-height: calc(100dvh - 62px); }
+    }
+    .site-header .nav-link:focus-visible,
+    .site-header .brand:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   </style>
 </head>
 <body>

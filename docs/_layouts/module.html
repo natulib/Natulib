@@ -1,0 +1,57 @@
+---
+layout: default
+bare: true
+---
+<link rel="stylesheet" href="{{ '/assets/css/natulib-module.css' | relative_url }}">
+<article class="nl-module" data-nl-module>
+  <a class="nl-back" href="{{ '/Modules.html' | relative_url }}">← Retour aux modules</a>
+  <header class="nl-hero">
+    <div>
+      {% if page.reference or page.categorie %}<p class="nl-eyebrow">{{ page.categorie | default: 'Module Natulib' | escape }}{% if page.reference %} · {{ page.reference | escape }}{% endif %}</p>{% endif %}
+      <h1>{{ page.title | escape }}</h1>
+      {% if page.description %}<p class="nl-desc">{{ page.description | escape }}</p>{% endif %}
+      {% if page.fonctions and page.fonctions.size > 0 %}
+      <div class="nl-pills">{% for feature in page.fonctions %}<span>{{ feature | escape }}</span>{% endfor %}</div>
+      {% endif %}
+    </div>
+    {% if page.presentation %}<div class="nl-intro-card"><h2>Présentation</h2><div>{{ page.presentation | markdownify }}</div></div>{% endif %}
+  </header>
+  {% assign facts = page.infos_rapides %}
+  {% if facts and facts.size > 0 %}
+  <div class="nl-facts" aria-label="Informations essentielles">
+    {% for fact in facts %}<div class="nl-fact"><strong>{{ fact.valeur | escape }}</strong><span>{{ fact.nom | escape }}</span></div>{% endfor %}
+  </div>
+  {% endif %}
+  {% if page.images and page.images.size > 0 %}
+  <section class="nl-gallery" aria-label="Images du module">
+    <div class="nl-gallery-view">
+      {% for image in page.images %}
+      <figure class="nl-gallery-slide" {% unless forloop.first %}hidden{% endunless %}>
+        <img src="{{ image.fichier | relative_url }}" alt="{{ image.alt | default: image.titre | default: page.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+        {% if image.titre %}<figcaption>{{ image.titre | escape }}</figcaption>{% endif %}
+      </figure>
+      {% endfor %}
+    </div>
+    {% if page.images.size > 1 %}
+      <div class="nl-gallery-thumbs" aria-label="Choisir une image">
+        {% for image in page.images %}
+        <button type="button" class="nl-gallery-thumb" aria-label="Afficher l'image {{ forloop.index }} : {{ image.titre | default: page.title | escape }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" data-slide="{{ forloop.index0 }}">
+          <img src="{{ image.fichier | relative_url }}" alt="" loading="lazy">
+        </button>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </section>
+  {% endif %}
+  {% if page.caracteristiques and page.caracteristiques.size > 0 %}
+    <section class="nl-specs" aria-label="Caractéristiques principales">
+      <h2>Caractéristiques principales</h2>
+      <dl>{% for spec in page.caracteristiques %}<div><dt>{{ spec.nom | escape }}</dt><dd>{{ spec.valeur | escape }}</dd></div>{% endfor %}</dl>
+    </section>
+  {% endif %}
+  <section class="nl-details-section" aria-label="Documentation détaillée">
+    <h2>Documentation détaillée</h2>
+    <div class="nl-document markdown-body" data-nl-document>{{ content }}</div>
+  </section>
+</article>
+<script defer src="{{ '/assets/js/natulib-module.js' | relative_url }}"></script>

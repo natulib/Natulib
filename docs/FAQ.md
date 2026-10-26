@@ -1,10 +1,33 @@
 ---
+layout: hub
 title: FAQ
-nav_order: 8
-has_children: true
+bare: true
+rubrique: Natulib · documentation
+hero_title: Questions fréquentes
+intro: Les réponses courantes, avec un accès direct aux guides détaillés.
+cartes_titre: Explorer FAQ
+cartes:
+- icone: 🖥️
+  titre: Écran et veille
+  description: Pourquoi l’écran de ma station est-il noir ?
+  url: /faq/ecran-veille.html
+- icone: 🔌
+  titre: Configuration des capteurs
+  description: Comment ajouter un capteur ?
+  url: /faq/configuration-peripheriques.html
+- icone: 💾
+  titre: Historique
+  description: Pourquoi mes données disparaissent-elles ?
+  url: /faq/logger-stockage.html
+- icone: 🔄
+  titre: Mises à jour OTA
+  description: Comment mettre à jour Natulib ?
+  url: /faq/mises-a-jour.html
+- icone: 🛡️
+  titre: Restauration
+  description: Comment restaurer une station ?
+  url: /faq/restauration-materielle.html
 ---
-
-# ❓ FAQ
 
 ### Pourquoi l'écran de ma station est-il noir ?
 

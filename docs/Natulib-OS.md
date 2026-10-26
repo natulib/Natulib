@@ -1,26 +1,52 @@
 ---
+layout: hub
 title: Natulib OS
-nav_order: 6
-has_children: true
----
-
-# 🧠 Natulib OS
-
-**Natulib OS** est le système d'exploitation embarqué qui pilote les stations Natulib.
-
-Il constitue la couche logicielle qui fait le lien entre les **modules matériels**, les **recettes**, les **automatisations** et les **actions réalisées dans le monde réel**.
-
-Il assure notamment :
-
-- 🔌 la gestion du matériel et des drivers ;
-- 📡 l'acquisition et la gestion des données des capteurs ;
-- 🧠 l'exécution des automatisations locales ;
-- ⚡ la commande des actionneurs ;
-- 🌐 les communications réseau ;
-- 💾 le stockage et l'historique des données ;
-- 👁️ l'interface utilisateur et l'Avatar Natulib ;
-- 🛡️ les mécanismes de sécurité et de récupération du système.
-
+bare: true
+rubrique: Natulib · documentation
+hero_title: Natulib OS
+intro: Le système embarqué qui relie modules, mesures, automatisations, actionneurs et interface utilisateur.
+cartes_titre: Explorer Natulib OS
+cartes:
+- icone: 🖥️
+  titre: Interface Web
+  description: Studio, Hardware, Synapses et API Explorer.
+  url: /natulib-os/interface.html
+- icone: 🏛️
+  titre: Architecture
+  description: Tâches de fond, verrous et démarrage résilient.
+  url: /natulib-os/architecture.html
+- icone: 🔌
+  titre: Drivers
+  description: Matériel, métriques et actions exposées.
+  url: /natulib-os/drivers.html
+- icone: 💾
+  titre: Filesystem
+  description: Organisation de LittleFS.
+  url: /natulib-os/filesystem.html
+- icone: ⚙️
+  titre: API REST
+  description: Interaction HTTP avec la station.
+  url: /natulib-os/api.html
+- icone: 🧠
+  titre: Automatisations
+  description: Règles, conditions, temporisations et synapses.
+  url: /natulib-os/automatisations.html
+- icone: 📈
+  titre: Historique
+  description: Acquisition et conservation des données.
+  url: /natulib-os/historique.html
+- icone: 🌐
+  titre: Réseau
+  description: Wi-Fi, MQTT, HTTP et synchronisation.
+  url: /natulib-os/reseau.html
+- icone: 🛡️
+  titre: Sécurité
+  description: Authentification, OTA et watchdog.
+  url: /natulib-os/securite.html
+- icone: 👨‍💻
+  titre: Développement
+  description: Organisation et évolution du code.
+  url: /natulib-os/developpement.html
 ---
 
 ## 🧠 Une architecture conçue pour fonctionner localement
@@ -64,19 +90,6 @@ Les recettes décrivent le comportement souhaité.
 Natulib OS fournit le moteur permettant de transformer ces consignes en décisions et en actions locales.
 
 ---
-
-## 📚 Documentation
-
-- **[🖥️ Fonctionnement - Interface Web](./natulib-os/interface.md)** — Les onglets de l'interface embarquée (Studio, Hardware, Synapses…) et l'API Explorer.
-- **[🏛️ Architecture](./natulib-os/architecture.md)** — Grands principes de fonctionnement interne (tâches de fond, verrous, démarrage résilient).
-- **[🔌 Matériel - Drivers](./natulib-os/drivers.md)** — Gestion des modules matériels, drivers, métriques et actions exposées à Natulib OS.
-- **[🔌 Matériel - Filesystem](./natulib-os/filesystem.md)** — Organisation du stockage LittleFS et des fichiers utilisés par Natulib OS.
-- **[⚙️ Fonctionnement - API REST](./natulib-os/api.md)** — Interface HTTP permettant d'interagir avec la station et d'explorer ses données et fonctionnalités.
-- **[⚙️ Fonctionnement - Automatisations](./natulib-os/automatisations.md)** — Fonctionnement du moteur de règles locales, des conditions, des actions, des temporisations et des synapses.
-- **[⚙️ Fonctionnement - Historique](./natulib-os/historique.md)** — Acquisition, stockage et archivage des données produites par la station.
-- **[🌐 Communication - Réseau & Connectivité](./natulib-os/reseau.md)** — Wi-Fi, MQTT, HTTP et mécanismes de synchronisation avec les services externes.
-- **[🛡️ Système - Sécurité](./natulib-os/securite.md)** — Ce qu'il faut savoir avant d'exposer sa station : authentification, protections OTA et chemins sensibles, watchdog.
-- **[🛡️ Système - Développement](./natulib-os/developpement.md)** — Où trouver quoi dans le code source du firmware.
 
 ## 🧪 État du projet
 

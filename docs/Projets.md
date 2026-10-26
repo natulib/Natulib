@@ -1,34 +1,58 @@
 ---
+layout: hub
 title: Projets
-nav_order: 4
-has_children: true
+bare: true
+rubrique: Natulib · documentation
+hero_title: Projets Natulib
+intro: Des stations combinant plusieurs modules, avec un câblage propre à chaque réalisation.
+cartes_titre: Explorer Projets
+cartes:
+- icone: 🌱
+  titre: Jardinière aromatique et radis
+  description: Arrosage automatique sur seuil d’humidité.
+  url: /projects/jardiniere-aromatique-radis.html
+  statut: 🔵 Planifié
+- icone: ⚡
+  titre: Harpe électrique tueuse de frelons
+  description: Piège électrique activé par détection.
+  url: /projects/harpe-electrique-frelons.html
+  statut: 🔵 Planifié
+- icone: 💧
+  titre: Hydroponie
+  description: Culture hors-sol automatisée en intérieur.
+  url: /projects/hydroponie.html
+  statut: ⚪ À venir
+- icone: 🐟
+  titre: Aquaponie
+  description: Culture de plantes et élevage de poissons.
+  url: /projects/aquaponie.html
+  statut: ⚪ À venir
+- icone: 🌿
+  titre: Bioponie
+  description: Culture hydroponique à nutriments organiques.
+  url: /projects/bioponie.html
+  statut: ⚪ À venir
+- icone: 🏡
+  titre: Serre connectée
+  description: Gestion climat, ombrage et arrosage.
+  url: /projects/serre-connectee.html
+  statut: ⚪ À venir
+- icone: 🐦
+  titre: Nichoir connecté
+  description: Observation faunique, capteurs et caméra.
+  url: /projects/nichoir-connecte.html
+  statut: ⚪ À venir
+- icone: 🐝
+  titre: Ruche connectée
+  description: Suivi par pesée continue et acoustique.
+  url: /projects/ruche-connectee.html
+  statut: ⚪ À venir
 ---
 
-# 🏗️ Projets
+Chaque fiche projet documente le **câblage réellement utilisé** pour sa combinaison de modules. Dans une station, les GPIO doivent être vérifiés au niveau du projet.
 
-Un projet rassemble plusieurs modules matériels pour créer une station fonctionnelle, autonome et reproductible dédiée à un objectif précis de production ou d'observation biologique.
-
-Chaque fiche projet documente le **câblage réellement utilisé** pour sa combinaison de modules — voir la note sur les GPIO dans **[Modules](./Modules.md)**.
-
----
-
-### 📚 Explorer les projets
-
-| Projet | Statut | Description |
-|---|:---:|---|
-| **[Jardinière aromatique et radis](./projects/jardiniere-aromatique-radis.md)** | 🔵 Planifié | Aromates et radis avec arrosage automatique sur seuil d'humidité. |
-| **[Harpe électrique tueuse de frelons](./projects/harpe-electrique-frelons.md)** | 🔵 Planifié | Piège électrique contre le frelon asiatique, activé par détection. |
-| **[Hydroponie](./projects/hydroponie.md)** | ⚪ À venir | Système de culture hors-sol automatisé pour l'intérieur. |
-| **[Aquaponie](./projects/aquaponie.md)** | ⚪ À venir | Écosystème combinant l'élevage de poissons et la culture de plantes. |
-| **[Bioponie](./projects/bioponie.md)** | ⚪ À venir | Culture hydroponique utilisant des nutriments d'origine 100 % organique. |
-| **[Serre connectée](./projects/serre-connectee.md)** | ⚪ À venir | Gestion du climat, de l'ombrage et de l'arrosage d'une serre extérieure. |
-| **[Nichoir connecté](./projects/nichoir-connecte.md)** | ⚪ À venir | Observation faunique avec capteurs thermiques et caméra nocturne. |
-| **[Ruche connectée](./projects/ruche-connectee.md)** | ⚪ À venir | Suivi de la santé des abeilles par pesée continue et acoustique. |
-
-> 💡 **États :** 🟢 Validé · 🟡 En test · 🔵 Planifié et documenté · ⚪ Nom retenu, fiche à venir.
-
----
+**États :** 🟢 Validé · 🟡 En test · 🔵 Planifié et documenté · ⚪ Nom retenu, fiche à venir.
 
 ### ✍️ Créer un projet
 
-Partez du gabarit **[TEMPLATE-projet.md](./projects/TEMPLATE-projet.md)** et suivez le guide **[Créer un projet](./contribute/projet.md)**.
+Partez du [gabarit projet](/Natulib/projects/TEMPLATE-projet.html) et du [guide de contribution](/Natulib/contribute/projet.html).

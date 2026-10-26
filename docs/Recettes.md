@@ -1,20 +1,29 @@
 ---
+layout: hub
 title: Recettes
-nav_order: 5
-has_children: true
+bare: true
+rubrique: Natulib · documentation
+hero_title: Recettes biologiques
+intro: 'Les recettes décrivent les besoins biologiques indépendamment du matériel : paramètres, phases et règles
+  d’automatisation.'
+cartes_titre: Explorer Recettes
+cartes:
+- icone: 🌿
+  titre: Plantes
+  description: Recettes pour plantes potagères, aromatiques, fruitières et ornementales.
+  url: /recipes/plantes/index.html
+- icone: 🍄
+  titre: Champignons
+  description: Conditions et phases des espèces fongiques.
+  url: /recipes/champignons/index.html
+- icone: 🐝
+  titre: Faune
+  description: Ruches, nichoirs, bassins et autres écosystèmes.
+  url: /recipes/faune/index.html
+- icone: ⚙️
+  titre: Bibliothèque des règles
+  description: Automatisations réutilisables.
+  url: /recipes/automatisations/index.html
 ---
 
-# 🌱 Recettes
 
-Les recettes décrivent les besoins biologiques d'un organisme vivant, indépendamment du matériel utilisé.
-
-Elles regroupent les paramètres environnementaux, les phases de développement, les conditions de culture et les règles d'automatisation permettant de reproduire un écosystème ou une production.
-
----
-
-## 📚 Explorer les recettes
-
-* **[🌿 Catalogue des plantes](./recipes/plantes/index.md)** — Recettes de culture pour les plantes potagères, aromatiques, fruitières et ornementales.
-* **[🍄 Catalogue des champignons](./recipes/champignons/index.md)** — Recettes de culture et paramètres de développement des espèces fongiques.
-* **[🐝 Catalogue de la faune](./recipes/faune/index.md)** — Recettes dédiées aux ruches, nichoirs, bassins et autres écosystèmes.
-* **[⚙️ Bibliothèque des règles](./recipes/automatisations/index.md)** — Règles d'automatisation réutilisables pouvant être intégrées dans les recettes.

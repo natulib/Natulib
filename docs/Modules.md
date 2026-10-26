@@ -5,336 +5,49 @@ bare: true
 nav_order: 3
 has_children: true
 ---
-
-<style>
-  .catalog-page {
-    --primary: #0969da;
-    --primary-hover: #0854ad;
-    --border-color: var(--border, #d0d7de);
-    --bg-surface: var(--surface, #ffffff);
-    --bg-muted: #f6f8fa;
-    --text-main: var(--text, #1f2328);
-    --text-muted: var(--muted, #656d76);
-    color: var(--text-main);
-    overflow-wrap: break-word;
-  }
-  @media (prefers-color-scheme: dark) {
-    .catalog-page {
-      --primary: #4493f8;
-      --primary-hover: #79c0ff;
-      --border-color: var(--border, #30363d);
-      --bg-surface: var(--surface, #0d1117);
-      --bg-muted: #161b22;
-      --text-main: var(--text, #e6edf3);
-      --text-muted: var(--muted, #8b949e);
-    }
-  }
-
-  .catalog-page h1 { margin: 0 0 0.5rem; font-size: clamp(1.6rem, 5vw, 2.2rem); }
-  .catalog-page .lead { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 1.25rem; }
-
-  /* Barre d'outils */
-  .catalog-page .catalog-toolbar {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 1.5rem;
-    padding: 12px;
-    background: var(--bg-muted);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-  }
-
-  /* Recherche */
-  .catalog-page .search-box-wrapper {
-    position: relative;
-    width: 100%;
-  }
-  .catalog-page .table-search-input {
-    width: 100%;
-    padding: 8px 36px 8px 12px;
-    font-size: 0.9rem;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background: var(--bg-surface);
-    color: var(--text-main);
-    outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-  .catalog-page .table-search-input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
-  }
-  .catalog-page .search-icon {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    color: var(--text-muted);
-    pointer-events: none;
-  }
-
-  /* Boutons de filtres */
-  .catalog-page .filters-bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 6px;
-  }
-  .catalog-page .filter-btn {
-    display: inline-block;
-    padding: 4px 10px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    border-radius: 20px;
-    border: 1px solid var(--border-color);
-    background: var(--bg-surface);
-    color: var(--text-main);
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.15s ease, border-color 0.15s ease;
-    white-space: nowrap;
-  }
-  .catalog-page .filter-btn:hover {
-    border-color: var(--primary);
-  }
-  .catalog-page .filter-btn.is-active {
-    background: var(--primary);
-    color: #ffffff;
-    border-color: var(--primary);
-    font-weight: 600;
-  }
-
-  /* Tableau */
-  .catalog-page .table-responsive {
-    width: 100%;
-    overflow-x: auto;
-    margin-bottom: 2rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-  }
-  .catalog-page table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.88rem;
-    text-align: left;
-  }
-  .catalog-page th, .catalog-page td {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border-color);
-    vertical-align: middle;
-  }
-  .catalog-page tr:last-child td { border-bottom: 0; }
-  .catalog-page th {
-    background: var(--bg-muted);
-    color: var(--text-muted);
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  .catalog-page a {
-    color: var(--primary);
-    text-decoration: none;
-  }
-  .catalog-page a:hover {
-    text-decoration: underline;
-  }
-  .catalog-page .nowrap { white-space: nowrap; }
-
-  /* Colonne Module élargie */
-  .catalog-page th.col-module,
-  .catalog-page td.col-module {
-    min-width: 240px;
-    width: 32%;
-    white-space: normal;
-  }
-
-  /* Masquage des lignes filtrées */
-  .catalog-page tr.is-hidden {
-    display: none !important;
-  }
-
-  .catalog-page .docs-section {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-color);
-  }
-  .catalog-page .docs-section h2 { font-size: 1.25rem; margin: 0 0 0.75rem; }
-  .catalog-page .docs-section ul { margin: 0 0 1rem; padding-left: 1.25rem; }
-  .catalog-page .docs-section li { margin-bottom: 0.35rem; }
-  .catalog-page .notice-box {
-    margin: 1rem 0;
-    padding: 0.75rem 1rem;
-    border-left: 3px solid var(--primary);
-    background: var(--bg-muted);
-    border-radius: 0 6px 6px 0;
-  }
-</style>
-
-<div class="catalog-page">
-  <h1>🧱 Modules</h1>
-  <p class="lead">Les modules sont les briques matérielles réutilisables de Natulib. Utilisez la recherche ou filtrez par catégorie ci-dessous.</p>
-
-  <div class="catalog-toolbar">
-    <div class="search-box-wrapper">
-      <input type="text" id="table-search-box" class="table-search-input" placeholder="Rechercher un module (référence, nom, interface, soudure…)" autocomplete="off">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
-    </div>
-
-    <!-- Boutons de filtrage avec bascule (toggle) -->
-    <div class="filters-bar" id="filters-container">
-      <button type="button" class="filter-btn is-active" data-cat="all">Tous</button>
-      <button type="button" class="filter-btn" data-cat="core">🔴 Core (000)</button>
-      <button type="button" class="filter-btn" data-cat="displays">📺 Displays (100)</button>
-      <button type="button" class="filter-btn" data-cat="sensors">🌡️ Sensors (200)</button>
-      <button type="button" class="filter-btn" data-cat="actuators">⚡ Actuators (300)</button>
-      <button type="button" class="filter-btn" data-cat="power">🔋 Power (400)</button>
-      <button type="button" class="filter-btn" data-cat="enclosures">📦 Enclosures (500)</button>
-      <button type="button" class="filter-btn" data-cat="connectivity">📡 Connectivity (600)</button>
+{% assign nl_base = site.baseurl | default: '/Natulib' %}
+<link rel="stylesheet" href="{{ nl_base }}/assets/css/natulib-pages.css">
+<section class="nl-catalog" id="nl-catalog">
+  <header class="nl-catalog-hero"><p class="nl-eyebrow">Catalogue matériel</p><h1>🧱 Modules Natulib</h1><p class="nl-catalog-intro">Explorez les briques matérielles de Natulib : recherche, famille, statut et informations pratiques en un coup d’œil.</p></header>
+  <div class="nl-catalog-toolbar">
+    <input id="nl-module-search" class="nl-catalog-search" type="search" placeholder="Rechercher un module, une interface, une référence…" aria-label="Rechercher des modules">
+    <div class="nl-filters" aria-label="Filtrer par famille">
+      <button class="nl-filter" data-family="all" aria-pressed="true">Tous</button>
+      <button class="nl-filter" data-family="core" aria-pressed="false">🔴 Core</button>
+      <button class="nl-filter" data-family="displays" aria-pressed="false">📺 Displays</button>
+      <button class="nl-filter" data-family="sensors" aria-pressed="false">🌡️ Sensors</button>
+      <button class="nl-filter" data-family="actuators" aria-pressed="false">⚡ Actuators</button>
+      <button class="nl-filter" data-family="power" aria-pressed="false">🔋 Power</button>
+      <button class="nl-filter" data-family="enclosures" aria-pressed="false">📦 Enclosures</button>
+      <button class="nl-filter" data-family="connectivity" aria-pressed="false">📡 Connectivity</button>
     </div>
   </div>
-
-  <div class="table-responsive">
-    <table id="modules-table">
-      <thead>
-        <tr>
-          <th>Réf.</th>
-          <th>Famille</th>
-          <th class="col-module">Module</th>
-          <th style="text-align: center;">État</th>
-          <th>Interface</th>
-          <th>Montage</th>
-          <th>Temps</th>
-          <th>Niveau</th>
-          <th style="text-align: right;">Prix</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% assign modules = site.pages | where_exp: "item", "item.path contains 'hardware/'" | sort: "ref" %}
-        {% for mod in modules %}
-          {% unless mod.ref == nil or mod.ref contains 'xxx' or mod.path contains 'TEMPLATE' %}
-            <tr class="mod-row" data-famille="{{ mod.famille | downcase }}">
-              <td class="nowrap"><a href="{{ mod.url | relative_url }}"><strong>{{ mod.ref }}</strong></a></td>
-              <td class="nowrap">
-                {% case mod.famille %}
-                  {% when 'core' %}🔴 Core
-                  {% when 'displays' %}📺 Displays
-                  {% when 'sensors' %}🌡️ Sensors
-                  {% when 'actuators' %}⚡ Actuators
-                  {% when 'power' %}🔋 Power
-                  {% when 'enclosures' %}📦 Enclosures
-                  {% when 'connectivity' %}📡 Connectivity
-                  {% else %}{{ mod.famille | capitalize }}
-                {% endcase %}
-              </td>
-              <td class="col-module"><strong>{{ mod.title | split: "—" | last | strip }}</strong></td>
-              <td style="text-align: center;" class="nowrap">
-                {% case mod.etat %}
-                  {% when 'valide' %}🟢 Validé
-                  {% when 'test' %}🟡 En test
-                  {% when 'planifie' %}⚪ Planifié
-                  {% else %}{{ mod.etat }}
-                {% endcase %}
-              </td>
-              <td class="nowrap">{{ mod.interface | default: "—" | upcase }}</td>
-              <td class="nowrap">
-                {% case mod.montage %}
-                  {% when 'sans_outil' %}🟢 Sans outil
-                  {% when 'sans_soudure' %}🟢 Sans soudure
-                  {% when 'soudure' %}🟠 Soudure
-                  {% else %}{{ mod.montage | default: "—" }}
-                {% endcase %}
-              </td>
-              <td class="nowrap">{% if mod.temps %}{{ mod.temps }} min{% else %}—{% endif %}</td>
-              <td class="nowrap">
-                {% case mod.niveau %}
-                  {% when 'debutant' %}👤 Débutant
-                  {% when 'intermediaire' %}👤 Intermédiaire
-                  {% when 'avance' %}👤 Avancé
-                  {% else %}{{ mod.niveau | default: "—" }}
-                {% endcase %}
-              </td>
-              <td style="text-align: right;" class="nowrap">{% if mod.prix %}~{{ mod.prix }} €{% else %}—{% endif %}</td>
-            </tr>
-          {% endunless %}
-        {% endfor %}
-      </tbody>
-    </table>
+  <p id="nl-catalog-count" aria-live="polite" class="nl-section-heading"><span>Catalogue des modules</span></p>
+  <div class="nl-module-grid" id="nl-module-grid">
+  {% assign modules = site.pages | where_exp: 'item', "item.path contains 'hardware/'" | sort: 'ref' %}
+  {% for mod in modules %}
+  {% assign module_ref = mod.ref | default: mod.reference %}
+  {% unless module_ref == nil or module_ref contains 'xxx' or mod.path contains 'TEMPLATE' %}
+    {% assign module_status = mod.etat | default: mod.statut %}
+    {% assign module_montage = mod.montage | default: mod.soudure %}
+    {% assign module_temps = mod.temps | default: mod.duree %}
+    <a href="{{ mod.url | relative_url }}" class="nl-module-card" data-family="{{ mod.famille | downcase | escape }}">
+      <span class="nl-module-top"><span class="nl-module-ref">{{ module_ref | escape }}</span><span class="nl-module-family">{{ mod.famille | default: mod.categorie | escape }}</span></span>
+      <span class="nl-module-title">{{ mod.title | split: '—' | last | strip | escape }}</span>
+      {% if mod.description %}<span class="nl-module-desc">{{ mod.description | escape }}</span>{% endif %}
+      <span class="nl-chips">
+        {% case module_status %}{% when 'valide' %}<span class="nl-chip">🟢 Validé</span>{% when 'test' %}<span class="nl-chip">🟡 En test</span>{% when 'planifie' %}<span class="nl-chip">⚪ Planifié</span>{% else %}{% if module_status %}<span class="nl-chip">{{ module_status | escape }}</span>{% endif %}{% endcase %}
+        {% if mod.interface %}<span class="nl-chip">🔌 {{ mod.interface | escape }}</span>{% endif %}
+        {% case module_montage %}{% when 'sans_outil' %}<span class="nl-chip">🟢 Sans outil</span>{% when 'sans_soudure' %}<span class="nl-chip">🟢 Sans soudure</span>{% when 'soudure' %}<span class="nl-chip">🟠 Soudure</span>{% else %}{% if module_montage %}<span class="nl-chip">🟠 {{ module_montage | escape }}</span>{% endif %}{% endcase %}
+        {% if module_temps %}<span class="nl-chip">⏱️ {{ module_temps | escape }}{% if mod.temps %} min{% endif %}</span>{% endif %}
+        {% if mod.niveau %}<span class="nl-chip">👤 {{ mod.niveau | replace: 'debutant','Débutant' | replace: 'intermediaire','Intermédiaire' | replace: 'avance','Avancé' | escape }}</span>{% endif %}
+        {% if mod.prix %}{% assign prix_txt = mod.prix | append: '' %}<span class="nl-chip">💶 {{ prix_txt | escape }}{% unless prix_txt contains '€' %} €{% endunless %}</span>{% endif %}
+      </span>
+    </a>
+  {% endunless %}
+  {% endfor %}
   </div>
-
-  <section class="docs-section">
-    <h2>🔌 GPIO et brochage</h2>
-    <p>Chaque fiche module propose un <strong>GPIO recommandé</strong> pour un montage isolé.</p>
-    <p>Dans une station réelle, plusieurs modules partagent l'ESP32-C6. Le câblage final est documenté projet par projet dans la section <a href="{{ '/Projets.html' | relative_url }}">Projets</a> :</p>
-    <ul>
-      <li>Les périphériques <strong>I²C</strong> (BME280, BH1750, INA219, RTC) partagent nativement les broches SDA/SCL sans conflit d'adresse.</li>
-      <li>Les écrans et modules <strong>SPI</strong> partagent l'horloge et les données, mais exigent une broche CS distincte.</li>
-    </ul>
-
-    <div class="notice-box">
-      <strong>⚡ Sécurité électrique :</strong> Les broches de l'ESP32-C6 tolèrent <strong>3,3 V maximum</strong>. Utilisez toujours un commutateur de puissance (<a href="{{ '/hardware/NL-401A-PowerSwitch.html' | relative_url }}">NL-401A</a> ou <a href="{{ '/hardware/NL-402A-Mosfet-PWM.html' | relative_url }}">NL-402A</a>) pour alimenter moteurs, relais ou rubans LED.
-    </div>
-  </section>
-</div>
-
-<script>
-  (function () {
-    var searchInput = document.getElementById('table-search-box');
-    var rows = Array.from(document.querySelectorAll('#modules-table tbody tr.mod-row'));
-    var filterBtns = Array.from(document.querySelectorAll('#filters-container .filter-btn'));
-    var allBtn = document.querySelector('#filters-container [data-cat="all"]');
-    var activeCategory = 'all';
-
-    function applyFilters() {
-      var query = searchInput ? searchInput.value.trim().toLowerCase() : '';
-
-      rows.forEach(function (row) {
-        var rowCat = row.getAttribute('data-famille') || '';
-        var rowText = row.textContent.toLowerCase();
-
-        var matchesCategory = (activeCategory === 'all' || rowCat === activeCategory);
-        var matchesSearch = (query === '' || rowText.indexOf(query) !== -1);
-
-        if (matchesCategory && matchesSearch) {
-          row.classList.remove('is-hidden');
-        } else {
-          row.classList.add('is-hidden');
-        }
-      });
-    }
-
-    function setActiveBtn(cat) {
-      filterBtns.forEach(function (btn) {
-        if (btn.getAttribute('data-cat') === cat) {
-          btn.classList.add('is-active');
-        } else {
-          btn.classList.remove('is-active');
-        }
-      });
-    }
-
-    filterBtns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var clickedCat = this.getAttribute('data-cat');
-
-        if (clickedCat === 'all') {
-          activeCategory = 'all';
-        } else {
-          if (activeCategory === clickedCat) {
-            activeCategory = 'all';
-          } else {
-            activeCategory = clickedCat;
-          }
-        }
-
-        setActiveBtn(activeCategory);
-        applyFilters();
-      });
-    });
-
-    if (searchInput) {
-      searchInput.addEventListener('input', applyFilters);
-    }
-  })();
-</script>
+  <p id="nl-catalog-empty" class="nl-empty" hidden>Aucun module ne correspond à cette recherche.</p>
+  <section class="nl-catalog-note"><h2>🔌 GPIO et brochage</h2><p>Chaque fiche module propose un GPIO recommandé pour un montage isolé. Dans une station, le câblage final est documenté dans les <a href="{{ nl_base }}/Projets.html">projets</a>. Les périphériques I²C peuvent partager SDA/SCL si leurs adresses ne sont pas en conflit ; les modules SPI partagent certaines lignes mais nécessitent une sélection adaptée.</p><p><strong>⚡ Sécurité électrique :</strong> les GPIO de l’ESP32-C6 fonctionnent en 3,3 V. Pour commander des charges, utilisez des circuits de puissance adaptés, notamment les modules <a href="{{ nl_base }}/hardware/NL-401A-PowerSwitch.html">NL-401A</a> ou <a href="{{ nl_base }}/hardware/NL-402A-Mosfet-PWM.html">NL-402A</a>.</p></section>
+</section>
+<script defer src="{{ nl_base }}/assets/js/natulib-catalogue.js"></script>

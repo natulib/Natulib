@@ -1,0 +1,33 @@
+---
+layout: default
+---
+{% assign nl_base = site.baseurl | default: '/Natulib' %}
+<link rel="stylesheet" href="{{ nl_base }}/assets/css/natulib-pages.css">
+<div class="nl-hub">
+  <section class="nl-hub-hero">
+    <p class="nl-eyebrow">{{ page.rubrique | default: 'Documentation Natulib' | escape }}</p>
+    <h1>{{ page.hero_title | default: page.title | escape }}</h1>
+    {% if page.intro %}<p class="nl-hub-intro">{{ page.intro | escape }}</p>{% endif %}
+  </section>
+  {% if page.cartes and page.cartes.size > 0 %}
+  <section class="nl-hub-section" aria-labelledby="nl-explorer">
+    <div class="nl-section-heading"><h2 id="nl-explorer">{{ page.cartes_titre | default: 'Explorer' | escape }}</h2><span>{{ page.cartes.size }} ressources</span></div>
+    <div class="nl-card-grid">
+      {% for carte in page.cartes %}
+      {% assign destination = carte.url %}
+      {% assign premier = destination | slice: 0, 4 %}
+      <a class="nl-card" href="{% if premier == 'http' %}{{ destination }}{% elsif destination contains '/Natulib/' %}{{ destination }}{% else %}{{ nl_base }}{{ destination }}{% endif %}">
+        <span class="nl-card-icon" aria-hidden="true">{{ carte.icone | default: '📄' }}</span>
+        <span class="nl-card-name">{{ carte.titre | escape }}</span>
+        {% if carte.statut %}<span class="nl-card-status">{{ carte.statut | escape }}</span>{% endif %}
+        {% if carte.description %}<span class="nl-card-desc">{{ carte.description | escape }}</span>{% endif %}
+        <span class="nl-card-arrow" aria-hidden="true">↗</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+  {% assign more = content | strip %}{% if more != '' %}
+  <section class="nl-hub-content markdown-body">{{ content }}</section>
+  {% endif %}
+</div>

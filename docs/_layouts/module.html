@@ -3,7 +3,7 @@ layout: default
 bare: true
 ---
 <link rel="stylesheet" href="{{ '/assets/css/natulib-module.css' | relative_url }}">
-<article class="nl-module" data-nl-module>
+<article class="nl-module" data-nl-module data-print-mode="essential">
   {% comment %}Compatibilité avec l'ancien format infos_rapides : champs explicites prioritaires.{% endcomment %}
   {% assign alimentation = page.alimentation %}
   {% assign interface_module = page.interface %}
@@ -84,8 +84,14 @@ bare: true
       <dl>{% for spec in page.caracteristiques %}<div><dt>{{ spec.nom | escape }}</dt><dd>{{ spec.valeur | escape }}</dd></div>{% endfor %}</dl>
     </section>
   {% endif %}
-  <section class="nl-details-section" aria-label="Documentation détaillée">
-    <h2>Documentation détaillée</h2>
+  <section class="nl-details-section" aria-label="Notice et documentation du module">
+    <div class="nl-document-head">
+      <div><h2>Notice du module</h2><p>Les étapes essentielles sont visibles directement. Les détails facultatifs restent accessibles plus bas.</p></div>
+      <div class="nl-print-actions" aria-label="Options d’impression">
+        <button type="button" class="nl-print-btn nl-print-primary" data-nl-print="essential">🖨️ Imprimer la fiche</button>
+        <button type="button" class="nl-print-btn" data-nl-print="complete">Documentation complète</button>
+      </div>
+    </div>
     <div class="nl-document markdown-body" data-nl-document>{{ content }}</div>
   </section>
 </article>

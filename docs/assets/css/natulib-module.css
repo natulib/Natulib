@@ -85,30 +85,3 @@
 .nl-module .nl-top-capacity:hover{border-color:var(--nl-green);text-decoration:none;filter:brightness(.97)}
 .nl-module .nl-top-capacity:focus-visible{outline:2px solid var(--nl-green);outline-offset:2px}
 .nl-module .nl-top-specs{row-gap:.4rem}
-
-
-/* V6 — Notice immédiatement lisible, annexes facultatives et impression sélective */
-.nl-module .nl-document-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:.9rem}
-.nl-module .nl-document-head h2{margin:0 0 .2rem;font-size:1.15rem;color:var(--nl-green)}
-.nl-module .nl-document-head p{margin:0;color:var(--muted,#59636e);font-size:.85rem;max-width:55ch}
-.nl-module .nl-print-actions{display:flex;flex-wrap:wrap;gap:7px}
-.nl-module .nl-print-btn{border:1px solid var(--nl-stroke);background:var(--bg,#fff);color:var(--text,#283b30);border-radius:9px;padding:8px 11px;font:inherit;font-size:.79rem;cursor:pointer}
-.nl-module .nl-print-primary{background:var(--nl-soft);font-weight:750}
-.nl-module .nl-print-btn:hover{border-color:var(--nl-green)}
-.nl-module .nl-essential-section{padding:0 0 1rem;margin:0 0 .9rem;border-bottom:1px solid var(--nl-stroke)}
-.nl-module .nl-essential-section>h2{font-size:1.12rem;color:var(--nl-green);margin:.25rem 0 .55rem}
-.nl-module .nl-advanced-heading{margin:1.3rem 0 .6rem;font-size:1rem;color:var(--nl-green)}
-.nl-module .nl-accordion.nl-optional{margin:.55rem 0}
-.nl-module .nl-accordion.nl-optional summary{font-size:.91rem}
-@media print{
-  .nl-module .nl-print-actions,.nl-module .nl-gallery-thumbs{display:none!important}
-  .nl-module .nl-details-section,.nl-module .nl-gallery,.nl-module .nl-specs{break-inside:auto;border:0;padding:.3rem 0;margin:.5rem 0}
-  .nl-module .nl-gallery-view{height:185px}
-  .nl-module .nl-hero{padding:.65rem;border:0}
-  .nl-module .nl-hero h1{font-size:1.55rem}
-  .nl-module .nl-essential-section{break-inside:avoid}
-  .nl-module[data-print-mode="essential"] .nl-optional{display:none!important}
-  .nl-module[data-print-mode="essential"] .nl-advanced-heading{display:none!important}
-  .nl-module[data-print-mode="complete"] .nl-optional{display:block!important}
-  .nl-module[data-print-mode="complete"] .nl-optional>.nl-accordion-content{display:block!important}
-}

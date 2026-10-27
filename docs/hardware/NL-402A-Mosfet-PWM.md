@@ -1,7 +1,6 @@
 ---
 layout: default
 title: NL-402A — Module MOSFET PWM
-...
 bare: true
 ---
 

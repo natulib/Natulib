@@ -1,7 +1,6 @@
 ---
 layout: default
 title: NL-401A — PowerSwitch PN2222A
-...
 bare: true
 ---
 

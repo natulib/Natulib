@@ -36,11 +36,43 @@ validation_note: Statut repris du catalogue antérieur ; essais détaillés non 
 
 Créer une commande tactile simple sans bouton mécanique.
 
+### Informations complémentaires
+
+> 📷 *Photo à ajouter : `assets/NL-206A-Capteur-tactile-TTP223-1.png`*
+
+<!-- Décommentez cette ligne une fois la photo ajoutée :
+
+-->
+
 ## 🔌 Branchement
 
 Alimenter le TTP223 conformément à sa variante ; relier GND et sa sortie numérique à un GPIO d’entrée.
 
 **Avant toute connexion :** couper l'alimentation, identifier la variante exacte et vérifier la tension et les GPIO utilisés. Les GPIO4/5 des anciens exemples de câblage I²C ne doivent pas être considérés comme une recommandation universelle pour ESP32-C6.
+
+### Matériel nécessaire
+
+| Composant | Qté | Obligatoire | Fournisseur |
+|---|--:|:-:|---|
+| Module tactile capacitif TTP223 | 1 | ✅ | AliExpress |
+| Câbles Dupont | 3 | ✅ | AliExpress |
+
+> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
+
+
+### Câblage détaillé
+
+> **Important :** brochage historique à confirmer pour la carte utilisée ; les valeurs du JSON ne garantissent pas la compatibilité de chaque GPIO.
+
+| TTP223 | ESP32-C6 | Fonction |
+|---|---|---|
+| VCC | 3V3 | Alimentation |
+| GND | GND | Masse |
+| I/O | GPIO11 | Détection tactile |
+
+> 💡 Le TTP223 fournit une sortie numérique : la GPIO passe à l'état actif lorsque la surface tactile est sollicitée.
+
+> 💡 Les GPIO indiqués ci-dessus sont un **exemple historique de câblage**, utilisable telle quelle pour un montage isolé. Dans une station qui combine plusieurs modules, le câblage réel peut différer : reportez-vous au plan de brochage de votre fiche **[Projet](../Projets.md)**.
 
 ## 🚀 Installation dans Natulib OS
 
@@ -49,6 +81,14 @@ Alimenter le TTP223 conformément à sa variante ; relier GND et sa sortie numé
 3. Vérifier le résultat dans **Accueil** ; consulter **Console** et **Maintenance** en cas d'erreur.
 
 La configuration se fait depuis l'interface, **sans modifier de code Arduino**.
+
+### Montage pas à pas
+
+1. Connectez le TTP223 à l'ESP32-C6 selon le tableau de câblage.
+2. Reliez `I/O` à **GPIO11**.
+3. Placez la surface tactile derrière la façade pour créer un bouton invisible.
+4. Testez la détection tactile avec Natulib OS.
+5. Ajoutez ensuite l'action souhaitée dans votre configuration.
 
 ## 📊 Mesures ou fonctions
 
@@ -139,6 +179,14 @@ Pour débuter, utiliser l’onglet **Hardware** de Natulib OS : il génère la c
 - Consulter **Console** pour les erreurs et **Maintenance** pour les diagnostics.
 - Certaines variantes de TTP223 ont des options matérielles de sensibilité et de mode de sortie.
 
+### Retours de dépannage
+
+**Le bouton reste actif en permanence**
+→ Le module s'auto-calibre à la mise sous tension : ne touchez pas la zone tactile pendant le démarrage.
+
+**Aucune détection à travers la façade**
+→ La façade est trop épaisse ou contient un élément conducteur. Réduisez l'épaisseur ou rapprochez la plaque tactile.
+
 ## 🔧 Améliorations pour un montage plus simple
 
 - [ ] Version avec fils déjà montés ou boîtier tactile prêt à raccorder.
@@ -146,19 +194,19 @@ Pour débuter, utiliser l’onglet **Hardware** de Natulib OS : il génère la c
 
 *Ces pistes ne sont pas des fonctions annoncées comme disponibles ou validées.*
 
+### Évolutions possibles
+
+- [ ] Actions configurables directement depuis Natulib OS
+- [ ] Support tactile intégré aux façades Natulib
+- [ ] Gestes ou interactions tactiles avancées
+
 ## ⚙️ Pour aller plus loin (facultatif)
 
 Le module utilise le driver `DeviceButton` (`type: button`) ; la documentation ne doit pas inventer un driver TTP223 distinct.
 
 Retrouver les bases dans [l'interface Natulib OS](../natulib-os/interface.md) et [les modules et drivers](../natulib-os/drivers.md).
 
-## 📚 Documentation approfondie et archives
-
-Cette partie conserve **les informations détaillées de la fiche antérieure** : matériel, étapes de montage, astuces, précautions, dépannage, évolutions et historique. Elle s’adresse aux personnes qui veulent aller plus loin.
-
-> **Attention : contenu historique conservé.** Certains exemples de brochage, de JSON ou de fonctionnement peuvent différer du firmware V0.448. Pour la configuration actuelle, se référer à **« Configuration JSON d’usine »** et au tableau de paramètres plus haut ; vérifier les broches et tensions de la carte exacte avant le montage. Les tests matériels restent à documenter.
-
-### 👀 En bref
+### Informations complémentaires
 
 Le **TTP223** est un capteur tactile capacitif qui transforme une simple surface conductrice en **bouton sans contact mécanique**.
 
@@ -171,44 +219,10 @@ Dans Natulib, il peut être utilisé pour :
 
 **Alimentation :** 3,3 V · **Sortie :** numérique · **Consommation :** ~3 mA · **Calibration :** automatique à la mise sous tension.
 
----
 
-### 📷 Aperçu
+### Informations complémentaires
 
-> 📷 *Photo à ajouter : `assets/NL-206A-Capteur-tactile-TTP223-1.png`*
-
-<!-- Décommentez cette ligne une fois la photo ajoutée :
-
--->
-
----
-
-### 🛒 Ce qu'il vous faut
-
-| Composant | Qté | Obligatoire | Fournisseur |
-|---|--:|:-:|---|
-| Module tactile capacitif TTP223 | 1 | ✅ | AliExpress |
-| Câbles Dupont | 3 | ✅ | AliExpress |
-
-> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
-
----
-
-### 🔌 Câblage
-
-| TTP223 | ESP32-C6 | Fonction |
-|---|---|---|
-| VCC | 3V3 | Alimentation |
-| GND | GND | Masse |
-| I/O | GPIO11 | Détection tactile |
-
-> 💡 Le TTP223 fournit une sortie numérique : la GPIO passe à l'état actif lorsque la surface tactile est sollicitée.
-
-> 💡 Les GPIO indiqués ci-dessus sont une **recommandation par défaut**, utilisable telle quelle pour un montage isolé. Dans une station qui combine plusieurs modules, le câblage réel peut différer : reportez-vous au plan de brochage de votre fiche **[Projet](../Projets.md)**.
-
----
-
-### ⚙️ Configuration Natulib OS
+**Configuration historique (à revérifier) :**
 
 **Type :** `button`
 
@@ -238,29 +252,8 @@ Le driver `button` produit la métrique `pressed`.
 
 > 🔵 Les champs `metrics`, `actions` et `mA` que l'on peut trouver dans des fichiers `/dev/*.json` existants sont des **métadonnées d'interface** (utilisées par l'éditeur Web pour afficher les capacités du module) : le driver `button` de Natulib OS ne les lit pas au runtime et leur présence ou absence n'a aucun effet sur son fonctionnement. Voir **[Drivers](../natulib-os/drivers.md)**.
 
----
 
-### 🛠️ Montage en 5 minutes
-
-1. Connectez le TTP223 à l'ESP32-C6 selon le tableau de câblage.
-2. Reliez `I/O` à **GPIO11**.
-3. Placez la surface tactile derrière la façade pour créer un bouton invisible.
-4. Testez la détection tactile avec Natulib OS.
-5. Ajoutez ensuite l'action souhaitée dans votre configuration.
-
----
-
-### 🧩 Problèmes courants
-
-**Le bouton reste actif en permanence**
-→ Le module s'auto-calibre à la mise sous tension : ne touchez pas la zone tactile pendant le démarrage.
-
-**Aucune détection à travers la façade**
-→ La façade est trop épaisse ou contient un élément conducteur. Réduisez l'épaisseur ou rapprochez la plaque tactile.
-
----
-
-### 💡 À retenir
+### Informations complémentaires
 
 - Le TTP223 fonctionne comme un **bouton numérique**.
 - Aucun bouton mécanique n'est nécessaire.
@@ -269,24 +262,18 @@ Le driver `button` produit la métrique `pressed`.
 - La sensibilité dépend de l'épaisseur et du matériau de la façade.
 - Consommation d'environ **3 mA**, à prendre en compte pour une station sur batterie.
 
----
 
-### 🚧 Évolutions prévues
+### Informations complémentaires
 
-- [ ] Actions configurables directement depuis Natulib OS
-- [ ] Support tactile intégré aux façades Natulib
-- [ ] Gestes ou interactions tactiles avancées
-
----
-
-### 🔗 Ressources
+**Ressources complémentaires**
 
 - ✋ [NL-204A — Détecteur IR TCRT5000](./NL-204A-Detecteur-IR-TCRT5000.md)
 - 🧱 [Retour au catalogue des modules](../Modules.md)
 
----
 
-### 🕓 Historique
+### Informations complémentaires
+
+**Historique du module**
 
 | Version | Évolution |
 |---|---|

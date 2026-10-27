@@ -1,7 +1,6 @@
 ---
 layout: default
 title: NL-206A — Capteur tactile capacitif TTP223
-...
 bare: true
 ---
 

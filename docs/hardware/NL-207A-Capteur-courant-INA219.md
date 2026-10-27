@@ -1,7 +1,6 @@
 ---
 layout: default
 title: NL-207A — Capteur de courant INA219
-...
 bare: true
 ---
 

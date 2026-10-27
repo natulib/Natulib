@@ -1,7 +1,6 @@
 ---
 layout: default
 title: NL-204A — Détecteur IR de proximité TCRT5000
-...
 bare: true
 ---
 

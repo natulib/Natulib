@@ -33,11 +33,43 @@ validation_note: Statut repris du catalogue antérieur ; essais détaillés non 
 
 Extension à barrettes et borniers à vis pour faciliter le raccordement des modules à un ESP32 compatible.
 
+### Informations complémentaires
+
+> 📷 *Photo à ajouter : `assets/NL-002A-ESP32-Expansion-Shield-1.png`*
+
+<!-- Décommentez cette ligne une fois la photo ajoutée :
+
+-->
+
 ## 🔌 Branchement
 
 Vérifier l’orientation de la carte, les bornes de tension et les GPIO disponibles ; contrôler le partage de GND, 3,3 V, SDA et SCL.
 
 **Avant toute connexion :** couper l'alimentation, identifier la variante exacte et vérifier la tension et les GPIO utilisés. Les GPIO4/5 des anciens exemples de câblage I²C ne doivent pas être considérés comme une recommandation universelle pour ESP32-C6.
+
+### Matériel nécessaire
+
+| Composant | Qté | Obligatoire | Fournisseur |
+|---|--:|:-:|---|
+| ESP32 Expansion Shield 30 broches | 1 | ✅ | AliExpress |
+
+> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
+
+
+### Câblage détaillé
+
+> **Important :** brochage historique à confirmer pour la carte utilisée ; les valeurs du JSON ne garantissent pas la compatibilité de chaque GPIO.
+
+Chaque bornier est directement relié à une broche de l'ESP32 et identifié sur le shield.
+
+| Bornier | Fonction |
+|---|---|
+| **3V3** | Alimentation 3,3 V des modules |
+| **5V / VIN** | Alimentation 5 V, selon le shield |
+| **GND** | Masse commune |
+| **GPIOxx** | Une borne par GPIO, selon la sérigraphie |
+
+> ⚠️ Vérifiez la correspondance réelle entre chaque borne et le GPIO attendu avant de raccorder un module. Le câblage réel de chaque module est documenté dans sa fiche **[Projet](../Projets.md)**.
 
 ## 🚀 Installation dans Natulib OS
 
@@ -91,19 +123,19 @@ Aucune mesure directe : c’est un accessoire de distribution et de connexion.
 
 *Ces pistes ne sont pas des fonctions annoncées comme disponibles ou validées.*
 
+### Évolutions possibles
+
+- [ ] Photo annotée de la correspondance bornier ↔ GPIO
+- [ ] Liste des variantes de shield validées avec l'ESP32-C6
+- [ ] Étiquettes Natulib imprimables pour les borniers
+
 ## ⚙️ Pour aller plus loin (facultatif)
 
 Accessoire physique sans driver Natulib dédié.
 
 Retrouver les bases dans [l'interface Natulib OS](../natulib-os/interface.md) et [les modules et drivers](../natulib-os/drivers.md).
 
-## 📚 Documentation approfondie et archives
-
-Cette partie conserve **les informations détaillées de la fiche antérieure** : matériel, étapes de montage, astuces, précautions, dépannage, évolutions et historique. Elle s’adresse aux personnes qui veulent aller plus loin.
-
-> **Attention : contenu historique conservé.** Certains exemples de brochage, de JSON ou de fonctionnement peuvent différer du firmware V0.448. Pour la configuration actuelle, se référer à **« Configuration JSON d’usine »** et au tableau de paramètres plus haut ; vérifier les broches et tensions de la carte exacte avant le montage. Les tests matériels restent à documenter.
-
-### 👀 En bref
+### Informations complémentaires
 
 Le **NL-002A** est un shield d'extension pour **ESP32 DevKit 30 broches**.
 
@@ -121,50 +153,15 @@ Il permet de :
 
 > ⚠️ Le nombre de broches ne garantit pas le même **ordre** de broches. Avant l'achat, comparez la sérigraphie du shield avec celle de votre [NL-001A](./NL-001A-ESP32-C6-N16.md) : sur certaines cartes ESP32-C6, la correspondance bornier ↔ GPIO diffère de celle d'un ESP32 classique.
 
----
 
-### 📷 Aperçu
+### Informations complémentaires
 
-> 📷 *Photo à ajouter : `assets/NL-002A-ESP32-Expansion-Shield-1.png`*
-
-<!-- Décommentez cette ligne une fois la photo ajoutée :
-
--->
-
----
-
-### 🛒 Ce qu'il vous faut
-
-| Composant | Qté | Obligatoire | Fournisseur |
-|---|--:|:-:|---|
-| ESP32 Expansion Shield 30 broches | 1 | ✅ | AliExpress |
-
-> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
-
----
-
-### 🔌 Câblage
-
-Chaque bornier est directement relié à une broche de l'ESP32 et identifié sur le shield.
-
-| Bornier | Fonction |
-|---|---|
-| **3V3** | Alimentation 3,3 V des modules |
-| **5V / VIN** | Alimentation 5 V, selon le shield |
-| **GND** | Masse commune |
-| **GPIOxx** | Une borne par GPIO, selon la sérigraphie |
-
-> ⚠️ Vérifiez la correspondance réelle entre chaque borne et le GPIO attendu avant de raccorder un module. Le câblage réel de chaque module est documenté dans sa fiche **[Projet](../Projets.md)**.
-
----
-
-### ⚙️ Configuration Natulib OS
+**Configuration historique (à revérifier) :**
 
 Le shield est **passif** : il n'apparaît pas dans la configuration de Natulib OS.
 
----
 
-### 🛠️ Installation en 2 minutes
+### Informations complémentaires
 
 1. Insérez l'ESP32 dans le support du shield.
 2. Vérifiez l'orientation du connecteur USB.
@@ -173,9 +170,8 @@ Le shield est **passif** : il n'apparaît pas dans la configuration de Natulib O
 
 > 🔩 **Aucune soudure nécessaire.**
 
----
 
-### 💡 À retenir
+### Informations complémentaires
 
 - Compatible avec les **ESP32 DevKit 30 broches**.
 - Ne forcez jamais l'insertion de l'ESP32.
@@ -183,24 +179,18 @@ Le shield est **passif** : il n'apparaît pas dans la configuration de Natulib O
 - Serrez les borniers sans excès.
 - Le shield ne protège pas les GPIO : les règles de tension du [NL-001A](./NL-001A-ESP32-C6-N16.md) restent valables.
 
----
 
-### 🚧 Évolutions prévues
+### Informations complémentaires
 
-- [ ] Photo annotée de la correspondance bornier ↔ GPIO
-- [ ] Liste des variantes de shield validées avec l'ESP32-C6
-- [ ] Étiquettes Natulib imprimables pour les borniers
-
----
-
-### 🔗 Ressources
+**Ressources complémentaires**
 
 - 🧠 [NL-001A — ESP32-C6 N16](./NL-001A-ESP32-C6-N16.md)
 - 🧱 [Retour au catalogue des modules](../Modules.md)
 
----
 
-### 🕓 Historique
+### Informations complémentaires
+
+**Historique du module**
 
 | Version | Évolution |
 |---|---|

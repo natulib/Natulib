@@ -1,7 +1,6 @@
 ---
 layout: default
 title: NL-208A — Capteur de pluie
-...
 bare: true
 ---
 

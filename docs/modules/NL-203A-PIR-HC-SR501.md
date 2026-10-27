@@ -36,11 +36,43 @@ validation_note: Statut repris du catalogue antérieur ; essais détaillés non 
 
 Détecter un mouvement ou une présence par infrarouge passif.
 
+### Informations complémentaires
+
+> 📷 *Photo à ajouter : `assets/NL-203A-PIR-HC-SR501-1.png`*
+
+<!-- Décommentez cette ligne une fois la photo ajoutée :
+
+-->
+
 ## 🔌 Branchement
 
 VCC et GND selon la référence du module ; OUT vers un GPIO d’entrée choisi sur la carte.
 
 **Avant toute connexion :** couper l'alimentation, identifier la variante exacte et vérifier la tension et les GPIO utilisés. Les GPIO4/5 des anciens exemples de câblage I²C ne doivent pas être considérés comme une recommandation universelle pour ESP32-C6.
+
+### Matériel nécessaire
+
+| Composant | Qté | Obligatoire | Fournisseur |
+|---|--:|:-:|---|
+| Détecteur PIR HC-SR501 / D-SUN | 1 | ✅ | AliExpress |
+| Câbles Dupont | 3 | ✅ | AliExpress |
+
+> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
+
+
+### Câblage détaillé
+
+> **Important :** brochage historique à confirmer pour la carte utilisée ; les valeurs du JSON ne garantissent pas la compatibilité de chaque GPIO.
+
+| PIR HC-SR501 | ESP32-C6 | Fonction |
+|---|---|---|
+| VCC | 5V | Alimentation |
+| GND | GND | Masse |
+| OUT | GPIO10 | Détection |
+
+> 💡 Le module est alimenté en **5 V** mais sa sortie `OUT` délivre un niveau haut de **3,3 V**, compatible avec les GPIO de l'ESP32-C6. Vérifiez ce point sur le module reçu avant le raccordement.
+
+> 💡 Les GPIO indiqués ci-dessus sont un **exemple historique de câblage**, utilisable telle quelle pour un montage isolé. Dans une station qui combine plusieurs modules, le câblage réel peut différer : reportez-vous au plan de brochage de votre fiche **[Projet](../Projets.md)**.
 
 ## 🚀 Installation dans Natulib OS
 
@@ -49,6 +81,15 @@ VCC et GND selon la référence du module ; OUT vers un GPIO d’entrée choisi 
 3. Vérifier le résultat dans **Accueil** ; consulter **Console** et **Maintenance** en cas d'erreur.
 
 La configuration se fait depuis l'interface, **sans modifier de code Arduino**.
+
+### Montage pas à pas
+
+1. Connectez le PIR à l'ESP32-C6 selon le tableau de câblage.
+2. Installez le module sur la face avant du boîtier.
+3. Faites dépasser le dôme blanc à travers la façade.
+4. Orientez le capteur vers la zone à surveiller.
+5. Réglez sensibilité et temporisation, puis positionnez le cavalier.
+6. Évitez les sources de chaleur ou le soleil direct à proximité.
 
 ## 📊 Mesures ou fonctions
 
@@ -141,6 +182,17 @@ Pour débuter, utiliser l’onglet **Hardware** de Natulib OS : il génère la c
 - Consulter **Console** pour les erreurs et **Maintenance** pour les diagnostics.
 - La détection PIR dépend des mouvements thermiques ; elle ne prouve pas qu’une personne est immobile devant le capteur.
 
+### Retours de dépannage
+
+**Déclenchements intempestifs**
+→ Réduisez la sensibilité, éloignez le capteur d'une source de chaleur ou d'un courant d'air.
+
+**La détection reste active en permanence**
+→ Le module est en mode `H` avec une temporisation longue ; réduisez-la ou passez en `L`.
+
+**Détections erratiques après la mise sous tension**
+→ Le HC-SR501 demande une période de stabilisation après démarrage ; patientez avant de conclure.
+
 ## 🔧 Améliorations pour un montage plus simple
 
 - [ ] Module à connecteur précâblé et prise numérique détrompée.
@@ -148,19 +200,19 @@ Pour débuter, utiliser l’onglet **Hardware** de Natulib OS : il génère la c
 
 *Ces pistes ne sont pas des fonctions annoncées comme disponibles ou validées.*
 
+### Évolutions possibles
+
+- [ ] Support clipsable pour façade Natulib
+- [ ] Réglage du délai directement dans Natulib OS
+- [ ] Version sur PCB Natulib
+
 ## ⚙️ Pour aller plus loin (facultatif)
 
 `DevicePIR` ; confirmer dans Hardware le nom exact du champ GPIO de la version installée.
 
 Retrouver les bases dans [l'interface Natulib OS](../natulib-os/interface.md) et [les modules et drivers](../natulib-os/drivers.md).
 
-## 📚 Documentation approfondie et archives
-
-Cette partie conserve **les informations détaillées de la fiche antérieure** : matériel, étapes de montage, astuces, précautions, dépannage, évolutions et historique. Elle s’adresse aux personnes qui veulent aller plus loin.
-
-> **Attention : contenu historique conservé.** Certains exemples de brochage, de JSON ou de fonctionnement peuvent différer du firmware V0.448. Pour la configuration actuelle, se référer à **« Configuration JSON d’usine »** et au tableau de paramètres plus haut ; vérifier les broches et tensions de la carte exacte avant le montage. Les tests matériels restent à documenter.
-
-### 👀 En bref
+### Informations complémentaires
 
 Le **HC-SR501**, souvent vendu sous la marque **D-SUN**, détecte les mouvements grâce aux variations du rayonnement infrarouge.
 
@@ -173,44 +225,8 @@ Dans Natulib, il permet notamment de :
 
 **Alimentation :** 5 V · **Sortie :** numérique 3,3 V · **Calibration :** matérielle, par potentiomètres.
 
----
 
-### 📷 Aperçu
-
-> 📷 *Photo à ajouter : `assets/NL-203A-PIR-HC-SR501-1.png`*
-
-<!-- Décommentez cette ligne une fois la photo ajoutée :
-
--->
-
----
-
-### 🛒 Ce qu'il vous faut
-
-| Composant | Qté | Obligatoire | Fournisseur |
-|---|--:|:-:|---|
-| Détecteur PIR HC-SR501 / D-SUN | 1 | ✅ | AliExpress |
-| Câbles Dupont | 3 | ✅ | AliExpress |
-
-> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
-
----
-
-### 🔌 Câblage
-
-| PIR HC-SR501 | ESP32-C6 | Fonction |
-|---|---|---|
-| VCC | 5V | Alimentation |
-| GND | GND | Masse |
-| OUT | GPIO10 | Détection |
-
-> 💡 Le module est alimenté en **5 V** mais sa sortie `OUT` délivre un niveau haut de **3,3 V**, compatible avec les GPIO de l'ESP32-C6. Vérifiez ce point sur le module reçu avant le raccordement.
-
-> 💡 Les GPIO indiqués ci-dessus sont une **recommandation par défaut**, utilisable telle quelle pour un montage isolé. Dans une station qui combine plusieurs modules, le câblage réel peut différer : reportez-vous au plan de brochage de votre fiche **[Projet](../Projets.md)**.
-
----
-
-### 🎛️ Réglages matériels
+### Informations complémentaires
 
 Le module comporte deux potentiomètres et un cavalier.
 
@@ -222,9 +238,10 @@ Le module comporte deux potentiomètres et un cavalier.
 
 > 💡 Pour Natulib, le mode **H** est généralement préférable : il maintient l'écran allumé tant qu'une présence est détectée.
 
----
 
-### ⚙️ Configuration Natulib OS
+### Informations complémentaires
+
+**Configuration historique (à revérifier) :**
 
 **Type :** `pir`
 
@@ -246,33 +263,8 @@ Le module comporte deux potentiomètres et un cavalier.
 
 > 🔵 Le driver `pir` de Natulib OS lit la broche sous la clé `pins.pin` (et non `pins.signal`). Métriques exposées : `motion`, `idle_time_sec`. Voir **[Drivers](../natulib-os/drivers.md)**.
 
----
 
-### 🛠️ Montage en 5 minutes
-
-1. Connectez le PIR à l'ESP32-C6 selon le tableau de câblage.
-2. Installez le module sur la face avant du boîtier.
-3. Faites dépasser le dôme blanc à travers la façade.
-4. Orientez le capteur vers la zone à surveiller.
-5. Réglez sensibilité et temporisation, puis positionnez le cavalier.
-6. Évitez les sources de chaleur ou le soleil direct à proximité.
-
----
-
-### 🧩 Problèmes courants
-
-**Déclenchements intempestifs**
-→ Réduisez la sensibilité, éloignez le capteur d'une source de chaleur ou d'un courant d'air.
-
-**La détection reste active en permanence**
-→ Le module est en mode `H` avec une temporisation longue ; réduisez-la ou passez en `L`.
-
-**Détections erratiques après la mise sous tension**
-→ Le HC-SR501 demande une période de stabilisation après démarrage ; patientez avant de conclure.
-
----
-
-### 💡 À retenir
+### Informations complémentaires
 
 - Le PIR détecte les **mouvements**, pas une présence immobile.
 - Il ne fournit **ni distance ni position**.
@@ -280,24 +272,18 @@ Le module comporte deux potentiomètres et un cavalier.
 - Sa consommation est faible et aucune calibration logicielle n'est nécessaire.
 - Prévoyez un **délai logiciel** avant la remise en veille pour éviter les basculements trop fréquents.
 
----
 
-### 🚧 Évolutions prévues
+### Informations complémentaires
 
-- [ ] Support clipsable pour façade Natulib
-- [ ] Réglage du délai directement dans Natulib OS
-- [ ] Version sur PCB Natulib
-
----
-
-### 🔗 Ressources
+**Ressources complémentaires**
 
 - ✋ [NL-204A — Détecteur IR TCRT5000](./NL-204A-Detecteur-IR-TCRT5000.md)
 - 🧱 [Retour au catalogue des modules](../Modules.md)
 
----
 
-### 🕓 Historique
+### Informations complémentaires
+
+**Historique du module**
 
 | Version | Évolution |
 |---|---|

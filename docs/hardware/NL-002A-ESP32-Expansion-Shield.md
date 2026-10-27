@@ -1,7 +1,6 @@
 ---
 layout: default
 title: NL-002A — ESP32 Expansion Shield 30 broches
-...
 bare: true
 ---
 

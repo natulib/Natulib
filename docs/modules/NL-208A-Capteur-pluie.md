@@ -35,11 +35,57 @@ validation_note: Essais matériels à documenter
 
 Détecter la présence d’eau ou de pluie et suivre un signal analogique utile aux automatismes extérieurs.
 
+### Informations complémentaires
+
+> 📷 _Photo à ajouter : `assets/NL-208A-Capteur-pluie-1.png`_
+
+<!-- Décommentez cette ligne une fois la photo ajoutée : ![Module capteur de pluie](../assets/NL-208A-Capteur-pluie-1.png) -->
+
 ## 🔌 Branchement
 
 Raccorder l’alimentation, le GND et les sorties digitale/analogique selon la carte ; utiliser exclusivement les broches et tensions compatibles.
 
 **Avant toute connexion :** couper l'alimentation, identifier la variante exacte et vérifier la tension et les GPIO utilisés. Les GPIO4/5 des anciens exemples de câblage I²C ne doivent pas être considérés comme une recommandation universelle pour ESP32-C6.
+
+### Matériel nécessaire
+
+|Composant|Qté|Obligatoire|Fournisseur|
+|---|--:|:-:|---|
+|Module capteur de pluie|1|✅|Amazon|
+|Câbles Dupont|3–4|✅|AliExpress|
+|Résistance 10 kΩ à 1 MΩ (pull-down anti-parasite)|1|⚠️|Voir [Protection matérielle](.#-protection-mat%C3%A9rielle-recommand%C3%A9e)|
+
+> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
+
+
+### Câblage détaillé
+
+> **Important :** brochage historique à confirmer pour la carte utilisée ; les valeurs du JSON ne garantissent pas la compatibilité de chaque GPIO.
+
+|Capteur|ESP32-C6|Fonction|
+|---|---|---|
+|VCC|3V3 (ou GPIO dédié, voir alimentation pulsée)|Alimentation|
+|GND|GND (broche dédiée, voir ci-dessous)|Masse|
+|DO|GPIO20|Détection numérique|
+|AO _(optionnel)_|GPIO3|Mesure analogique|
+
+> 💡 Utilisez **DO** pour une simple détection de pluie. **AO** permet d'exploiter une valeur progressive.
+
+> ⚠️ Alimentez le module en **3,3 V** : ses sorties suivent la tension d'alimentation, et un module alimenté en 5 V renverrait 5 V sur une GPIO de l'ESP32-C6.
+
+> ⚠️ **Masse dédiée obligatoire si un actionneur (relais, moteur, pompe...) est présent sur la même station.** Ne partagez jamais le retour GND de ce capteur avec celui d'un relais ou d'un autre organe consommant du courant en salves : l'appel de courant crée un micro-déplacement de potentiel de masse ("ground bounce") qui peut déclencher une fausse détection sur `DO`. Câblez le GND du capteur en étoile, directement sur une broche GND de l'ESP32, sans point de soudure partagé avec d'autres modules.
+
+> 💡 Les GPIO indiqués ci-dessus sont un **exemple historique de câblage**, utilisable telle quelle pour un montage isolé. Dans une station qui combine plusieurs modules, le câblage réel peut différer : reportez-vous au plan de brochage de votre fiche **[Projet](./Projets.md)**.
+
+#### ⚡ Alimentation pulsée (anti-électrolyse, recommandée)
+
+Le driver `rain_analog` peut piloter l'alimentation du module via une broche `power` dédiée plutôt que de le laisser branché en continu sur 3V3 :
+
+- la plaque n'est mise sous tension que **5 ms avant chaque lecture**, le temps que le comparateur LM393 se stabilise, puis coupée immédiatement après ;
+- la plaque reste hors tension plus de 99 % du temps, ce qui limite fortement son électrolyse/oxydation en usage extérieur prolongé et prolonge sa durée de vie ;
+- en contrepartie, l'interruption matérielle sur `DO` (qui permettrait de capter une goutte furtive entre deux cycles de lecture) est désactivée en mode pulsé, pour éviter les tempêtes d'interruptions sur une broche coupée donc flottante.
+
+Pour l'activer, câblez `VCC` du module sur une GPIO de sortie de l'ESP32 (pas sur 3V3 direct) et renseignez cette broche dans `pins.power` (voir configuration ci-dessous). Sans cette broche, le module reste alimenté en continu et l'ISR anti-goutte-furtive reste active.
 
 ## 🚀 Installation dans Natulib OS
 
@@ -48,6 +94,15 @@ Raccorder l’alimentation, le GND et les sorties digitale/analogique selon la c
 3. Vérifier le résultat dans **Accueil** ; consulter **Console** et **Maintenance** en cas d'erreur.
 
 La configuration se fait depuis l'interface, **sans modifier de code Arduino**.
+
+### Montage pas à pas
+
+1. Soudez les broches du module si elles ne sont pas déjà installées.
+2. Connectez le capteur à l'ESP32-C6 selon le tableau de câblage — avec un retour GND dédié, sans point de soudure partagé avec un autre organe.
+3. Utilisez **DO** pour une détection simple ou **AO** pour une mesure analogique.
+4. Déposez quelques gouttes d'eau sur la plaque.
+5. Réglez le potentiomètre jusqu'au seuil de déclenchement souhaité.
+6. Vérifiez la détection dans Natulib OS (utilisez le bouton ⚡ + `debug: true` pour observer `raw` en direct).
 
 ## 📊 Mesures ou fonctions
 
@@ -170,6 +225,16 @@ Pour débuter, utiliser l’onglet **Hardware** de Natulib OS : il génère la c
 - Consulter **Console** pour les erreurs et **Maintenance** pour les diagnostics.
 - La fonction `disconnect_below` exige un montage électrique adapté avec résistance externe ; ne pas l’activer sans celle-ci.
 
+### Retours de dépannage
+
+**La détection reste active après la pluie** → La plaque sèche lentement ; inclinez-la pour favoriser l'évacuation de l'eau.
+
+**La plaque se corrode** → Les pistes s'oxydent à l'usage en extérieur. Prévoyez un remplacement périodique de la plaque, qui est la pièce d'usure du module. L'alimentation pulsée (`pins.power`) limite ce phénomène mais ne l'élimine pas.
+
+**`raw` reste bloqué à une valeur intermédiaire plausible quand le capteur est débranché** → La broche `AO` flotte électriquement et peut se stabiliser dans la plage de calibration normale. Ajoutez une résistance de pull-down sur `AO` (voir [Protection matérielle](https://claude.ai/chat/ea6075bd-e2a8-4444-8d2c-f63d884b6312#-protection-mat%C3%A9rielle-recommand%C3%A9e)).
+
+**`rain_detected` passe brièvement à 1 sans raison lors de l'activation d'un relais ou d'un actionneur proche** → Signe quasi systématique d'un retour de masse partagé entre le capteur et l'actionneur. Séparez le câblage GND du capteur sur sa propre broche GND de l'ESP32 (masse en étoile), voir la section [Câblage](https://claude.ai/chat/ea6075bd-e2a8-4444-8d2c-f63d884b6312#-c%C3%A2blage). Vérifiez aussi la présence d'une diode de roue libre sur la bobine de l'actionneur en cause.
+
 ## 🔧 Améliorations pour un montage plus simple
 
 - [ ] Plaque de pluie à connecteur protégé de l’humidité et raccordement rapide.
@@ -177,19 +242,19 @@ Pour débuter, utiliser l’onglet **Hardware** de Natulib OS : il génère la c
 
 *Ces pistes ne sont pas des fonctions annoncées comme disponibles ou validées.*
 
+### Évolutions possibles
+
+- [ ] Combinaison logicielle DO + AO (actuellement DO est prioritaire, AO reste informatif seul)
+- [ ] Support pour boîtier extérieur
+- [ ] Support clipsable pour les boîtiers Natulib
+
 ## ⚙️ Pour aller plus loin (facultatif)
 
 `DeviceRainAnalog` ; intervalle 5 000 ms par défaut ; `hold_sec` = 60 s, calibration brute 1400–3200 par défaut.
 
 Retrouver les bases dans [l'interface Natulib OS](../natulib-os/interface.md) et [les modules et drivers](../natulib-os/drivers.md).
 
-## 📚 Documentation approfondie et archives
-
-Cette partie conserve **les informations détaillées de la fiche antérieure** : matériel, étapes de montage, astuces, précautions, dépannage, évolutions et historique. Elle s’adresse aux personnes qui veulent aller plus loin.
-
-> **Attention : contenu historique conservé.** Certains exemples de brochage, de JSON ou de fonctionnement peuvent différer du firmware V0.448. Pour la configuration actuelle, se référer à **« Configuration JSON d’usine »** et au tableau de paramètres plus haut ; vérifier les broches et tensions de la carte exacte avant le montage. Les tests matériels restent à documenter.
-
-### 👀 En bref
+### Informations complémentaires
 
 Le **capteur de pluie** détecte la présence d'eau sur une plaque conductrice.
 
@@ -207,58 +272,8 @@ Le module propose deux sorties :
 
 **Alimentation :** 3,3 à 5 V · **Sensibilité :** réglable · **Calibration :** seuil DO à régler.
 
----
 
-### 📷 Aperçu
-
-> 📷 _Photo à ajouter : `assets/NL-208A-Capteur-pluie-1.png`_
-
-<!-- Décommentez cette ligne une fois la photo ajoutée : ![Module capteur de pluie](../assets/NL-208A-Capteur-pluie-1.png) -->
-
----
-
-### 🛒 Ce qu'il vous faut
-
-|Composant|Qté|Obligatoire|Fournisseur|
-|---|--:|:-:|---|
-|Module capteur de pluie|1|✅|Amazon|
-|Câbles Dupont|3–4|✅|AliExpress|
-|Résistance 10 kΩ à 1 MΩ (pull-down anti-parasite)|1|⚠️|Voir [Protection matérielle](.#-protection-mat%C3%A9rielle-recommand%C3%A9e)|
-
-> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
-
----
-
-### 🔌 Câblage
-
-|Capteur|ESP32-C6|Fonction|
-|---|---|---|
-|VCC|3V3 (ou GPIO dédié, voir alimentation pulsée)|Alimentation|
-|GND|GND (broche dédiée, voir ci-dessous)|Masse|
-|DO|GPIO20|Détection numérique|
-|AO _(optionnel)_|GPIO3|Mesure analogique|
-
-> 💡 Utilisez **DO** pour une simple détection de pluie. **AO** permet d'exploiter une valeur progressive.
-
-> ⚠️ Alimentez le module en **3,3 V** : ses sorties suivent la tension d'alimentation, et un module alimenté en 5 V renverrait 5 V sur une GPIO de l'ESP32-C6.
-
-> ⚠️ **Masse dédiée obligatoire si un actionneur (relais, moteur, pompe...) est présent sur la même station.** Ne partagez jamais le retour GND de ce capteur avec celui d'un relais ou d'un autre organe consommant du courant en salves : l'appel de courant crée un micro-déplacement de potentiel de masse ("ground bounce") qui peut déclencher une fausse détection sur `DO`. Câblez le GND du capteur en étoile, directement sur une broche GND de l'ESP32, sans point de soudure partagé avec d'autres modules.
-
-> 💡 Les GPIO indiqués ci-dessus sont une **recommandation par défaut**, utilisable telle quelle pour un montage isolé. Dans une station qui combine plusieurs modules, le câblage réel peut différer : reportez-vous au plan de brochage de votre fiche **[Projet](./Projets.md)**.
-
-#### ⚡ Alimentation pulsée (anti-électrolyse, recommandée)
-
-Le driver `rain_analog` peut piloter l'alimentation du module via une broche `power` dédiée plutôt que de le laisser branché en continu sur 3V3 :
-
-- la plaque n'est mise sous tension que **5 ms avant chaque lecture**, le temps que le comparateur LM393 se stabilise, puis coupée immédiatement après ;
-- la plaque reste hors tension plus de 99 % du temps, ce qui limite fortement son électrolyse/oxydation en usage extérieur prolongé et prolonge sa durée de vie ;
-- en contrepartie, l'interruption matérielle sur `DO` (qui permettrait de capter une goutte furtive entre deux cycles de lecture) est désactivée en mode pulsé, pour éviter les tempêtes d'interruptions sur une broche coupée donc flottante.
-
-Pour l'activer, câblez `VCC` du module sur une GPIO de sortie de l'ESP32 (pas sur 3V3 direct) et renseignez cette broche dans `pins.power` (voir configuration ci-dessous). Sans cette broche, le module reste alimenté en continu et l'ISR anti-goutte-furtive reste active.
-
----
-
-### 🛡️ Protection matérielle recommandée
+### Informations complémentaires
 
 Ces protections ne sont pas indispensables au fonctionnement de base, mais fortement conseillées pour un usage extérieur fiable et pour éviter les faux positifs :
 
@@ -278,9 +293,10 @@ Utile si le capteur est exposé à des sources de bruit électrique (câblage lo
 
 N'utilisez pas de condensateur de filtrage sur la ligne `VCC` en mode alimentation pulsée : un condensateur trop gros (électrolytique, dizaines de µF) ralentirait la mise sous tension et prolongerait l'électrolyse de la plaque à chaque cycle. Un petit condensateur céramique de découplage (100 nF) directement sur `VCC`/`GND` du module reste sans risque.
 
----
 
-### ⚙️ Configuration Natulib OS
+### Informations complémentaires
+
+**Configuration historique (à revérifier) :**
 
 **Type :** `rain_analog`
 
@@ -324,20 +340,8 @@ Le driver expose les métriques `rain_detected` (booléen), `intensity_pct` (bas
 
 Le bouton ⚡ (« Forcer la lecture ») disponible depuis le tableau de bord ou la fiche du module déclenche une lecture immédiate. Si `debug: true` est activé sur le module, cette lecture forcée est **toujours** tracée dans les logs (préfixe `⚡`), même si la valeur n'a pas assez varié pour déclencher un log de cycle normal — pratique pour vérifier le câblage (`raw`) sans attendre un vrai épisode de pluie.
 
----
 
-### 🛠️ Montage en 20 minutes
-
-1. Soudez les broches du module si elles ne sont pas déjà installées.
-2. Connectez le capteur à l'ESP32-C6 selon le tableau de câblage — avec un retour GND dédié, sans point de soudure partagé avec un autre organe.
-3. Utilisez **DO** pour une détection simple ou **AO** pour une mesure analogique.
-4. Déposez quelques gouttes d'eau sur la plaque.
-5. Réglez le potentiomètre jusqu'au seuil de déclenchement souhaité.
-6. Vérifiez la détection dans Natulib OS (utilisez le bouton ⚡ + `debug: true` pour observer `raw` en direct).
-
----
-
-### 📏 Calibration
+### Informations complémentaires
 
 Le potentiomètre règle la sensibilité de la **sortie DO**.
 
@@ -351,21 +355,8 @@ Le potentiomètre règle la sensibilité de la **sortie DO**.
 
 > ⚠️ Si vous ajoutez la résistance de pull-down 10 kΩ recommandée plus haut, refaites cette calibration **avec la résistance déjà en place** : elle modifie la valeur `raw` lue à sec et donc les bornes `calibration.min`/`calibration.max` à utiliser.
 
----
 
-### 🧩 Problèmes courants
-
-**La détection reste active après la pluie** → La plaque sèche lentement ; inclinez-la pour favoriser l'évacuation de l'eau.
-
-**La plaque se corrode** → Les pistes s'oxydent à l'usage en extérieur. Prévoyez un remplacement périodique de la plaque, qui est la pièce d'usure du module. L'alimentation pulsée (`pins.power`) limite ce phénomène mais ne l'élimine pas.
-
-**`raw` reste bloqué à une valeur intermédiaire plausible quand le capteur est débranché** → La broche `AO` flotte électriquement et peut se stabiliser dans la plage de calibration normale. Ajoutez une résistance de pull-down sur `AO` (voir [Protection matérielle](https://claude.ai/chat/ea6075bd-e2a8-4444-8d2c-f63d884b6312#-protection-mat%C3%A9rielle-recommand%C3%A9e)).
-
-**`rain_detected` passe brièvement à 1 sans raison lors de l'activation d'un relais ou d'un actionneur proche** → Signe quasi systématique d'un retour de masse partagé entre le capteur et l'actionneur. Séparez le câblage GND du capteur sur sa propre broche GND de l'ESP32 (masse en étoile), voir la section [Câblage](https://claude.ai/chat/ea6075bd-e2a8-4444-8d2c-f63d884b6312#-c%C3%A2blage). Vérifiez aussi la présence d'une diode de roue libre sur la bobine de l'actionneur en cause.
-
----
-
-### 💡 À retenir
+### Informations complémentaires
 
 - Alimentez le module en **3,3 V**.
 - **DO** fournit une détection numérique avec seuil réglable, **AO** une sortie analogique.
@@ -377,24 +368,18 @@ Le potentiomètre règle la sensibilité de la **sortie DO**.
 - Donnez toujours à ce capteur son propre retour GND, jamais partagé avec un relais ou un actionneur.
 - Ajoutez une résistance de pull-down sur `AO` si vous voulez détecter une déconnexion matérielle du capteur.
 
----
 
-### 🚧 Évolutions prévues
+### Informations complémentaires
 
-- [ ] Combinaison logicielle DO + AO (actuellement DO est prioritaire, AO reste informatif seul)
-- [ ] Support pour boîtier extérieur
-- [ ] Support clipsable pour les boîtiers Natulib
-
----
-
-### 🔗 Ressources
+**Ressources complémentaires**
 
 - 🌱 [Recettes d'arrosage](https://claude.ai/Recettes.md)
 - 🧱 [Retour au catalogue des modules](https://claude.ai/Modules.md)
 
----
 
-### 🕓 Historique
+### Informations complémentaires
+
+**Historique du module**
 
 |Version|Évolution|
 |---|---|

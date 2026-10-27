@@ -1,7 +1,6 @@
 ---
 layout: default
 title: NL-203A — Détecteur de présence PIR HC-SR501
-...
 bare: true
 ---
 

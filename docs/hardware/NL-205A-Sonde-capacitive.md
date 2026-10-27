@@ -1,7 +1,6 @@
 ---
 layout: default
 title: NL-205A — Sonde capacitive d'humidité du sol V2.0
-...
 bare: true
 ---
 

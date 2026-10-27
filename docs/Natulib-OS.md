@@ -1,10 +1,55 @@
 ---
+layout: hub
 title: Natulib OS
+bare: true
 nav_order: 6
 has_children: true
+rubrique: Natulib · documentation
+hero_title: 🧠 Natulib OS
+intro: Configurer les modules, consulter les mesures et automatiser une station depuis le navigateur, sans programmer.
+cartes_titre: Explorer Natulib OS
+cartes:
+- icone: 🖥️
+  titre: Interface web
+  description: Découvrir les onglets et les fonctions de la station.
+  url: /natulib-os/interface.html
+- icone: 🔌
+  titre: Modules et drivers
+  description: Configurer un capteur ou un actionneur.
+  url: /natulib-os/drivers.html
+- icone: ⚡
+  titre: Synapses
+  description: Créer ou importer des automatisations locales.
+  url: /natulib-os/automatisations.html
+- icone: 📡
+  titre: Réseau
+  description: Wi-Fi, MQTT et fonctionnement local.
+  url: /natulib-os/reseau.html
+- icone: 📈
+  titre: Historique
+  description: Retrouver les mesures enregistrées.
+  url: /natulib-os/historique.html
+- icone: 🛡️
+  titre: Maintenance et sécurité
+  description: Diagnostic, précautions et mises à jour.
+  url: /natulib-os/securite.html
+- icone: 🏗️
+  titre: Architecture
+  description: Comprendre les grands principes du firmware.
+  url: /natulib-os/architecture.html
+- icone: 🔗
+  titre: API REST
+  description: Explorer les données et les fonctions HTTP.
+  url: /natulib-os/api.html
+- icone: 💾
+  titre: Stockage
+  description: Comprendre les fichiers et configurations.
+  url: /natulib-os/filesystem.html
+- icone: 👨‍💻
+  titre: Développement
+  description: Trouver les composants du code source.
+  url: /natulib-os/developpement.html
 ---
-
-# 🧠 Natulib OS
 
 **Natulib OS transforme une carte ESP32 en station connectée, sans programmation Arduino pour l'utilisateur.** Après installation du firmware, le matériel et les automatisations se configurent depuis un navigateur, sur ordinateur ou téléphone.
 
@@ -17,15 +62,6 @@ has_children: true
 
 La station privilégie le **fonctionnement local** : les automatisations n'ont pas besoin d'un cloud pour fonctionner. Wi-Fi, MQTT et synchronisation sont des possibilités complémentaires.
 
-## 📚 Découvrir Natulib OS
-
-- **[Interface web](./natulib-os/interface.md)** — Les écrans et leur usage.
-- **[Modules et drivers](./natulib-os/drivers.md)** — Ajouter et identifier le matériel.
-- **[Synapses](./natulib-os/automatisations.md)** — Automatiser sans coder.
-- **[Réseau](./natulib-os/reseau.md)** — Wi-Fi, MQTT et accès local.
-- **[Historique](./natulib-os/historique.md)** — Retrouver ses mesures.
-- **[Maintenance et sécurité](./natulib-os/securite.md)** — Précautions et mises à jour.
-- **[Documentation technique](./natulib-os/architecture.md)** — Pour comprendre le fonctionnement interne.
 
 ## 🧪 Un projet qui évolue avec les essais
 

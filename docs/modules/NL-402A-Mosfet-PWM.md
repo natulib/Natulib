@@ -35,11 +35,52 @@ validation_note: Essais matériels à documenter
 
 Piloter une charge basse tension par signal PWM, notamment une pompe ou un éclairage compatible.
 
+### Informations complémentaires
+
+> 📷 *Photo à ajouter : `assets/NL-402A-Mosfet-PWM-1.png`*
+
+<!-- Décommentez cette ligne une fois la photo ajoutée :
+
+-->
+
 ## 🔌 Branchement
 
 Relier la commande du MOSFET au GPIO PWM configuré, les masses correctement et la charge à une alimentation adaptée. Ne jamais alimenter une pompe depuis un GPIO.
 
 **Avant toute connexion :** couper l'alimentation, identifier la variante exacte et vérifier la tension et les GPIO utilisés. Les GPIO4/5 des anciens exemples de câblage I²C ne doivent pas être considérés comme une recommandation universelle pour ESP32-C6.
+
+### Matériel nécessaire
+
+| Composant | Qté | Obligatoire | Fournisseur |
+|---|--:|:-:|---|
+| Module MOSFET PWM | 1 | ✅ | Amazon |
+| Câbles Dupont | 3 | ✅ | AliExpress |
+| Alimentation adaptée à la charge | 1 | ✅ | Selon projet |
+| Charge DC | 1 | ✅ | Selon projet |
+
+> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
+
+
+### Câblage détaillé
+
+> **Important :** brochage historique à confirmer pour la carte utilisée ; les valeurs du JSON ne garantissent pas la compatibilité de chaque GPIO.
+
+Le câblage exact dépend du bornier de la version reçue.
+
+| Module | Connexion | Fonction |
+|---|---|---|
+| VCC / + | Alimentation charge | Alimentation |
+| GND / - | GND alimentation **et** GND ESP32-C6 | Masse commune |
+| IN / PWM | GPIO6 | Commande |
+| OUT | Charge | Sortie commutée |
+
+> ⚠️ Vérifiez impérativement le marquage **IN / OUT / VCC / GND** directement sur le PCB avant raccordement. Le brochage varie selon les versions du module.
+
+> ⚠️ L'alimentation de la charge ne doit jamais provenir d'une GPIO de l'ESP32-C6. La GPIO commande le MOSFET ; la charge est alimentée par son alimentation dédiée.
+
+> ⚠️ La masse de l'ESP32-C6 et celle de l'alimentation de la charge doivent être **reliées**, sinon le signal de commande n'a pas de référence.
+
+> 💡 Les GPIO indiqués ci-dessus sont un **exemple historique de câblage**, utilisable telle quelle pour un montage isolé. Dans une station qui combine plusieurs modules, le câblage réel peut différer : reportez-vous au plan de brochage de votre fiche **[Projet](../Projets.md)**.
 
 ## 🚀 Installation dans Natulib OS
 
@@ -48,6 +89,16 @@ Relier la commande du MOSFET au GPIO PWM configuré, les masses correctement et 
 3. Vérifier le résultat dans **Accueil** ; consulter **Console** et **Maintenance** en cas d'erreur.
 
 La configuration se fait depuis l'interface, **sans modifier de code Arduino**.
+
+### Montage pas à pas
+
+1. Vérifiez le brochage inscrit sur le module.
+2. Connectez l'alimentation de la charge au module.
+3. Connectez la charge sur la sortie MOSFET.
+4. Reliez la masse de commande à la masse du système.
+5. Connectez l'entrée de commande à **GPIO6**.
+6. Démarrez avec un rapport cyclique faible.
+7. Vérifiez la température du module lorsque la charge augmente.
 
 ## 📊 Mesures ou fonctions
 
@@ -142,6 +193,17 @@ Pour débuter, utiliser l’onglet **Hardware** de Natulib OS : il génère la c
 - Consulter **Console** pour les erreurs et **Maintenance** pour les diagnostics.
 - Les charges inductives exigent des protections adaptées. Ne pas utiliser cet assemblage pour une tension secteur sans équipement certifié.
 
+### Retours de dépannage
+
+**La charge ne s'éteint jamais complètement**
+→ Certains modules laissent passer un courant résiduel ; vérifiez le type de MOSFET et le niveau de commande.
+
+**Bourdonnement audible sur un moteur ou une pompe**
+→ Augmentez la fréquence PWM au-delà de la plage audible.
+
+**Le module chauffe fortement**
+→ Réduisez la charge, améliorez le refroidissement ou augmentez la section des câbles de puissance.
+
 ## 🔧 Améliorations pour un montage plus simple
 
 - [ ] Bornier à vis, module MOSFET précâblé et connecteur de commande rapide.
@@ -149,19 +211,22 @@ Pour débuter, utiliser l’onglet **Hardware** de Natulib OS : il génère la c
 
 *Ces pistes ne sont pas des fonctions annoncées comme disponibles ou validées.*
 
+### Évolutions possibles
+
+- [ ] Intégration PWM native dans Natulib OS
+- [ ] Commande de bandes LED
+- [ ] Contrôle de vitesse des moteurs DC
+- [ ] Pilotage de pompes et électrovannes
+- [ ] Support de profils PWM dans les recettes Natulib
+- [ ] Boîtier avec bornier de puissance intégré
+
 ## ⚙️ Pour aller plus loin (facultatif)
 
 `DevicePWM` ; les paramètres disponibles dépendent du profil enregistré dans Hardware.
 
 Retrouver les bases dans [l'interface Natulib OS](../natulib-os/interface.md) et [les modules et drivers](../natulib-os/drivers.md).
 
-## 📚 Documentation approfondie et archives
-
-Cette partie conserve **les informations détaillées de la fiche antérieure** : matériel, étapes de montage, astuces, précautions, dépannage, évolutions et historique. Elle s’adresse aux personnes qui veulent aller plus loin.
-
-> **Attention : contenu historique conservé.** Certains exemples de brochage, de JSON ou de fonctionnement peuvent différer du firmware V0.448. Pour la configuration actuelle, se référer à **« Configuration JSON d’usine »** et au tableau de paramètres plus haut ; vérifier les broches et tensions de la carte exacte avant le montage. Les tests matériels restent à documenter.
-
-### 👀 En bref
+### Informations complémentaires
 
 Le **NL-402A** est un module MOSFET permettant de commander une charge en courant continu depuis un signal **GPIO ou PWM**.
 
@@ -179,53 +244,10 @@ Le module utilise **deux MOSFET en parallèle**.
 
 > ⚠️ Les valeurs de courant et de puissance sont celles annoncées par le fabricant. Elles dépendent du refroidissement, du câblage et de la charge utilisée, et ne constituent pas une capacité garantie.
 
----
 
-### 📷 Aperçu
+### Informations complémentaires
 
-> 📷 *Photo à ajouter : `assets/NL-402A-Mosfet-PWM-1.png`*
-
-<!-- Décommentez cette ligne une fois la photo ajoutée :
-
--->
-
----
-
-### 🛒 Ce qu'il vous faut
-
-| Composant | Qté | Obligatoire | Fournisseur |
-|---|--:|:-:|---|
-| Module MOSFET PWM | 1 | ✅ | Amazon |
-| Câbles Dupont | 3 | ✅ | AliExpress |
-| Alimentation adaptée à la charge | 1 | ✅ | Selon projet |
-| Charge DC | 1 | ✅ | Selon projet |
-
-> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
-
----
-
-### 🔌 Câblage
-
-Le câblage exact dépend du bornier de la version reçue.
-
-| Module | Connexion | Fonction |
-|---|---|---|
-| VCC / + | Alimentation charge | Alimentation |
-| GND / - | GND alimentation **et** GND ESP32-C6 | Masse commune |
-| IN / PWM | GPIO6 | Commande |
-| OUT | Charge | Sortie commutée |
-
-> ⚠️ Vérifiez impérativement le marquage **IN / OUT / VCC / GND** directement sur le PCB avant raccordement. Le brochage varie selon les versions du module.
-
-> ⚠️ L'alimentation de la charge ne doit jamais provenir d'une GPIO de l'ESP32-C6. La GPIO commande le MOSFET ; la charge est alimentée par son alimentation dédiée.
-
-> ⚠️ La masse de l'ESP32-C6 et celle de l'alimentation de la charge doivent être **reliées**, sinon le signal de commande n'a pas de référence.
-
-> 💡 Les GPIO indiqués ci-dessus sont une **recommandation par défaut**, utilisable telle quelle pour un montage isolé. Dans une station qui combine plusieurs modules, le câblage réel peut différer : reportez-vous au plan de brochage de votre fiche **[Projet](../Projets.md)**.
-
----
-
-### ⚙️ Configuration Natulib OS
+**Configuration historique (à revérifier) :**
 
 **Type :** `pwm`
 
@@ -256,34 +278,8 @@ Le câblage exact dépend du bornier de la version reçue.
 
 Voir **[Drivers](../natulib-os/drivers.md)** et **[Automatisations](../natulib-os/automatisations.md)** pour déclencher ces actions depuis une règle.
 
----
 
-### 🛠️ Montage en 20 minutes
-
-1. Vérifiez le brochage inscrit sur le module.
-2. Connectez l'alimentation de la charge au module.
-3. Connectez la charge sur la sortie MOSFET.
-4. Reliez la masse de commande à la masse du système.
-5. Connectez l'entrée de commande à **GPIO6**.
-6. Démarrez avec un rapport cyclique faible.
-7. Vérifiez la température du module lorsque la charge augmente.
-
----
-
-### 🧩 Problèmes courants
-
-**La charge ne s'éteint jamais complètement**
-→ Certains modules laissent passer un courant résiduel ; vérifiez le type de MOSFET et le niveau de commande.
-
-**Bourdonnement audible sur un moteur ou une pompe**
-→ Augmentez la fréquence PWM au-delà de la plage audible.
-
-**Le module chauffe fortement**
-→ Réduisez la charge, améliorez le refroidissement ou augmentez la section des câbles de puissance.
-
----
-
-### 💡 À retenir
+### Informations complémentaires
 
 - Le **GPIO ne fournit pas la puissance à la charge** : il commande le MOSFET.
 - Utilisez une alimentation adaptée à la tension et au courant de la charge.
@@ -293,28 +289,19 @@ Voir **[Drivers](../natulib-os/drivers.md)** et **[Automatisations](../natulib-o
 - ⚠️ Pour les charges inductives — moteurs, pompes, électrovannes — prévoyez les protections adaptées aux transitoires.
 - Ne jamais appliquer la tension de puissance directement sur une GPIO de l'ESP32-C6.
 
----
 
-### 🚧 Évolutions prévues
+### Informations complémentaires
 
-- [ ] Intégration PWM native dans Natulib OS
-- [ ] Commande de bandes LED
-- [ ] Contrôle de vitesse des moteurs DC
-- [ ] Pilotage de pompes et électrovannes
-- [ ] Support de profils PWM dans les recettes Natulib
-- [ ] Boîtier avec bornier de puissance intégré
-
----
-
-### 🔗 Ressources
+**Ressources complémentaires**
 
 - 🔧 [NL-401A — PowerSwitch](./NL-401A-PowerSwitch.md)
 - ⚡ [NL-207A — Capteur de courant INA219](./NL-207A-Capteur-courant-INA219.md)
 - 🧱 [Retour au catalogue des modules](../Modules.md)
 
----
 
-### 🕓 Historique
+### Informations complémentaires
+
+**Historique du module**
 
 | Version | Évolution |
 |---|---|

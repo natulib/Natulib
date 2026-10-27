@@ -35,11 +35,44 @@ validation_note: Statut repris du catalogue antérieur ; essais détaillés non 
 
 Détecter la proximité d’un objet à courte distance par réflexion infrarouge.
 
+### Informations complémentaires
+
+> 📷 *Photo à ajouter : `assets/NL-204A-Detecteur-IR-TCRT5000-1.png`*
+
+<!-- Décommentez cette ligne une fois la photo ajoutée :
+
+-->
+
 ## 🔌 Branchement
 
 Relier alimentation et GND ; connecter la sortie de détection à un GPIO compatible selon la carte TCRT5000.
 
 **Avant toute connexion :** couper l'alimentation, identifier la variante exacte et vérifier la tension et les GPIO utilisés. Les GPIO4/5 des anciens exemples de câblage I²C ne doivent pas être considérés comme une recommandation universelle pour ESP32-C6.
+
+### Matériel nécessaire
+
+| Composant | Qté | Obligatoire | Fournisseur |
+|---|--:|:-:|---|
+| Module TCRT5000 (LM393) | 1 | ✅ | AliExpress |
+| Câbles Dupont | 3–4 | ✅ | AliExpress |
+
+> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
+
+
+### Câblage détaillé
+
+> **Important :** brochage historique à confirmer pour la carte utilisée ; les valeurs du JSON ne garantissent pas la compatibilité de chaque GPIO.
+
+| TCRT5000 | ESP32-C6 | Fonction |
+|---|---|---|
+| VCC | 3V3 | Alimentation |
+| GND | GND | Masse |
+| DO | GPIO14 | Détection numérique |
+| AO *(optionnel)* | GPIO1 | Mesure analogique |
+
+> 💡 Natulib utilise principalement **DO**. La sortie **AO** fournit une mesure analogique de la réflexion infrarouge.
+
+> 💡 Les GPIO indiqués ci-dessus sont un **exemple historique de câblage**, utilisable telle quelle pour un montage isolé. Dans une station qui combine plusieurs modules, le câblage réel peut différer : reportez-vous au plan de brochage de votre fiche **[Projet](../Projets.md)**.
 
 ## 🚀 Installation dans Natulib OS
 
@@ -48,6 +81,14 @@ Relier alimentation et GND ; connecter la sortie de détection à un GPIO compat
 3. Vérifier le résultat dans **Accueil** ; consulter **Console** et **Maintenance** en cas d'erreur.
 
 La configuration se fait depuis l'interface, **sans modifier de code Arduino**.
+
+### Montage pas à pas
+
+1. Connectez le TCRT5000 à l'ESP32-C6 selon le tableau de câblage.
+2. Positionnez le capteur derrière une petite ouverture dans la façade.
+3. Orientez-le vers la zone d'interaction.
+4. Réglez la sensibilité avec le potentiomètre.
+5. Testez la détection avec la main ou l'objet à détecter.
 
 ## 📊 Mesures ou fonctions
 
@@ -145,6 +186,14 @@ Pour débuter, utiliser l’onglet **Hardware** de Natulib OS : il génère la c
 - Consulter **Console** pour les erreurs et **Maintenance** pour les diagnostics.
 - La réponse varie beaucoup avec la couleur et la réflectivité des surfaces ; ne pas déduire une distance précise.
 
+### Retours de dépannage
+
+**Aucune détection sur un objet sombre**
+→ Les surfaces noires ou mates réfléchissent peu l'infrarouge ; augmentez la sensibilité ou réduisez la distance.
+
+**Détections aléatoires en journée**
+→ Une lumière ambiante forte, notamment le soleil direct, perturbe la mesure.
+
 ## 🔧 Améliorations pour un montage plus simple
 
 - [ ] Boîtier préassemblé avec prise numérique détrompée.
@@ -152,19 +201,20 @@ Pour débuter, utiliser l’onglet **Hardware** de Natulib OS : il génère la c
 
 *Ces pistes ne sont pas des fonctions annoncées comme disponibles ou validées.*
 
+### Évolutions possibles
+
+- [ ] Assistant de calibration dans Natulib OS
+- [ ] Seuil réglable depuis l'interface Web
+- [ ] Petit support imprimable orientable
+- [ ] Version sur PCB Natulib
+
 ## ⚙️ Pour aller plus loin (facultatif)
 
 `DeviceTCRT5000` (`type: tcrt5000`).
 
 Retrouver les bases dans [l'interface Natulib OS](../natulib-os/interface.md) et [les modules et drivers](../natulib-os/drivers.md).
 
-## 📚 Documentation approfondie et archives
-
-Cette partie conserve **les informations détaillées de la fiche antérieure** : matériel, étapes de montage, astuces, précautions, dépannage, évolutions et historique. Elle s’adresse aux personnes qui veulent aller plus loin.
-
-> **Attention : contenu historique conservé.** Certains exemples de brochage, de JSON ou de fonctionnement peuvent différer du firmware V0.448. Pour la configuration actuelle, se référer à **« Configuration JSON d’usine »** et au tableau de paramètres plus haut ; vérifier les broches et tensions de la carte exacte avant le montage. Les tests matériels restent à documenter.
-
-### 👀 En bref
+### Informations complémentaires
 
 Le **TCRT5000** est un capteur infrarouge réfléchissant qui détecte les objets à **très courte distance**.
 
@@ -177,45 +227,10 @@ Dans Natulib, il sert principalement de **capteur d'interaction** :
 
 **Alimentation :** 3,3 V · **Sortie principale :** DO · **Sortie analogique :** AO *(optionnelle)* · **Calibration :** potentiomètre.
 
----
 
-### 📷 Aperçu
+### Informations complémentaires
 
-> 📷 *Photo à ajouter : `assets/NL-204A-Detecteur-IR-TCRT5000-1.png`*
-
-<!-- Décommentez cette ligne une fois la photo ajoutée :
-
--->
-
----
-
-### 🛒 Ce qu'il vous faut
-
-| Composant | Qté | Obligatoire | Fournisseur |
-|---|--:|:-:|---|
-| Module TCRT5000 (LM393) | 1 | ✅ | AliExpress |
-| Câbles Dupont | 3–4 | ✅ | AliExpress |
-
-> 💡 Les liens d'achat peuvent être affiliés et contribuer au développement de Natulib, sans coût supplémentaire pour vous.
-
----
-
-### 🔌 Câblage
-
-| TCRT5000 | ESP32-C6 | Fonction |
-|---|---|---|
-| VCC | 3V3 | Alimentation |
-| GND | GND | Masse |
-| DO | GPIO14 | Détection numérique |
-| AO *(optionnel)* | GPIO1 | Mesure analogique |
-
-> 💡 Natulib utilise principalement **DO**. La sortie **AO** fournit une mesure analogique de la réflexion infrarouge.
-
-> 💡 Les GPIO indiqués ci-dessus sont une **recommandation par défaut**, utilisable telle quelle pour un montage isolé. Dans une station qui combine plusieurs modules, le câblage réel peut différer : reportez-vous au plan de brochage de votre fiche **[Projet](../Projets.md)**.
-
----
-
-### ⚙️ Configuration Natulib OS
+**Configuration historique (à revérifier) :**
 
 **Type :** `tcrt5000`
 
@@ -241,19 +256,8 @@ Dans Natulib, il sert principalement de **capteur d'interaction** :
 
 > 🔵 Le driver `tcrt5000` lit les broches sous les clés `pins.digital` et `pins.adc` (et non `pins.signal`). Métriques exposées : `detected`, `raw`, `error`. Voir **[Drivers](../natulib-os/drivers.md)**.
 
----
 
-### 🛠️ Montage en 5 minutes
-
-1. Connectez le TCRT5000 à l'ESP32-C6 selon le tableau de câblage.
-2. Positionnez le capteur derrière une petite ouverture dans la façade.
-3. Orientez-le vers la zone d'interaction.
-4. Réglez la sensibilité avec le potentiomètre.
-5. Testez la détection avec la main ou l'objet à détecter.
-
----
-
-### 📏 Calibration
+### Informations complémentaires
 
 1. Laissez la zone de détection dégagée.
 2. Tournez le potentiomètre jusqu'à ce que la LED de sortie s'éteigne.
@@ -263,19 +267,8 @@ Dans Natulib, il sert principalement de **capteur d'interaction** :
 
 > 💡 Refaites ce réglage **après** l'installation dans la façade : l'épaisseur et la matière modifient la réflexion.
 
----
 
-### 🧩 Problèmes courants
-
-**Aucune détection sur un objet sombre**
-→ Les surfaces noires ou mates réfléchissent peu l'infrarouge ; augmentez la sensibilité ou réduisez la distance.
-
-**Détections aléatoires en journée**
-→ Une lumière ambiante forte, notamment le soleil direct, perturbe la mesure.
-
----
-
-### 💡 À retenir
+### Informations complémentaires
 
 - Le **DO** fournit une détection numérique simple.
 - Le **AO** est facultatif et fournit une mesure analogique.
@@ -283,26 +276,19 @@ Dans Natulib, il sert principalement de **capteur d'interaction** :
 - Ce capteur est destiné à la **proximité**, pas à la détection de présence dans une pièce — voir le [NL-203A](./NL-203A-PIR-HC-SR501.md) pour cet usage.
 - Ajustez le potentiomètre après l'installation pour obtenir un seuil fiable.
 
----
 
-### 🚧 Évolutions prévues
+### Informations complémentaires
 
-- [ ] Assistant de calibration dans Natulib OS
-- [ ] Seuil réglable depuis l'interface Web
-- [ ] Petit support imprimable orientable
-- [ ] Version sur PCB Natulib
-
----
-
-### 🔗 Ressources
+**Ressources complémentaires**
 
 - 👁️ [NL-203A — PIR HC-SR501](./NL-203A-PIR-HC-SR501.md)
 - 👆 [NL-206A — Capteur tactile TTP223](./NL-206A-Capteur-tactile-TTP223.md)
 - 🧱 [Retour au catalogue des modules](../Modules.md)
 
----
 
-### 🕓 Historique
+### Informations complémentaires
+
+**Historique du module**
 
 | Version | Évolution |
 |---|---|

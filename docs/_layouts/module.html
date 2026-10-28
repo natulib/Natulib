@@ -4,7 +4,7 @@ bare: true
 ---
 <link rel="stylesheet" href="{{ '/assets/css/natulib-module.css' | relative_url }}">
 <article class="nl-module nl-module-collection" data-nl-module>
-  {% comment %}Conserve la compatibilité avec les fiches existantes et infos_rapides.{% endcomment %}
+  {% comment %}Compatible avec le YAML Natulib historique. Aucune nouvelle clé requise.{% endcomment %}
   {% assign alimentation = page.alimentation %}
   {% assign interface_module = page.interface %}
   {% assign prix = page.prix %}
@@ -19,111 +19,109 @@ bare: true
   {% assign duree = page.duree | default: page.temps_installation | default: page.temps %}
 
   <nav class="nl-module-nav" aria-label="Navigation de la fiche">
-    <a class="nl-back" href="{{ '/Modules.html' | relative_url }}">← <span>Modules Natulib</span></a>
+    <a class="nl-back" href="{{ '/Modules.html' | relative_url }}">← <span>Modules</span></a>
     <div class="nl-nav-tools">
-      <span class="nl-nav-collection">✦ Collection matérielle</span>
-      <button type="button" class="nl-action nl-action-print" data-nl-print-open>🖨️ Composer mon impression</button>
+      <span class="nl-nav-collection">✦ Collection Natulib</span>
+      <button type="button" class="nl-action nl-action-print" data-nl-print-open>🖨️ Imprimer à la carte</button>
     </div>
   </nav>
 
-  <header class="nl-collect-hero">
-    <div class="nl-collect-description" data-nl-printable data-nl-print-label="Titre, description, capacités et repères">
-      <div class="nl-collect-heading">
-        <p class="nl-eyebrow">NATULIB / {{ page.categorie | default: 'Module' | escape }} <span class="nl-collect-ref">{{ ref_module | escape }}</span></p>
-        <h1>{{ page.title | escape }}</h1>
-        {% if page.description %}<p class="nl-desc">{{ page.description | escape }}</p>{% endif %}
-      </div>
-      {% if elements and elements.size > 0 %}
-      <section class="nl-capacities" aria-label="Ce que ce module apporte">
-        <p class="nl-micro-title">Ses capacités</p>
-        <div class="nl-capacities-list">
-          {% for element in elements %}
-          {% assign capacity_name = element.label | default: element %}
-          {% assign capacity_label = capacity_name | remove_first: '🌡️ ' | remove_first: '💧 ' | remove_first: '🌦️ ' | remove_first: '🧠 ' | remove_first: '📡 ' | remove_first: '📶 ' | remove_first: '🔌 ' | remove_first: '📺 ' | remove_first: '☀️ ' | remove_first: '🚶 ' | remove_first: '📍 ' | remove_first: '👆 ' | remove_first: '⚡ ' | remove_first: '🔋 ' | remove_first: '🌧️ ' %}
-          <a class="nl-capacity" href="{{ '/Modules.html' | relative_url }}?capacite={{ capacity_label | slugify }}" title="Voir les modules : {{ capacity_label | escape }}">{{ capacity_name | escape }}</a>
-          {% endfor %}
-        </div>
-      </section>
-      {% endif %}
-      <div class="nl-collect-facts" aria-label="Caractéristiques immédiates">
-        {% if alimentation %}<div class="nl-collect-fact"><span>⚡ Alimentation</span><strong>{{ alimentation | escape }}</strong></div>{% endif %}
-        {% if interface_module %}<div class="nl-collect-fact"><span>🔌 Interface</span><strong>{{ interface_module | escape }}</strong></div>{% endif %}
-        {% if prix %}<div class="nl-collect-fact"><span>💶 Prix indicatif</span><strong>{{ prix | escape }}</strong></div>{% endif %}
-      </div>
+  <header class="nl-card-header" data-nl-printable data-nl-print-label="Titre et repères pratiques">
+    <div class="nl-card-side nl-card-side-left" aria-label="Statut et difficulté">
+      {% if page.statut %}<span class="nl-mini-badge" title="Statut : {{ page.statut | escape }}" aria-label="Statut : {{ page.statut | escape }}"><span aria-hidden="true">◈</span> {{ page.statut | escape }}</span>{% endif %}
+      {% if page.niveau %}<span class="nl-mini-badge" title="Niveau : {{ page.niveau | escape }}" aria-label="Niveau : {{ page.niveau | escape }}"><span aria-hidden="true">◉</span> {{ page.niveau | escape }}</span>{% endif %}
     </div>
-    <div class="nl-collect-media" data-nl-gallery data-nl-print-gallery data-nl-printable data-nl-print-label="Photo sélectionnée">
-      <div class="nl-media-plate">
-        <div class="nl-media-ribbon"><span aria-hidden="true">✳</span> FICHE MODULE</div>
-        {% if page.images and page.images.size > 0 %}
-        <div class="nl-gallery-view">
-          {% for image in page.images %}
-          <figure class="nl-gallery-slide" {% unless forloop.first %}hidden{% endunless %}>
-            <img src="{{ image.fichier | relative_url }}" alt="{{ image.alt | default: image.titre | default: page.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
-            {% if image.titre %}<figcaption>{{ image.titre | escape }}</figcaption>{% endif %}
-          </figure>
-          {% endfor %}
-        </div>
-        {% if page.images.size > 1 %}
-        <div class="nl-photo-nav" aria-label="Navigation des photographies">
-          <button type="button" class="nl-photo-arrow" data-nl-prev aria-label="Photographie précédente">←</button>
-          <span class="nl-photo-count" data-nl-count>1 / {{ page.images.size }}</span>
-          <button type="button" class="nl-photo-arrow" data-nl-next aria-label="Photographie suivante">→</button>
-        </div>
-        {% endif %}
-        {% else %}
-        <div class="nl-image-placeholder"><span aria-hidden="true">📷</span><strong>Photo du module</strong><small>À ajouter dans le champ « images »</small></div>
-        {% endif %}
-      </div>
-      {% if page.images and page.images.size > 1 %}
-      <div class="nl-gallery-thumbs" aria-label="Choisir une vue">
-        {% for image in page.images %}
-        <button type="button" class="nl-gallery-thumb" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" data-slide="{{ forloop.index0 }}" aria-label="Afficher {{ image.titre | default: 'photo' | escape }}">
-          <img src="{{ image.fichier | relative_url }}" alt="" loading="lazy">
-        </button>
-        {% endfor %}
-      </div>
-      {% endif %}
+    <div class="nl-card-title">
+      {% if ref_module %}<span class="nl-card-ref">✦ {{ ref_module | escape }}</span>{% endif %}
+      <h1>{{ page.title | escape }}</h1>
+      {% if page.categorie %}<span class="nl-card-category">{{ page.categorie | escape }}</span>{% endif %}
+    </div>
+    <div class="nl-card-side nl-card-side-right" aria-label="Installation et soudure">
+      {% if duree %}<span class="nl-mini-badge" title="Durée d'installation : {{ duree | escape }}" aria-label="Durée d'installation : {{ duree | escape }}"><span aria-hidden="true">◷</span> {{ duree | escape }}</span>{% endif %}
+      {% if page.soudure != nil %}<span class="nl-mini-badge" title="Soudure : {% if page.soudure == true %}requise{% elsif page.soudure == false %}non requise{% else %}{{ page.soudure | escape }}{% endif %}" aria-label="Soudure : {% if page.soudure == true %}requise{% elsif page.soudure == false %}non requise{% else %}{{ page.soudure | escape }}{% endif %}"><span aria-hidden="true">✧</span> {% if page.soudure == true %}Requise{% elsif page.soudure == false %}Sans soudure{% else %}{{ page.soudure | escape }}{% endif %}</span>{% endif %}
     </div>
   </header>
 
-  {% if page.statut or page.soudure != nil or page.niveau or duree %}
-  <section class="nl-practical" aria-label="En pratique" data-nl-printable data-nl-print-label="Niveau, statut, temps et soudure">
-    {% if page.statut %}<div class="nl-practical-item"><span class="nl-practical-icon">◈</span><span><small>Statut</small><strong>{{ page.statut | escape }}</strong></span></div>{% endif %}
-    {% if page.niveau %}<div class="nl-practical-item"><span class="nl-practical-icon">◉</span><span><small>Niveau</small><strong>{{ page.niveau | escape }}</strong></span></div>{% endif %}
-    {% if duree %}<div class="nl-practical-item"><span class="nl-practical-icon">◷</span><span><small>Installation</small><strong>{{ duree | escape }}</strong></span></div>{% endif %}
-    {% if page.soudure != nil %}<div class="nl-practical-item"><span class="nl-practical-icon">✧</span><span><small>Soudure</small><strong>{% if page.soudure == true %}Requise{% elsif page.soudure == false %}Non{% else %}{{ page.soudure | escape }}{% endif %}</strong></span></div>{% endif %}
+  <section class="nl-collect-media" data-nl-gallery data-nl-printable data-nl-print-label="Photo sélectionnée" aria-label="Photographies du module">
+    <div class="nl-media-plate">
+      {% if page.images and page.images.size > 0 %}
+      <div class="nl-gallery-view">
+        {% for image in page.images %}
+        <figure class="nl-gallery-slide" {% unless forloop.first %}hidden{% endunless %}>
+          <img src="{{ image.fichier | relative_url }}" alt="{{ image.alt | default: image.titre | default: page.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+          {% if image.titre %}<figcaption>{{ image.titre | escape }}</figcaption>{% endif %}
+        </figure>
+        {% endfor %}
+      </div>
+      {% if page.images.size > 1 %}
+      <div class="nl-photo-nav" aria-label="Navigation des photographies">
+        <button type="button" class="nl-photo-arrow" data-nl-prev aria-label="Photo précédente">←</button>
+        <span class="nl-photo-count" data-nl-count aria-live="polite">1 / {{ page.images.size }}</span>
+        <button type="button" class="nl-photo-arrow" data-nl-next aria-label="Photo suivante">→</button>
+      </div>
+      {% endif %}
+      {% else %}
+      <div class="nl-image-placeholder"><span aria-hidden="true">📷</span><strong>Photographie du module</strong><small>À ajouter avec le champ YAML images</small></div>
+      {% endif %}
+    </div>
+    {% if page.images and page.images.size > 1 %}
+    <div class="nl-gallery-thumbs" aria-label="Miniatures">
+      {% for image in page.images %}<button type="button" class="nl-gallery-thumb" data-slide="{{ forloop.index0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Afficher : {{ image.titre | default: page.title | escape }}"><img src="{{ image.fichier | relative_url }}" alt="" loading="lazy"></button>{% endfor %}
+    </div>
+    {% endif %}
+  </section>
+
+  {% if elements and elements.size > 0 %}
+  <section class="nl-capacities" data-nl-printable data-nl-print-label="Capacités" aria-label="Fonctions du module">
+    <span class="nl-section-kicker">Ce que ce module apporte</span>
+    <div class="nl-capacities-list">
+      {% for element in elements %}
+        {% assign capacity_name = element.label | default: element %}
+        {% assign capacity_label = capacity_name | remove_first: '🌡️ ' | remove_first: '💧 ' | remove_first: '🌦️ ' | remove_first: '🧠 ' | remove_first: '📡 ' | remove_first: '📶 ' | remove_first: '🔌 ' | remove_first: '📺 ' | remove_first: '☀️ ' | remove_first: '🚶 ' | remove_first: '📍 ' | remove_first: '👆 ' | remove_first: '⚡ ' | remove_first: '🔋 ' | remove_first: '🌧️ ' %}
+        <a class="nl-capacity" href="{{ '/Modules.html' | relative_url }}?capacite={{ capacity_label | slugify }}" title="Voir les modules : {{ capacity_label | escape }}">{{ capacity_name | escape }}</a>
+      {% endfor %}
+    </div>
   </section>
   {% endif %}
 
-  {% if page.presentation %}
-  <section class="nl-module-presentation" data-nl-printable data-nl-print-label="Présentation complémentaire">
-    <span class="nl-section-kicker">✦ À découvrir</span>
-    <div class="nl-presentation-text">{{ page.presentation | markdownify }}</div>
+  {% if page.description or page.presentation or alimentation or interface_module or prix %}
+  <section class="nl-card-description" data-nl-printable data-nl-print-label="Description et caractéristiques rapides">
+    <span class="nl-section-kicker">Présentation</span>
+    {% if page.description %}<p class="nl-desc">{{ page.description | escape }}</p>{% endif %}
+    {% if page.presentation %}<div class="nl-presentation-text markdown-body">{{ page.presentation | markdownify }}</div>{% endif %}
+    {% if alimentation or interface_module or prix %}
+    <div class="nl-collect-facts" aria-label="Caractéristiques essentielles">
+      {% if alimentation %}<span class="nl-collect-fact"><small>⚡ Alimentation</small><strong>{{ alimentation | escape }}</strong></span>{% endif %}
+      {% if interface_module %}<span class="nl-collect-fact"><small>🔌 Interface</small><strong>{{ interface_module | escape }}</strong></span>{% endif %}
+      {% if prix %}<span class="nl-collect-fact"><small>💶 Prix indicatif</small><strong>{{ prix | escape }}</strong></span>{% endif %}
+    </div>
+    {% endif %}
   </section>
   {% endif %}
 
-  {% if page.caracteristiques and page.caracteristiques.size > 0 %}
-  <section class="nl-specs" data-nl-printable data-nl-print-label="Caractéristiques principales">
-    <div class="nl-section-head"><span class="nl-section-kicker">01 / CARACTÉRISTIQUES</span><h2>Caractéristiques principales</h2></div>
-    <dl>{% for spec in page.caracteristiques %}<div><dt>{{ spec.nom | escape }}</dt><dd>{{ spec.valeur | escape }}</dd></div>{% endfor %}</dl>
-  </section>
-  {% endif %}
-
-  <section class="nl-manual" aria-label="Notice pratique">
-    <div class="nl-section-head"><span class="nl-section-kicker">GUIDE DE MONTAGE</span><h2>Utiliser ce module</h2><p>Les étapes nécessaires sont visibles directement, sans ouvrir d'accordéon.</p></div>
-    <div class="nl-document markdown-body" data-nl-document>{{ content }}</div>
-    <div class="nl-manual-sections" data-nl-essential-target></div>
+  <section class="nl-starter" data-nl-starter-wrapper aria-label="Guide rapide">
+    <div class="nl-section-heading"><span class="nl-section-kicker">Démarrer sans se perdre</span><h2>🚀 Starter guide</h2></div>
+    {% comment %}Le JS extrait ici les parties « Matériel », « Branchement », « Installation » ; option page.starter_sections: [Branchement, Installation...].{% endcomment %}
+    <div class="nl-document markdown-body" data-nl-document data-nl-starter-sections="{{ page.starter_sections | join: '|' | escape }}">{{ content }}</div>
+    <div class="nl-starter-sections markdown-body" data-nl-starter-target></div>
   </section>
 
-  <section class="nl-advanced" data-nl-advanced-wrapper hidden aria-label="Documentation avancée">
-    <div class="nl-section-head"><span class="nl-section-kicker">POUR LES CURIEUX</span><h2>Documentation complémentaire</h2><p>JSON, paramètres internes, détails des drivers et historique : facultatifs pour le montage.</p></div>
-    <div class="nl-advanced-list" data-nl-advanced-target></div>
+  <section class="nl-extras" data-nl-advanced-wrapper hidden aria-label="Informations complémentaires">
+    <div class="nl-section-heading"><span class="nl-section-kicker">À explorer si besoin</span><h2>Pour aller plus loin</h2><p>Chaque rubrique est indépendante : on peut en ajouter autant que nécessaire.</p></div>
+    <div class="nl-advanced-list" data-nl-advanced-target>
+      {% if page.caracteristiques and page.caracteristiques.size > 0 %}
+      <details class="nl-accordion nl-advanced-topic" data-nl-printable data-nl-print-advanced data-nl-print-label="Caractéristiques principales">
+        <summary>📋 Caractéristiques principales</summary>
+        <div class="nl-accordion-content nl-specs"><dl>{% for spec in page.caracteristiques %}<div><dt>{{ spec.nom | escape }}</dt><dd>{{ spec.valeur | escape }}</dd></div>{% endfor %}</dl></div>
+      </details>
+      {% endif %}
+    </div>
   </section>
 
   <dialog class="nl-print-dialog" data-nl-print-dialog aria-labelledby="nl-print-title">
     <form method="dialog" class="nl-print-dialog-content">
-      <div class="nl-print-header"><div><span class="nl-section-kicker">IMPRESSION À LA CARTE</span><h2 id="nl-print-title">Composer ma fiche</h2></div><button type="submit" class="nl-icon-close" aria-label="Fermer">✕</button></div>
-      <p>Choisis uniquement les parties dont tu as besoin. La photographie sélectionnée dans la galerie sera utilisée.</p>
+      <div class="nl-print-header"><div><span class="nl-section-kicker">IMPRESSION PERSONNALISÉE</span><h2 id="nl-print-title">Composer ma fiche</h2></div><button type="submit" class="nl-icon-close" aria-label="Fermer">✕</button></div>
+      <p>Choisis les parties à imprimer. Pour les photos, c'est la vue actuellement affichée qui est utilisée.</p>
       <div class="nl-print-presets"><button type="button" class="nl-action" data-nl-print-essential>Essentiel</button><button type="button" class="nl-action" data-nl-print-all>Tout sélectionner</button></div>
       <div class="nl-print-choices" data-nl-print-choices></div>
       <div class="nl-print-footer"><button type="submit" class="nl-action">Annuler</button><button type="button" class="nl-action nl-action-primary" data-nl-print-launch>🖨️ Imprimer la sélection</button></div>

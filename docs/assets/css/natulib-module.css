@@ -117,3 +117,56 @@
   .nl-module-detail .nl-detail-head{grid-template-columns:1fr 1.6fr 1fr;grid-template-areas:"gauche centre droite";gap:8px;padding:7px 5px}
   .nl-module-detail .nl-detail-head .nl-chip{font-size:9pt;padding:4px 6px}
 }
+
+
+/* ══════ V7 : entête plus dense, pastilles cliquables ══════ */
+.nl-module-detail .nl-detail-head{
+  grid-template-columns:minmax(0,1.25fr) minmax(175px,1fr) minmax(0,1.25fr);
+  gap:clamp(7px,1.3vw,14px);
+  padding:7px 5px 10px;
+}
+.nl-module-detail .nl-detail-head-left,
+.nl-module-detail .nl-detail-head-right{
+  display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;
+  align-content:center;gap:5px 6px;
+}
+.nl-module-detail .nl-detail-head-left{justify-content:flex-start}
+.nl-module-detail .nl-detail-head-right{justify-content:flex-end}
+.nl-module-detail .nl-detail-head .nl-chip{
+  min-height:0; font-size:clamp(.69rem,.98vw,.79rem);
+  line-height:1.1;padding:5px 8px;white-space:nowrap;
+}
+.nl-module-detail .nl-detail-head-center{gap:2px}
+.nl-module-detail .nl-detail-head-kicker{margin:0 0 2px;gap:7px}
+.nl-module-detail .nl-detail-head .nl-module-title{font-size:clamp(1.4rem,3vw,2.25rem)}
+.nl-module-detail .nl-detail-head-price{margin-top:0}
+.nl-module-detail .nl-chip-filter,
+.nl-module-detail .nl-meta-link{
+  text-decoration:none;transition:background-color .13s,border-color .13s,color .13s;
+}
+.nl-module-detail .nl-chip-filter{color:var(--text);background:var(--nld-soft)}
+.nl-module-detail .nl-chip-filter:hover,
+.nl-module-detail .nl-chip-filter:focus-visible{
+  border-color:var(--accent,#216e42);background:var(--nld-paper);
+  color:var(--text);text-decoration:none;
+}
+.nl-module-detail .nl-meta-link:hover,
+.nl-module-detail .nl-meta-link:focus-visible{color:var(--accent,#216e42);text-decoration:underline}
+.nl-module-detail .nl-chip-filter:focus-visible,
+.nl-module-detail .nl-meta-link:focus-visible{outline:2px solid var(--accent,#216e42);outline-offset:2px}
+@media(max-width:690px){
+  .nl-module-detail .nl-detail-head{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    grid-template-areas:"centre centre" "gauche droite";
+    padding:6px 1px 9px;gap:7px 9px;
+  }
+  .nl-module-detail .nl-detail-head-center{padding-bottom:5px}
+  .nl-module-detail .nl-detail-head-left,
+  .nl-module-detail .nl-detail-head-right{gap:4px;align-content:start}
+  .nl-module-detail .nl-detail-head .nl-chip{font-size:.69rem;padding:4px 6px}
+  .nl-module-detail .nl-detail-head .nl-module-title{font-size:clamp(1.6rem,6vw,2rem)}
+}
+@media print{
+  .nl-module-detail .nl-detail-head{grid-template-columns:1.25fr 1fr 1.25fr;grid-template-areas:"gauche centre droite";gap:5px;padding:4px 0 6px}
+  .nl-module-detail .nl-detail-head .nl-chip{font-size:8.3pt;padding:3px 5px}
+}

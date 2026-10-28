@@ -115,3 +115,19 @@
 .nl-active-chip:hover{border-color:var(--nl-green)}
 .nl-project-grid .nl-module-title{font-size:1rem}
 @media(max-width:650px){.nl-quick-filters .nl-catalog-search{flex-basis:100%}.nl-quick-filters .nl-capability-filter{width:100%}.nl-quick-filters .nl-capability-filter select{flex:1;max-width:none}.nl-compact-toolbar{padding:10px}.nl-quick-select select{max-width:none}}
+
+
+/* V7 — filtres contextuels : toutes les pastilles du catalogue sont des liens. */
+.nl-catalog .nl-card-filter-link,
+.nl-catalog .nl-chip-filter{
+  color:var(--nl-ink);text-decoration:none;cursor:pointer;
+}
+.nl-catalog .nl-card-filter-link:hover,
+.nl-catalog .nl-card-filter-link:focus-visible,
+.nl-catalog .nl-chip-filter:hover,
+.nl-catalog .nl-chip-filter:focus-visible{
+  color:var(--nl-green);border-color:var(--nl-green);text-decoration:underline;
+}
+.nl-catalog .nl-module-ref.nl-card-filter-link,
+.nl-catalog .nl-module-family.nl-card-filter-link{font-size:.72rem}
+.nl-catalog a.nl-chip-filter{display:inline-flex}

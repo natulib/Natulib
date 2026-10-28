@@ -83,3 +83,37 @@
  .nl-accordion[open]>.nl-accordion-content{display:block!important}
  a{color:inherit!important;text-decoration:none!important}
 }
+
+/* ================================================================
+   CARTE NATULIB — ENTÊTE À 3 COLONNES
+   Gauche : statut / niveau / soudure
+   Centre : référence / titre / prix
+   Droite : interface / alimentation / temps
+   Ce bloc « entete » est déplaçable via ordre_carte dans module.html.
+   ================================================================ */
+.nl-module-detail .nl-detail-head{
+  width:100%; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.7fr) minmax(0,1fr);
+  grid-template-areas:"gauche centre droite"; align-items:center; gap:clamp(8px,2vw,20px);
+  padding:clamp(10px,1.8vw,18px) clamp(8px,1.5vw,16px);
+  border-bottom:1px solid var(--nld-line);
+}
+.nl-module-detail .nl-detail-head-left{grid-area:gauche;display:flex;flex-direction:column;align-items:flex-start;gap:7px;min-width:0}
+.nl-module-detail .nl-detail-head-right{grid-area:droite;display:flex;flex-direction:column;align-items:flex-end;gap:7px;min-width:0}
+.nl-module-detail .nl-detail-head-center{grid-area:centre;min-width:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;text-align:center}
+.nl-module-detail .nl-detail-head .nl-chip{max-width:100%;font-size:clamp(.72rem,1.25vw,.84rem);padding:6px 10px;line-height:1.2;overflow-wrap:anywhere}
+.nl-module-detail .nl-detail-head-kicker{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:0 0 3px;font-size:.74rem}
+.nl-module-detail .nl-detail-head .nl-module-ref{font-size:.76rem}
+.nl-module-detail .nl-detail-head .nl-module-family{font-size:.73rem}
+.nl-module-detail .nl-detail-head .nl-module-title{margin:0;font-size:clamp(1.5rem,3.6vw,2.65rem);overflow-wrap:anywhere}
+.nl-module-detail .nl-detail-head-price{font-size:.76rem;color:var(--muted);margin-top:2px}
+@media(max-width:630px){
+  .nl-module-detail .nl-detail-head{grid-template-columns:1fr 1fr;grid-template-areas:"centre centre" "gauche droite";gap:14px 12px;padding:10px 2px 13px}
+  .nl-module-detail .nl-detail-head-center{padding-bottom:8px;border-bottom:1px solid var(--nld-line)}
+  .nl-module-detail .nl-detail-head .nl-chip{font-size:.76rem;padding:5px 9px}
+  .nl-module-detail .nl-detail-head-right{align-items:flex-end}
+  .nl-module-detail .nl-detail-head .nl-module-title{font-size:clamp(1.7rem,6vw,2.1rem)}
+}
+@media print{
+  .nl-module-detail .nl-detail-head{grid-template-columns:1fr 1.6fr 1fr;grid-template-areas:"gauche centre droite";gap:8px;padding:7px 5px}
+  .nl-module-detail .nl-detail-head .nl-chip{font-size:9pt;padding:4px 6px}
+}

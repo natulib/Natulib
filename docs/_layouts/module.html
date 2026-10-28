@@ -9,25 +9,26 @@ bare: true
   ordre_carte ci-dessous. Le HTML suit l'ordre défini (écran, clavier, impression).
 
   Blocs autorisés :
-    reference         Référence + famille
-    titre             Titre du module
+    entete            En-tête 3 colonnes : repères / titre / connectique
+    reference         Référence + famille (mode classique)
+    titre             Titre du module (mode classique)
     photos            Galerie interactive
     capacites         Liens vers les capacités
     description       Courte description
-    caracteristiques  Pastilles : statut, alimentation, interface, montage, durée, niveau, prix
+    caracteristiques  Pastilles groupées (mode classique)
 
   Exemples :
-    'reference,titre,photos,capacites,description,caracteristiques' (par défaut)
+    'entete,photos,capacites,description' (par défaut)
     'reference,photos,titre,description,capacites,caracteristiques'
     'titre,caracteristiques,photos,description,capacites,reference'
 
   OPTIONNEL : une seule fiche peut définir dans son YAML :
     ordre_carte: 'titre,photos,capacites,description,caracteristiques,reference'
 
-  Le Starter guide et les accordéons restent SOUS la carte, toujours dans cet
+  L'en-tête est un SEUL bloc. Le Starter guide et les accordéons restent SOUS la carte, dans cet
   ordre. Leur contenu reste géré par le JavaScript existant.
 {% endcomment %}
-{% assign ordre_carte = page.ordre_carte | default: 'reference,titre,photos,capacites,description,caracteristiques' | split: ',' %}
+{% assign ordre_carte = page.ordre_carte | default: 'entete,photos,capacites,description' | split: ',' %}
 <link rel="stylesheet" href="{{ '/assets/css/natulib-pages.css' | relative_url }}">
 <link rel="stylesheet" href="{{ '/assets/css/natulib-module.css' | relative_url }}">
 <article class="nl-module nl-module-detail" data-nl-module>
@@ -62,6 +63,46 @@ bare: true
       {% for cle in ordre_carte %}
         {% assign bloc = cle | strip %}
         {% case bloc %}
+
+        {% when 'entete' %}
+          <!-- ══════ BLOC ENTÊTE : GAUCHE / TITRE / DROITE ══════ -->
+          <!-- Pour déplacer tout l'en-tête, déplace « entete » dans ordre_carte. -->
+          <header class="nl-detail-head" data-nl-printable data-nl-print-label="Titre et informations essentielles">
+            <!-- COLONNE GAUCHE : statut, niveau, facilité de montage -->
+            <div class="nl-detail-head-left" aria-label="Informations pratiques">
+              {% case statut_module %}
+              {% when 'valide' %}<span class="nl-chip">🟢 Validé</span>
+              {% when 'Validé' %}<span class="nl-chip">🟢 Validé</span>
+              {% when 'test' %}<span class="nl-chip">🟡 En test</span>
+              {% when 'En test' %}<span class="nl-chip">🟡 En test</span>
+              {% when 'planifie' %}<span class="nl-chip">⚪ Planifié</span>
+              {% else %}{% if statut_module %}<span class="nl-chip">◈ {{ statut_module | escape }}</span>{% endif %}{% endcase %}
+              {% if page.niveau %}<span class="nl-chip">👤 {{ page.niveau | replace: 'debutant','Débutant' | replace: 'intermediaire','Intermédiaire' | replace: 'avance','Avancé' | escape }}</span>{% endif %}
+              {% case montage_module %}
+              {% when 'sans-outil' %}<span class="nl-chip">🟢 Sans outil</span>
+              {% when 'sans_outil' %}<span class="nl-chip">🟢 Sans outil</span>
+              {% when 'sans-soudure' %}<span class="nl-chip">🟢 Sans soudure</span>
+              {% when 'sans_soudure' %}<span class="nl-chip">🟢 Sans soudure</span>
+              {% when 'soudure' %}<span class="nl-chip">🟠 Soudure</span>
+              {% else %}{% if montage_module == true %}<span class="nl-chip">🟠 Soudure</span>{% elsif montage_module == false %}<span class="nl-chip">🟢 Sans soudure</span>{% elsif montage_module %}<span class="nl-chip">✧ {{ montage_module | escape }}</span>{% endif %}{% endcase %}
+            </div>
+
+            <!-- CENTRE : numéro, famille et titre du module -->
+            <div class="nl-detail-head-center">
+              {% if ref_module or famille_module %}
+              <p class="nl-detail-head-kicker">{% if ref_module %}<span class="nl-module-ref">{{ ref_module | escape }}</span>{% endif %}{% if famille_module %}<span class="nl-module-family">{{ famille_module | escape }}</span>{% endif %}</p>
+              {% endif %}
+              <h1 class="nl-module-title">{{ page.title | escape }}</h1>
+              {% if prix_module %}<span class="nl-detail-head-price">💶 {{ prix_module | escape }}</span>{% endif %}
+            </div>
+
+            <!-- COLONNE DROITE : interface, alimentation, durée -->
+            <div class="nl-detail-head-right" aria-label="Caractéristiques techniques rapides">
+              {% if interface_module %}<span class="nl-chip">🔌 {{ interface_module | escape }}</span>{% endif %}
+              {% if alimentation_module %}<span class="nl-chip">⚡ {{ alimentation_module | escape }}</span>{% endif %}
+              {% if duree_module %}<span class="nl-chip">⏱️ {% if page.duree %}{{ page.duree | escape }}{% else %}{{ duree_module | escape }} min{% endif %}</span>{% endif %}
+            </div>
+          </header>
 
         {% when 'reference' %}
           <!-- ══════ BLOC : RÉFÉRENCE + FAMILLE ══════ -->

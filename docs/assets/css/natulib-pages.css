@@ -131,3 +131,99 @@
 .nl-catalog .nl-module-ref.nl-card-filter-link,
 .nl-catalog .nl-module-family.nl-card-filter-link{font-size:.72rem}
 .nl-catalog a.nl-chip-filter{display:inline-flex}
+
+/* ==========================================================
+   NATULIB - PHOTOS ENTIERES DANS LA VUE « ▦ CARTES »
+   Ne modifie pas la vue « ☰ Liste » ni les fiches détail.
+   On augmente légèrement le cadre et on centre la photo
+   sans découpe, quelle que soit son orientation.
+   ========================================================== */
+.nl-module-grid[data-view="cards"] .nl-module-media {
+  aspect-ratio: 4 / 3;
+  position: relative;
+  overflow: hidden;
+}
+.nl-module-grid[data-view="cards"] .nl-module-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 10px;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
+.nl-module-grid[data-view="cards"] .nl-module-media img[hidden] {
+  display: none;
+}
+
+
+/* =========================================================
+   NATULIB — CARTE DU CATALOGUE AVEC LE TITRE EN HAUT
+   Ordre : Référence / Famille → Titre → Photo → Capacités
+           → Description → Informations pratiques
+   Uniquement pour la vue ▦ Cartes. La vue ☰ Liste est intacte.
+   ========================================================= */
+.nl-catalog .nl-module-grid[data-view="cards"] .nl-module-card {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 15px;
+  align-items: stretch;
+}
+/* Les enfants de .nl-module-info deviennent des éléments de carte
+   sans changer le HTML Liquid ni les liens filtrants. */
+.nl-catalog .nl-module-grid[data-view="cards"] .nl-module-info {
+  display: contents;
+}
+.nl-catalog .nl-module-grid[data-view="cards"] .nl-module-top {
+  order: 0;
+  align-items: center;
+}
+.nl-catalog .nl-module-grid[data-view="cards"] .nl-module-title {
+  order: 1;
+  display: block;
+  width: 100%;
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: center;
+  padding: 3px 0 1px;
+  color: var(--nl-ink);
+}
+.nl-catalog .nl-module-grid[data-view="cards"] .nl-module-media {
+  order: 2;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--nl-soft);
+}
+.nl-catalog .nl-module-grid[data-view="cards"] .nl-module-media img {
+  object-fit: contain;
+  object-position: center;
+}
+.nl-catalog .nl-module-grid[data-view="cards"] .nl-capacity-chips {
+  order: 3;
+  justify-content: center;
+  margin: 3px 0 0;
+}
+.nl-catalog .nl-module-grid[data-view="cards"] .nl-module-desc {
+  order: 4;
+  font-size: .83rem;
+  line-height: 1.45;
+  text-align: center;
+  color: var(--nl-muted);
+}
+.nl-catalog .nl-module-grid[data-view="cards"] .nl-chips {
+  order: 5;
+  justify-content: center;
+  align-content: flex-end;
+  margin-top: auto;
+  padding-top: 9px;
+  border-top: 1px solid var(--nl-line);
+}
+@media (max-width: 580px) {
+  .nl-catalog .nl-module-grid[data-view="cards"] .nl-module-card {padding: 14px;}
+}

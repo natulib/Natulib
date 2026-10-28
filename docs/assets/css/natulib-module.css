@@ -17,8 +17,12 @@
 .nl-module-detail .nl-module-family{font-size:.85rem}
 .nl-module-detail .nl-module-title{display:block;font-size:clamp(1.65rem,3.2vw,2.6rem);font-weight:800;line-height:1.12;margin:0 0 8px;color:var(--text);letter-spacing:-.03em}
 .nl-module-detail .nl-module-desc{font-size:1rem;line-height:1.58;margin:0;max-width:85ch}
-.nl-module-detail .nl-module-info{gap:12px}
-.nl-module-detail .nl-module-info header{display:block}
+/* Blocs directs et indépendants : l'ordre est réglé en haut du template HTML. */
+.nl-module-detail .nl-module-card-large{display:flex;flex-direction:column}
+.nl-module-detail .nl-detail-title{width:100%;text-align:center;margin:1px 0}
+.nl-module-detail .nl-detail-title .nl-module-title{margin:0}
+.nl-module-detail .nl-detail-description{width:100%}
+.nl-module-detail .nl-detail-description .nl-module-desc{margin:0}
 .nl-module-detail .nl-capacity-chips{display:flex;flex-wrap:wrap;gap:7px}
 .nl-module-detail .nl-capacity-chip{font-size:.85rem;padding:7px 11px}
 .nl-module-detail .nl-chips{display:flex;flex-wrap:wrap;gap:7px}

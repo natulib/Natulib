@@ -2,7 +2,32 @@
 layout: default
 bare: true
 ---
-{% comment %}La même carte que Modules.md, agrandie. Reprend les classes de natulib-pages.css.{% endcomment %}
+{% comment %}
+  NATULIB — CARTE DU CATALOGUE AGRANDIE, BLOCS DÉPLAÇABLES
+
+  Pour déplacer un bloc dans TOUTES les fiches, changer uniquement la ligne
+  ordre_carte ci-dessous. Le HTML suit l'ordre défini (écran, clavier, impression).
+
+  Blocs autorisés :
+    reference         Référence + famille
+    titre             Titre du module
+    photos            Galerie interactive
+    capacites         Liens vers les capacités
+    description       Courte description
+    caracteristiques  Pastilles : statut, alimentation, interface, montage, durée, niveau, prix
+
+  Exemples :
+    'reference,titre,photos,capacites,description,caracteristiques' (par défaut)
+    'reference,photos,titre,description,capacites,caracteristiques'
+    'titre,caracteristiques,photos,description,capacites,reference'
+
+  OPTIONNEL : une seule fiche peut définir dans son YAML :
+    ordre_carte: 'titre,photos,capacites,description,caracteristiques,reference'
+
+  Le Starter guide et les accordéons restent SOUS la carte, toujours dans cet
+  ordre. Leur contenu reste géré par le JavaScript existant.
+{% endcomment %}
+{% assign ordre_carte = page.ordre_carte | default: 'reference,titre,photos,capacites,description,caracteristiques' | split: ',' %}
 <link rel="stylesheet" href="{{ '/assets/css/natulib-pages.css' | relative_url }}">
 <link rel="stylesheet" href="{{ '/assets/css/natulib-module.css' | relative_url }}">
 <article class="nl-module nl-module-detail" data-nl-module>
@@ -29,11 +54,30 @@ bare: true
 
   <div class="nl-catalog nl-detail-catalog">
     <section class="nl-module-card nl-module-card-large" aria-label="Carte du module">
-      <div class="nl-module-top" data-nl-printable data-nl-print-label="Référence et famille">
-        <span class="nl-module-ref">{{ ref_module | escape }}</span>
-        <span class="nl-module-family">{{ famille_module | escape }}</span>
-      </div>
 
+      {% comment %}
+      Les blocs sont générés DANS L'ORDRE DE LA VARIABLE ordre_carte en haut.
+      Pour changer les contenus, modifier chaque bloc ci-dessous si nécessaire.
+      {% endcomment %}
+      {% for cle in ordre_carte %}
+        {% assign bloc = cle | strip %}
+        {% case bloc %}
+
+        {% when 'reference' %}
+          <!-- ══════ BLOC : RÉFÉRENCE + FAMILLE ══════ -->
+          <div class="nl-module-top" data-nl-printable data-nl-print-label="Référence et famille">
+            <span class="nl-module-ref">{{ ref_module | escape }}</span>
+            <span class="nl-module-family">{{ famille_module | escape }}</span>
+          </div>
+
+        {% when 'titre' %}
+          <!-- ══════ BLOC : TITRE ══════ -->
+          <header class="nl-detail-title" data-nl-printable data-nl-print-label="Titre">
+            <h1 class="nl-module-title">{{ page.title | escape }}</h1>
+          </header>
+
+        {% when 'photos' %}
+          <!-- ══════ BLOC : PHOTOS / GALERIE ══════ -->
       <section class="nl-detail-gallery" data-nl-printable data-nl-print-label="Photo sélectionnée" aria-label="Photos du module">
         <div class="nl-module-media nl-detail-media">
           {% if page.images and page.images.size > 0 %}
@@ -61,12 +105,9 @@ bare: true
         {% endif %}
       </section>
 
-      <div class="nl-module-info">
-        <header data-nl-printable data-nl-print-label="Titre et description">
-          <h1 class="nl-module-title">{{ page.title | escape }}</h1>
-          {% if page.description %}<p class="nl-module-desc">{{ page.description | escape }}</p>{% endif %}
-        </header>
-        {% if elements and elements.size > 0 %}
+        {% when 'capacites' %}
+          <!-- ══════ BLOC : CAPACITÉS CLIQUABLES ══════ -->
+          {% if elements and elements.size > 0 %}
           <div class="nl-capacity-chips" data-nl-printable data-nl-print-label="Capacités" aria-label="Capacités du module">
             {% for elem in elements %}
               {% assign capacity_name = elem.label | default: elem %}
@@ -75,6 +116,17 @@ bare: true
             {% endfor %}
           </div>
         {% endif %}
+
+        {% when 'description' %}
+          <!-- ══════ BLOC : DESCRIPTION ══════ -->
+          {% if page.description %}
+            <div class="nl-detail-description" data-nl-printable data-nl-print-label="Description">
+              <p class="nl-module-desc">{{ page.description | escape }}</p>
+            </div>
+          {% endif %}
+
+        {% when 'caracteristiques' %}
+          <!-- ══════ BLOC : CARACTÉRISTIQUES RAPIDES ══════ -->
         <div class="nl-chips" data-nl-printable data-nl-print-label="Caractéristiques rapides">
           {% case statut_module %}
           {% when 'valide' %}<span class="nl-chip">🟢 Validé</span>
@@ -86,15 +138,19 @@ bare: true
           {% if interface_module %}<span class="nl-chip">🔌 {{ interface_module | escape }}</span>{% endif %}
           {% if alimentation_module %}<span class="nl-chip">⚡ {{ alimentation_module | escape }}</span>{% endif %}
           {% case montage_module %}
-          {% when 'sans-outil' %}{% when 'sans_outil' %}<span class="nl-chip">🟢 Sans outil</span>
-          {% when 'sans-soudure' %}{% when 'sans_soudure' %}<span class="nl-chip">🟢 Sans soudure</span>
+          {% when 'sans-outil' %}<span class="nl-chip">🟢 Sans outil</span>
+          {% when 'sans_outil' %}<span class="nl-chip">🟢 Sans outil</span>
+          {% when 'sans-soudure' %}<span class="nl-chip">🟢 Sans soudure</span>
+          {% when 'sans_soudure' %}<span class="nl-chip">🟢 Sans soudure</span>
           {% when 'soudure' %}<span class="nl-chip">🟠 Soudure</span>
           {% else %}{% if montage_module == true %}<span class="nl-chip">🟠 Soudure</span>{% elsif montage_module == false %}<span class="nl-chip">🟢 Sans soudure</span>{% elsif montage_module %}<span class="nl-chip">✧ {{ montage_module | escape }}</span>{% endif %}{% endcase %}
           {% if duree_module %}<span class="nl-chip">⏱️ {% if page.duree %}{{ page.duree | escape }}{% else %}{{ duree_module | escape }} min{% endif %}</span>{% endif %}
           {% if page.niveau %}<span class="nl-chip">👤 {{ page.niveau | replace: 'debutant','Débutant' | replace: 'intermediaire','Intermédiaire' | replace: 'avance','Avancé' | escape }}</span>{% endif %}
           {% if prix_module %}<span class="nl-chip">💶 {{ prix_module | escape }}</span>{% endif %}
         </div>
-      </div>
+
+        {% endcase %}
+      {% endfor %}
     </section>
   </div>
 

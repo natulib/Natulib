@@ -216,34 +216,71 @@
     window.addEventListener('afterprint', cleanupPrint);
   });
 
-  // 3. Catalogue (Modules.html) : rendre toutes les caractéristiques & familles cliquables
-  // Fonctionne même si les pastilles dans la liste des modules sont de simples <span>
+  // =========================================================================
+  // 3. CATALOGUE (Modules.html) : Clic sur Famille, Capacités & Caractéristiques
+  // Fonctionne que les pastilles soient des <a> ou des <span> !
+  // =========================================================================
   const catalogGrid = document.querySelector('.nl-module-grid');
   if (catalogGrid) {
     const cleanValue = str => (str || '')
       .replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\s]+/gu, '')
       .trim();
 
+    const norm = str => cleanValue(str)
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
+
+    // Attribuer data-famille sur chaque carte pour la couleur TCG
     catalogGrid.querySelectorAll('.nl-module-card').forEach(card => {
-      // Déduire la famille pour colorer la carte si data-famille est absent
       const famEl = card.querySelector('.nl-module-family');
       if (famEl && !card.hasAttribute('data-famille')) {
-        card.setAttribute('data-famille', cleanValue(famEl.textContent).toLowerCase());
+        card.setAttribute('data-famille', norm(famEl.textContent));
+      }
+      card.querySelectorAll('.nl-module-family, .nl-module-ref, .nl-capacity-chip, .nl-chips .nl-chip, .nl-card-filter-link, .nl-chip-filter').forEach(chip => {
+        if (chip.tagName !== 'A') {
+          chip.setAttribute('role', 'button');
+          chip.setAttribute('tabindex', '0');
+        }
+      });
+    });
+
+    // Délégation d'événement en phase de CAPTURE (true) pour intercepter le clic
+    // avant qu'un script tiers ne le bloque sans filtrer.
+    catalogGrid.addEventListener('click', e => {
+      const chip = e.target.closest('.nl-module-family, .nl-module-ref, .nl-capacity-chip, .nl-chips .nl-chip, .nl-card-filter-link, .nl-chip-filter');
+      if (!chip) return;
+
+      // Ne pas intercepter le clic sur le titre principal ou l'image du module
+      if (chip.classList.contains('nl-card-main-link') || chip.classList.contains('nl-module-media')) return;
+
+      let param = '';
+      let val = '';
+
+      // A. Si la pastille est un lien <a href="?famille=displays"> ou data-filter-*
+      const href = chip.getAttribute('href');
+      if (href && href.includes('?')) {
+        try {
+          const parsedUrl = new URL(href, window.location.origin);
+          for (const [k, v] of parsedUrl.searchParams.entries()) {
+            param = k;
+            val = v;
+            break;
+          }
+        } catch (_) {}
       }
 
-      // Parcourir Famille, Réf, Capacités et Caractéristiques (.nl-chip)
-      card.querySelectorAll('.nl-module-family, .nl-module-ref, .nl-capacity-chip, .nl-chips .nl-chip').forEach(chip => {
-        if (chip.tagName === 'A' && chip.getAttribute('href')) return; // Déjà un lien actif
+      // B. Si des attributs data-* existent sur la pastille
+      if (!param) {
+        param = chip.dataset.filterParam || chip.dataset.filter || chip.dataset.type || '';
+        val = chip.dataset.filterValue || chip.dataset.value || '';
+      }
 
-        chip.setAttribute('role', 'button');
-        chip.setAttribute('tabindex', '0');
-        chip.classList.add('nl-chip-filter');
-
-        const rawText = (chip.textContent || '').trim();
-        const val = cleanValue(rawText);
-        let param = 'recherche';
-
+      // C. Déduction depuis le texte et la classe de la pastille
+      const rawText = (chip.textContent || '').trim();
+      if (!val) val = cleanValue(rawText);
+      if (!param) {
         if (chip.classList.contains('nl-module-family')) param = 'famille';
+        else if (chip.classList.contains('nl-module-ref')) param = 'recherche';
         else if (chip.classList.contains('nl-capacity-chip')) param = 'capacite';
         else if (rawText.startsWith('🔌')) param = 'interface';
         else if (rawText.startsWith('⚡')) param = 'alimentation';
@@ -252,43 +289,52 @@
         else if (rawText.startsWith('👤')) param = 'niveau';
         else if (/valid|test|planifi/i.test(val)) param = 'statut';
         else if (/soudure|outil/i.test(val)) param = 'montage';
+        else param = 'recherche';
+      }
 
-        chip.title = `Filtrer par ${param} : ${val}`;
+      if (!val) return;
+      e.preventDefault();
+      e.stopPropagation();
 
-        const triggerFilter = e => {
-          e.preventDefault();
-          e.stopPropagation();
+      const targetNorm = norm(val);
 
-          // 1. Essayer de piloter directement le <select> ou bouton de filtre de la page
-          const select = document.querySelector(`select[name="${param}"], select[data-filter="${param}"], #filter-${param}`);
-          if (select) {
-            const opt = [...select.options].find(o => o.value.toLowerCase() === val.toLowerCase() || o.textContent.toLowerCase().includes(val.toLowerCase()));
-            if (opt) {
-              select.value = opt.value;
-              select.dispatchEvent(new Event('change', { bubbles: true }));
-              return;
-            }
-          }
-
-          const btnFilter = [...document.querySelectorAll('.nl-filter')].find(b =>
-            (b.dataset.famille || b.dataset.filter || b.textContent || '').trim().toLowerCase() === val.toLowerCase()
-          );
-          if (btnFilter) {
-            btnFilter.click();
-            return;
-          }
-
-          // 2. Sinon, naviguer via le paramètre d'URL (?famille=displays, etc.)
-          const url = new URL(window.location.href);
-          url.searchParams.set(param, param === 'famille' ? val.toLowerCase() : val);
-          window.location.href = url.toString();
-        };
-
-        chip.addEventListener('click', triggerFilter);
-        chip.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') triggerFilter(e);
+      // 1. Essayer de piloter un bouton de filtre de famille (.nl-filter) présent sur la page
+      if (param === 'famille') {
+        const filterBtn = [...document.querySelectorAll('.nl-filter')].find(btn => {
+          const bVal = norm(btn.dataset.famille || btn.dataset.filter || btn.dataset.value || btn.textContent);
+          return bVal === targetNorm;
         });
-      });
-    });
+        if (filterBtn) {
+          if (filterBtn.getAttribute('aria-pressed') !== 'true') filterBtn.click();
+          filterBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          return;
+        }
+      }
+
+      // 2. Essayer de piloter un menu déroulant <select> correspondant dans la barre d'outils
+      const allSelects = [...document.querySelectorAll('.nl-catalog select, .nl-compact-toolbar select, .nl-advanced-filters select, .nl-capability-filter select')];
+      for (const select of allSelects) {
+        const matchingOption = [...select.options].find(opt => {
+          const optVal = norm(opt.value);
+          const optTxt = norm(opt.textContent);
+          return optVal && (optVal === targetNorm || optTxt === targetNorm || optTxt.includes(targetNorm));
+        });
+        if (matchingOption) {
+          select.value = matchingOption.value;
+          const drawer = select.closest('details.nl-filter-drawer');
+          if (drawer) drawer.open = true;
+          select.dispatchEvent(new Event('input', { bubbles: true }));
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+          return;
+        }
+      }
+
+      // 3. Fallback garanti : naviguer avec le paramètre d'URL (?famille=displays)
+      // puisque votre page Modules.html applique déjà les filtres URL au chargement !
+      const targetUrl = new URL(window.location.href);
+      targetUrl.search = ''; // Remplace le filtre précédent par la catégorie cliquée
+      targetUrl.searchParams.set(param, param === 'famille' ? targetNorm : val);
+      window.location.href = targetUrl.toString();
+    }, true);
   }
 })();

@@ -342,7 +342,7 @@
 }
 .nl-module-detail .nl-gallery-slide figcaption {
   position: absolute;
-  bottom: 8px;
+  bottom: 1px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.75rem;
@@ -351,8 +351,6 @@
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(4px);
   padding: 3px 11px;
-  border-radius: 999px;
-  border: 1px solid var(--nld-line);
   max-width: calc(100% - 110px);
   white-space: nowrap;
   overflow: hidden;

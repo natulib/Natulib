@@ -17,7 +17,7 @@
 .nl-catalog-search{width:100%;font:inherit;color:var(--nl-ink);background:var(--nl-paper);border:1px solid var(--nl-line);border-radius:12px;padding:11px 14px}
 .nl-filters{display:flex;gap:8px;flex-wrap:wrap}.nl-filter{font:inherit;font-size:.79rem;font-weight:650;color:var(--nl-ink);border:1px solid var(--nl-line);background:var(--nl-paper);border-radius:100px;padding:7px 11px;cursor:pointer}
 .nl-filter[aria-pressed="true"]{background:var(--nl-green);color:var(--nl-paper);border-color:var(--nl-green)}
-.nl-module-card{gap:10px;padding:17px}.nl-module-top{display:flex;align-items:start;justify-content:space-between;gap:10px}.nl-module-ref{font-size:.72rem;font-weight:800;color:var(--nl-green)}.nl-module-family{font-size:.72rem;color:var(--nl-muted)}.nl-module-title{font-size:1.06rem;line-height:1.35;font-weight:800}.nl-module-desc{color:var(--nl-muted);font-size:.82rem;line-height:1.5}
+.nl-module-card{gap:10px;padding:17px}.nl-module-top{display:flex;align-items:start;justify-content:space-between;gap:10px}.nl-module-ref{font-size:.72rem;font-weight:800;color:var(--nl-green)}.nl-module-family{font-size:.72rem;color:var(--nl-muted)}.nl-module-title{font-size:1.06rem;line-height:1.3;font-weight:800;text-wrap:balance;overflow-wrap:break-word}.nl-module-desc{color:var(--nl-muted);font-size:.82rem;line-height:1.5}
 .nl-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}.nl-chip{display:inline-flex;align-items:center;border:1px solid var(--nl-line);border-radius:100px;padding:4px 8px;font-size:.73rem;color:var(--nl-ink);background:var(--nl-soft)}
 .nl-catalog-note{border-top:1px solid var(--nl-line);margin-top:30px;padding-top:18px;line-height:1.65}.nl-empty{padding:24px;color:var(--nl-muted);text-align:center}
 @media(max-width:580px){.nl-hub-hero,.nl-catalog-hero{border-radius:14px;padding:16px}.nl-card-grid,.nl-module-grid{grid-template-columns:1fr}.nl-hub h1,.nl-catalog h1{font-size:1.55rem}}
@@ -30,7 +30,7 @@
 .nl-capability-filter label{font-size:.85rem;font-weight:650}
 .nl-capability-filter select{max-width:100%;padding:.52rem .7rem;border:1px solid var(--nl-line);border-radius:9px;background:var(--nl-paper);color:var(--nl-ink);font:inherit;font-size:.86rem}
 .nl-capacity-chips{display:flex;gap:.4rem;flex-wrap:wrap;margin:.2rem 0 .5rem}
-.nl-capacity-chip{display:inline-flex;text-decoration:none!important;color:var(--nl-green)!important;background:var(--nl-soft);border:1px solid var(--nl-line);border-radius:99px;padding:.25rem .6rem;font-size:.78rem;font-weight:650}
+.nl-capacity-chip{display:inline-flex;text-decoration:none!important;color:var(--nl-green)!important;background:var(--nl-soft);border:1px solid var(--nl-line);border-radius:99px;padding:.25rem .6rem;font-size:.78rem;font-weight:650;cursor:pointer}
 .nl-capacity-chip:hover{border-color:var(--nl-green)}
 .nl-card-main-link{text-decoration:none;color:inherit}
 .nl-card-main-link:hover{text-decoration:underline}
@@ -98,21 +98,6 @@
 .nl-project-grid .nl-module-title{font-size:1rem}
 @media(max-width:650px){.nl-quick-filters .nl-catalog-search{flex-basis:100%}.nl-quick-filters .nl-capability-filter{width:100%}.nl-quick-filters .nl-capability-filter select{flex:1;max-width:none}.nl-compact-toolbar{padding:10px}.nl-quick-select select{max-width:none}}
 
-/* V7 — filtres contextuels : toutes les pastilles du catalogue sont des liens. */
-.nl-catalog .nl-card-filter-link,
-.nl-catalog .nl-chip-filter{
-  color:var(--nl-ink);text-decoration:none;cursor:pointer;
-}
-.nl-catalog .nl-card-filter-link:hover,
-.nl-catalog .nl-card-filter-link:focus-visible,
-.nl-catalog .nl-chip-filter:hover,
-.nl-catalog .nl-chip-filter:focus-visible{
-  color:var(--nl-green);border-color:var(--nl-green);text-decoration:none;
-}
-.nl-catalog .nl-module-ref.nl-card-filter-link,
-.nl-catalog .nl-module-family.nl-card-filter-link{font-size:.72rem}
-.nl-catalog a.nl-chip-filter{display:inline-flex}
-
 
 /* ==========================================================================
    NATULIB TCG — PALETTE DE FACTION AUTOMATIQUE (SANS MODIFIER LE HTML)
@@ -177,6 +162,42 @@
 
 
 /* ==========================================================================
+   V7+ — FILTRES CLIQUABLES PARTOUT DANS LE CATALOGUE (CARTES & LISTE)
+   ========================================================================== */
+.nl-catalog .nl-card-filter-link,
+.nl-catalog .nl-chip-filter,
+.nl-catalog .nl-module-family,
+.nl-catalog .nl-module-ref,
+.nl-catalog .nl-chips .nl-chip {
+  color: var(--nl-ink);
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: background-color .14s ease, border-color .14s ease, color .14s ease, transform .12s ease;
+}
+.nl-catalog .nl-card-filter-link:hover,
+.nl-catalog .nl-card-filter-link:focus-visible,
+.nl-catalog .nl-chip-filter:hover,
+.nl-catalog .nl-chip-filter:focus-visible,
+.nl-catalog .nl-module-ref:hover,
+.nl-catalog .nl-chips .nl-chip:hover {
+  color: var(--tcg-accent) !important;
+  border-color: var(--tcg-accent) !important;
+  background-color: var(--tcg-tint) !important;
+  transform: translateY(-1px);
+}
+.nl-catalog .nl-module-family:hover,
+.nl-catalog .nl-module-family:focus-visible {
+  background-color: var(--tcg-accent) !important;
+  border-color: var(--tcg-accent) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+.nl-catalog .nl-module-ref.nl-card-filter-link,
+.nl-catalog .nl-module-family.nl-card-filter-link { font-size: .72rem; }
+.nl-catalog a.nl-chip-filter { display: inline-flex; }
+
+
+/* ==========================================================================
    MODE 1 : VUE « ▦ CARTES » — MINIATURES FAÇON CARTE À COLLECTIONNER (TCG)
    Ordre conservé : Réf/Famille (0) → Titre (1) → Photo 4/3 (2) → Capacités (3)
                     → Description (4) → Caractéristiques (5)
@@ -207,7 +228,6 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.85);
 }
 
-/* Les enfants de .nl-module-info deviennent des éléments directs de la carte */
 .nl-catalog .nl-module-grid[data-view="cards"] .nl-module-info,
 .nl-catalog .nl-module-grid:not([data-view="list"]) .nl-module-info {
   display: contents;
@@ -244,20 +264,36 @@
   border-radius: 999px;
 }
 
-/* 1. Titre de la carte */
+/* 1. Titre de la carte miniature (avec adaptation automatique pour titres longs) */
 .nl-catalog .nl-module-grid[data-view="cards"] .nl-module-title,
 .nl-catalog .nl-module-grid:not([data-view="list"]) .nl-module-title {
   order: 1;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  font-size: 1.14rem;
+  min-height: 2.4em;
+  font-size: 1.1rem;
   font-weight: 850;
-  line-height: 1.22;
+  line-height: 1.2;
   letter-spacing: -.015em;
   text-align: center;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  word-break: normal;
   padding: 2px 0;
   margin: 0;
   color: var(--nl-ink);
+}
+.nl-catalog .nl-module-grid[data-view="cards"] .nl-module-title[data-title-len="long"],
+.nl-catalog .nl-module-grid:not([data-view="list"]) .nl-module-title[data-title-len="long"] {
+  font-size: .96rem;
+  line-height: 1.18;
+}
+.nl-catalog .nl-module-grid[data-view="cards"] .nl-module-title[data-title-len="xl"],
+.nl-catalog .nl-module-grid:not([data-view="list"]) .nl-module-title[data-title-len="xl"] {
+  font-size: .88rem;
+  line-height: 1.16;
 }
 .nl-catalog .nl-module-title .nl-card-main-link:hover {
   color: var(--tcg-accent);
@@ -322,8 +358,8 @@
 }
 .nl-catalog .nl-capacity-chip:hover,
 .nl-catalog .nl-capacity-chip:focus-visible {
-  background: var(--tcg-accent);
-  border-color: var(--tcg-accent);
+  background: var(--tcg-accent) !important;
+  border-color: var(--tcg-accent) !important;
   color: #fff !important;
   transform: translateY(-1px);
 }
@@ -363,17 +399,11 @@
   border: 1px solid var(--nl-line);
   border-radius: 7px;
   padding: 3px 7px;
-  transition: border-color .14s, background-color .14s;
-}
-.nl-catalog .nl-chips .nl-chip:hover {
-  border-color: var(--tcg-accent);
-  background: var(--tcg-tint);
 }
 
 
 /* ==========================================================================
    MODE 2 : VUE « ☰ LISTE » — BANNIÈRE HORIZONTALE "DECKLIST"
-   Structure HTML conservée (.nl-module-media | .nl-module-top | .nl-module-info)
    ========================================================================== */
 .nl-module-grid[data-view="list"] {
   display: flex;
@@ -437,6 +467,7 @@
   font-size: .98rem;
   font-weight: 850;
   margin: 0;
+  text-wrap: balance;
 }
 
 .nl-module-grid[data-view="list"] .nl-module-info .nl-module-desc {

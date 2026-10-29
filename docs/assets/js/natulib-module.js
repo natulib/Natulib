@@ -1,6 +1,16 @@
-/* Natulib — Collection TCG : galerie (clavier + swipe), partage, starter guide, accordéons, impression. */
+/* Natulib — Collection TCG : galerie, partage, starter guide, titres adaptatifs & pastilles filtrantes. */
 (() => {
   'use strict';
+
+  // 1. Adaptation automatique des titres longs (Fiche + Catalogue)
+  document.querySelectorAll('.nl-module-title').forEach(titleEl => {
+    if (titleEl.hasAttribute('data-title-len')) return;
+    const len = (titleEl.textContent || '').trim().length;
+    if (len > 36) titleEl.setAttribute('data-title-len', 'xl');
+    else if (len > 22) titleEl.setAttribute('data-title-len', 'long');
+  });
+
+  // 2. Logique de la Fiche Module Détaillée ([data-nl-module])
   document.querySelectorAll('[data-nl-module]').forEach(root => {
     const slides = [...root.querySelectorAll('.nl-gallery-slide')];
     const thumbs = [...root.querySelectorAll('.nl-gallery-thumb')];
@@ -20,7 +30,6 @@
     root.querySelector('[data-nl-prev]')?.addEventListener('click', () => setPhoto(activePhoto - 1));
     root.querySelector('[data-nl-next]')?.addEventListener('click', () => setPhoto(activePhoto + 1));
 
-    // Navigation au clavier (Flèches Gauche / Droite)
     if (slides.length > 1) {
       document.addEventListener('keydown', e => {
         if (e.target.matches('input, textarea, select')) return;
@@ -28,7 +37,6 @@
         if (e.key === 'ArrowRight') setPhoto(activePhoto + 1);
       });
 
-      // Swipe tactile sur mobile
       let touchStartX = 0;
       swipeZone?.addEventListener('touchstart', e => {
         touchStartX = e.changedTouches[0].screenX;
@@ -42,7 +50,7 @@
     }
     setPhoto(0);
 
-    // Bouton Partager / Copier le lien de la carte
+    // Bouton Partager / Copier le lien
     const copyBtn = root.querySelector('[data-nl-copy-link]');
     copyBtn?.addEventListener('click', async () => {
       try {
@@ -207,4 +215,80 @@
     window.addEventListener('beforeprint', preparePrint);
     window.addEventListener('afterprint', cleanupPrint);
   });
+
+  // 3. Catalogue (Modules.html) : rendre toutes les caractéristiques & familles cliquables
+  // Fonctionne même si les pastilles dans la liste des modules sont de simples <span>
+  const catalogGrid = document.querySelector('.nl-module-grid');
+  if (catalogGrid) {
+    const cleanValue = str => (str || '')
+      .replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\s]+/gu, '')
+      .trim();
+
+    catalogGrid.querySelectorAll('.nl-module-card').forEach(card => {
+      // Déduire la famille pour colorer la carte si data-famille est absent
+      const famEl = card.querySelector('.nl-module-family');
+      if (famEl && !card.hasAttribute('data-famille')) {
+        card.setAttribute('data-famille', cleanValue(famEl.textContent).toLowerCase());
+      }
+
+      // Parcourir Famille, Réf, Capacités et Caractéristiques (.nl-chip)
+      card.querySelectorAll('.nl-module-family, .nl-module-ref, .nl-capacity-chip, .nl-chips .nl-chip').forEach(chip => {
+        if (chip.tagName === 'A' && chip.getAttribute('href')) return; // Déjà un lien actif
+
+        chip.setAttribute('role', 'button');
+        chip.setAttribute('tabindex', '0');
+        chip.classList.add('nl-chip-filter');
+
+        const rawText = (chip.textContent || '').trim();
+        const val = cleanValue(rawText);
+        let param = 'recherche';
+
+        if (chip.classList.contains('nl-module-family')) param = 'famille';
+        else if (chip.classList.contains('nl-capacity-chip')) param = 'capacite';
+        else if (rawText.startsWith('🔌')) param = 'interface';
+        else if (rawText.startsWith('⚡')) param = 'alimentation';
+        else if (rawText.startsWith('⏱️')) param = 'temps_max';
+        else if (rawText.startsWith('💶')) param = 'prix_max';
+        else if (rawText.startsWith('👤')) param = 'niveau';
+        else if (/valid|test|planifi/i.test(val)) param = 'statut';
+        else if (/soudure|outil/i.test(val)) param = 'montage';
+
+        chip.title = `Filtrer par ${param} : ${val}`;
+
+        const triggerFilter = e => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          // 1. Essayer de piloter directement le <select> ou bouton de filtre de la page
+          const select = document.querySelector(`select[name="${param}"], select[data-filter="${param}"], #filter-${param}`);
+          if (select) {
+            const opt = [...select.options].find(o => o.value.toLowerCase() === val.toLowerCase() || o.textContent.toLowerCase().includes(val.toLowerCase()));
+            if (opt) {
+              select.value = opt.value;
+              select.dispatchEvent(new Event('change', { bubbles: true }));
+              return;
+            }
+          }
+
+          const btnFilter = [...document.querySelectorAll('.nl-filter')].find(b =>
+            (b.dataset.famille || b.dataset.filter || b.textContent || '').trim().toLowerCase() === val.toLowerCase()
+          );
+          if (btnFilter) {
+            btnFilter.click();
+            return;
+          }
+
+          // 2. Sinon, naviguer via le paramètre d'URL (?famille=displays, etc.)
+          const url = new URL(window.location.href);
+          url.searchParams.set(param, param === 'famille' ? val.toLowerCase() : val);
+          window.location.href = url.toString();
+        };
+
+        chip.addEventListener('click', triggerFilter);
+        chip.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') triggerFilter(e);
+        });
+      });
+    });
+  }
 })();

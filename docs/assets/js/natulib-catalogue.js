@@ -1,214 +1,293 @@
-/* Natulib — Catalogue modules : filtres par URL et liens cliquables dans les cartes. */
+/**
+ * Natulib — moteur UNIQUE des filtres du catalogue Modules.
+ *
+ * Sources des filtres :
+ *  1) URL (?famille=core, ?capacite=..., etc.) depuis une fiche détaillée ;
+ *  2) Liens des cartes data-nl-filter-key / data-nl-filter-value ;
+ *  3) Contrôles du catalogue (boutons, menus, recherche, durée/prix).
+ *
+ * Aucun script supplémentaire de « correctif des filtres » ne doit être chargé.
+ */
 (() => {
   'use strict';
   const root = document.getElementById('nl-catalog');
   if (!root) return;
-  const $ = id => root.querySelector('#' + id);
-  const search = $('nl-module-search');
-  const grid = $('nl-module-grid');
-  const cards = [...grid.querySelectorAll('.nl-module-card')];
-  const buttons = [...root.querySelectorAll('.nl-filter[data-family]')];
-  const count = $('nl-catalog-count');
-  const empty = $('nl-catalog-empty');
-  const capSelect = $('nl-capability-select');
-  const reset = $('nl-filter-reset');
-  const activeBar = $('nl-active-filters');
-  const filterBadge = $('nl-filter-badge');
-  const drawer = $('nl-filter-drawer');
-  const viewButtons = [...root.querySelectorAll('.nl-view-button')];
+
+  const get = id => root.querySelector('#' + id);
+  const grid = get('nl-module-grid');
+  if (!grid) return;
+  const cards = Array.from(grid.querySelectorAll('.nl-module-card'));
+  const search = get('nl-module-search');
+  const capabilities = get('nl-capability-select');
+  const familyButtons = Array.from(root.querySelectorAll('.nl-filter[data-family]'));
+  const activeBar = get('nl-active-filters');
+  const count = get('nl-catalog-count');
+  const empty = get('nl-catalog-empty');
+  const badge = get('nl-filter-badge');
+  const drawer = get('nl-filter-drawer');
+  const reset = get('nl-filter-reset');
+  const sort = get('nl-sort');
+  const maxTime = get('nl-max-time');
+  const maxPrice = get('nl-max-price');
+  const viewButtons = Array.from(root.querySelectorAll('.nl-view-button'));
   const controls = {
-    status: $('nl-status-select'), level: $('nl-level-select'),
-    mount: $('nl-mount-select'), interface: $('nl-interface-select'),
-    power: $('nl-power-select')
+    status: get('nl-status-select'),
+    level: get('nl-level-select'),
+    mount: get('nl-mount-select'),
+    interface: get('nl-interface-select'),
+    power: get('nl-power-select')
   };
-  const maxTime = $('nl-max-time'), maxPrice = $('nl-max-price'), sort = $('nl-sort');
-  const urlParams = {
+
+  // Valeur normalisée unique pour liens, données des cartes et menus.
+  const canon = value => String(value ?? '').trim().toLocaleLowerCase('fr')
+    .normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/²/g, '2')
+    .replace(/[\s_]+/g, '-');
+  const number = value => {
+    const match = String(value ?? '').replace(',', '.').match(/\d+(?:\.\d+)?/);
+    return match ? Number(match[0]) : NaN;
+  };
+  const labels = {
+    status: {valide:'Validé',test:'En test', 'en-test':'En test',planifie:'Planifié'},
+    level: {debutant:'Débutant',intermediaire:'Intermédiaire',avance:'Avancé'},
+    mount: {'sans-outil':'Sans outil','sans-soudure':'Sans soudure',soudure:'Soudure'}
+  };
+  const display = (field, raw) => labels[field]?.[canon(raw)] || String(raw).replace(/[_-]/g, ' ');
+  const queryNames = {
     famille: 'family', capacite: 'capacity', recherche: 'search',
     statut: 'status', niveau: 'level', montage: 'mount',
     interface: 'interface', alimentation: 'power',
     temps_max: 'time', prix_max: 'price'
   };
-  const clean = str => String(str ?? '').trim().toLocaleLowerCase('fr');
-  const canon = str => {
-    let s = clean(str).normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-      .replace(/[_\s]+/g, '-');
-    if (s === 'en-test') s = 'test';
-    if (s === 'planifiee') s = 'planifie';
-    return s;
+  const current = {
+    family: 'all'
   };
-  const numeric = value => {
-    const str = String(value ?? '').replace(',', '.');
-    const match = str.match(/\d+(?:\.\d+)?/);
-    return match ? Number(match[0]) : Infinity;
-  };
-  const labels = {status: {'valide':'Validé','test':'En test','planifie':'Planifié'},
-    level: {'debutant':'Débutant','intermediaire':'Intermédiaire','avance':'Avancé'},
-    mount: {'sans-outil':'Sans outil','sans-soudure':'Sans soudure','soudure':'Soudure requise'}};
-  const labelFor = (field, raw) => labels[field]?.[canon(raw)] || String(raw).replace(/[-_]/g, ' ');
 
-  // Capacités : les liens des cartes constituent la source de vérité des slugs.
-  const capacityLabels = new Map();
-  cards.forEach(card => card.querySelectorAll('.nl-capacity-chip[href]').forEach(link => {
-    const slug = new URL(link.href, location.href).searchParams.get('capacite');
-    if (!slug) return;
-    (card._nlCapacites ||= new Set()).add(slug);
-    if (!capacityLabels.has(slug)) capacityLabels.set(slug, link.textContent.trim());
-  }));
-  [...capacityLabels.entries()].sort((a,b) => a[1].localeCompare(b[1],'fr')).forEach(([slug,label]) => {
-    const opt = document.createElement('option'); opt.value = slug; opt.textContent = label;
-    capSelect.append(opt);
+  // La taille du titre des mini-cartes ne dépend plus du script des fiches.
+  cards.forEach(card => {
+    const title = card.querySelector('.nl-module-title');
+    if (!title || title.hasAttribute('data-title-len')) return;
+    const len = title.textContent.trim().length;
+    title.dataset.titleLen = len > 36 ? 'xl' : len > 22 ? 'long' : 'normal';
   });
-  Object.entries(controls).forEach(([field,select]) => {
+
+  // Construire les options à partir du catalogue affiché, sans valeurs inventées.
+  const capacityNames = new Map();
+  cards.forEach(card => {
+    card._nlCapacities = new Set();
+    card.querySelectorAll('.nl-capacity-chip').forEach(link => {
+      let raw = link.dataset.nlFilterValue;
+      if (!raw && link.getAttribute('href')) {
+        try { raw = new URL(link.href, location.href).searchParams.get('capacite'); }
+        catch (_) { /* lien sans URL exploitable */ }
+      }
+      if (!raw) return;
+      const key = canon(raw);
+      card._nlCapacities.add(key);
+      if (!capacityNames.has(key)) capacityNames.set(key, link.textContent.trim());
+    });
+    // Compatibilité avec les anciennes cartes utilisant data-capacities.
+    if (!card._nlCapacities.size) {
+      for (const key of (card.dataset.capacities || '').split(/\s+/).filter(Boolean)) {
+        card._nlCapacities.add(canon(key));
+      }
+    }
+  });
+  if (capabilities) {
+    [...capacityNames.entries()]
+      .sort((a, b) => a[1].localeCompare(b[1], 'fr'))
+      .forEach(([key, label]) => {
+        const option = document.createElement('option');
+        option.value = key;
+        option.textContent = label;
+        capabilities.append(option);
+      });
+  }
+
+  Object.entries(controls).forEach(([field, control]) => {
+    if (!control) return;
     const distinct = new Map();
     cards.forEach(card => {
       const raw = card.dataset[field];
       if (raw && !distinct.has(canon(raw))) distinct.set(canon(raw), raw);
     });
-    [...distinct.entries()].sort((a,b) => labelFor(field,a[1]).localeCompare(labelFor(field,b[1]),'fr'))
-      .forEach(([value,raw]) => {
-        const opt = document.createElement('option'); opt.value = value;
-        opt.textContent = labelFor(field,raw); select.append(opt);
+    [...distinct].sort((a, b) => display(field,a[1]).localeCompare(display(field,b[1]),'fr'))
+      .forEach(([key, raw]) => {
+        const option = document.createElement('option');
+        option.value = key;
+        option.textContent = display(field,raw);
+        control.append(option);
       });
   });
-  let activeFamily = 'all';
-  let view = 'cards';
-  try { view = localStorage.getItem('natulib.catalog.view') || 'cards'; } catch (_) {}
-  function setView(next) {
-    view = next === 'list' ? 'list' : 'cards';
-    grid.dataset.view = view;
-    viewButtons.forEach(b => b.setAttribute('aria-pressed',String(b.dataset.view === view)));
-    try { localStorage.setItem('natulib.catalog.view',view); } catch (_) {}
-  }
-  viewButtons.forEach(b => b.addEventListener('click',() => setView(b.dataset.view)));
-  setView(view);
 
-  function selectOption(select,value) {
-    const v = canon(value);
-    if (v && ![...select.options].some(o => o.value === v)) {
-      const option = document.createElement('option'); option.value = v;
-      option.textContent = labelFor(Object.keys(controls).find(k => controls[k] === select),value);
+  function ensureOption(select, raw, label) {
+    if (!select) return;
+    const value = canon(raw);
+    if (!value) { select.value = ''; return; }
+    if (!Array.from(select.options).some(o => o.value === value)) {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = label || String(raw);
       select.append(option);
     }
-    select.value = v;
+    select.value = value;
   }
-  function setFamily(v) {
-    activeFamily = v && v !== 'all' ? canon(v) : 'all';
-    buttons.forEach(b => b.setAttribute('aria-pressed',String(canon(b.dataset.family) === activeFamily)));
+  function setFamily(raw) {
+    current.family = !raw || canon(raw) === 'all' ? 'all' : canon(raw);
+    familyButtons.forEach(button => {
+      button.setAttribute('aria-pressed', String(canon(button.dataset.family) === current.family));
+    });
   }
-  // Applique les paramètres en arrivant depuis une fiche module.
-  function readURL(replaceAll = true) {
+  function setFilter(name, value) {
+    const field = queryNames[name];
+    if (!field) return false;
+    if (field === 'family') setFamily(value);
+    else if (field === 'capacity') ensureOption(capabilities, value, capacityNames.get(canon(value)) || value);
+    else if (field === 'search' && search) search.value = value || '';
+    else if (field === 'time' && maxTime) maxTime.value = Number.isFinite(number(value)) ? number(value) : '';
+    else if (field === 'price' && maxPrice) maxPrice.value = Number.isFinite(number(value)) ? number(value) : '';
+    else if (controls[field]) ensureOption(controls[field],value,display(field,value));
+    return true;
+  }
+  function clearFilters() {
+    if (search) search.value = '';
+    if (capabilities) capabilities.value = '';
+    setFamily('all');
+    Object.values(controls).forEach(control => { if (control) control.value = ''; });
+    if (maxTime) maxTime.value = '';
+    if (maxPrice) maxPrice.value = '';
+  }
+  function readURL() {
+    clearFilters();
     const params = new URLSearchParams(location.search);
-    if (replaceAll) {
-      search.value = ''; capSelect.value = ''; setFamily('all');
-      Object.values(controls).forEach(c => c.value = '');
-      maxTime.value = ''; maxPrice.value = '';
+    for (const key of Object.keys(queryNames)) {
+      if (params.has(key)) setFilter(key, params.get(key));
     }
-    for (const [param,field] of Object.entries(urlParams)) {
-      if (!params.has(param)) continue;
-      const raw = params.get(param);
-      if (field === 'family') setFamily(raw);
-      else if (field === 'capacity') {
-        if (raw && ![...capSelect.options].some(o => o.value === raw)) {
-          const option = document.createElement('option'); option.value = raw; option.textContent = raw; capSelect.append(option);
-        }
-        capSelect.value = raw;
-      } else if (field === 'search') search.value = raw;
-      else if (field === 'time') maxTime.value = Number.isFinite(numeric(raw)) ? numeric(raw) : '';
-      else if (field === 'price') maxPrice.value = Number.isFinite(numeric(raw)) ? numeric(raw) : '';
-      else selectOption(controls[field],raw);
+    if (drawer && Array.from(params.keys()).some(key =>
+      ['famille','statut','niveau','montage','interface','alimentation','temps_max','prix_max'].includes(key))) {
+      drawer.open = true;
     }
-    // Le filtre activé reste visible, même si le panneau avancé était fermé.
-    if ([...params.keys()].some(k => ['famille','statut','niveau','montage','interface','alimentation','temps_max','prix_max'].includes(k))) drawer.open = true;
   }
-  function writeURL() {
+  function writeURL(mode) {
+    if (mode === 'none') return;
     const url = new URL(location.href);
-    Object.keys(urlParams).forEach(k => url.searchParams.delete(k));
-    if (activeFamily !== 'all') url.searchParams.set('famille',activeFamily);
-    if (capSelect.value) url.searchParams.set('capacite',capSelect.value);
-    if (search.value.trim()) url.searchParams.set('recherche',search.value.trim());
-    Object.entries({status:'statut',level:'niveau',mount:'montage',interface:'interface',power:'alimentation'})
-      .forEach(([field,key]) => {if (controls[field].value) url.searchParams.set(key,controls[field].value);});
-    if (maxTime.value) url.searchParams.set('temps_max',maxTime.value);
-    if (maxPrice.value) url.searchParams.set('prix_max',maxPrice.value);
-    history.replaceState(null,'',url.pathname + url.search + url.hash);
+    Object.keys(queryNames).forEach(key => url.searchParams.delete(key));
+    if (current.family !== 'all') url.searchParams.set('famille', current.family);
+    if (capabilities?.value) url.searchParams.set('capacite',capabilities.value);
+    if (search?.value.trim()) url.searchParams.set('recherche', search.value.trim());
+    const byField = {status:'statut',level:'niveau',mount:'montage',interface:'interface',power:'alimentation'};
+    Object.entries(byField).forEach(([field,key]) => {
+      if (controls[field]?.value) url.searchParams.set(key,controls[field].value);
+    });
+    if (maxTime?.value) url.searchParams.set('temps_max',maxTime.value);
+    if (maxPrice?.value) url.searchParams.set('prix_max',maxPrice.value);
+    const next = url.pathname + url.search + url.hash;
+    if (next === location.pathname + location.search + location.hash) return;
+    if (mode === 'push') history.pushState(null,'',next);
+    else history.replaceState(null,'',next);
   }
-  function update() {
-    const q = clean(search.value), cap = capSelect.value;
+  function render(mode='replace') {
+    const q = canon(search?.value);
+    const cap = canon(capabilities?.value);
     let shown = 0;
     cards.forEach(card => {
-      const caps = card._nlCapacites || new Set((card.dataset.capacities || '').split(/\s+/));
-      const ok = (activeFamily === 'all' || canon(card.dataset.family) === activeFamily)
-        && (!cap || caps.has(cap)) && (!q || clean(card.textContent).includes(q))
-        && Object.entries(controls).every(([field,c]) => !c.value || canon(card.dataset[field]) === c.value)
-        && (!maxTime.value || numeric(card.dataset.time) <= Number(maxTime.value))
-        && (!maxPrice.value || numeric(card.dataset.price) <= Number(maxPrice.value));
-      card.hidden = !ok; if (ok) shown++;
+      const matchFamily = current.family === 'all' || canon(card.dataset.family) === current.family;
+      const matchCapacity = !cap || card._nlCapacities.has(cap);
+      const matchSearch = !q || canon(card.textContent).includes(q) || canon(card.dataset.ref).includes(q);
+      const matchFields = Object.entries(controls).every(([field,control]) =>
+        !control?.value || canon(card.dataset[field]) === control.value);
+      const matchTime = !maxTime?.value || number(card.dataset.time) <= Number(maxTime.value);
+      const matchPrice = !maxPrice?.value || number(card.dataset.price) <= Number(maxPrice.value);
+      card.hidden = !(matchFamily && matchCapacity && matchSearch && matchFields && matchTime && matchPrice);
+      if (!card.hidden) shown++;
     });
-    const field = sort.value, desc = field.endsWith('-desc');
-    const base = desc ? field.slice(0,-5) : field;
+
+    const sorting = sort?.value || 'reference';
+    const reverse = sorting.endsWith('-desc');
+    const field = reverse ? sorting.slice(0,-5) : sorting;
     const order = {debutant:0,intermediaire:1,avance:2};
-    const statusOrder = {valide:0,test:1,planifie:2};
+    const statusOrder = {valide:0,test:1,'en-test':1,planifie:2};
     cards.slice().sort((a,b) => {
-      let x = a.dataset[base] || '', y = b.dataset[base] || '';
-      if (base === 'reference') {x = a.dataset.ref || '';y = b.dataset.ref || '';}
-      if (base === 'level') {x = order[canon(x)] ?? 99;y = order[canon(y)] ?? 99;}
-      if (base === 'status') {x = statusOrder[canon(x)] ?? 99;y = statusOrder[canon(y)] ?? 99;}
-      if (base === 'time' || base === 'price') {x = numeric(x);y = numeric(y);}
-      const cmp = typeof x === 'number' && typeof y === 'number' ? x-y : String(x).localeCompare(String(y),'fr',{numeric:true});
-      return (desc ? -1 : 1) * cmp;
+      let x = field === 'reference' ? a.dataset.ref : a.dataset[field];
+      let y = field === 'reference' ? b.dataset.ref : b.dataset[field];
+      if (field === 'level') { x = order[canon(x)] ?? 99; y = order[canon(y)] ?? 99; }
+      if (field === 'status') { x = statusOrder[canon(x)] ?? 99; y = statusOrder[canon(y)] ?? 99; }
+      if (field === 'price' || field === 'time') { x = number(x); y = number(y); }
+      const diff = typeof x === 'number' && typeof y === 'number'
+        ? (Number.isNaN(x) ? Infinity : x) - (Number.isNaN(y) ? Infinity : y)
+        : String(x ?? '').localeCompare(String(y ?? ''),'fr',{numeric:true});
+      return (reverse ? -1 : 1) * diff;
     }).forEach(card => grid.append(card));
+
     const selected = [];
-    if (q) selected.push(['Recherche : '+search.value.trim(),() => {search.value='';}]);
-    if (cap) selected.push(['Capacité : '+(capSelect.selectedOptions[0]?.textContent || cap),() => {capSelect.value='';}]);
-    if (activeFamily !== 'all') selected.push(['Famille : '+(buttons.find(b => canon(b.dataset.family) === activeFamily)?.textContent.trim() || activeFamily),() => setFamily('all')]);
-    Object.entries(controls).forEach(([field,c]) => {
-      if (c.value) selected.push([c.parentElement.textContent.trim().split('\n')[0]+' : '+(c.selectedOptions[0]?.textContent || c.value),() => {c.value='';}]);
-    });
-    if (maxTime.value) selected.push(['Durée ≤ '+maxTime.value+' min',() => {maxTime.value='';}]);
-    if (maxPrice.value) selected.push(['Prix ≤ '+maxPrice.value+' €',() => {maxPrice.value='';}]);
-    activeBar.replaceChildren();
-    selected.forEach(([text,clear]) => {
-      const btn = document.createElement('button');btn.type='button';btn.className='nl-active-chip';btn.textContent=text+' ×';
-      btn.title = 'Retirer le filtre';btn.addEventListener('click',() => {clear();update();});activeBar.append(btn);
-    });
-    const advCount = selected.length - (q?1:0) - (cap?1:0);
-    filterBadge.hidden = advCount === 0;
-    if (advCount) filterBadge.textContent = advCount;
-    count.textContent = shown+' module'+(shown!==1?'s':'')+' affiché'+(shown!==1?'s':'');
-    empty.hidden = shown > 0;
-    writeURL();
-  }
-  // Un clic sur une pastille depuis le listing ajoute le filtre SANS rechargement.
-  root.addEventListener('click',event => {
-    const a = event.target.closest('a[data-nl-filter-link]');
-    if (!a || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    const destination = new URL(a.href,location.href);
-    if (destination.origin !== location.origin || destination.pathname !== location.pathname) return;
-    event.preventDefault();
-    const params = destination.searchParams;
-    for (const [name,field] of Object.entries(urlParams)) {
-      if (!params.has(name)) continue;
-      const value = params.get(name);
-      if (field === 'family') setFamily(value);
-      else if (field === 'capacity') capSelect.value = value;
-      else if (field === 'search') search.value = value;
-      else if (field === 'time') maxTime.value = numeric(value);
-      else if (field === 'price') maxPrice.value = numeric(value);
-      else selectOption(controls[field],value);
+    if (search?.value.trim()) selected.push(['Recherche : '+search.value.trim(), () => { search.value = ''; }]);
+    if (capabilities?.value) selected.push(['Capacité : '+(capabilities.selectedOptions[0]?.textContent || cap), () => { capabilities.value = ''; }]);
+    if (current.family !== 'all') {
+      const familyName = familyButtons.find(b => canon(b.dataset.family) === current.family)?.textContent.trim() || current.family;
+      selected.push(['Famille : '+familyName, () => setFamily('all')]);
     }
-    update();
-  });
-  buttons.forEach(b => b.addEventListener('click',() => {setFamily(b.dataset.family);update();}));
-  search.addEventListener('input',update);
-  capSelect.addEventListener('change',update);
-  Object.values(controls).forEach(c => c.addEventListener('change',update));
-  [maxTime,maxPrice].forEach(c => c.addEventListener('input',update));
-  sort.addEventListener('change',update);
-  reset.addEventListener('click',() => {
-    search.value='';capSelect.value='';setFamily('all');
-    Object.values(controls).forEach(c => c.value='');
-    maxTime.value='';maxPrice.value='';sort.value='reference';update();
-  });
-  readURL();update();
-  window.addEventListener('popstate',() => {readURL();update();});
+    Object.entries(controls).forEach(([field,control]) => {
+      if (!control?.value) return;
+      const label = {status:'Statut',level:'Niveau',mount:'Montage',interface:'Interface',power:'Alimentation'}[field];
+      selected.push([label + ' : ' + (control.selectedOptions[0]?.textContent || control.value),() => {control.value = '';}]);
+    });
+    if (maxTime?.value) selected.push(['Durée ≤ '+maxTime.value+' min',() => {maxTime.value = '';}]);
+    if (maxPrice?.value) selected.push(['Prix ≤ '+maxPrice.value+' €',() => {maxPrice.value = '';}]);
+    if (activeBar) {
+      activeBar.replaceChildren();
+      selected.forEach(([text, clear]) => {
+        const button = document.createElement('button');
+        button.type = 'button'; button.className = 'nl-active-chip';
+        button.textContent = text + ' ×';
+        button.setAttribute('aria-label', 'Retirer le filtre ' + text);
+        button.addEventListener('click', () => {clear();render('push');});
+        activeBar.append(button);
+      });
+    }
+    const advancedCount = selected.length - (search?.value.trim() ? 1 : 0) - (capabilities?.value ? 1 : 0);
+    if (badge) { badge.hidden = advancedCount <= 0; if (advancedCount > 0) badge.textContent = advancedCount; }
+    if (count) count.textContent = shown+' module'+(shown === 1 ? '' : 's')+' affiché'+(shown === 1 ? '' : 's');
+    if (empty) empty.hidden = shown !== 0;
+    writeURL(mode);
+  }
+
+  // Clic sur une pastille : le lien décrit EXPLICITEMENT la valeur.
+  // Aucune comparaison entre /Modules/, /Modules.html et le chemin courant.
+  root.addEventListener('click', event => {
+    const target = event.target instanceof Element ? event.target : event.target?.parentElement;
+    const link = target?.closest('.nl-module-card a[data-nl-filter-key]');
+    if (!link || !root.contains(link)) return;
+    if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    const name = link.dataset.nlFilterKey;
+    const value = link.dataset.nlFilterValue;
+    if (!(name in queryNames) || !value) return; // Un vrai lien reste un repli fonctionnel.
+    event.preventDefault();
+    event.stopPropagation();
+    setFilter(name,value);
+    render('push');
+  }, true);
+
+  familyButtons.forEach(button => button.addEventListener('click',() => {setFamily(button.dataset.family);render('push');}));
+  if (search) search.addEventListener('input',() => render('replace'));
+  if (capabilities) capabilities.addEventListener('change',() => render('push'));
+  Object.values(controls).forEach(control => control?.addEventListener('change',() => render('push')));
+  [maxTime,maxPrice].forEach(control => control?.addEventListener('input',() => render('replace')));
+  sort?.addEventListener('change',() => render('none'));
+  reset?.addEventListener('click',() => {clearFilters();if (sort) sort.value='reference';render('push');});
+  viewButtons.forEach(button => button.addEventListener('click',() => {
+    setView(button.dataset.view);
+  }));
+  function setView(value) {
+    const view = value === 'list' ? 'list' : 'cards';
+    grid.dataset.view = view;
+    viewButtons.forEach(button => button.setAttribute('aria-pressed',String(button.dataset.view === view)));
+    try {localStorage.setItem('natulib.catalog.view',view);} catch (_) {}
+  }
+  let initialView = 'cards';
+  try {initialView = localStorage.getItem('natulib.catalog.view') || 'cards';} catch (_) {}
+  setView(initialView);
+
+  readURL();
+  render('none'); // Ne modifie pas l'URL de la page à l'ouverture.
+  window.addEventListener('popstate',() => {readURL();render('none');});
 })();

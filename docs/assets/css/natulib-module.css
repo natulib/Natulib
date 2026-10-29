@@ -1,5 +1,6 @@
 /* ==========================================================================
-   NATULIB — FICHE MODULE (CARTE À COLLECTIONNER GRAND FORMAT)
+   NATULIB — FICHE MODULE (CARTE À COLLECTIONNER PLEINE LARGEUR & STATIQUE)
+   Alignée sur la largeur du Starter Guide (1060px), sans saut au survol.
    ========================================================================== */
 
 .nl-module-detail {
@@ -14,50 +15,50 @@
   box-sizing: border-box;
 }
 
-/* ── Palette "Couleur de Faction" par famille (partagée ou héritée) ── */
+/* ── Palette "Couleur de Faction" par famille (statique dès le chargement) ── */
 .nl-module-card {
   --tcg-accent: var(--accent, #216e42);
-  --tcg-tint: rgba(33, 110, 66, 0.06);
-  --tcg-border: rgba(33, 110, 66, 0.32);
+  --tcg-tint: rgba(33, 110, 66, 0.055);
+  --tcg-border: rgba(33, 110, 66, 0.38);
 }
 .nl-module-card[data-famille="sensors"],
 .nl-module-card[data-famille="capteurs"] {
   --tcg-accent: #1b7f4b;
-  --tcg-tint: rgba(27, 127, 75, 0.07);
-  --tcg-border: rgba(27, 127, 75, 0.35);
+  --tcg-tint: rgba(27, 127, 75, 0.06);
+  --tcg-border: rgba(27, 127, 75, 0.42);
 }
 .nl-module-card[data-famille="power"],
 .nl-module-card[data-famille="alimentation"],
 .nl-module-card[data-famille="energie"] {
   --tcg-accent: #d97706;
-  --tcg-tint: rgba(217, 119, 6, 0.07);
-  --tcg-border: rgba(217, 119, 6, 0.38);
+  --tcg-tint: rgba(217, 119, 6, 0.06);
+  --tcg-border: rgba(217, 119, 6, 0.45);
 }
 .nl-module-card[data-famille="displays"],
 .nl-module-card[data-famille="affichage"],
 .nl-module-card[data-famille="ecrans"] {
   --tcg-accent: #7c3aed;
-  --tcg-tint: rgba(124, 58, 237, 0.07);
-  --tcg-border: rgba(124, 58, 237, 0.35);
+  --tcg-tint: rgba(124, 58, 237, 0.06);
+  --tcg-border: rgba(124, 58, 237, 0.42);
 }
 .nl-module-card[data-famille="connectivity"],
 .nl-module-card[data-famille="connectivite"],
 .nl-module-card[data-famille="reseau"] {
   --tcg-accent: #0284c7;
-  --tcg-tint: rgba(2, 132, 199, 0.07);
-  --tcg-border: rgba(2, 132, 199, 0.35);
+  --tcg-tint: rgba(2, 132, 199, 0.06);
+  --tcg-border: rgba(2, 132, 199, 0.42);
 }
 .nl-module-card[data-famille="actuators"],
 .nl-module-card[data-famille="actionneurs"] {
   --tcg-accent: #e11d48;
-  --tcg-tint: rgba(225, 29, 72, 0.07);
-  --tcg-border: rgba(225, 29, 72, 0.35);
+  --tcg-tint: rgba(225, 29, 72, 0.06);
+  --tcg-border: rgba(225, 29, 72, 0.42);
 }
 .nl-module-card[data-famille="enclosures"],
 .nl-module-card[data-famille="boitiers"] {
   --tcg-accent: #475569;
-  --tcg-tint: rgba(71, 85, 105, 0.07);
-  --tcg-border: rgba(71, 85, 105, 0.35);
+  --tcg-tint: rgba(71, 85, 105, 0.06);
+  --tcg-border: rgba(71, 85, 105, 0.42);
 }
 
 /* ── Barre de navigation supérieure ── */
@@ -66,7 +67,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   flex-wrap: wrap;
 }
 .nl-detail-nav > a {
@@ -94,7 +95,7 @@
   color: var(--text);
   padding: 7px 13px;
   border-radius: 9px;
-  transition: border-color 0.15s, background-color 0.15s, transform 0.1s;
+  transition: border-color 0.15s, background-color 0.15s;
 }
 .nl-detail-button:hover,
 .nl-detail-button:focus-visible {
@@ -111,39 +112,46 @@
   color: #fff;
 }
 
-/* ── Structure de la Carte à Collectionner (Grand Format) ── */
+/* ── Carte du Module : Même largeur (100%) que le Starter Guide & Statique ── */
 .nl-module-detail .nl-detail-catalog {
-  margin: 0 0 22px;
+  margin: 0 0 16px;
 }
 .nl-module-detail .nl-module-card-large {
   display: flex;
   flex-direction: column;
-  max-width: 780px;
-  margin: 0 auto;
-  padding: clamp(16px, 2.5vw, 24px);
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: clamp(15px, 2.2vw, 24px);
   gap: 14px;
-  border-radius: 22px;
-  background: linear-gradient(160deg, var(--nld-paper) 0%, var(--tcg-tint) 100%);
-  border: 7px solid var(--tcg-border);
+  border-radius: 18px;
+  background: linear-gradient(165deg, var(--nld-paper) 0%, var(--tcg-tint) 100%);
+  border: 5px solid var(--tcg-border);
   outline: 1px solid var(--nld-line);
   box-shadow:
-    0 14px 34px -8px rgba(0, 0, 0, 0.12),
+    0 6px 20px -4px rgba(0, 0, 0, 0.07),
     inset 0 1px 0 rgba(255, 255, 255, 0.65);
   position: relative;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  /* Aucune transition ni saut sur la carte globale */
+  transition: none !important;
+  transform: none !important;
 }
-.nl-module-detail .nl-module-card-large:hover {
-  border-color: var(--tcg-accent);
+
+/* Neutralise le hover hérité de natulib-pages.css (.nl-module-card:hover) */
+.nl-module-detail .nl-module-card-large:hover,
+.nl-module-detail .nl-module-card-large:focus-within {
+  transform: none !important;
+  border-color: var(--tcg-border) !important;
   box-shadow:
-    0 18px 40px -8px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    0 6px 20px -4px rgba(0, 0, 0, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65) !important;
 }
 
 /* ── En-tête 3 colonnes (Pratique | Identité | Technique) ── */
 .nl-module-detail .nl-detail-head {
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(190px, 1.2fr) minmax(0, 1.2fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(200px, 1.1fr) minmax(0, 1.25fr);
   grid-template-areas: "gauche centre droite";
   align-items: center;
   gap: clamp(8px, 1.4vw, 14px);
@@ -182,7 +190,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 7px;
   flex-wrap: wrap;
   margin: 0;
   font-size: 0.74rem;
@@ -210,7 +218,7 @@
 }
 .nl-module-detail .nl-module-title {
   display: block;
-  font-size: clamp(1.45rem, 2.8vw, 2.15rem);
+  font-size: clamp(1.45rem, 2.8vw, 2.2rem);
   font-weight: 850;
   line-height: 1.1;
   margin: 2px 0;
@@ -229,7 +237,7 @@
   margin-top: 2px;
 }
 
-/* Pastilles de filtre dans l'en-tête */
+/* Pastilles de filtre dans l'en-tête (interactives individuellement) */
 .nl-module-detail .nl-detail-head .nl-chip {
   min-height: 0;
   font-size: clamp(0.69rem, 0.95vw, 0.78rem);
@@ -243,7 +251,7 @@
 .nl-module-detail .nl-chip-filter,
 .nl-module-detail .nl-meta-link {
   text-decoration: none;
-  transition: all 0.14s ease;
+  transition: background-color 0.14s ease, border-color 0.14s ease, color 0.14s ease;
 }
 .nl-module-detail .nl-chip-filter {
   color: var(--text);
@@ -254,21 +262,23 @@
   border-color: var(--tcg-accent);
   background: var(--tcg-tint);
   color: var(--text);
-  transform: translateY(-1px);
+  text-decoration: none;
 }
 .nl-module-detail .nl-meta-link:hover,
 .nl-module-detail .nl-meta-link:focus-visible {
   border-color: var(--tcg-accent);
+  color: var(--tcg-accent);
   text-decoration: none;
 }
 
-/* ── Fenêtre d'illustration (Galerie Photo TCG) ── */
+/* ── Fenêtre d'illustration (Galerie Photo TCG maîtrisée en hauteur) ── */
 .nl-module-detail .nl-detail-gallery {
   width: 100%;
   min-width: 0;
 }
 .nl-module-detail .nl-detail-media {
-  height: clamp(230px, 34vw, 370px);
+  height: clamp(220px, 31vw, 350px);
+  aspect-ratio: auto;
   position: relative;
   display: block;
   overflow: hidden;
@@ -276,8 +286,8 @@
   background-image: radial-gradient(var(--nld-line) 1px, transparent 1px);
   background-size: 16px 16px;
   border: 2px solid var(--tcg-border);
-  border-radius: 14px;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 13px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.04);
   user-select: none;
 }
 .nl-module-detail .nl-gallery-slide {
@@ -288,7 +298,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 16px 44px 28px;
+  padding: 14px 48px 28px;
 }
 .nl-module-detail .nl-gallery-slide[hidden] {
   display: none !important;
@@ -299,8 +309,10 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  padding: 0;
   display: block;
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.08));
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.07));
+  transform: none !important;
 }
 .nl-module-detail .nl-gallery-slide figcaption {
   position: absolute;
@@ -310,7 +322,7 @@
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--text);
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(4px);
   padding: 3px 11px;
   border-radius: 999px;
@@ -325,7 +337,7 @@
   inset: 0;
   display: grid;
   place-items: center;
-  font-size: 4rem;
+  font-size: 3.8rem;
 }
 
 /* Contrôles superposés sur l'illustration */
@@ -337,7 +349,7 @@
   height: 36px;
   border-radius: 50%;
   border: 1px solid var(--nld-line);
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(4px);
   color: var(--text);
   font-size: 1.35rem;
@@ -346,7 +358,7 @@
   place-items: center;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   z-index: 2;
 }
 .nl-module-detail .nl-gallery-prev { left: 10px; }
@@ -356,7 +368,6 @@
   background: var(--tcg-accent);
   border-color: var(--tcg-accent);
   color: #fff;
-  transform: translateY(-50%) scale(1.06);
 }
 .nl-module-detail .nl-gallery-badge {
   position: absolute;
@@ -380,17 +391,16 @@
   margin-top: 8px;
 }
 .nl-module-detail .nl-gallery-thumb {
-  height: 52px;
-  width: 68px;
+  height: 54px;
+  width: 72px;
   border-radius: 8px;
   background: var(--nld-paper);
   border: 1px solid var(--nld-line);
   padding: 4px;
   cursor: pointer;
-  transition: border-color 0.15s, transform 0.15s;
+  transition: border-color 0.15s;
 }
 .nl-module-detail .nl-gallery-thumb:hover {
-  transform: translateY(-1px);
   border-color: var(--tcg-accent);
 }
 .nl-module-detail .nl-gallery-thumb[aria-pressed="true"] {
@@ -417,18 +427,17 @@
   padding: 6px 13px;
   border-radius: 999px;
   background: var(--nld-paper);
-  color: var(--text);
+  color: var(--text) !important;
   border: 1.5px solid var(--tcg-border);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   text-decoration: none;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 .nl-module-detail .nl-capacity-chip:hover,
 .nl-module-detail .nl-capacity-chip:focus-visible {
   background: var(--tcg-accent);
   border-color: var(--tcg-accent);
-  color: #fff;
-  transform: translateY(-1px);
+  color: #fff !important;
 }
 
 /* ── Description ("Flavor Text" de la carte) ── */
@@ -437,13 +446,14 @@
   background: var(--nld-paper);
   border: 1px solid var(--nld-line);
   border-left: 4px solid var(--tcg-accent);
-  padding: 11px 15px;
+  padding: 11px 16px;
   border-radius: 6px 12px 12px 6px;
 }
 .nl-module-detail .nl-module-desc {
   font-size: 0.96rem;
-  line-height: 1.55;
+  line-height: 1.56;
   margin: 0;
+  max-width: 85ch;
   font-style: italic;
   color: var(--text);
 }
@@ -453,15 +463,17 @@
 .nl-module-detail .nl-chips { display: flex; flex-wrap: wrap; gap: 7px; }
 .nl-module-detail .nl-chips .nl-chip { font-size: 0.8rem; padding: 6px 10px; }
 
-/* ── Sections sous la carte : Starter Guide & Accordéons ── */
+/* ── Sections sous la carte : Homogénéité visuelle avec la carte (18px) ── */
 .nl-detail-intro,
 .nl-detail-starter,
 .nl-detail-advanced {
+  width: 100%;
   border: 1px solid var(--nld-line);
-  border-radius: 15px;
-  margin: 14px 0;
-  padding: clamp(14px, 2.1vw, 22px);
+  border-radius: 18px;
+  margin: 16px 0;
+  padding: clamp(15px, 2.2vw, 24px);
   background: var(--nld-paper);
+  box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.04);
 }
 .nl-detail-starter > h2,
 .nl-detail-advanced > h2 {
@@ -474,8 +486,9 @@
 .nl-guide-preface {
   padding: 14px 17px;
   border: 1px solid var(--nld-line);
+  border-left: 3.5px solid var(--accent, #216e42);
   background: var(--nld-soft);
-  border-radius: 11px;
+  border-radius: 8px 12px 12px 8px;
   min-width: 0;
   overflow-wrap: anywhere;
 }
@@ -488,7 +501,7 @@
 .nl-detail-advanced-list { display: grid; gap: 9px; }
 .nl-accordion {
   border: 1px solid var(--nld-line);
-  border-radius: 10px;
+  border-radius: 11px;
   overflow: hidden;
   background: var(--nld-paper);
 }
@@ -562,9 +575,9 @@
 /* ── Responsive Mobile ── */
 @media (max-width: 690px) {
   .nl-module-detail .nl-module-card-large {
-    padding: 12px;
+    padding: 13px;
     gap: 11px;
-    border-width: 5px;
+    border-width: 4px;
   }
   .nl-module-detail .nl-detail-head {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -630,7 +643,7 @@
   .nl-module-detail .nl-detail-head .nl-chip { font-size: 8.2pt; padding: 3px 5px; }
   .nl-module-detail .nl-detail-media { height: 180px; }
   .nl-module-detail .nl-gallery-slide img { max-height: 150px; }
-  .nl-detail-intro, .nl-detail-starter, .nl-detail-advanced { margin: 9px 0; padding: 11px; }
+  .nl-detail-intro, .nl-detail-starter, .nl-detail-advanced { margin: 9px 0; padding: 11px; box-shadow: none; }
   .nl-starter-step, .nl-accordion { break-inside: avoid; }
   .nl-accordion[open] > .nl-accordion-content { display: block !important; }
   a { color: inherit !important; text-decoration: none !important; }

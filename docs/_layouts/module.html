@@ -22,24 +22,35 @@ bare: true
 <link rel="stylesheet" href="{{ '/assets/css/natulib-pages.css' | relative_url }}">
 <link rel="stylesheet" href="{{ '/assets/css/natulib-module.css' | relative_url }}">
 
-<article class="nl-module nl-module-detail" data-nl-module>
-  {% assign ref_module = page.ref | default: page.reference %}
-  {% assign famille_module = page.famille | default: page.categorie %}
-  {% assign statut_module = page.etat | default: page.statut %}
-  {% assign montage_module = page.montage | default: page.soudure %}
-  {% assign duree_module = page.temps | default: page.duree | default: page.temps_installation %}
-  {% assign alimentation_module = page.alimentation | default: page.tension %}
-  {% assign elements = page.elements | default: page.fonctions %}
-  {% assign interface_module = page.interface %}
-  {% assign prix_module = page.prix %}
-  {% assign etat_libelle = statut_module %}
-  {% assign montage_libelle = montage_module %}
-  {% for info in page.infos_rapides %}
-    {% assign nom_info = info.nom | downcase %}
-    {% if alimentation_module == nil and nom_info == 'alimentation' %}{% assign alimentation_module = info.valeur %}{% endif %}
-    {% if interface_module == nil and nom_info == 'interface' %}{% assign interface_module = info.valeur %}{% endif %}
-    {% if prix_module == nil and nom_info contains 'prix' %}{% assign prix_module = info.valeur %}{% endif %}
-  {% endfor %}
+{% assign ref_module = page.ref | default: page.reference %}
+{% assign famille_module = page.famille | default: page.categorie %}
+{% assign statut_module = page.etat | default: page.statut %}
+{% assign montage_module = page.montage | default: page.soudure %}
+{% assign duree_module = page.temps | default: page.duree | default: page.temps_installation %}
+{% assign alimentation_module = page.alimentation | default: page.tension %}
+{% assign elements = page.elements | default: page.fonctions %}
+{% assign interface_module = page.interface %}
+{% assign prix_module = page.prix %}
+{% assign etat_libelle = statut_module %}
+{% assign montage_libelle = montage_module %}
+{% for info in page.infos_rapides %}
+  {% assign nom_info = info.nom | downcase %}
+  {% if alimentation_module == nil and nom_info == 'alimentation' %}{% assign alimentation_module = info.valeur %}{% endif %}
+  {% if interface_module == nil and nom_info == 'interface' %}{% assign interface_module = info.valeur %}{% endif %}
+  {% if prix_module == nil and nom_info contains 'prix' %}{% assign prix_module = info.valeur %}{% endif %}
+{% endfor %}
+
+{% comment %} Détection automatique de la longueur du titre pour adapter la police {% endcomment %}
+{% assign title_chars = page.title | size %}
+{% if title_chars > 36 %}
+  {% assign title_size_tier = 'xl' %}
+{% elsif title_chars > 22 %}
+  {% assign title_size_tier = 'long' %}
+{% else %}
+  {% assign title_size_tier = 'normal' %}
+{% endif %}
+
+<article class="nl-module nl-module-detail" data-nl-module data-famille="{{ famille_module | downcase | default: 'default' | escape }}">
 
   <nav class="nl-detail-nav" aria-label="Navigation de la fiche">
     <a href="{{ nl_catalog_url }}">← Retour au catalogue</a>
@@ -86,7 +97,7 @@ bare: true
                   {% if famille_module %}<a class="nl-module-family nl-meta-link" href="{{ nl_catalog_url }}?famille={{ famille_module | downcase | url_encode }}" title="Famille : {{ famille_module | escape }}">{{ famille_module | escape }}</a>{% endif %}
                 </p>
               {% endif %}
-              <h1 class="nl-module-title">{{ page.title | escape }}</h1>
+              <h1 class="nl-module-title" data-title-len="{{ title_size_tier }}">{{ page.title | escape }}</h1>
               {% if prix_module %}<a class="nl-detail-head-price nl-meta-link" href="{{ nl_catalog_url }}?prix_max={{ prix_module | url_encode }}" title="Voir les modules à ce prix ou moins">💶 {{ prix_module | escape }}</a>{% endif %}
             </div>
 
@@ -105,7 +116,7 @@ bare: true
 
         {% when 'titre' %}
           <header class="nl-detail-title" data-nl-printable data-nl-print-label="Titre">
-            <h1 class="nl-module-title">{{ page.title | escape }}</h1>
+            <h1 class="nl-module-title" data-title-len="{{ title_size_tier }}">{{ page.title | escape }}</h1>
           </header>
 
         {% when 'photos' %}

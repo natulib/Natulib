@@ -1,6 +1,5 @@
 /* ==========================================================================
-   NATULIB — FICHE MODULE (CARTE À COLLECTIONNER PLEINE LARGEUR & STATIQUE)
-   Alignée sur la largeur du Starter Guide (1060px), sans saut au survol.
+   NATULIB — FICHE MODULE (CARTE PLEINE LARGEUR, STATIQUE & COORDONNÉE)
    ========================================================================== */
 
 .nl-module-detail {
@@ -10,23 +9,27 @@
   --nld-line: var(--border, #d0d7de);
   --nld-paper: var(--bg, #ffffff);
   --nld-soft: var(--surface, #f6f8fa);
+  /* Variables de faction par défaut sur tout l'article (Carte + Starter Guide) */
+  --tcg-accent: var(--accent, #216e42);
+  --tcg-tint: rgba(33, 110, 66, 0.055);
+  --tcg-border: rgba(33, 110, 66, 0.38);
 }
 .nl-module-detail * {
   box-sizing: border-box;
 }
 
-/* ── Palette "Couleur de Faction" par famille (statique dès le chargement) ── */
-.nl-module-card {
-  --tcg-accent: var(--accent, #216e42);
-  --tcg-tint: rgba(33, 110, 66, 0.055);
-  --tcg-border: rgba(33, 110, 66, 0.38);
-}
+/* ── Palette "Couleur de Faction" sur l'article entier et la carte ── */
+.nl-module-detail[data-famille="sensors"],
+.nl-module-detail[data-famille="capteurs"],
 .nl-module-card[data-famille="sensors"],
 .nl-module-card[data-famille="capteurs"] {
   --tcg-accent: #1b7f4b;
   --tcg-tint: rgba(27, 127, 75, 0.06);
   --tcg-border: rgba(27, 127, 75, 0.42);
 }
+.nl-module-detail[data-famille="power"],
+.nl-module-detail[data-famille="alimentation"],
+.nl-module-detail[data-famille="energie"],
 .nl-module-card[data-famille="power"],
 .nl-module-card[data-famille="alimentation"],
 .nl-module-card[data-famille="energie"] {
@@ -34,6 +37,9 @@
   --tcg-tint: rgba(217, 119, 6, 0.06);
   --tcg-border: rgba(217, 119, 6, 0.45);
 }
+.nl-module-detail[data-famille="displays"],
+.nl-module-detail[data-famille="affichage"],
+.nl-module-detail[data-famille="ecrans"],
 .nl-module-card[data-famille="displays"],
 .nl-module-card[data-famille="affichage"],
 .nl-module-card[data-famille="ecrans"] {
@@ -41,6 +47,9 @@
   --tcg-tint: rgba(124, 58, 237, 0.06);
   --tcg-border: rgba(124, 58, 237, 0.42);
 }
+.nl-module-detail[data-famille="connectivity"],
+.nl-module-detail[data-famille="connectivite"],
+.nl-module-detail[data-famille="reseau"],
 .nl-module-card[data-famille="connectivity"],
 .nl-module-card[data-famille="connectivite"],
 .nl-module-card[data-famille="reseau"] {
@@ -48,12 +57,16 @@
   --tcg-tint: rgba(2, 132, 199, 0.06);
   --tcg-border: rgba(2, 132, 199, 0.42);
 }
+.nl-module-detail[data-famille="actuators"],
+.nl-module-detail[data-famille="actionneurs"],
 .nl-module-card[data-famille="actuators"],
 .nl-module-card[data-famille="actionneurs"] {
   --tcg-accent: #e11d48;
   --tcg-tint: rgba(225, 29, 72, 0.06);
   --tcg-border: rgba(225, 29, 72, 0.42);
 }
+.nl-module-detail[data-famille="enclosures"],
+.nl-module-detail[data-famille="boitiers"],
 .nl-module-card[data-famille="enclosures"],
 .nl-module-card[data-famille="boitiers"] {
   --tcg-accent: #475569;
@@ -77,7 +90,7 @@
   font-weight: 650;
 }
 .nl-detail-nav > a:hover {
-  color: var(--accent, #216e42);
+  color: var(--tcg-accent);
   text-decoration: underline;
 }
 .nl-detail-actions {
@@ -99,20 +112,20 @@
 }
 .nl-detail-button:hover,
 .nl-detail-button:focus-visible {
-  border-color: var(--accent, #216e42);
-  background: var(--nld-soft);
+  border-color: var(--tcg-accent);
+  background: var(--tcg-tint);
 }
 .nl-detail-primary {
-  background: var(--accent, #216e42);
-  border-color: var(--accent, #216e42);
+  background: var(--tcg-accent);
+  border-color: var(--tcg-accent);
   color: #fff;
 }
 .nl-detail-primary:hover {
-  background: #195633;
+  filter: brightness(0.92);
   color: #fff;
 }
 
-/* ── Carte du Module : Même largeur (100%) que le Starter Guide & Statique ── */
+/* ── Carte du Module : Pleine largeur (1060px) & 100% Statique ── */
 .nl-module-detail .nl-detail-catalog {
   margin: 0 0 16px;
 }
@@ -132,12 +145,9 @@
     0 6px 20px -4px rgba(0, 0, 0, 0.07),
     inset 0 1px 0 rgba(255, 255, 255, 0.65);
   position: relative;
-  /* Aucune transition ni saut sur la carte globale */
   transition: none !important;
   transform: none !important;
 }
-
-/* Neutralise le hover hérité de natulib-pages.css (.nl-module-card:hover) */
 .nl-module-detail .nl-module-card-large:hover,
 .nl-module-detail .nl-module-card-large:focus-within {
   transform: none !important;
@@ -147,11 +157,12 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.65) !important;
 }
 
-/* ── En-tête 3 colonnes (Pratique | Identité | Technique) ── */
+/* ── En-tête 3 colonnes avec espace élargi pour les titres longs ── */
 .nl-module-detail .nl-detail-head {
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(200px, 1.1fr) minmax(0, 1.25fr);
+  /* La colonne centrale dispose de 1.85fr pour accueillir les titres longs */
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 1.85fr) minmax(0, 1fr);
   grid-template-areas: "gauche centre droite";
   align-items: center;
   gap: clamp(8px, 1.4vw, 14px);
@@ -185,6 +196,7 @@
   align-items: center;
   gap: 3px;
   text-align: center;
+  padding: 0 4px;
 }
 .nl-module-detail .nl-detail-head-kicker {
   display: flex;
@@ -216,16 +228,33 @@
   padding: 2px 8px;
   border-radius: 999px;
 }
+
+/* ── Adaptation automatique de la taille du titre selon sa longueur ── */
 .nl-module-detail .nl-module-title {
   display: block;
-  font-size: clamp(1.45rem, 2.8vw, 2.2rem);
+  width: 100%;
+  font-size: clamp(1.35rem, 2.5vw, 2.05rem);
   font-weight: 850;
-  line-height: 1.1;
+  line-height: 1.15;
   margin: 2px 0;
   color: var(--text);
-  letter-spacing: -0.025em;
-  overflow-wrap: anywhere;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
 }
+/* Titre long (ex: "ESP32 Expansion Shield 30 broches", 23 à 36 caractères) */
+.nl-module-detail .nl-module-title[data-title-len="long"] {
+  font-size: clamp(1.18rem, 2.05vw, 1.68rem);
+  line-height: 1.18;
+}
+/* Titre très long (+ de 36 caractères) */
+.nl-module-detail .nl-module-title[data-title-len="xl"] {
+  font-size: clamp(1.05rem, 1.75vw, 1.42rem);
+  line-height: 1.2;
+}
+
 .nl-module-detail .nl-detail-head-price {
   font-size: 0.78rem;
   font-weight: 700;
@@ -237,7 +266,7 @@
   margin-top: 2px;
 }
 
-/* Pastilles de filtre dans l'en-tête (interactives individuellement) */
+/* Pastilles de filtre dans l'en-tête */
 .nl-module-detail .nl-detail-head .nl-chip {
   min-height: 0;
   font-size: clamp(0.69rem, 0.95vw, 0.78rem);
@@ -271,7 +300,7 @@
   text-decoration: none;
 }
 
-/* ── Fenêtre d'illustration (Galerie Photo TCG maîtrisée en hauteur) ── */
+/* ── Fenêtre d'illustration (Galerie Photo TCG) ── */
 .nl-module-detail .nl-detail-gallery {
   width: 100%;
   min-width: 0;
@@ -463,36 +492,47 @@
 .nl-module-detail .nl-chips { display: flex; flex-wrap: wrap; gap: 7px; }
 .nl-module-detail .nl-chips .nl-chip { font-size: 0.8rem; padding: 6px 10px; }
 
-/* ── Sections sous la carte : Homogénéité visuelle avec la carte (18px) ── */
+/* ── Starter Guide & Sections annexes coordonnés à la couleur de Faction ── */
 .nl-detail-intro,
 .nl-detail-starter,
 .nl-detail-advanced {
   width: 100%;
-  border: 1px solid var(--nld-line);
+  border: 2px solid var(--tcg-border);
   border-radius: 18px;
   margin: 16px 0;
   padding: clamp(15px, 2.2vw, 24px);
-  background: var(--nld-paper);
+  background: linear-gradient(170deg, var(--nld-paper) 0%, var(--tcg-tint) 100%);
   box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.04);
 }
 .nl-detail-starter > h2,
 .nl-detail-advanced > h2 {
-  font-size: 1.22rem;
-  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.24rem;
+  font-weight: 800;
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--tcg-border);
   color: var(--text);
 }
-.nl-detail-guide-content { display: grid; gap: 11px; }
+.nl-detail-guide-content { display: grid; gap: 12px; }
 .nl-starter-step,
 .nl-guide-preface {
-  padding: 14px 17px;
+  padding: 14px 18px;
   border: 1px solid var(--nld-line);
-  border-left: 3.5px solid var(--accent, #216e42);
-  background: var(--nld-soft);
-  border-radius: 8px 12px 12px 8px;
+  border-left: 4px solid var(--tcg-accent);
+  background: var(--nld-paper);
+  border-radius: 8px 13px 13px 8px;
   min-width: 0;
   overflow-wrap: anywhere;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
 }
-.nl-starter-step h3 { margin: 0 0 10px; font-size: 1.02rem; }
+.nl-starter-step h3 {
+  margin: 0 0 10px;
+  font-size: 1.04rem;
+  color: var(--tcg-accent);
+}
 .nl-starter-step > :last-child,
 .nl-guide-preface > :last-child { margin-bottom: 0; }
 .nl-starter-step table,
@@ -500,16 +540,22 @@
 .nl-document[hidden] { display: none !important; }
 .nl-detail-advanced-list { display: grid; gap: 9px; }
 .nl-accordion {
-  border: 1px solid var(--nld-line);
+  border: 1px solid var(--tcg-border);
   border-radius: 11px;
   overflow: hidden;
   background: var(--nld-paper);
 }
 .nl-accordion summary {
-  padding: 12px 14px;
-  background: var(--nld-soft);
+  padding: 12px 15px;
+  background: var(--tcg-tint);
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 750;
+  color: var(--text);
+  transition: background-color 0.15s;
+}
+.nl-accordion summary:hover {
+  background: var(--nld-soft);
+  color: var(--tcg-accent);
 }
 .nl-accordion-content { padding: 15px; overflow-wrap: anywhere; }
 .nl-accordion-content > :first-child { margin-top: 0; }
@@ -569,11 +615,11 @@
   padding: 8px;
   font-size: 0.81rem;
 }
-.nl-print-choice input { accent-color: var(--accent, #216e42); }
+.nl-print-choice input { accent-color: var(--tcg-accent); }
 .nl-print-footer { justify-content: flex-end; }
 
-/* ── Responsive Mobile ── */
-@media (max-width: 690px) {
+/* ── Responsive Tablette & Mobile ── */
+@media (max-width: 780px) {
   .nl-module-detail .nl-module-card-large {
     padding: 13px;
     gap: 11px;
@@ -588,8 +634,8 @@
     gap: 8px;
   }
   .nl-module-detail .nl-detail-head-center {
-    padding-bottom: 6px;
-    border-bottom: 1px dashed var(--nld-line);
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--tcg-border);
   }
   .nl-module-detail .nl-detail-head-left,
   .nl-module-detail .nl-detail-head-right {
@@ -635,7 +681,7 @@
     break-inside: avoid;
   }
   .nl-module-detail .nl-detail-head {
-    grid-template-columns: 1.2fr 1.1fr 1.2fr;
+    grid-template-columns: 1fr 1.6fr 1fr;
     grid-template-areas: "gauche centre droite";
     gap: 6px;
     padding: 4px 0 8px;

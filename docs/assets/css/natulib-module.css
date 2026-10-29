@@ -1,172 +1,637 @@
-/* Fiche Module = même carte que le catalogue, à échelle plus grande.
-   La structure et les classes visuelles de la carte proviennent de natulib-pages.css.
-   Seules les tailles et les fonctions supplémentaires sont définies ici. */
-.nl-module-detail{max-width:1060px;margin:0 auto 3rem;color:var(--text);--nld-line:var(--border,#d0d7de);--nld-paper:var(--bg,#fff);--nld-soft:var(--surface,#f6f8fa)}
-.nl-module-detail *{box-sizing:border-box}
-.nl-detail-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 13px;flex-wrap:wrap}
-.nl-detail-nav>a{text-decoration:none;color:var(--text);font-size:.87rem;font-weight:650}
-.nl-detail-nav>a:hover{text-decoration:underline}
-.nl-detail-button{font:inherit;font-weight:650;font-size:.84rem;cursor:pointer;border:1px solid var(--nld-line);background:var(--nld-paper);color:var(--text);padding:8px 13px;border-radius:9px}
-.nl-detail-button:hover,.nl-detail-button:focus-visible{border-color:var(--accent,#216e42)}
-.nl-detail-primary{background:var(--accent,#216e42);border-color:var(--accent,#216e42);color:#fff}
-.nl-module-detail .nl-detail-catalog{margin:0}
-.nl-module-detail .nl-module-card-large{padding:clamp(15px,2.5vw,26px);border-radius:18px;gap:15px;box-shadow:0 5px 18px #0000000a;max-width:100%;transition:none}
-.nl-module-detail .nl-module-card-large:hover{transform:none}
-.nl-module-detail .nl-module-top{align-items:center}
-.nl-module-detail .nl-module-ref{font-size:.87rem;letter-spacing:.035em}
-.nl-module-detail .nl-module-family{font-size:.85rem}
-.nl-module-detail .nl-module-title{display:block;font-size:clamp(1.65rem,3.2vw,2.6rem);font-weight:800;line-height:1.12;margin:0 0 8px;color:var(--text);letter-spacing:-.03em}
-.nl-module-detail .nl-module-desc{font-size:1rem;line-height:1.58;margin:0;max-width:85ch}
-/* Blocs directs et indépendants : l'ordre est réglé en haut du template HTML. */
-.nl-module-detail .nl-module-card-large{display:flex;flex-direction:column}
-.nl-module-detail .nl-detail-title{width:100%;text-align:center;margin:1px 0}
-.nl-module-detail .nl-detail-title .nl-module-title{margin:0}
-.nl-module-detail .nl-detail-description{width:100%}
-.nl-module-detail .nl-detail-description .nl-module-desc{margin:0}
-.nl-module-detail .nl-capacity-chips{display:flex;flex-wrap:wrap;gap:7px}
-.nl-module-detail .nl-capacity-chip{font-size:.85rem;padding:7px 11px}
-.nl-module-detail .nl-chips{display:flex;flex-wrap:wrap;gap:7px}
-.nl-module-detail .nl-chips .nl-chip{font-size:.8rem;padding:6px 10px}
-/* Galerie intégrée dans la carte de catalogue (même fenêtre 16:9). */
-.nl-module-detail .nl-detail-gallery{width:100%;min-width:0}
-.nl-module-detail .nl-detail-media{height:clamp(225px,37vw,425px);aspect-ratio:auto;position:relative;display:block;overflow:hidden}
-.nl-module-detail .nl-gallery-slide{margin:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:14px}
-.nl-module-detail .nl-gallery-slide[hidden]{display:none!important}
-.nl-module-detail .nl-gallery-slide img{width:auto;height:auto;max-width:100%;max-height:calc(100% - 23px);object-fit:contain;padding:0;display:block}
-.nl-module-detail .nl-gallery-slide figcaption{font-size:.76rem;color:var(--muted);margin-top:6px;text-align:center}
-.nl-module-detail .nl-detail-media .nl-module-media-fallback{position:absolute;inset:0;display:grid;place-items:center;font-size:3.3rem}
-.nl-module-detail .nl-detail-gallery-nav{display:flex;justify-content:center;align-items:center;gap:12px;margin:9px 0 6px;font-size:.76rem;color:var(--muted)}
-.nl-module-detail .nl-detail-gallery-thumbs{display:flex;justify-content:center;flex-wrap:wrap;gap:7px}
-.nl-module-detail .nl-gallery-thumb{height:60px;width:78px;border-radius:9px;background:var(--nld-soft);border:1px solid var(--nld-line);padding:5px;cursor:pointer}
-.nl-module-detail .nl-gallery-thumb[aria-pressed="true"]{border:2px solid var(--accent,#216e42)}
-.nl-module-detail .nl-gallery-thumb img{width:100%;height:100%;object-fit:contain}
-/* Le guide sous la carte reste toujours visible ; les annexes sont fermées. */
-.nl-detail-intro,.nl-detail-starter,.nl-detail-advanced{border:1px solid var(--nld-line);border-radius:15px;margin:14px 0;padding:clamp(14px,2.1vw,22px);background:var(--nld-paper)}
-.nl-detail-starter>h2,.nl-detail-advanced>h2{font-size:1.22rem;margin:0 0 12px;color:var(--text)}
-.nl-detail-guide-content{display:grid;gap:11px}
-.nl-starter-step,.nl-guide-preface{padding:14px 17px;border:1px solid var(--nld-line);background:var(--nld-soft);border-radius:11px;min-width:0;overflow-wrap:anywhere}
-.nl-starter-step h3{margin:0 0 10px;font-size:1.02rem}
-.nl-starter-step>:last-child,.nl-guide-preface>:last-child{margin-bottom:0}
-.nl-starter-step table,.nl-accordion table{display:block;max-width:100%;overflow-x:auto}
-.nl-document[hidden]{display:none!important}
-.nl-detail-advanced-list{display:grid;gap:9px}
-.nl-accordion{border:1px solid var(--nld-line);border-radius:10px;overflow:hidden;background:var(--nld-paper)}
-.nl-accordion summary{padding:12px 14px;background:var(--nld-soft);cursor:pointer;font-weight:700}
-.nl-accordion-content{padding:15px;overflow-wrap:anywhere}
-.nl-accordion-content>:first-child{margin-top:0}
-.nl-detail-specs dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px}
-.nl-detail-specs dl>div{display:flex;justify-content:space-between;gap:9px;padding:8px 0;border-bottom:1px solid var(--nld-line)}
-.nl-detail-specs dd{margin:0}
-/* Impression par sélection, non destructive et indépendante du CSS de catalogue. */
-.nl-print-dialog{max-width:min(510px,calc(100vw - 24px));width:100%;border-radius:15px;background:var(--nld-paper);color:var(--text);border:1px solid var(--nld-line);padding:0;box-shadow:0 12px 50px #0004}
-.nl-print-dialog::backdrop{background:#0008}
-.nl-print-dialog-content{padding:20px}
-.nl-print-header,.nl-print-presets,.nl-print-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.nl-print-header h2{font-size:1.25rem;margin:0}
-.nl-print-dialog p{font-size:.87rem;line-height:1.5;color:var(--muted)}
-.nl-print-presets{justify-content:flex-start;margin:10px 0}
-.nl-print-choices{display:grid;grid-template-columns:1fr 1fr;gap:7px;max-height:42vh;overflow:auto;padding:4px 0 12px}
-.nl-print-choice{display:flex;align-items:center;gap:7px;border:1px solid var(--nld-line);border-radius:8px;padding:8px;font-size:.81rem}
-.nl-print-choice input{accent-color:var(--accent,#216e42)}
-.nl-print-footer{justify-content:flex-end}
-@media(max-width:580px){.nl-module-detail .nl-module-card-large{padding:14px;gap:12px}.nl-module-detail .nl-detail-media{height:245px}.nl-module-detail .nl-module-title{font-size:1.8rem}.nl-print-choices{grid-template-columns:1fr}.nl-detail-specs dl{grid-template-columns:1fr}}
-@media print{
- @page{size:A4;margin:13mm}
- .site-header,.site-footer,.site-nav,.nl-detail-nav,.nl-detail-gallery-nav,.nl-detail-gallery-thumbs,.nl-print-dialog{display:none!important}
- .nl-module-detail{max-width:none;margin:0;color:#1f2328!important;--nld-line:#d0d7de;--nld-paper:#fff;--nld-soft:#f6f8fa;print-color-adjust:exact;-webkit-print-color-adjust:exact}
- .nl-module-detail.nl-print-active [data-nl-print-ignore="true"]{display:none!important}
- .nl-module-detail .nl-module-card-large{padding:11px;border:1px solid #d0d7de;box-shadow:none;break-inside:avoid}
- .nl-module-detail .nl-detail-media{height:185px}
- .nl-module-detail .nl-gallery-slide img{max-height:160px}
- .nl-detail-intro,.nl-detail-starter,.nl-detail-advanced{margin:9px 0;padding:11px}
- .nl-starter-step,.nl-accordion{break-inside:avoid}
- .nl-accordion[open]>.nl-accordion-content{display:block!important}
- a{color:inherit!important;text-decoration:none!important}
+/* ==========================================================================
+   NATULIB — FICHE MODULE (CARTE À COLLECTIONNER GRAND FORMAT)
+   ========================================================================== */
+
+.nl-module-detail {
+  max-width: 1060px;
+  margin: 0 auto 3rem;
+  color: var(--text, #1f2328);
+  --nld-line: var(--border, #d0d7de);
+  --nld-paper: var(--bg, #ffffff);
+  --nld-soft: var(--surface, #f6f8fa);
+}
+.nl-module-detail * {
+  box-sizing: border-box;
 }
 
-/* ================================================================
-   CARTE NATULIB — ENTÊTE À 3 COLONNES
-   Gauche : statut / niveau / soudure
-   Centre : référence / titre / prix
-   Droite : interface / alimentation / temps
-   Ce bloc « entete » est déplaçable via ordre_carte dans module.html.
-   ================================================================ */
-.nl-module-detail .nl-detail-head{
-  width:100%; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.7fr) minmax(0,1fr);
-  grid-template-areas:"gauche centre droite"; align-items:center; gap:clamp(8px,2vw,20px);
-  padding:clamp(10px,1.8vw,18px) clamp(8px,1.5vw,16px);
-  border-bottom:1px solid var(--nld-line);
+/* ── Palette "Couleur de Faction" par famille (partagée ou héritée) ── */
+.nl-module-card {
+  --tcg-accent: var(--accent, #216e42);
+  --tcg-tint: rgba(33, 110, 66, 0.06);
+  --tcg-border: rgba(33, 110, 66, 0.32);
 }
-.nl-module-detail .nl-detail-head-left{grid-area:gauche;display:flex;flex-direction:column;align-items:flex-start;gap:7px;min-width:0}
-.nl-module-detail .nl-detail-head-right{grid-area:droite;display:flex;flex-direction:column;align-items:flex-end;gap:7px;min-width:0}
-.nl-module-detail .nl-detail-head-center{grid-area:centre;min-width:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;text-align:center}
-.nl-module-detail .nl-detail-head .nl-chip{max-width:100%;font-size:clamp(.72rem,1.25vw,.84rem);padding:6px 10px;line-height:1.2;overflow-wrap:anywhere}
-.nl-module-detail .nl-detail-head-kicker{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:0 0 3px;font-size:.74rem}
-.nl-module-detail .nl-detail-head .nl-module-ref{font-size:.76rem}
-.nl-module-detail .nl-detail-head .nl-module-family{font-size:.73rem}
-.nl-module-detail .nl-detail-head .nl-module-title{margin:0;font-size:clamp(1.5rem,3.6vw,2.65rem);overflow-wrap:anywhere}
-.nl-module-detail .nl-detail-head-price{font-size:.76rem;color:var(--muted);margin-top:2px}
-@media(max-width:630px){
-  .nl-module-detail .nl-detail-head{grid-template-columns:1fr 1fr;grid-template-areas:"centre centre" "gauche droite";gap:14px 12px;padding:10px 2px 13px}
-  .nl-module-detail .nl-detail-head-center{padding-bottom:8px;border-bottom:1px solid var(--nld-line)}
-  .nl-module-detail .nl-detail-head .nl-chip{font-size:.76rem;padding:5px 9px}
-  .nl-module-detail .nl-detail-head-right{align-items:flex-end}
-  .nl-module-detail .nl-detail-head .nl-module-title{font-size:clamp(1.7rem,6vw,2.1rem)}
+.nl-module-card[data-famille="sensors"],
+.nl-module-card[data-famille="capteurs"] {
+  --tcg-accent: #1b7f4b;
+  --tcg-tint: rgba(27, 127, 75, 0.07);
+  --tcg-border: rgba(27, 127, 75, 0.35);
 }
-@media print{
-  .nl-module-detail .nl-detail-head{grid-template-columns:1fr 1.6fr 1fr;grid-template-areas:"gauche centre droite";gap:8px;padding:7px 5px}
-  .nl-module-detail .nl-detail-head .nl-chip{font-size:9pt;padding:4px 6px}
+.nl-module-card[data-famille="power"],
+.nl-module-card[data-famille="alimentation"],
+.nl-module-card[data-famille="energie"] {
+  --tcg-accent: #d97706;
+  --tcg-tint: rgba(217, 119, 6, 0.07);
+  --tcg-border: rgba(217, 119, 6, 0.38);
+}
+.nl-module-card[data-famille="displays"],
+.nl-module-card[data-famille="affichage"],
+.nl-module-card[data-famille="ecrans"] {
+  --tcg-accent: #7c3aed;
+  --tcg-tint: rgba(124, 58, 237, 0.07);
+  --tcg-border: rgba(124, 58, 237, 0.35);
+}
+.nl-module-card[data-famille="connectivity"],
+.nl-module-card[data-famille="connectivite"],
+.nl-module-card[data-famille="reseau"] {
+  --tcg-accent: #0284c7;
+  --tcg-tint: rgba(2, 132, 199, 0.07);
+  --tcg-border: rgba(2, 132, 199, 0.35);
+}
+.nl-module-card[data-famille="actuators"],
+.nl-module-card[data-famille="actionneurs"] {
+  --tcg-accent: #e11d48;
+  --tcg-tint: rgba(225, 29, 72, 0.07);
+  --tcg-border: rgba(225, 29, 72, 0.35);
+}
+.nl-module-card[data-famille="enclosures"],
+.nl-module-card[data-famille="boitiers"] {
+  --tcg-accent: #475569;
+  --tcg-tint: rgba(71, 85, 105, 0.07);
+  --tcg-border: rgba(71, 85, 105, 0.35);
 }
 
+/* ── Barre de navigation supérieure ── */
+.nl-detail-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 16px;
+  flex-wrap: wrap;
+}
+.nl-detail-nav > a {
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+.nl-detail-nav > a:hover {
+  color: var(--accent, #216e42);
+  text-decoration: underline;
+}
+.nl-detail-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.nl-detail-button {
+  font: inherit;
+  font-weight: 650;
+  font-size: 0.84rem;
+  cursor: pointer;
+  border: 1px solid var(--nld-line);
+  background: var(--nld-paper);
+  color: var(--text);
+  padding: 7px 13px;
+  border-radius: 9px;
+  transition: border-color 0.15s, background-color 0.15s, transform 0.1s;
+}
+.nl-detail-button:hover,
+.nl-detail-button:focus-visible {
+  border-color: var(--accent, #216e42);
+  background: var(--nld-soft);
+}
+.nl-detail-primary {
+  background: var(--accent, #216e42);
+  border-color: var(--accent, #216e42);
+  color: #fff;
+}
+.nl-detail-primary:hover {
+  background: #195633;
+  color: #fff;
+}
 
-/* ══════ V7 : entête plus dense, pastilles cliquables ══════ */
-.nl-module-detail .nl-detail-head{
-  grid-template-columns:minmax(0,1.25fr) minmax(175px,1fr) minmax(0,1.25fr);
-  gap:clamp(7px,1.3vw,14px);
-  padding:7px 5px 10px;
+/* ── Structure de la Carte à Collectionner (Grand Format) ── */
+.nl-module-detail .nl-detail-catalog {
+  margin: 0 0 22px;
+}
+.nl-module-detail .nl-module-card-large {
+  display: flex;
+  flex-direction: column;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: clamp(16px, 2.5vw, 24px);
+  gap: 14px;
+  border-radius: 22px;
+  background: linear-gradient(160deg, var(--nld-paper) 0%, var(--tcg-tint) 100%);
+  border: 7px solid var(--tcg-border);
+  outline: 1px solid var(--nld-line);
+  box-shadow:
+    0 14px 34px -8px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  position: relative;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.nl-module-detail .nl-module-card-large:hover {
+  border-color: var(--tcg-accent);
+  box-shadow:
+    0 18px 40px -8px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* ── En-tête 3 colonnes (Pratique | Identité | Technique) ── */
+.nl-module-detail .nl-detail-head {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(190px, 1.2fr) minmax(0, 1.2fr);
+  grid-template-areas: "gauche centre droite";
+  align-items: center;
+  gap: clamp(8px, 1.4vw, 14px);
+  padding: 4px 4px 12px;
+  border-bottom: 2px solid var(--tcg-border);
 }
 .nl-module-detail .nl-detail-head-left,
-.nl-module-detail .nl-detail-head-right{
-  display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;
-  align-content:center;gap:5px 6px;
+.nl-module-detail .nl-detail-head-right {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  gap: 5px 6px;
+  min-width: 0;
 }
-.nl-module-detail .nl-detail-head-left{justify-content:flex-start}
-.nl-module-detail .nl-detail-head-right{justify-content:flex-end}
-.nl-module-detail .nl-detail-head .nl-chip{
-  min-height:0; font-size:clamp(.69rem,.98vw,.79rem);
-  line-height:1.1;padding:5px 8px;white-space:nowrap;
+.nl-module-detail .nl-detail-head-left {
+  grid-area: gauche;
+  justify-content: flex-start;
 }
-.nl-module-detail .nl-detail-head-center{gap:2px}
-.nl-module-detail .nl-detail-head-kicker{margin:0 0 2px;gap:7px}
-.nl-module-detail .nl-detail-head .nl-module-title{font-size:clamp(1.4rem,3vw,2.25rem)}
-.nl-module-detail .nl-detail-head-price{margin-top:0}
+.nl-module-detail .nl-detail-head-right {
+  grid-area: droite;
+  justify-content: flex-end;
+}
+.nl-module-detail .nl-detail-head-center {
+  grid-area: centre;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
+}
+.nl-module-detail .nl-detail-head-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 0;
+  font-size: 0.74rem;
+}
+.nl-module-detail .nl-module-ref {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: var(--nld-soft);
+  border: 1px solid var(--nld-line);
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+.nl-module-detail .nl-module-family {
+  font-size: 0.73rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tcg-accent);
+  background: var(--tcg-tint);
+  border: 1px solid var(--tcg-border);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.nl-module-detail .nl-module-title {
+  display: block;
+  font-size: clamp(1.45rem, 2.8vw, 2.15rem);
+  font-weight: 850;
+  line-height: 1.1;
+  margin: 2px 0;
+  color: var(--text);
+  letter-spacing: -0.025em;
+  overflow-wrap: anywhere;
+}
+.nl-module-detail .nl-detail-head-price {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--tcg-accent);
+  background: var(--nld-paper);
+  border: 1px solid var(--tcg-border);
+  padding: 2px 9px;
+  border-radius: 999px;
+  margin-top: 2px;
+}
+
+/* Pastilles de filtre dans l'en-tête */
+.nl-module-detail .nl-detail-head .nl-chip {
+  min-height: 0;
+  font-size: clamp(0.69rem, 0.95vw, 0.78rem);
+  font-weight: 600;
+  line-height: 1.15;
+  padding: 5px 8px;
+  border-radius: 8px;
+  white-space: nowrap;
+  border: 1px solid var(--nld-line);
+}
 .nl-module-detail .nl-chip-filter,
-.nl-module-detail .nl-meta-link{
-  text-decoration:none;transition:background-color .13s,border-color .13s,color .13s;
+.nl-module-detail .nl-meta-link {
+  text-decoration: none;
+  transition: all 0.14s ease;
 }
-.nl-module-detail .nl-chip-filter{color:var(--text);background:var(--nld-soft)}
+.nl-module-detail .nl-chip-filter {
+  color: var(--text);
+  background: var(--nld-paper);
+}
 .nl-module-detail .nl-chip-filter:hover,
-.nl-module-detail .nl-chip-filter:focus-visible{
-  border-color:var(--accent,#216e42);background:var(--nld-paper);
-  color:var(--text);text-decoration:none;
+.nl-module-detail .nl-chip-filter:focus-visible {
+  border-color: var(--tcg-accent);
+  background: var(--tcg-tint);
+  color: var(--text);
+  transform: translateY(-1px);
 }
 .nl-module-detail .nl-meta-link:hover,
-.nl-module-detail .nl-meta-link:focus-visible{color:var(--accent,#216e42);text-decoration:underline}
-.nl-module-detail .nl-chip-filter:focus-visible,
-.nl-module-detail .nl-meta-link:focus-visible{outline:2px solid var(--accent,#216e42);outline-offset:2px}
-@media(max-width:690px){
-  .nl-module-detail .nl-detail-head{
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-    grid-template-areas:"centre centre" "gauche droite";
-    padding:6px 1px 9px;gap:7px 9px;
-  }
-  .nl-module-detail .nl-detail-head-center{padding-bottom:5px}
-  .nl-module-detail .nl-detail-head-left,
-  .nl-module-detail .nl-detail-head-right{gap:4px;align-content:start}
-  .nl-module-detail .nl-detail-head .nl-chip{font-size:.69rem;padding:4px 6px}
-  .nl-module-detail .nl-detail-head .nl-module-title{font-size:clamp(1.6rem,6vw,2rem)}
+.nl-module-detail .nl-meta-link:focus-visible {
+  border-color: var(--tcg-accent);
+  text-decoration: none;
 }
-@media print{
-  .nl-module-detail .nl-detail-head{grid-template-columns:1.25fr 1fr 1.25fr;grid-template-areas:"gauche centre droite";gap:5px;padding:4px 0 6px}
-  .nl-module-detail .nl-detail-head .nl-chip{font-size:8.3pt;padding:3px 5px}
+
+/* ── Fenêtre d'illustration (Galerie Photo TCG) ── */
+.nl-module-detail .nl-detail-gallery {
+  width: 100%;
+  min-width: 0;
+}
+.nl-module-detail .nl-detail-media {
+  height: clamp(230px, 34vw, 370px);
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background-color: var(--nld-paper);
+  background-image: radial-gradient(var(--nld-line) 1px, transparent 1px);
+  background-size: 16px 16px;
+  border: 2px solid var(--tcg-border);
+  border-radius: 14px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
+  user-select: none;
+}
+.nl-module-detail .nl-gallery-slide {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 16px 44px 28px;
+}
+.nl-module-detail .nl-gallery-slide[hidden] {
+  display: none !important;
+}
+.nl-module-detail .nl-gallery-slide img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.08));
+}
+.nl-module-detail .nl-gallery-slide figcaption {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(4px);
+  padding: 3px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--nld-line);
+  max-width: calc(100% - 110px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nl-module-detail .nl-detail-media .nl-module-media-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 4rem;
+}
+
+/* Contrôles superposés sur l'illustration */
+.nl-module-detail .nl-gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--nld-line);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(4px);
+  color: var(--text);
+  font-size: 1.35rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.15s ease;
+  z-index: 2;
+}
+.nl-module-detail .nl-gallery-prev { left: 10px; }
+.nl-module-detail .nl-gallery-next { right: 10px; }
+.nl-module-detail .nl-gallery-arrow:hover,
+.nl-module-detail .nl-gallery-arrow:focus-visible {
+  background: var(--tcg-accent);
+  border-color: var(--tcg-accent);
+  color: #fff;
+  transform: translateY(-50%) scale(1.06);
+}
+.nl-module-detail .nl-gallery-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: rgba(31, 35, 40, 0.75);
+  color: #fff;
+  padding: 3px 9px;
+  border-radius: 999px;
+  z-index: 2;
+}
+
+/* Miniatures sous le cadre photo */
+.nl-module-detail .nl-detail-gallery-thumbs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 8px;
+}
+.nl-module-detail .nl-gallery-thumb {
+  height: 52px;
+  width: 68px;
+  border-radius: 8px;
+  background: var(--nld-paper);
+  border: 1px solid var(--nld-line);
+  padding: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.nl-module-detail .nl-gallery-thumb:hover {
+  transform: translateY(-1px);
+  border-color: var(--tcg-accent);
+}
+.nl-module-detail .nl-gallery-thumb[aria-pressed="true"] {
+  border: 2px solid var(--tcg-accent);
+  box-shadow: 0 0 0 2px var(--tcg-tint);
+}
+.nl-module-detail .nl-gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ── Capacités ("Pouvoirs de la carte") ── */
+.nl-module-detail .nl-capacity-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 2px 0;
+}
+.nl-module-detail .nl-capacity-chip {
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: var(--nld-paper);
+  color: var(--text);
+  border: 1.5px solid var(--tcg-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+.nl-module-detail .nl-capacity-chip:hover,
+.nl-module-detail .nl-capacity-chip:focus-visible {
+  background: var(--tcg-accent);
+  border-color: var(--tcg-accent);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ── Description ("Flavor Text" de la carte) ── */
+.nl-module-detail .nl-detail-description {
+  width: 100%;
+  background: var(--nld-paper);
+  border: 1px solid var(--nld-line);
+  border-left: 4px solid var(--tcg-accent);
+  padding: 11px 15px;
+  border-radius: 6px 12px 12px 6px;
+}
+.nl-module-detail .nl-module-desc {
+  font-size: 0.96rem;
+  line-height: 1.55;
+  margin: 0;
+  font-style: italic;
+  color: var(--text);
+}
+
+/* Blocs alternatifs si ordre_carte personnalisé */
+.nl-module-detail .nl-detail-title { width: 100%; text-align: center; }
+.nl-module-detail .nl-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.nl-module-detail .nl-chips .nl-chip { font-size: 0.8rem; padding: 6px 10px; }
+
+/* ── Sections sous la carte : Starter Guide & Accordéons ── */
+.nl-detail-intro,
+.nl-detail-starter,
+.nl-detail-advanced {
+  border: 1px solid var(--nld-line);
+  border-radius: 15px;
+  margin: 14px 0;
+  padding: clamp(14px, 2.1vw, 22px);
+  background: var(--nld-paper);
+}
+.nl-detail-starter > h2,
+.nl-detail-advanced > h2 {
+  font-size: 1.22rem;
+  margin: 0 0 12px;
+  color: var(--text);
+}
+.nl-detail-guide-content { display: grid; gap: 11px; }
+.nl-starter-step,
+.nl-guide-preface {
+  padding: 14px 17px;
+  border: 1px solid var(--nld-line);
+  background: var(--nld-soft);
+  border-radius: 11px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.nl-starter-step h3 { margin: 0 0 10px; font-size: 1.02rem; }
+.nl-starter-step > :last-child,
+.nl-guide-preface > :last-child { margin-bottom: 0; }
+.nl-starter-step table,
+.nl-accordion table { display: block; max-width: 100%; overflow-x: auto; }
+.nl-document[hidden] { display: none !important; }
+.nl-detail-advanced-list { display: grid; gap: 9px; }
+.nl-accordion {
+  border: 1px solid var(--nld-line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--nld-paper);
+}
+.nl-accordion summary {
+  padding: 12px 14px;
+  background: var(--nld-soft);
+  cursor: pointer;
+  font-weight: 700;
+}
+.nl-accordion-content { padding: 15px; overflow-wrap: anywhere; }
+.nl-accordion-content > :first-child { margin-top: 0; }
+.nl-detail-specs dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 24px;
+}
+.nl-detail-specs dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 9px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--nld-line);
+}
+.nl-detail-specs dd { margin: 0; font-weight: 600; }
+
+/* ── Boîte de dialogue d'impression ── */
+.nl-print-dialog {
+  max-width: min(510px, calc(100vw - 24px));
+  width: 100%;
+  border-radius: 15px;
+  background: var(--nld-paper);
+  color: var(--text);
+  border: 1px solid var(--nld-line);
+  padding: 0;
+  box-shadow: 0 12px 50px #0004;
+}
+.nl-print-dialog::backdrop { background: #0008; }
+.nl-print-dialog-content { padding: 20px; }
+.nl-print-header,
+.nl-print-presets,
+.nl-print-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.nl-print-header h2 { font-size: 1.25rem; margin: 0; }
+.nl-print-dialog p { font-size: 0.87rem; line-height: 1.5; color: var(--muted); }
+.nl-print-presets { justify-content: flex-start; margin: 10px 0; }
+.nl-print-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  max-height: 42vh;
+  overflow: auto;
+  padding: 4px 0 12px;
+}
+.nl-print-choice {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--nld-line);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.81rem;
+}
+.nl-print-choice input { accent-color: var(--accent, #216e42); }
+.nl-print-footer { justify-content: flex-end; }
+
+/* ── Responsive Mobile ── */
+@media (max-width: 690px) {
+  .nl-module-detail .nl-module-card-large {
+    padding: 12px;
+    gap: 11px;
+    border-width: 5px;
+  }
+  .nl-module-detail .nl-detail-head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "centre centre"
+      "gauche droite";
+    padding: 4px 2px 10px;
+    gap: 8px;
+  }
+  .nl-module-detail .nl-detail-head-center {
+    padding-bottom: 6px;
+    border-bottom: 1px dashed var(--nld-line);
+  }
+  .nl-module-detail .nl-detail-head-left,
+  .nl-module-detail .nl-detail-head-right {
+    gap: 4px;
+    align-content: start;
+  }
+  .nl-module-detail .nl-detail-head .nl-chip {
+    font-size: 0.69rem;
+    padding: 4px 6px;
+  }
+  .nl-module-detail .nl-detail-media { height: 235px; }
+  .nl-module-detail .nl-gallery-slide { padding: 12px 38px 26px; }
+  .nl-print-choices,
+  .nl-detail-specs dl { grid-template-columns: 1fr; }
+}
+
+/* ── Mode Impression A4 ── */
+@media print {
+  @page { size: A4; margin: 12mm; }
+  .site-header, .site-footer, .site-nav,
+  .nl-detail-nav, .nl-gallery-arrow, .nl-gallery-badge,
+  .nl-detail-gallery-thumbs, .nl-print-dialog {
+    display: none !important;
+  }
+  .nl-module-detail {
+    max-width: none;
+    margin: 0;
+    color: #1f2328 !important;
+    --nld-line: #d0d7de;
+    --nld-paper: #fff;
+    --nld-soft: #f6f8fa;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .nl-module-detail.nl-print-active [data-nl-print-ignore="true"] {
+    display: none !important;
+  }
+  .nl-module-detail .nl-module-card-large {
+    max-width: 100%;
+    padding: 12px;
+    border: 3px solid var(--tcg-accent);
+    box-shadow: none;
+    break-inside: avoid;
+  }
+  .nl-module-detail .nl-detail-head {
+    grid-template-columns: 1.2fr 1.1fr 1.2fr;
+    grid-template-areas: "gauche centre droite";
+    gap: 6px;
+    padding: 4px 0 8px;
+  }
+  .nl-module-detail .nl-detail-head .nl-chip { font-size: 8.2pt; padding: 3px 5px; }
+  .nl-module-detail .nl-detail-media { height: 180px; }
+  .nl-module-detail .nl-gallery-slide img { max-height: 150px; }
+  .nl-detail-intro, .nl-detail-starter, .nl-detail-advanced { margin: 9px 0; padding: 11px; }
+  .nl-starter-step, .nl-accordion { break-inside: avoid; }
+  .nl-accordion[open] > .nl-accordion-content { display: block !important; }
+  a { color: inherit !important; text-decoration: none !important; }
 }

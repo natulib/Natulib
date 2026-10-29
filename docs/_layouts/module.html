@@ -3,7 +3,7 @@ layout: default
 bare: true
 ---
 {% comment %}
-  NATULIB — CARTE DU CATALOGUE AGRANDIE, BLOCS DÉPLAÇABLES
+  NATULIB — CARTE DU CATALOGUE AGRANDIE (STYLE TCG), BLOCS DÉPLAÇABLES
 
   Pour déplacer un bloc dans TOUTES les fiches, changer uniquement la ligne
   ordre_carte ci-dessous. Le HTML suit l'ordre défini (écran, clavier, impression).
@@ -12,26 +12,16 @@ bare: true
     entete            En-tête 3 colonnes : repères / titre / connectique
     reference         Référence + famille (mode classique)
     titre             Titre du module (mode classique)
-    photos            Galerie interactive
-    capacites         Liens vers les capacités
-    description       Courte description
+    photos            Galerie interactive encadrée
+    capacites         Liens vers les capacités ("Pouvoirs")
+    description       Courte description ("Flavor text")
     caracteristiques  Pastilles groupées (mode classique)
-
-  Exemples :
-    'entete,photos,capacites,description' (par défaut)
-    'reference,photos,titre,description,capacites,caracteristiques'
-    'titre,caracteristiques,photos,description,capacites,reference'
-
-  OPTIONNEL : une seule fiche peut définir dans son YAML :
-    ordre_carte: 'titre,photos,capacites,description,caracteristiques,reference'
-
-  L'en-tête est un SEUL bloc. Le Starter guide et les accordéons restent SOUS la carte, dans cet
-  ordre. Leur contenu reste géré par le JavaScript existant.
 {% endcomment %}
 {% assign nl_catalog_url = '/Modules.html' | relative_url %}
 {% assign ordre_carte = page.ordre_carte | default: 'entete,photos,capacites,description' | split: ',' %}
 <link rel="stylesheet" href="{{ '/assets/css/natulib-pages.css' | relative_url }}">
 <link rel="stylesheet" href="{{ '/assets/css/natulib-module.css' | relative_url }}">
+
 <article class="nl-module nl-module-detail" data-nl-module>
   {% assign ref_module = page.ref | default: page.reference %}
   {% assign famille_module = page.famille | default: page.categorie %}
@@ -52,127 +42,119 @@ bare: true
   {% endfor %}
 
   <nav class="nl-detail-nav" aria-label="Navigation de la fiche">
-    <a href="{{ '/Modules.html' | relative_url }}">← Retour au catalogue</a>
-    <button type="button" class="nl-detail-button" data-nl-print-open>🖨️ Imprimer à la carte</button>
+    <a href="{{ nl_catalog_url }}">← Retour au catalogue</a>
+    <div class="nl-detail-actions">
+      <button type="button" class="nl-detail-button" data-nl-copy-link title="Copier le lien de cette carte">🔗 Partager</button>
+      <button type="button" class="nl-detail-button" data-nl-print-open>🖨️ Imprimer à la carte</button>
+    </div>
   </nav>
 
   <div class="nl-catalog nl-detail-catalog">
-    <section class="nl-module-card nl-module-card-large" aria-label="Carte du module">
+    <section class="nl-module-card nl-module-card-large" data-famille="{{ famille_module | downcase | default: 'default' | escape }}" aria-label="Carte du module">
 
-      {% comment %}
-      Les blocs sont générés DANS L'ORDRE DE LA VARIABLE ordre_carte en haut.
-      Pour changer les contenus, modifier chaque bloc ci-dessous si nécessaire.
-      {% endcomment %}
       {% for cle in ordre_carte %}
         {% assign bloc = cle | strip %}
         {% case bloc %}
 
         {% when 'entete' %}
-          <!-- ══════ EN-TÊTE COMPACT / MODIFIABLE : gauche | centre | droite ══════ -->
-          <!-- Chaque lien ouvre le catalogue avec le filtre correspondant déjà actif. -->
+          <!-- ══════ EN-TÊTE TCG : gauche (pratique) | centre (identité) | droite (technique) ══════ -->
           <header class="nl-detail-head" data-nl-printable data-nl-print-label="Titre et informations essentielles">
-            <!-- GAUCHE : 3 critères pratiques, côte à côte (1 ou 2 lignes). -->
             <div class="nl-detail-head-left" aria-label="Filtres pratiques">
               {% assign etat_filtre = statut_module | downcase %}
               {% case etat_filtre %}
-                {% when 'valide' %}{% assign etat_libelle = '🟢 Validé' %}
-                {% when 'validé' %}{% assign etat_libelle = '🟢 Validé' %}
-                {% when 'test' %}{% assign etat_libelle = '🟡 En test' %}
-                {% when 'en test' %}{% assign etat_libelle = '🟡 En test' %}
-                {% when 'planifie' %}{% assign etat_libelle = '⚪ Planifié' %}
-                {% when 'planifié' %}{% assign etat_libelle = '⚪ Planifié' %}
+                {% when 'valide', 'validé' %}{% assign etat_libelle = '🟢 Validé' %}
+                {% when 'test', 'en test' %}{% assign etat_libelle = '🟡 En test' %}
+                {% when 'planifie', 'planifié' %}{% assign etat_libelle = '⚪ Planifié' %}
                 {% else %}{% assign etat_libelle = statut_module %}
               {% endcase %}
-              {% if statut_module %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?statut={{ statut_module | url_encode }}" title="Voir les modules : {{ etat_libelle | escape }}">{{ etat_libelle | escape }}</a>{% endif %}
-              {% if page.niveau %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?niveau={{ page.niveau | url_encode }}" title="Filtrer les modules par niveau">👤 {{ page.niveau | replace: 'debutant','Débutant' | replace: 'intermediaire','Intermédiaire' | replace: 'avance','Avancé' | escape }}</a>{% endif %}
+              {% if statut_module %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?statut={{ statut_module | url_encode }}" title="Filtrer : {{ etat_libelle | escape }}">{{ etat_libelle | escape }}</a>{% endif %}
+              {% if page.niveau %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?niveau={{ page.niveau | url_encode }}" title="Filtrer par niveau">👤 {{ page.niveau | replace: 'debutant','Débutant' | replace: 'intermediaire','Intermédiaire' | replace: 'avance','Avancé' | escape }}</a>{% endif %}
               {% assign montage_filtre = montage_module | downcase %}
               {% case montage_filtre %}
-                {% when 'sans-outil' %}{% assign montage_libelle = '🟢 Sans outil' %}
-                {% when 'sans_outil' %}{% assign montage_libelle = '🟢 Sans outil' %}
-                {% when 'sans-soudure' %}{% assign montage_libelle = '🟢 Sans soudure' %}
-                {% when 'sans_soudure' %}{% assign montage_libelle = '🟢 Sans soudure' %}
+                {% when 'sans-outil', 'sans_outil' %}{% assign montage_libelle = '🟢 Sans outil' %}
+                {% when 'sans-soudure', 'sans_soudure' %}{% assign montage_libelle = '🟢 Sans soudure' %}
                 {% when 'soudure' %}{% assign montage_libelle = '🟠 Soudure' %}
                 {% else %}{% assign montage_libelle = montage_module %}
               {% endcase %}
-              {% if montage_module != nil %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?montage={{ montage_module | url_encode }}" title="Filtrer par montage et soudure">{% if montage_module == true %}🟠 Soudure{% elsif montage_module == false %}🟢 Sans soudure{% else %}{{ montage_libelle | escape }}{% endif %}</a>{% endif %}
+              {% if montage_module != nil %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?montage={{ montage_module | url_encode }}" title="Filtrer par montage">{% if montage_module == true %}🟠 Soudure{% elsif montage_module == false %}🟢 Sans soudure{% else %}{{ montage_libelle | escape }}{% endif %}</a>{% endif %}
             </div>
 
-            <!-- CENTRE : référence / titre / famille / prix. -->
             <div class="nl-detail-head-center">
               {% if ref_module or famille_module %}
                 <p class="nl-detail-head-kicker">
-                  {% if ref_module %}<a class="nl-module-ref nl-meta-link" href="{{ nl_catalog_url }}?recherche={{ ref_module | url_encode }}" title="Retrouver {{ ref_module | escape }} dans le catalogue">{{ ref_module | escape }}</a>{% endif %}
-                  {% if famille_module %}<a class="nl-module-family nl-meta-link" href="{{ nl_catalog_url }}?famille={{ famille_module | downcase | url_encode }}" title="Voir tous les modules {{ famille_module | escape }}">{{ famille_module | escape }}</a>{% endif %}
+                  {% if ref_module %}<a class="nl-module-ref nl-meta-link" href="{{ nl_catalog_url }}?recherche={{ ref_module | url_encode }}" title="Numéro de collection {{ ref_module | escape }}">{{ ref_module | escape }}</a>{% endif %}
+                  {% if famille_module %}<a class="nl-module-family nl-meta-link" href="{{ nl_catalog_url }}?famille={{ famille_module | downcase | url_encode }}" title="Famille : {{ famille_module | escape }}">{{ famille_module | escape }}</a>{% endif %}
                 </p>
               {% endif %}
               <h1 class="nl-module-title">{{ page.title | escape }}</h1>
               {% if prix_module %}<a class="nl-detail-head-price nl-meta-link" href="{{ nl_catalog_url }}?prix_max={{ prix_module | url_encode }}" title="Voir les modules à ce prix ou moins">💶 {{ prix_module | escape }}</a>{% endif %}
             </div>
 
-            <!-- DROITE : 3 critères techniques, côte à côte (1 ou 2 lignes). -->
             <div class="nl-detail-head-right" aria-label="Filtres techniques">
-              {% if interface_module %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?interface={{ interface_module | url_encode }}" title="Voir les modules utilisant {{ interface_module | escape }}">🔌 {{ interface_module | escape }}</a>{% endif %}
-              {% if alimentation_module %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?alimentation={{ alimentation_module | url_encode }}" title="Filtrer les modules par alimentation">⚡ {{ alimentation_module | escape }}</a>{% endif %}
-              {% if duree_module %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?temps_max={{ duree_module | url_encode }}" title="Voir les modules installables en ce temps ou moins">⏱️ {% if page.duree %}{{ page.duree | escape }}{% else %}{{ duree_module | escape }} min{% endif %}</a>{% endif %}
+              {% if interface_module %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?interface={{ interface_module | url_encode }}" title="Interface {{ interface_module | escape }}">🔌 {{ interface_module | escape }}</a>{% endif %}
+              {% if alimentation_module %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?alimentation={{ alimentation_module | url_encode }}" title="Alimentation {{ alimentation_module | escape }}">⚡ {{ alimentation_module | escape }}</a>{% endif %}
+              {% if duree_module %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?temps_max={{ duree_module | url_encode }}" title="Temps d'installation">⏱️ {% if page.duree %}{{ page.duree | escape }}{% else %}{{ duree_module | escape }} min{% endif %}</a>{% endif %}
             </div>
           </header>
 
         {% when 'reference' %}
-          <!-- ══════ BLOC : RÉFÉRENCE + FAMILLE ══════ -->
           <div class="nl-module-top" data-nl-printable data-nl-print-label="Référence et famille">
             <a class="nl-module-ref nl-meta-link" href="{{ nl_catalog_url }}?recherche={{ ref_module | url_encode }}">{{ ref_module | escape }}</a>
             <a class="nl-module-family nl-meta-link" href="{{ nl_catalog_url }}?famille={{ famille_module | downcase | url_encode }}">{{ famille_module | escape }}</a>
           </div>
 
         {% when 'titre' %}
-          <!-- ══════ BLOC : TITRE ══════ -->
           <header class="nl-detail-title" data-nl-printable data-nl-print-label="Titre">
             <h1 class="nl-module-title">{{ page.title | escape }}</h1>
           </header>
 
         {% when 'photos' %}
-          <!-- ══════ BLOC : PHOTOS / GALERIE ══════ -->
-      <section class="nl-detail-gallery" data-nl-printable data-nl-print-label="Photo sélectionnée" aria-label="Photos du module">
-        <div class="nl-module-media nl-detail-media">
-          {% if page.images and page.images.size > 0 %}
-            {% for image in page.images %}
-              <figure class="nl-gallery-slide" {% unless forloop.first %}hidden{% endunless %}>
-                <img src="{{ image.fichier | relative_url }}" alt="{{ image.alt | default: image.titre | default: page.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
-                {% if image.titre %}<figcaption>{{ image.titre | escape }}</figcaption>{% endif %}
-              </figure>
-            {% endfor %}
-          {% else %}
-            <span class="nl-module-media-fallback" aria-label="Aucune photo disponible">{% case page.famille %}{% when 'displays' %}📺{% when 'sensors' %}🌡️{% when 'power' %}🔋{% when 'actuators' %}⚡{% when 'connectivity' %}📡{% when 'enclosures' %}📦{% else %}🧩{% endcase %}</span>
-          {% endif %}
-        </div>
-        {% if page.images and page.images.size > 1 %}
-          <div class="nl-detail-gallery-nav">
-            <button type="button" class="nl-detail-button" data-nl-prev aria-label="Photo précédente">←</button>
-            <span data-nl-count aria-live="polite">1 / {{ page.images.size }}</span>
-            <button type="button" class="nl-detail-button" data-nl-next aria-label="Photo suivante">→</button>
-          </div>
-          <div class="nl-detail-gallery-thumbs" aria-label="Choisir une photographie">
-            {% for image in page.images %}
-              <button type="button" class="nl-gallery-thumb" data-slide="{{ forloop.index0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Voir : {{ image.titre | default: page.title | escape }}"><img src="{{ image.fichier | relative_url }}" alt="" loading="lazy"></button>
-            {% endfor %}
-          </div>
-        {% endif %}
-      </section>
+          <!-- ══════ BLOC : FENÊTRE D'ILLUSTRATION (GALERIE ENCADRÉE) ══════ -->
+          <section class="nl-detail-gallery" data-nl-printable data-nl-print-label="Photo sélectionnée" aria-label="Photos du module">
+            <div class="nl-module-media nl-detail-media" data-nl-swipe-zone>
+              {% if page.images and page.images.size > 0 %}
+                {% for image in page.images %}
+                  <figure class="nl-gallery-slide" {% unless forloop.first %}hidden{% endunless %}>
+                    <img src="{{ image.fichier | relative_url }}" alt="{{ image.alt | default: image.titre | default: page.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+                    {% if image.titre %}<figcaption>{{ image.titre | escape }}</figcaption>{% endif %}
+                  </figure>
+                {% endfor %}
+              {% else %}
+                <span class="nl-module-media-fallback" aria-label="Aucune photo disponible">{% case page.famille %}{% when 'displays' %}📺{% when 'sensors' %}🌡️{% when 'power' %}🔋{% when 'actuators' %}⚡{% when 'connectivity' %}📡{% when 'enclosures' %}📦{% else %}🧩{% endcase %}</span>
+              {% endif %}
+
+              {% if page.images and page.images.size > 1 %}
+                <button type="button" class="nl-gallery-arrow nl-gallery-prev" data-nl-prev aria-label="Photo précédente (Flèche gauche)">‹</button>
+                <button type="button" class="nl-gallery-arrow nl-gallery-next" data-nl-next aria-label="Photo suivante (Flèche droite)">›</button>
+                <span class="nl-gallery-badge" data-nl-count aria-live="polite">1 / {{ page.images.size }}</span>
+              {% endif %}
+            </div>
+
+            {% if page.images and page.images.size > 1 %}
+              <div class="nl-detail-gallery-thumbs" aria-label="Choisir une photographie">
+                {% for image in page.images %}
+                  <button type="button" class="nl-gallery-thumb" data-slide="{{ forloop.index0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Voir : {{ image.titre | default: page.title | escape }}">
+                    <img src="{{ image.fichier | relative_url }}" alt="" loading="lazy">
+                  </button>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </section>
 
         {% when 'capacites' %}
-          <!-- ══════ BLOC : CAPACITÉS CLIQUABLES ══════ -->
+          <!-- ══════ BLOC : CAPACITÉS ("POUVOIRS DE LA CARTE") ══════ -->
           {% if elements and elements.size > 0 %}
-          <div class="nl-capacity-chips" data-nl-printable data-nl-print-label="Capacités" aria-label="Capacités du module">
-            {% for elem in elements %}
-              {% assign capacity_name = elem.label | default: elem %}
-              {% assign capacity_label = capacity_name | remove_first: '🌡️ ' | remove_first: '💧 ' | remove_first: '🌦️ ' | remove_first: '🧠 ' | remove_first: '📡 ' | remove_first: '📶 ' | remove_first: '🔌 ' | remove_first: '📺 ' | remove_first: '☀️ ' | remove_first: '🚶 ' | remove_first: '📍 ' | remove_first: '👆 ' | remove_first: '⚡ ' | remove_first: '🔋 ' | remove_first: '🌧️ ' %}
-              <a class="nl-chip nl-capacity-chip" href="{{ '/Modules.html' | relative_url }}?capacite={{ capacity_label | slugify }}" title="Voir les modules : {{ capacity_label | escape }}">{{ capacity_name | escape }}</a>
-            {% endfor %}
-          </div>
-        {% endif %}
+            <div class="nl-capacity-chips" data-nl-printable data-nl-print-label="Capacités" aria-label="Capacités du module">
+              {% for elem in elements %}
+                {% assign capacity_name = elem.label | default: elem %}
+                {% assign capacity_label = capacity_name | remove_first: '🌡️ ' | remove_first: '💧 ' | remove_first: '🌦️ ' | remove_first: '🧠 ' | remove_first: '📡 ' | remove_first: '📶 ' | remove_first: '🔌 ' | remove_first: '📺 ' | remove_first: '☀️ ' | remove_first: '🚶 ' | remove_first: '📍 ' | remove_first: '👆 ' | remove_first: '⚡ ' | remove_first: '🔋 ' | remove_first: '🌧️ ' %}
+                <a class="nl-chip nl-capacity-chip" href="{{ nl_catalog_url }}?capacite={{ capacity_label | slugify }}" title="Voir tous les modules avec : {{ capacity_label | escape }}">{{ capacity_name | escape }}</a>
+              {% endfor %}
+            </div>
+          {% endif %}
 
         {% when 'description' %}
-          <!-- ══════ BLOC : DESCRIPTION ══════ -->
+          <!-- ══════ BLOC : DESCRIPTION ("FLAVOR TEXT") ══════ -->
           {% if page.description %}
             <div class="nl-detail-description" data-nl-printable data-nl-print-label="Description">
               <p class="nl-module-desc">{{ page.description | escape }}</p>
@@ -180,7 +162,6 @@ bare: true
           {% endif %}
 
         {% when 'caracteristiques' %}
-          <!-- ══════ CARACTÉRISTIQUES RAPIDES : liens vers filtres catalogue ══════ -->
           <div class="nl-chips" data-nl-printable data-nl-print-label="Caractéristiques rapides">
             {% if statut_module %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?statut={{ statut_module | url_encode }}">{{ etat_libelle | default: statut_module | escape }}</a>{% endif %}
             {% if page.niveau %}<a class="nl-chip nl-chip-filter" href="{{ nl_catalog_url }}?niveau={{ page.niveau | url_encode }}">👤 {{ page.niveau | replace: 'debutant','Débutant' | replace: 'intermediaire','Intermédiaire' | replace: 'avance','Avancé' | escape }}</a>{% endif %}
@@ -193,6 +174,7 @@ bare: true
 
         {% endcase %}
       {% endfor %}
+
     </section>
   </div>
 
@@ -210,7 +192,12 @@ bare: true
     <h2>📚 Pour aller plus loin</h2>
     <div class="nl-detail-advanced-list" data-nl-advanced-target>
       {% if page.caracteristiques and page.caracteristiques.size > 0 %}
-        <details class="nl-accordion" data-nl-printable data-nl-print-advanced data-nl-print-label="Caractéristiques principales"><summary>Caractéristiques principales</summary><div class="nl-accordion-content nl-detail-specs"><dl>{% for spec in page.caracteristiques %}<div><dt>{{ spec.nom | escape }}</dt><dd>{{ spec.valeur | escape }}</dd></div>{% endfor %}</dl></div></details>
+        <details class="nl-accordion" data-nl-printable data-nl-print-advanced data-nl-print-label="Caractéristiques principales">
+          <summary>Caractéristiques principales</summary>
+          <div class="nl-accordion-content nl-detail-specs">
+            <dl>{% for spec in page.caracteristiques %}<div><dt>{{ spec.nom | escape }}</dt><dd>{{ spec.valeur | escape }}</dd></div>{% endfor %}</dl>
+          </div>
+        </details>
       {% endif %}
     </div>
   </section>

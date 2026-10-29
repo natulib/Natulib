@@ -1,11 +1,13 @@
-/* Natulib — Collection épurée : galerie, starter guide, accordéons illimités, impression sélective. */
+/* Natulib — Collection TCG : galerie (clavier + swipe), partage, starter guide, accordéons, impression. */
 (() => {
   'use strict';
   document.querySelectorAll('[data-nl-module]').forEach(root => {
     const slides = [...root.querySelectorAll('.nl-gallery-slide')];
     const thumbs = [...root.querySelectorAll('.nl-gallery-thumb')];
     const counter = root.querySelector('[data-nl-count]');
+    const swipeZone = root.querySelector('[data-nl-swipe-zone]');
     let activePhoto = 0;
+
     function setPhoto(index) {
       if (!slides.length) return;
       activePhoto = (index + slides.length) % slides.length;
@@ -13,18 +15,51 @@
       thumbs.forEach((el, i) => { el.setAttribute('aria-pressed', String(i === activePhoto)); });
       if (counter) counter.textContent = `${activePhoto + 1} / ${slides.length}`;
     }
+
     thumbs.forEach((b, i) => b.addEventListener('click', () => setPhoto(i)));
     root.querySelector('[data-nl-prev]')?.addEventListener('click', () => setPhoto(activePhoto - 1));
     root.querySelector('[data-nl-next]')?.addEventListener('click', () => setPhoto(activePhoto + 1));
+
+    // Navigation au clavier (Flèches Gauche / Droite)
+    if (slides.length > 1) {
+      document.addEventListener('keydown', e => {
+        if (e.target.matches('input, textarea, select')) return;
+        if (e.key === 'ArrowLeft') setPhoto(activePhoto - 1);
+        if (e.key === 'ArrowRight') setPhoto(activePhoto + 1);
+      });
+
+      // Swipe tactile sur mobile
+      let touchStartX = 0;
+      swipeZone?.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      swipeZone?.addEventListener('touchend', e => {
+        const diff = e.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(diff) > 40) {
+          setPhoto(diff > 0 ? activePhoto - 1 : activePhoto + 1);
+        }
+      }, { passive: true });
+    }
     setPhoto(0);
 
+    // Bouton Partager / Copier le lien de la carte
+    const copyBtn = root.querySelector('[data-nl-copy-link]');
+    copyBtn?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        const original = copyBtn.textContent;
+        copyBtn.textContent = '✅ Lien copié !';
+        setTimeout(() => { copyBtn.textContent = original; }, 1800);
+      } catch (_) {}
+    });
+
+    // Découpage automatique du Starter Guide et des Accordéons
     const source = root.querySelector('[data-nl-document]');
     const starterTarget = root.querySelector('[data-nl-starter-target]');
     const starterWrapper = root.querySelector('[data-nl-starter-wrapper]');
     const advancedTarget = root.querySelector('[data-nl-advanced-target]');
     const advancedWrapper = root.querySelector('[data-nl-advanced-wrapper]');
     const normalize = str => (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').trim();
-    // Le YAML starter_sections permet de remplacer cette sélection automatique.
     const configured = (source?.dataset.nlStarterSections || '').split('|').map(normalize).filter(Boolean);
     const isStarter = title => {
       const t = normalize(title);
@@ -32,6 +67,7 @@
       return /\b(materiel necessaire|branchement|cablage|installation|mise en service|prise en main|demarrage|starter guide|guide rapide|premiers pas)\b/.test(t)
         && !/\b(detaille|avanc|historique|json|diagnostic)\b/.test(t);
     };
+
     if (source && starterTarget && advancedTarget) {
       const nodes = [...source.childNodes];
       let destination = null;
@@ -51,8 +87,6 @@
           intro.append(node);
         }
       }
-      // Si les titres existants n'ont aucun lien avec le montage, garder le premier
-      // visible au lieu de laisser le guide vide. Tous les suivants sont des accordéons.
       const hasStarter = rest.some(x => isStarter(x.title));
       if (intro?.textContent.trim()) {
         intro.className = 'nl-guide-preface';
@@ -89,7 +123,6 @@
           advancedTarget.append(details);
         }
       });
-      // Contenu simple sans ## : ne jamais le perdre.
       if (!rest.length && !intro?.textContent.trim()) {
         for (const node of [...source.childNodes]) starterTarget.append(node);
       }
@@ -109,6 +142,7 @@
     revealAnchor();
     window.addEventListener('hashchange', revealAnchor);
 
+    // Impression sélective à la carte
     const dialog = root.querySelector('[data-nl-print-dialog]');
     const choices = root.querySelector('[data-nl-print-choices]');
     const printables = [...root.querySelectorAll('[data-nl-printable]')];

@@ -163,10 +163,9 @@
     for (const key of Object.keys(queryNames)) {
       if (params.has(key)) setFilter(key, params.get(key));
     }
-    if (drawer && Array.from(params.keys()).some(key =>
-      ['famille','statut','niveau','montage','interface','alimentation','temps_max','prix_max'].includes(key))) {
-      drawer.open = true;
-    }
+    // Le panneau « Filtres avancés » reste dans l'état choisi par l'utilisateur.
+    // L'arrivée depuis une fiche (?famille=displays, ?statut=valide, etc.)
+    // applique le filtre et affiche sa pastille active SANS ouvrir le panneau.
   }
   function writeURL(mode) {
     if (mode === 'none') return;

@@ -112,4 +112,4 @@ has_children: true
   <p id="nl-catalog-empty" class="nl-empty" hidden>Aucun module ne correspond à cette recherche.</p>
   <section class="nl-catalog-note"><h2>🔌 GPIO et brochage</h2><p>Chaque fiche module propose un GPIO recommandé pour un montage isolé. Dans une station, le câblage final est documenté dans les <a href="{{ '/Projets.html' | relative_url }}">projets</a>. Les périphériques I²C peuvent partager SDA/SCL si leurs adresses ne sont pas en conflit ; les modules SPI partagent certaines lignes mais nécessitent une sélection adaptée.</p><p><strong>⚡ Sécurité électrique :</strong> les GPIO de l’ESP32-C6 fonctionnent en 3,3 V. Pour commander des charges, utilisez des circuits de puissance adaptés, notamment les modules <a href="{{ '/hardware/NL-401A-PowerSwitch.html' | relative_url }}">NL-401A</a> ou <a href="{{ '/hardware/NL-402A-Mosfet-PWM.html' | relative_url }}">NL-402A</a>.</p></section>
 </section>
-<script defer src="{{ '/assets/js/natulib-catalogue.js' | relative_url }}?v=20261029-stable"></script>
+<script defer src="{{ '/assets/js/natulib-catalogue.js' | relative_url }}?v=20261029-panneau-ferme"></script>

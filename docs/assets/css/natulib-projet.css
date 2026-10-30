@@ -1,31 +1,61 @@
-/* Natulib — Projet : identité commune aux fiches Modules, avec densité réduite */
-.nl-project{max-width:1080px;margin:0 auto 3rem;color:var(--text)}
+/* Natulib — fiche Projet, même carte et classes que le catalogue Modules.
+   Charge natulib-pages.css AVANT ce fichier. Ne modifie pas le catalogue. */
+.nl-project{max-width:1060px;margin:0 auto 3rem;color:var(--text,#1f2328);--nl-project-border:var(--border,#d0d7de);--nl-project-green:var(--accent,#1b7f4b);--nl-project-soft:var(--surface,#f6f8fa)}
 .nl-project *{box-sizing:border-box}
-.nl-project-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 14px}
-.nl-project-back{display:inline-flex;align-items:center;gap:9px;padding:8px 13px;border:1px solid var(--border);border-radius:999px;color:var(--text);text-decoration:none;background:var(--surface);font-size:.85rem;font-weight:650}
-.nl-project-back:hover,.nl-project-module-links a:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
-.nl-project-ref{font-size:.78rem;color:var(--muted);font-weight:700}
-.nl-project-hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(200px,.75fr);gap:20px;align-items:center;padding:22px;border:1px solid var(--border);border-radius:18px;background:var(--surface)}
-.nl-project-kicker{margin:0;color:var(--accent);font-size:.75rem;font-weight:750;letter-spacing:.06em;text-transform:uppercase}
-.nl-project h1{font-size:clamp(1.65rem,3.1vw,2.2rem);line-height:1.2;margin:8px 0 10px;letter-spacing:-.025em}
-.nl-project-lead{font-size:.97rem;line-height:1.55;color:var(--muted);margin:0 0 14px}
-.nl-project-status,.nl-project-capacities{display:flex;flex-wrap:wrap;gap:7px}
-.nl-project-status span,.nl-project-capacities span{display:inline-flex;gap:5px;align-items:center;border:1px solid var(--border);background:var(--bg);border-radius:999px;padding:6px 10px;font-size:.78rem}
-.nl-project-status strong{font-weight:700}
-.nl-project-cover{margin:0;height:210px;border-radius:12px;overflow:hidden;background:var(--bg)}.nl-project-cover img{width:100%;height:100%;object-fit:contain}
-.nl-project-placeholder{min-height:185px;background:var(--bg);border:1px dashed var(--border);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center;padding:15px;color:var(--muted)}
-.nl-project-placeholder>span{font-size:1.8rem}.nl-project-placeholder strong{font-size:.88rem}.nl-project-placeholder small{font-size:.75rem}
-.nl-project-capacities{margin:13px 0}.nl-project-capacities span{background:var(--surface)}
-.nl-project-caution{padding:12px 15px;border-radius:12px;border:1px solid #c79d57;background:light-dark(#fff8e8,#30271a);margin:14px 0}.nl-project-caution strong{font-size:.87rem}.nl-project-caution p{margin:5px 0 0;font-size:.84rem;line-height:1.55}
-.nl-project-modules,.nl-project-documentation,.nl-project-gallery{border:1px solid var(--border);border-radius:14px;padding:17px;margin:15px 0;background:var(--bg)}
-.nl-project-modules h2,.nl-project-documentation>h2,.nl-project-gallery h2{font-size:1.06rem;margin:0 0 12px}
-.nl-project-module-links{display:flex;flex-wrap:wrap;gap:8px}.nl-project-module-links a{border:1px solid var(--border);border-radius:9px;padding:9px 11px;color:var(--text);text-decoration:none;font-size:.83rem;background:var(--surface)}
-.nl-project-doc .nl-accordion{margin:7px 0;border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.nl-project-doc .nl-accordion summary{cursor:pointer;padding:12px 14px;background:var(--surface);font-weight:700;font-size:.9rem}
-.nl-project-doc .nl-accordion[open] summary{border-bottom:1px solid var(--border)}
-.nl-project-doc .nl-accordion-content{padding:14px;overflow-wrap:anywhere}
-.nl-project-doc .nl-accordion-content> :first-child{margin-top:0}
-.nl-project-doc pre{overflow:auto}.nl-project-doc table{display:block;max-width:100%;overflow-x:auto}
-.nl-project .nl-gallery-view{height:280px;background:var(--surface);border-radius:10px}.nl-project .nl-gallery-slide{height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0;padding:10px}.nl-project .nl-gallery-slide[hidden]{display:none}.nl-project .nl-gallery-slide img{max-height:245px;object-fit:contain}.nl-project .nl-gallery-thumbs{display:flex;gap:6px;margin-top:8px}.nl-project .nl-gallery-thumb{border:1px solid var(--border);border-radius:8px;background:var(--surface);padding:6px 12px;cursor:pointer}
-@media(max-width:650px){.nl-project-hero{grid-template-columns:1fr;padding:15px}.nl-project-placeholder{min-height:130px}.nl-project-modules,.nl-project-documentation,.nl-project-gallery{padding:11px}.nl-project-cover{height:180px}}
-@media print{.nl-project-top{display:none}.nl-project .nl-accordion-content{display:block!important}}
+.nl-project-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px;flex-wrap:wrap}
+.nl-project-back{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid var(--nl-project-border);border-radius:999px;background:var(--bg);color:var(--text);text-decoration:none;font-size:.85rem;font-weight:650}
+.nl-project-back:hover,.nl-project-all-modules:hover{border-color:var(--nl-project-green);color:var(--nl-project-green)}
+.nl-project-ref{font-size:.78rem;color:var(--muted);font-weight:750}
+.nl-project-hero{display:flex;flex-direction:column;gap:15px;padding:clamp(16px,2.2vw,24px);border:4px solid color-mix(in srgb,var(--nl-project-green) 34%,transparent);border-radius:20px;background:linear-gradient(160deg,var(--bg) 0%,var(--nl-project-soft) 100%);box-shadow:0 5px 20px #0000000b}
+.nl-project-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,1.75fr) minmax(0,1fr);align-items:center;gap:10px;padding:0 0 11px;border-bottom:2px solid color-mix(in srgb,var(--nl-project-green) 28%,transparent)}
+.nl-project-head-left,.nl-project-head-right{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.nl-project-head-right{justify-content:flex-end}
+.nl-project-head-center{text-align:center;min-width:0}
+.nl-project-kicker{font-size:.73rem;color:var(--nl-project-green);font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin:0 0 4px}
+.nl-project h1{font-size:clamp(1.25rem,2.5vw,2rem);line-height:1.18;letter-spacing:-.025em;text-wrap:balance;margin:0;overflow-wrap:anywhere}
+.nl-project-head .nl-chip{background:var(--bg);font-size:.75rem;font-weight:650;border-radius:8px;white-space:nowrap}
+.nl-project-cover{margin:0;min-height:160px;height:clamp(190px,27vw,315px);border:2px solid var(--nl-project-border);border-radius:13px;background:var(--bg);display:grid;place-items:center;overflow:hidden}
+.nl-project-cover img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.nl-project-placeholder{min-height:105px;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;border:1px dashed var(--nl-project-border);border-radius:12px;background:var(--bg);color:var(--muted);font-size:.82rem}
+.nl-project-placeholder span{font-size:1.6rem}
+.nl-project-capacities{display:flex;justify-content:center;flex-wrap:wrap;gap:7px}
+.nl-project-capacities .nl-chip{background:var(--bg);border-color:color-mix(in srgb,var(--nl-project-green) 30%,transparent);font-weight:700}
+.nl-project-lead{font-size:.91rem;line-height:1.5;margin:0;padding:10px 13px;background:var(--bg);border-left:3px solid var(--nl-project-green);border-radius:3px 9px 9px 3px;color:var(--muted)}
+.nl-project-caution{border:1px solid #b9872c;border-radius:12px;background:light-dark(#fff8e8,#322618);padding:13px 15px;margin:14px 0}
+.nl-project-caution strong{font-size:.89rem}
+.nl-project-caution p{font-size:.83rem;line-height:1.55;margin:5px 0 0}
+.nl-project-modules,.nl-project-documentation,.nl-project-gallery{margin:16px 0;border:1px solid var(--nl-project-border);border-radius:16px;padding:clamp(13px,2vw,20px);background:var(--bg)}
+.nl-project-section-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:0 0 16px;flex-wrap:wrap}
+.nl-project-section-heading h2,.nl-project-gallery h2{font-size:1.12rem;margin:0 0 4px}
+.nl-project-section-heading p{font-size:.8rem;color:var(--muted);margin:0}
+.nl-project-all-modules{border:1px solid var(--nl-project-border);border-radius:99px;padding:7px 12px;text-decoration:none;font-size:.78rem;color:var(--text);font-weight:700;white-space:nowrap}
+/* Même CSS de carte que Modules.md; seule la grille est un peu plus aérée. */
+.nl-project .nl-project-module-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,255px),1fr));gap:15px}
+.nl-project .nl-project-module-grid .nl-module-card{height:100%;min-height:0}
+.nl-project .nl-module-card:hover{transform:translateY(-2px)}
+.nl-project .nl-module-info{min-width:0}
+.nl-project-module-role{display:block;order:6;margin-top:auto;font-size:.77rem;line-height:1.35;color:var(--muted);padding:8px 0 0;border-top:1px dashed var(--nl-line)}
+.nl-project-module-role strong{color:var(--text)}
+.nl-project-module-unavailable{order:7;font-size:.74rem;color:var(--muted)}
+.nl-project-doc{overflow-wrap:anywhere}
+.nl-project-doc> :first-child{margin-top:0}
+.nl-project-doc .nl-project-section{border:1px solid var(--nl-project-border);border-radius:12px;overflow:hidden;margin:9px 0;background:var(--bg)}
+.nl-project-doc .nl-project-section>summary{cursor:pointer;font-size:.9rem;font-weight:750;list-style:none;background:var(--nl-project-soft);padding:12px 15px}
+.nl-project-doc .nl-project-section>summary::-webkit-details-marker{display:none}
+.nl-project-doc .nl-project-section>summary:before{content:'▸';margin-right:9px;color:var(--nl-project-green)}
+.nl-project-doc .nl-project-section[open]>summary:before{content:'▾'}
+.nl-project-doc .nl-project-section[open]>summary{border-bottom:1px solid var(--nl-project-border)}
+.nl-project-doc .nl-project-section-body{padding:14px 16px;line-height:1.65}
+.nl-project-doc .nl-project-section-body> :first-child{margin-top:0}
+.nl-project-doc pre,.nl-project-doc table{max-width:100%;overflow-x:auto}
+.nl-project-doc table{display:block}
+.nl-project-gallery .nl-gallery-view{height:250px;border:1px solid var(--nl-project-border);background:var(--nl-project-soft);border-radius:12px}
+.nl-project-gallery .nl-gallery-slide{margin:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:10px}
+.nl-project-gallery .nl-gallery-slide[hidden]{display:none!important}
+.nl-project-gallery .nl-gallery-slide img{max-height:220px;max-width:100%;object-fit:contain}
+.nl-project-gallery .nl-gallery-thumbs{display:flex;gap:6px;margin-top:9px}
+.nl-project-gallery .nl-gallery-thumb{font:inherit;border:1px solid var(--nl-project-border);border-radius:8px;background:var(--bg);padding:6px 12px;cursor:pointer}
+.nl-project-gallery .nl-gallery-thumb[aria-pressed="true"]{border-color:var(--nl-project-green);color:var(--nl-project-green)}
+@media(max-width:720px){.nl-project-head{grid-template-columns:1fr 1fr;grid-template-areas:'centre centre' 'gauche droite';gap:11px}.nl-project-head-center{grid-area:centre}.nl-project-head-left{grid-area:gauche}.nl-project-head-right{grid-area:droite}.nl-project-hero{padding:15px}.nl-project-modules,.nl-project-documentation,.nl-project-gallery{padding:12px}.nl-project-cover{height:220px}}
+@media(max-width:580px){.nl-project .nl-project-module-grid{grid-template-columns:1fr}.nl-project-head .nl-chip{font-size:.71rem}}
+@media print{.nl-project-top,.nl-project-all-modules{display:none!important}.nl-project .nl-module-card{break-inside:avoid;box-shadow:none}.nl-project-doc .nl-project-section{break-inside:auto}.nl-project-doc .nl-project-section-body{display:block!important}}

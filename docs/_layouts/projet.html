@@ -2,38 +2,144 @@
 layout: default
 bare: true
 ---
+{% comment %}
+  Natulib — Template Projet. Même style que le catalogue Modules.
+  Les cartes de la section "Modules associés" lisent directement les fiches
+  dans site.pages (dossiers modules/ puis hardware/), selon leur ref NL-xxx.
+  Une modification d'une photo, d'un statut ou d'une capacité de fiche Module
+  se répercute automatiquement ici au prochain build Jekyll.
+  Aucun JavaScript du catalogue n'est requis sur cette page.
+{% endcomment %}
+{% assign url_catalogue = '/Modules.html' | relative_url %}
+<link rel="stylesheet" href="{{ '/assets/css/natulib-pages.css' | relative_url }}">
 <link rel="stylesheet" href="{{ '/assets/css/natulib-projet.css' | relative_url }}">
-<article class="nl-project" data-nl-module>
+<article class="nl-project" data-nl-project>
   <nav class="nl-project-top" aria-label="Navigation du projet">
-    <a class="nl-project-back" href="{{ '/Projets.html' | relative_url }}" aria-label="Retour au catalogue des projets"><span aria-hidden="true">←</span> Retour aux projets</a>
+    <a class="nl-project-back" href="{{ '/Projets.html' | relative_url }}">← Retour aux projets</a>
     <span class="nl-project-ref">{{ page.ref | escape }}</span>
   </nav>
+
+  {% comment %}EN-TÊTE : même lecture qu'une fiche Module : titre, photo, capacités, description.{% endcomment %}
   <header class="nl-project-hero">
-    <div class="nl-project-heading">
-      <p class="nl-project-kicker">Projet Natulib · {{ page.ref | escape }}</p>
-      <h1>{{ page.title | escape }}</h1>
-      {% if page.description %}<p class="nl-project-lead">{{ page.description | escape }}</p>{% endif %}
-      <div class="nl-project-status" aria-label="Informations rapides">
-        {% if page.statut %}<span>🔵 <strong>Statut</strong> {% case page.statut %}{% when 'planifie' %}Planifié{% when 'valide' %}Validé{% when 'test' %}En test{% else %}{{ page.statut | escape }}{% endcase %}</span>{% endif %}
-        {% if page.niveau %}<span>👤 <strong>Niveau</strong> {% case page.niveau %}{% when 'avance' %}Avancé{% when 'intermediaire' %}Intermédiaire{% when 'debutant' %}Débutant{% else %}{{ page.niveau | escape }}{% endcase %}</span>{% endif %}
-        {% if page.temps %}<span>⏱️ <strong>Durée estimée</strong> {{ page.temps | escape }}</span>{% endif %}
+    <div class="nl-project-head">
+      <div class="nl-project-head-left" aria-label="Informations pratiques">
+        {% if page.statut %}
+          <span class="nl-chip">{% case page.statut %}{% when 'planifie' %}🔵 Planifié{% when 'test' %}🟡 En test{% when 'valide' %}🟢 Validé{% else %}{{ page.statut | escape }}{% endcase %}</span>
+        {% endif %}
+        {% if page.niveau %}
+          <span class="nl-chip">👤 {% case page.niveau %}{% when 'avance' %}Avancé{% when 'intermediaire' %}Intermédiaire{% when 'debutant' %}Débutant{% else %}{{ page.niveau | escape }}{% endcase %}</span>
+        {% endif %}
+      </div>
+      <div class="nl-project-head-center">
+        <p class="nl-project-kicker">Projet Natulib · {{ page.ref | escape }}</p>
+        <h1>{{ page.title | escape }}</h1>
+      </div>
+      <div class="nl-project-head-right">
+        {% if page.temps %}<span class="nl-chip">⏱️ {{ page.temps | escape }}</span>{% endif %}
       </div>
     </div>
-    {% assign hero_image = page.image | default: page.cover | default: page.photo %}
-    {% if hero_image %}
-    <figure class="nl-project-cover"><img src="{{ hero_image | relative_url }}" alt="{{ page.title | escape }}" loading="eager"></figure>
+    {% assign premiere_photo = page.images | first %}
+    {% assign photo_projet = page.image | default: page.cover | default: page.photo | default: premiere_photo.fichier %}
+    {% if photo_projet %}
+      <figure class="nl-project-cover"><img src="{{ photo_projet | relative_url }}" alt="{{ page.title | escape }}" loading="eager"></figure>
     {% else %}
-    <div class="nl-project-placeholder" role="note"><span aria-hidden="true">📷</span><strong>Photographie du projet</strong><small>À ajouter lors de la documentation du prototype</small></div>
+      <div class="nl-project-placeholder" role="note"><span aria-hidden="true">📷</span><strong>Photo du projet à ajouter</strong></div>
     {% endif %}
+    {% if page.capacites and page.capacites.size > 0 %}
+      <div class="nl-project-capacities" aria-label="Fonctions du projet">
+        {% for capacite in page.capacites %}<span class="nl-chip">{{ capacite | escape }}</span>{% endfor %}
+      </div>
+    {% endif %}
+    {% if page.description %}<p class="nl-project-lead">{{ page.description | escape }}</p>{% endif %}
   </header>
-  {% if page.capacites and page.capacites.size > 0 %}<div class="nl-project-capacities" aria-label="Fonctions du projet">{% for capacite in page.capacites %}<span>{{ capacite | escape }}</span>{% endfor %}</div>{% endif %}
-  <aside class="nl-project-caution" role="note"><strong>⚠️ Projet à haute tension — sécurité</strong><p>Ce projet comporte une source de haute tension potentiellement mortelle. La documentation correspond à un projet en évolution, pas à une procédure de construction certifiée. Ne pas réaliser de montage ou d'essai sous tension sans qualifications et protections adaptées.</p></aside>
+
+  {% comment %}Bannière conditionnelle, pas d'avertissement HT sur tous les projets.{% endcomment %}
+  {% if page.securite_haute_tension == true %}
+  <aside class="nl-project-caution" role="note"><strong>⚠️ Projet à haute tension — sécurité</strong><p>Le dispositif décrit présente un risque électrique grave. La protection matérielle doit rester indépendante du logiciel. Cette fiche ne constitue pas une certification de sécurité ; les interventions doivent être réservées à des personnes qualifiées.</p></aside>
+  {% endif %}
+
+  {% comment %}CARTES : les données sont celles du catalogue, pas recopiées dans le projet.{% endcomment %}
   {% if page.modules and page.modules.size > 0 %}
-  <section class="nl-project-modules"><h2>Modules Natulib associés</h2><div class="nl-project-module-links">{% for item in page.modules %}<a href="{{ item.url | relative_url }}"><strong>{{ item.ref | escape }}</strong> {{ item.nom | escape }} <span aria-hidden="true">↗</span></a>{% endfor %}</div></section>
+  {% assign fiches_recentes = site.pages | where_exp: 'p', "p.path contains 'modules/'" %}
+  {% assign fiches_historiques = site.pages | where_exp: 'p', "p.path contains 'hardware/'" %}
+  {% assign fiches_modules = fiches_recentes | concat: fiches_historiques %}
+  <section class="nl-project-modules nl-catalog" aria-label="Modules Natulib associés">
+    <div class="nl-project-section-heading">
+      <div><h2>🧩 Modules Natulib associés</h2><p>Les mêmes cartes que dans le catalogue, avec accès direct à chaque fiche.</p></div>
+      <a href="{{ url_catalogue }}" class="nl-project-all-modules">Voir le catalogue</a>
+    </div>
+    <div class="nl-module-grid nl-project-module-grid" data-view="cards">
+      {% for item in page.modules %}
+        {% assign module_fiche = nil %}
+        {% for candidate in fiches_modules %}
+          {% assign reference_candidate = candidate.ref | default: candidate.reference %}
+          {% if reference_candidate == item.ref %}{% assign module_fiche = candidate %}{% break %}{% endif %}
+        {% endfor %}
+        {% assign module_ref = module_fiche.ref | default: module_fiche.reference | default: item.ref %}
+        {% assign module_famille = module_fiche.famille | default: module_fiche.categorie %}
+        {% assign module_statut = module_fiche.etat | default: module_fiche.statut %}
+        {% assign module_montage = module_fiche.montage | default: module_fiche.soudure %}
+        {% assign module_temps = module_fiche.temps | default: module_fiche.duree %}
+        {% assign module_capacites = module_fiche.elements | default: module_fiche.fonctions %}
+        {% assign module_alimentation = module_fiche.alimentation | default: module_fiche.tension %}
+        {% assign module_titre = module_fiche.title | default: item.nom | default: item.ref %}
+        {% if module_fiche %}{% assign module_url = module_fiche.url | relative_url %}{% else %}{% assign module_url = url_catalogue | append: '?recherche=' | append: module_ref %}{% endif %}
+        <article class="nl-module-card" data-famille="{{ module_famille | downcase | default: 'default' | escape }}">
+          <span class="nl-module-top">
+            <a class="nl-module-ref nl-card-filter-link" href="{{ url_catalogue }}?recherche={{ module_ref | url_encode }}" title="Chercher {{ module_ref | escape }} dans le catalogue">{{ module_ref | escape }}</a>
+            {% if module_famille %}<a class="nl-module-family nl-card-filter-link" href="{{ url_catalogue }}?famille={{ module_famille | downcase | url_encode }}" title="Filtrer les modules {{ module_famille | escape }}">{{ module_famille | escape }}</a>{% endif %}
+          </span>
+          {% assign photo_module = module_fiche.images | first %}
+          <a class="nl-module-media" href="{{ module_url }}" tabindex="-1" aria-hidden="true">
+            {% if photo_module and photo_module.fichier %}
+              <img src="{{ photo_module.fichier | relative_url }}" alt="" loading="lazy" decoding="async" onerror="this.hidden=true;this.parentNode.classList.add('nl-media-unavailable')">
+            {% endif %}
+            <span class="nl-module-media-fallback" aria-hidden="true">{% case module_famille %}{% when 'displays' %}📺{% when 'sensors' %}🌡️{% when 'power' %}🔋{% when 'actuators' %}⚡{% when 'core' %}🧠{% else %}🧩{% endcase %}</span>
+          </a>
+          <div class="nl-module-info">
+            <a class="nl-module-title nl-card-main-link" href="{{ module_url }}">{{ module_titre | escape }}</a>
+            {% if module_fiche.description %}<span class="nl-module-desc">{{ module_fiche.description | escape }}</span>{% endif %}
+            {% if module_capacites and module_capacites.size > 0 %}
+            <span class="nl-capacity-chips" aria-label="Capacités">
+              {% for elem in module_capacites %}
+                {% assign capacite = elem.label | default: elem %}
+                {% assign libelle = capacite | remove_first: '🌡️ ' | remove_first: '💧 ' | remove_first: '🌦️ ' | remove_first: '🧠 ' | remove_first: '📡 ' | remove_first: '📶 ' | remove_first: '🔌 ' | remove_first: '📺 ' | remove_first: '☀️ ' | remove_first: '🚶 ' | remove_first: '📍 ' | remove_first: '👆 ' | remove_first: '⚡ ' | remove_first: '🔋 ' | remove_first: '🌧️ ' %}
+                <a class="nl-chip nl-capacity-chip" href="{{ url_catalogue }}?capacite={{ libelle | slugify }}" title="Filtrer par capacité {{ libelle | escape }}">{{ capacite | escape }}</a>
+              {% endfor %}
+            </span>
+            {% endif %}
+            <span class="nl-chips">
+              {% case module_statut %}{% when 'valide' %}{% assign statut_aff = '🟢 Validé' %}{% when 'test' %}{% assign statut_aff = '🟡 En test' %}{% when 'planifie' %}{% assign statut_aff = '⚪ Planifié' %}{% else %}{% assign statut_aff = module_statut %}{% endcase %}
+              {% if module_statut %}<a class="nl-chip nl-chip-filter" href="{{ url_catalogue }}?statut={{ module_statut | url_encode }}">{{ statut_aff | escape }}</a>{% endif %}
+              {% if module_fiche.niveau %}<a class="nl-chip nl-chip-filter" href="{{ url_catalogue }}?niveau={{ module_fiche.niveau | url_encode }}">👤 {{ module_fiche.niveau | replace: 'debutant', 'Débutant' | replace: 'intermediaire', 'Intermédiaire' | replace: 'avance', 'Avancé' | escape }}</a>{% endif %}
+              {% if module_montage %}<a class="nl-chip nl-chip-filter" href="{{ url_catalogue }}?montage={{ module_montage | url_encode }}">{% case module_montage %}{% when 'sans-outil', 'sans_outil' %}🟢 Sans outil{% when 'sans-soudure', 'sans_soudure' %}🟢 Sans soudure{% when 'soudure' %}🟠 Soudure{% else %}{{ module_montage | escape }}{% endcase %}</a>{% endif %}
+              {% if module_fiche.interface %}<a class="nl-chip nl-chip-filter" href="{{ url_catalogue }}?interface={{ module_fiche.interface | url_encode }}">🔌 {{ module_fiche.interface | escape }}</a>{% endif %}
+              {% if module_alimentation %}<a class="nl-chip nl-chip-filter" href="{{ url_catalogue }}?alimentation={{ module_alimentation | url_encode }}">⚡ {{ module_alimentation | escape }}</a>{% endif %}
+              {% if module_temps %}<a class="nl-chip nl-chip-filter" href="{{ url_catalogue }}?temps_max={{ module_temps | url_encode }}">⏱️ {% if module_fiche.duree %}{{ module_fiche.duree | escape }}{% else %}{{ module_temps | escape }} min{% endif %}</a>{% endif %}
+              {% if module_fiche.prix %}<a class="nl-chip nl-chip-filter" href="{{ url_catalogue }}?prix_max={{ module_fiche.prix | url_encode }}">💶 {{ module_fiche.prix | escape }}</a>{% endif %}
+            </span>
+            {% if item.role %}<span class="nl-project-module-role"><strong>Dans ce projet :</strong> {{ item.role | escape }}</span>{% endif %}
+            {% unless module_fiche %}<small class="nl-project-module-unavailable">Fiche du module à retrouver dans le catalogue</small>{% endunless %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
   {% endif %}
-  {% if page.images and page.images.size > 0 %}
-  <section class="nl-project-gallery" aria-label="Galerie du projet"><h2>Photos et illustrations</h2><div class="nl-gallery-view">{% for image in page.images %}<figure class="nl-gallery-slide" {% unless forloop.first %}hidden{% endunless %}><img src="{{ image.fichier | relative_url }}" alt="{{ image.alt | default: image.titre | default: page.title | escape }}" loading="lazy">{% if image.titre %}<figcaption>{{ image.titre | escape }}</figcaption>{% endif %}</figure>{% endfor %}</div>{% if page.images.size > 1 %}<div class="nl-gallery-thumbs">{% for image in page.images %}<button class="nl-gallery-thumb" type="button" data-slide="{{ forloop.index0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Afficher l'image {{ forloop.index }}">{{ forloop.index }}</button>{% endfor %}</div>{% endif %}</section>
+
+  {% if page.images and page.images.size > 1 %}
+  <section class="nl-project-gallery" aria-label="Galerie du projet">
+    <h2>📷 Photos et illustrations</h2>
+    <div class="nl-gallery-view" data-nl-project-gallery>
+    {% for image in page.images %}<figure class="nl-gallery-slide" {% unless forloop.first %}hidden{% endunless %}><img src="{{ image.fichier | relative_url }}" alt="{{ image.alt | default: image.titre | default: page.title | escape }}" loading="lazy">{% if image.titre %}<figcaption>{{ image.titre | escape }}</figcaption>{% endif %}</figure>{% endfor %}
+    </div>
+    <div class="nl-gallery-thumbs">{% for image in page.images %}<button class="nl-gallery-thumb" type="button" data-slide="{{ forloop.index0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Afficher la photo {{ forloop.index }}">{{ forloop.index }}</button>{% endfor %}</div>
+  </section>
   {% endif %}
-  <section class="nl-project-documentation"><h2>Documentation du projet</h2><div class="nl-project-doc markdown-body" data-nl-document>{{ content }}</div></section>
+
+  <section class="nl-project-documentation">
+    <div class="nl-project-section-heading"><div><h2>📚 Documentation du projet</h2><p>Présentation visible, détails techniques dans des accordéons.</p></div></div>
+    <div class="nl-project-doc markdown-body" data-nl-project-doc>{{ content }}</div>
+  </section>
 </article>
-<script defer src="{{ '/assets/js/natulib-module.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/natulib-projet.js' | relative_url }}"></script>

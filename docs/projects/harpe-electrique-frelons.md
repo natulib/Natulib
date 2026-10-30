@@ -5,6 +5,7 @@ ref: PRJ-001
 parent: Projets
 description: "Projet de dispositif de protection des ruches, avec commande Natulib OS et surveillance environnementale."
 statut: planifie
+securite_haute_tension: true
 niveau: avance
 temps: "~3 heures"
 # Une photo réelle du projet pourra être ajoutée plus tard :
@@ -21,18 +22,24 @@ modules:
   - ref: NL-001A
     nom: ESP32-C6
     url: /modules/NL-001A-ESP32-C6-N16.html
+    role: Carte principale Natulib OS
   - ref: NL-207A
     nom: INA219
     url: /modules/NL-207A-Capteur-courant-INA219.html
+    role: Surveillance énergétique
   - ref: NL-202A
     nom: BH1750
     url: /modules/NL-202A-BH1750.html
+    role: Mesure de luminosité
   - ref: NL-208A
     nom: Capteur de pluie
     url: /modules/NL-208A-Capteur-pluie.html
+    role: Détection de pluie
   - ref: NL-402A
     nom: MOSFET D4184
     url: /modules/NL-402A-Mosfet-PWM.html
+    role: Commande de puissance
+
 ---
 
 ## Présentation

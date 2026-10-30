@@ -16,7 +16,24 @@
     const thumbs = [...root.querySelectorAll('.nl-gallery-thumb')];
     const counter = root.querySelector('[data-nl-count]');
     const swipeZone = root.querySelector('[data-nl-swipe-zone]');
+    const lightbox = root.querySelector('[data-nl-photo-lightbox]');
+    const lightboxImage = lightbox?.querySelector('[data-nl-lightbox-image]');
+    const lightboxCaption = lightbox?.querySelector('[data-nl-lightbox-caption]');
+    const lightboxCount = lightbox?.querySelector('[data-nl-lightbox-count]');
     let activePhoto = 0;
+    let lastZoomTrigger = null;
+
+    function updateLightbox() {
+      if (!lightbox?.open || !slides.length || !lightboxImage) return;
+      const slide = slides[activePhoto];
+      const original = slide?.querySelector('img');
+      if (!original) return;
+      lightboxImage.src = original.currentSrc || original.src;
+      lightboxImage.alt = original.alt || '';
+      if (lightboxCaption) lightboxCaption.textContent = slide.querySelector('figcaption')?.textContent || original.alt || '';
+      if (lightboxCount) lightboxCount.textContent = slides.length > 1 ? `${activePhoto + 1} / ${slides.length}` : '';
+      lightbox.querySelectorAll('.nl-lightbox-arrow').forEach(arrow => { arrow.hidden = slides.length < 2; });
+    }
 
     function setPhoto(index) {
       if (!slides.length) return;
@@ -24,7 +41,44 @@
       slides.forEach((el, i) => { el.hidden = i !== activePhoto; });
       thumbs.forEach((el, i) => { el.setAttribute('aria-pressed', String(i === activePhoto)); });
       if (counter) counter.textContent = `${activePhoto + 1} / ${slides.length}`;
+      updateLightbox();
     }
+
+    // Le bouton transparent couvre la photo, sans masquer les flèches existantes.
+    root.querySelectorAll('[data-nl-zoom-open]').forEach((trigger, index) => {
+      trigger.addEventListener('click', () => {
+        if (!lightbox || !slides.length) return;
+        lastZoomTrigger = trigger;
+        setPhoto(index);
+        if (typeof lightbox.showModal === 'function') lightbox.showModal();
+        else lightbox.setAttribute('open', '');
+        updateLightbox();
+        lightbox.querySelector('[data-nl-lightbox-close]')?.focus();
+      });
+    });
+    lightbox?.querySelector('[data-nl-lightbox-close]')?.addEventListener('click', () => lightbox.close());
+    lightbox?.querySelector('[data-nl-lightbox-prev]')?.addEventListener('click', () => setPhoto(activePhoto - 1));
+    lightbox?.querySelector('[data-nl-lightbox-next]')?.addEventListener('click', () => setPhoto(activePhoto + 1));
+    lightbox?.addEventListener('close', () => {
+      const focusTarget = lastZoomTrigger?.closest('.nl-gallery-slide')?.hidden
+        ? slides[activePhoto]?.querySelector('[data-nl-zoom-open]')
+        : lastZoomTrigger;
+      focusTarget?.focus({ preventScroll: true });
+    });
+    lightbox?.addEventListener('click', e => {
+      if (e.target === lightbox) lightbox.close();
+    });
+    // Glissement horizontal sur la photo agrandie (mobile).
+    const zoomSwipeZone = lightbox?.querySelector('[data-nl-lightbox-swipe]');
+    let zoomTouchX = 0;
+    zoomSwipeZone?.addEventListener('touchstart', e => {
+      zoomTouchX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    zoomSwipeZone?.addEventListener('touchend', e => {
+      if (slides.length < 2) return;
+      const diff = e.changedTouches[0].screenX - zoomTouchX;
+      if (Math.abs(diff) > 45) setPhoto(activePhoto + (diff < 0 ? 1 : -1));
+    }, { passive: true });
 
     thumbs.forEach((b, i) => b.addEventListener('click', () => setPhoto(i)));
     root.querySelector('[data-nl-prev]')?.addEventListener('click', () => setPhoto(activePhoto - 1));
@@ -33,8 +87,11 @@
     if (slides.length > 1) {
       document.addEventListener('keydown', e => {
         if (e.target.matches('input, textarea, select')) return;
-        if (e.key === 'ArrowLeft') setPhoto(activePhoto - 1);
-        if (e.key === 'ArrowRight') setPhoto(activePhoto + 1);
+        // Une seule logique de navigation pour la galerie et sa photo agrandie.
+        // Ne pas intercepter les flèches quand la fenêtre d'impression est ouverte.
+        if (root.querySelector('[data-nl-print-dialog]')?.open) return;
+        if (e.key === 'ArrowLeft') { if (lightbox?.open) e.preventDefault(); setPhoto(activePhoto - 1); }
+        if (e.key === 'ArrowRight') { if (lightbox?.open) e.preventDefault(); setPhoto(activePhoto + 1); }
       });
 
       let touchStartX = 0;

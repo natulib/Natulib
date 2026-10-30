@@ -127,6 +127,7 @@ bare: true
                 {% for image in page.images %}
                   <figure class="nl-gallery-slide" {% unless forloop.first %}hidden{% endunless %}>
                     <img src="{{ image.fichier | relative_url }}" alt="{{ image.alt | default: image.titre | default: page.title | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+                    <button type="button" class="nl-gallery-zoom-open" data-nl-zoom-open aria-label="Agrandir la photo : {{ image.titre | default: image.alt | default: page.title | escape }}"></button>
                     {% if image.titre %}<figcaption>{{ image.titre | escape }}</figcaption>{% endif %}
                   </figure>
                 {% endfor %}
@@ -212,6 +213,22 @@ bare: true
       {% endif %}
     </div>
   </section>
+
+  <!-- Agrandissement des photographies : aucune modification de la galerie imprimée. -->
+  <dialog class="nl-photo-lightbox" data-nl-photo-lightbox aria-label="Photo du module agrandie">
+    <div class="nl-photo-lightbox-inner">
+      <button type="button" class="nl-lightbox-close" data-nl-lightbox-close aria-label="Fermer l'agrandissement">✕</button>
+      <div class="nl-lightbox-stage" data-nl-lightbox-swipe>
+        <button type="button" class="nl-lightbox-arrow nl-lightbox-prev" data-nl-lightbox-prev aria-label="Photo précédente">‹</button>
+        <img data-nl-lightbox-image alt="">
+        <button type="button" class="nl-lightbox-arrow nl-lightbox-next" data-nl-lightbox-next aria-label="Photo suivante">›</button>
+      </div>
+      <div class="nl-lightbox-footer">
+        <span data-nl-lightbox-caption></span>
+        <span data-nl-lightbox-count aria-live="polite"></span>
+      </div>
+    </div>
+  </dialog>
 
   <dialog class="nl-print-dialog" data-nl-print-dialog aria-labelledby="nl-print-title">
     <form method="dialog" class="nl-print-dialog-content">

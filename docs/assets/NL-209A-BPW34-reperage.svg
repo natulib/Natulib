@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="520" viewBox="0 0 1000 520" role="img" aria-labelledby="title desc">
+<title id="title">Natulib NL-209A — identifier les pattes de la BPW34</title>
+<desc id="desc">Vue de la face sensible vers soi, pattes vers le bas, comme sur la photo fournie. Sur cette orientation, la patte gauche sans ergot est l’anode A et la patte droite à petit repère métallique est la cathode K. Droite et gauche s’inversent si on retourne le composant.</desc>
+<rect width="1000" height="520" rx="24" fill="#fbfcfe"/>
+<rect x="18" y="18" width="964" height="484" rx="18" fill="none" stroke="#cad6e3" stroke-width="2"/>
+<text x="45" y="66" fill="#223145" font-size="32" font-family="Arial,sans-serif" font-weight="700">Natulib · NL-209A — BPW34</text>
+<text x="45" y="102" fill="#506175" font-size="20" font-family="Arial,sans-serif">Vue identique à la photo : face sensible vers soi, pattes vers le bas</text>
+<rect x="344" y="150" width="285" height="180" rx="15" fill="#c7d0d6" stroke="#697d91" stroke-width="5"/>
+<rect x="363" y="169" width="247" height="142" rx="5" fill="#9bb9c5" stroke="#65818c" stroke-width="3"/>
+<rect x="386" y="180" width="203" height="120" rx="3" fill="#1c3d67" stroke="#334866" stroke-width="3"/>
+<path d="M375 330 H355 V399" fill="none" stroke="#7a8997" stroke-width="19" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M596 330 H616 V399" fill="none" stroke="#7a8997" stroke-width="19" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M607 340 H636 V355 H609" fill="#98aab5" stroke="#677988" stroke-width="3"/>
+<text x="215" y="226" fill="#235d8d" font-size="28" font-family="Arial,sans-serif" font-weight="700">ANODE A</text>
+<text x="216" y="259" fill="#536575" font-size="18" font-family="Arial,sans-serif">sans ergot</text>
+<path d="M312 260 L347 365" fill="none" stroke="#235d8d" stroke-width="4" stroke-linecap="round"/>
+<circle cx="350" cy="368" r="7" fill="#235d8d"/>
+<text x="690" y="224" fill="#bd4f4f" font-size="28" font-family="Arial,sans-serif" font-weight="700">CATHODE K</text>
+<text x="690" y="258" fill="#536575" font-size="18" font-family="Arial,sans-serif">petit ergot métallique</text>
+<path d="M681 280 L642 347" fill="none" stroke="#bd4f4f" stroke-width="4" stroke-linecap="round"/>
+<circle cx="634" cy="349" r="7" fill="#bd4f4f"/>
+<text x="356" y="442" text-anchor="middle" fill="#235d8d" font-size="23" font-family="Arial,sans-serif" font-weight="700">A</text>
+<text x="618" y="442" text-anchor="middle" fill="#bd4f4f" font-size="23" font-family="Arial,sans-serif" font-weight="700">K</text>
+<text x="500" y="476" text-anchor="middle" fill="#4d6075" font-size="17" font-family="Arial,sans-serif">Repérer le petit ergot — ne pas se fier à gauche/droite après avoir retourné le composant</text>
+</svg>

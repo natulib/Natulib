@@ -17,12 +17,14 @@ temps: 15
 interface: Analogique (ADC)
 prix: Variable selon le fournisseur et le lot
 alimentation: Montage sous 3,3 V
-description: Photodiode sensible à la lumière visible et au proche infrarouge, utilisable pour détecter une LED, un passage ou une variation lumineuse.
+description: Photodiode sensible à la lumière visible et au proche infrarouge, pour la détection optique et les essais de mesure lumineuse (dont PAR expérimental).
 presentation: >-
   Le BPW34 transforme la lumière reçue en un très faible courant électrique.
   Une résistance permet d'obtenir une tension lisible par l'entrée analogique
   de l'ESP32-C6. Dans Natulib, il pourra devenir un capteur optique polyvalent,
   notamment pour repérer l'allumage d'un objet lumineux sans le modifier.
+  Avec des accessoires optiques et un étalonnage, il peut aussi servir à un
+  montage expérimental de mesure du rayonnement utile aux plantes (PAR).
 caracteristiques:
   - nom: Technologie
     valeur: Photodiode PIN au silicium, 2 connexions (A/K)
@@ -34,16 +36,22 @@ caracteristiques:
     valeur: Tension analogique sur GPIO ADC via une résistance
   - nom: Montage conseillé pour débuter
     valeur: BPW34 + résistance de 100 kΩ + GPIO2 sur ESP32-C6 N16
+  - nom: Mode PAR expérimental
+    valeur: Filtre 400–700 nm, diffuseur, étalonnage de référence requis
   - nom: Driver Natulib OS V0.475
     valeur: Photodiode dédiée non intégrée — adaptation nécessaire
 images:
+  - fichier: /assets/NL-209A-BPW34-reperage.svg
+    titre: Repérer anode et cathode — vue correspondant à la photographie
+    alt: "Face photosensible vers soi, pattes vers le bas : sur la variante photographiée, le petit ergot métallique à droite repère la cathode K"
   - fichier: /assets/NL-209A-BPW34-branchement.svg
-    titre: Câblage BPW34 — 3,3 V, GPIO2, résistance de 100 kΩ
-    alt: Schéma Natulib de la BPW34, cathode vers 3,3 V, anode vers GPIO2 et résistance entre GPIO2 et GND
+    titre: Montage Natulib — 3V3, GPIO2 et résistance 100 kΩ
+    alt: La cathode K va au 3V3 et l'anode A va au GPIO2, avec une résistance 100 kiloohms entre GPIO2 et GND
 elements:
   - "💡 Détection lumineuse"
   - "🚪 Passage et ouverture"
   - "🧩 Bouton optique"
+  - "🌱 Mesure PAR expérimentale"
 natulib_os_driver: À développer (driver optique polyvalent)
 natulib_os_type: photodiode (prévu, non disponible dans V0.475)
 validation_statut: Montage et intégration non encore testés
@@ -60,8 +68,34 @@ validation_statut: Montage et intégration non encore testés
 - **Observer une ouverture** : repérer l'arrivée de lumière dans une boîte ou un tiroir.
 - **Détecter un reflet** : éclairer un objet et mesurer la lumière qu'il renvoie (géométrie à régler).
 - **Suivre une variation lumineuse** : mesurer une luminosité *relative*, mais **pas des lux étalonnés**. Pour des lux, choisir plutôt le module Natulib BH1750 (NL-202A).
+- **Essayer un capteur PAR pour les plantes** : construire un montage avec filtre visible, diffuseur et étalonnage de référence. Usage **expérimental**, pas une valeur PAR absolue fiable sans validation.
 
 **Exemple de projet :** utiliser un Clickeez lumineux complet et amovible comme bouton Natulib. C'est un *cas d'usage*, pas la définition du BPW34 : le même capteur doit rester utile pour d'autres montages.
+
+## 🌱 Usage avancé — Capteur PAR expérimental pour les plantes
+
+Le **PAR** (*Photosynthetically Active Radiation*) correspond au rayonnement utile à la photosynthèse, habituellement défini dans la plage **400 à 700 nm**. Un appareil PAR étalonné peut donner une densité de flux de photons photosynthétiques (**PPFD**, en **µmol·m⁻²·s⁻¹**). La BPW34 seule ne fournit **ni cette unité ni une mesure PAR précise** : sa réponse s'étend environ de **430 à 1 100 nm**, avec un maximum vers **900 nm** (proche infrarouge). En particulier, elle est peu sensible à une partie de la bande 400–430 nm et répond fortement hors PAR, dans l'IR.
+
+Un montage de recherche amateur décrit dans le manuel [*Build-It-Yourself: Low-Cost Systems for Field Ecophysiology*](https://monkshilllab-isolab.github.io/LCSfFE-handbook/hardware-solutions.html) ajoute les éléments suivants :
+
+| Élément pour l'usage PAR | Utilité | Statut |
+|---|---|---|
+| BPW34 | Produit un photocourant lié au rayonnement reçu | Capteur de base |
+| **Filtre optique 400–700 nm** | Réduit la lumière proche infrarouge hors PAR | **Obligatoire pour tenter une estimation PAR** |
+| **Diffuseur PTFE** | Homogénéise l'éclairage incident | Recommandé pour le montage étudié |
+| Résistance **2,2 kΩ / 4,7 kΩ / 10 kΩ** | Convertit le courant lumineux en tension avec un gain plus faible qu'en mode LED | Valeur **à choisir après essais**, pas une valeur universelle |
+| Boîtier noir imprimé en 3D | Maintient les éléments optiques et limite la lumière parasite | À concevoir |
+| Référence PAR étalonnée | Permet de construire une courbe de conversion et de vérifier le résultat | **Nécessaire pour prétendre mesurer en PPFD** |
+
+**Deux usages, deux réglages :** pour détecter la LED d'un Clickeez, **100 kΩ** est une valeur initiale utile car le photocourant peut être faible. En plein jour, une résistance **plus faible** (par exemple 2,2–10 kΩ) peut éviter que la lecture ADC ne soit saturée. La bonne valeur dépend de la lumière réelle, du filtre et de la géométrie.
+
+**Pour Natulib :** tant que la conversion n'a pas été comparée à un véritable capteur PAR, exposer plutôt une **mesure analogique relative**. Une future métrique `ppfd` ne serait pertinente qu'après étalonnage et tests sous différents spectres lumineux (soleil, LED de culture, etc.). Le filtre 400–700 nm ne compense pas à lui seul la réponse spectrale non uniforme de la BPW34.
+
+### Point de vigilance sur le schéma publié
+
+Le schéma du manuel cité relie **l'anode à 5 V**, la **cathode à la sortie analogique** et une résistance de cette sortie à GND. **Tel que dessiné, ce montage polarise la diode en direct** : la broche de mesure pourrait recevoir une tension supérieure à ce qu'accepte un ESP32-C6. Il ne faut **pas le recopier dans Natulib** sans rectifier ou clarifier ce circuit avec la source. La mention **A2** dans le manuel désigne une entrée analogique de son microcontrôleur d'exemple ; **ce n'est pas le GPIO2 de notre ESP32-C6**.
+
+Pour la station Natulib, garder le câblage **cathode → 3V3**, **anode → GPIO ADC**, **résistance ADC → GND** décrit ci-dessous. L'adaptation PAR consiste d'abord à **changer la valeur de résistance**, à ajouter **filtre + diffuseur** et à **étalonner**, sans injecter 5 V sur le GPIO.
 
 ## 🛒 Ce qu'il vous faut
 
@@ -78,53 +112,99 @@ La photodiode est un composant **à deux pattes sans module électronique intég
 
 ## 🔌 Branchement sur le NL-001A (ESP32-C6 N16)
 
-### 1. Repérer les deux pattes
+> **À suivre pour le premier essai :** 1 BPW34 + 1 résistance **100 kΩ** + 3 connexions vers l'ESP32-C6 (**3V3**, **GPIO2**, **GND**). **Ne rien relier au 5V.** Ce montage est à tester hors tension avant le premier démarrage.
 
-Le BPW34 possède une **anode (A)** et une **cathode (K, parfois notée C)**. Sur le modèle Vishay, le constructeur indique un **repère de cathode sur le boîtier**. Consultez le dessin des *PACKAGE DIMENSIONS*, page 4, de [la fiche Vishay BPW34](https://www.vishay.com/docs/81521/bpw34.pdf), puis comparez votre composant réel. **Ne vous fiez pas simplement à la longueur des pattes ni à une vue tournée du composant.**
+### 1. Identifier la cathode et l'anode (le point le plus important)
 
-### 2. Câbler hors tension
+Sur **la photographie fournie avec cette fiche**, on regarde la BPW34 **du côté de sa fenêtre sensible**, les deux pattes **vers le bas** :
 
-| Connexion | Brancher à | Pourquoi ? |
+- **À droite sur CETTE vue : cathode `K`** — patte associée au **petit décroché / ergot métallique latéral** du boîtier.
+- **À gauche sur CETTE vue : anode `A`** — patte sans ce repère.
+- **Si la pièce est tournée ou regardée de dos, gauche et droite peuvent s'inverser.** Ce qui compte, c'est le **repère physique de cathode**, pas une position absolue.
+
+![Repérage physique anode/cathode — Natulib BPW34](/assets/NL-209A-BPW34-reperage.svg)
+
+Ce repère figure dans le dessin constructeur **« CATHODE MARKING »**, page 4 de la [fiche Vishay BPW34](https://www.vishay.com/docs/81521/bpw34.pdf). Le repère est une **petite particularité métallique du boîtier près de la patte**, **pas simplement une patte plus courte ou recourbée**. Sur une copie d'un autre fabricant, contrôler son propre brochage.
+
+**Double vérification facultative au multimètre (mode diode), sans alimentation :** placer la pointe **rouge sur A** et la **noire sur K** : la photodiode peut afficher une chute de tension directe (souvent environ 0,5 à 0,8 V). En inversant les pointes, la lecture doit normalement indiquer un circuit non conducteur (`OL`). Cette vérification est indicative ; en cas de doute, privilégier la fiche de la référence exacte.
+
+### 2. Réaliser le circuit sur breadboard, USB débranché
+
+| Étape | Fil ou composant | Connexion à effectuer |
 |---|---|---|
-| **Cathode K du BPW34** | **3V3** de l'ESP32-C6 | Polarisation inverse de la photodiode |
-| **Anode A du BPW34** | **GPIO2 (ADC)** | Lire la tension produite sous éclairage |
-| **Résistance 100 kΩ — patte 1** | **GPIO2** (même point que l'anode) | Conversion courant → tension |
-| **Résistance 100 kΩ — patte 2** | **GND** | Retour à la masse |
+| **①** | BPW34 **cathode K** (patte avec ergot) | Sur le **3V3** de l'ESP32-C6 |
+| **②** | BPW34 **anode A** (autre patte) | Sur un **point commun** de la breadboard |
+| **③** | Fil de signal | De ce **point commun** au **GPIO2 (ADC)** |
+| **④** | Résistance **100 kΩ** | **Une patte** sur le **même point commun** (A + GPIO2) |
+| **⑤** | Résistance **100 kΩ** | **L'autre patte** au **GND** de l'ESP32-C6 |
+
+**Schéma électrique :**
 
 ```text
- ESP32-C6 N16
+         ESP32-C6 N16 (GPIO en logique 3,3 V)
 
-  3V3 ────────────── K  BPW34  A ───────┬──── GPIO2 (ADC)
-                                        │
-                                      [100 kΩ]
-                                        │
-  GND ──────────────────────────────────┘
+  3V3  ──────────── K  [ BPW34 ]  A ───┬──── GPIO2  (ADC1)
+                                       │
+                                    [100 kΩ]
+                                       │
+  GND  ────────────────────────────────┘
 ```
 
-**Attention :** la résistance se place **entre GPIO2 et GND** ; elle n'est **pas en série** entre le BPW34 et GPIO2. Sur le profil de ta carte **ESP32-C6 N16 double USB-C**, GPIO2 apparaît sur le **côté droit** du brochage : vérifier la sérigraphie avant de brancher. Voir [NL-001A — ESP32-C6 N16](./NL-001A-ESP32-C6-N16.md).
+![Schéma de câblage de la BPW34 avec Natulib](/assets/NL-209A-BPW34-branchement.svg)
 
-> ⚠️ **Sécurité électrique :** utiliser exclusivement la broche **3V3**, **jamais 5V** pour ce circuit. Les GPIO de l'ESP32-C6 ne doivent pas recevoir 5 V. Couper l'alimentation USB avant tout changement de fil. Vérifier qu'aucun autre périphérique n'utilise GPIO2.
+**À retenir :** la **résistance est entre GPIO2 et GND**, **pas entre la cathode et le GPIO2**, ni en série avec la photodiode. Une résistance n'a pas de sens de montage. Le GPIO2 figure sur le **côté droit du profil de ta carte ESP32-C6 N16 double USB-C**, mais il faut toujours lire le **numéro de broche sérigraphié** sur la carte réelle ([fiche NL-001A](./NL-001A-ESP32-C6-N16.md)).
 
-### 3. Comprendre ce qu'on mesure
+> ⚠️ **Attention à l'autre schéma trouvé sur Internet :** il indique **5V → anode**, **cathode → A2** et **résistance vers GND**. **Ne pas le recopier** sur l'ESP32-C6. Ici, on branche bien **3V3 → cathode K**, **anode A → GPIO2**, **100 kΩ → GND**. L'étiquette `A2` de cet autre document n'est pas le numéro `GPIO2` de notre carte.
 
-La lumière provoque un **photocourant**. Dans ce montage, plus de lumière produit en principe une tension plus élevée sur GPIO2. Approximativement : **tension ≈ courant × résistance**, avant saturation. La valeur **100 kΩ est un point de départ**, à adapter aux mesures réelles.
+### 3. Vérifications avant de rebrancher l'USB
 
-| Situation | Ce qu'on devrait observer |
+- [ ] La **cathode avec l'ergot** va bien au **3V3** (et non au 5V).
+- [ ] L'autre patte (**anode**) rejoint **GPIO2**.
+- [ ] La **résistance 100 kΩ** est installée **entre GPIO2 et GND**.
+- [ ] Les deux pattes de la BPW34 **ne se touchent pas**.
+- [ ] Les pistes et rangées de la breadboard sont bien identifiées ; pas de court-circuit entre **3V3** et **GND**.
+- [ ] **GPIO2 est libre** sur le montage Natulib (aucun autre organe dessus).
+
+### 4. Premier essai électrique (sans modifier Natulib OS)
+
+1. Rebrancher l'ESP32-C6 par **USB-C** après avoir vérifié les cinq points ci-dessus.
+2. Avec un **multimètre en mode tension continue** (si disponible), poser la pointe **noire sur GND** et la **rouge sur le point commun GPIO2 / anode**.
+3. **Masquer la BPW34** avec un objet opaque : la tension doit être **faible**, souvent proche de **0 V**.
+4. **Éclairer la face sensible** avec une lampe ou le Clickeez : la tension doit **augmenter**. Revenir à l'obscurité pour constater qu'elle redescend.
+5. Noter les mesures obtenues : elles permettront de choisir le futur seuil de détection dans Natulib.
+
+| Essai | Tension mesurée entre GPIO2 et GND |
 |---|---|
-| Photodiode recouverte | Signal très faible, parfois proche de **0** |
-| Photodiode éclairée | Signal qui **augmente** |
-| Éclairage trop fort / trop de gain | Signal proche du maximum : réduire la résistance (par exemple 47 kΩ) |
-| Signal trop faible | Rapprocher la lumière ou essayer 220 kΩ, après contrôle du montage |
+| BPW34 masquée | ______ V |
+| Lumière ambiante | ______ V |
+| Lampe proche | ______ V |
+| Clickeez allumé | ______ V |
+| Clickeez éteint après appui | ______ V |
 
-La sensibilité varie selon la **couleur** : le BPW34 est particulièrement sensible dans le proche infrarouge (maximum autour de **900 nm**). **On ne déduit donc pas directement une luminosité en lux** de sa mesure ADC.
+**Sans multimètre :** ces étapes attendent la lecture ADC au moyen d'un outil de test ou d'un driver adapté. **Ne supposez pas** que l'organe générique `analog` de la V0.475 convient : voir plus bas sa détection de « déconnexion » lorsqu'il lit zéro.
+
+### 5. Comprendre la valeur de la résistance
+
+La lumière génère un faible **photocourant**, que la résistance convertit en tension. Dans le montage ci-dessus, **plus de lumière → tension généralement plus élevée**. Une résistance de **100 kΩ** est un **choix initial**, pas une valeur définitive.
+
+| Observation | Action prudente |
+|---|---|
+| Quasiment 0 V même sous la lumière | Revoir d'abord le repère K/A, les fils, le point GPIO2 et l'orientation du capteur. |
+| Signal détectable mais faible | Rapprocher la lumière ; envisager **220 kΩ** seulement après une première mesure. |
+| Tension élevée / lecture ADC saturée | Diminuer la résistance, par exemple **47 kΩ** puis **10 kΩ** si nécessaire. |
+| Variation lors du changement de couleur du Clickeez | Normal : la sensibilité de la BPW34 dépend de la longueur d'onde ; le futur bouton devra le tolérer. |
+
+Une entrée ADC de l'ESP32-C6 peut **saturer avant 3,3 V selon l'atténuation choisie**, même si la broche reste dans sa plage électrique admissible. Ne pas déduire une tension exacte du seul nombre brut ADC sans connaître le réglage et l'étalonnage. La tension mesurée au multimètre reste l’indication la plus simple pour ce premier essai.
+
+Un **condensateur de 100 nF** entre GPIO2 et GND peut être ajouté **plus tard** pour stabiliser la mesure, mais **ne le monte pas au premier essai** : commençons par le circuit minimal pour voir le comportement réel de la LED.
 
 ## 🚀 Première mise en service — état actuel de Natulib OS
 
-1. **Monter la BPW34 et la 100 kΩ** selon le tableau, ESP32 hors tension.
-2. **Alimenter la carte** ; contrôler visuellement les fils et l'absence de court-circuit.
-3. **Vérifier la réponse lumineuse** par une mesure de tension entre GPIO2 et GND (multimètre, si disponible) : obscurité, lampe, puis retour à l'obscurité.
-4. **Noter les valeurs** et essayer différentes orientations de la lumière.
-5. **Pour visualiser la valeur ADC dans Natulib Hardware**, attendre le driver spécifique (voir ci-dessous) ou faire un essai logiciel temporaire *séparé* du firmware Natulib. Ne pas importer un JSON `photodiode` tant que le driver n'existe pas.
+1. Suivre **dans l'ordre les étapes 1 à 4 de « Branchement »** ci-dessus, sans sauter la vérification K/A.
+2. Vérifier la variation de tension **lumière éteinte / allumée**, puis le retour à la valeur sombre.
+3. Pour le Clickeez, tester **plusieurs couleurs** et l'orientation réelle de la lumière.
+4. Consigner ces résultats dans le **cahier de validation** ci-dessous.
+5. Pour afficher une mesure dans **Natulib Hardware**, il faudra le driver optique adapté (ou un outil ADC de diagnostic validé). **Ne pas importer** le JSON `photodiode` illustratif ci-dessous tant que ce type n'existe pas dans le firmware.
 
 ### Pourquoi ne pas sélectionner simplement « Sonde analogique » ?
 
@@ -233,3 +313,5 @@ Pour ce mode, prévoir dans le futur driver **seuil haut, seuil bas (hystérési
 | Version | Évolution |
 |---|---|
 | A | Création de la fiche module Natulib BPW34 ; montage sous 3,3 V, usages polyvalents et état d'intégration V0.475. |
+| A.1 | Ajout du montage PAR expérimental, des accessoires optiques, des limites d’étalonnage et de l’alerte sur le schéma 5 V de référence. |
+| A.2 | Identification visuelle de la cathode par son ergot métallique (photo fournie), double vérification possible au multimètre, câblage pas à pas sur breadboard, contrôles avant mise sous tension, mesures initiales. |

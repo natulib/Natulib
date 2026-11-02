@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="525" viewBox="0 0 1000 525" role="img" aria-labelledby="t d">
+  <title id="t">Branchement BPW34 à Natulib ESP32-C6</title>
+  <desc id="d">La cathode K de la BPW34 est reliée au 3,3 V, l'anode A au GPIO2 ADC de l'ESP32-C6. Une résistance de 100 kiloohms est placée entre GPIO2 et la masse GND.</desc>
+  <defs>
+    <style>
+      text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;fill:#243044} .dark{fill:#fff} .muted{fill:#526174} .wire{stroke:#256d9d;stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round} .supply{stroke:#c44956;stroke-width:5;fill:none;stroke-linecap:round} .ground{stroke:#56616b;stroke-width:5;fill:none;stroke-linecap:round} .note{font-size:20px} .small{font-size:16px}
+    </style>
+  </defs>
+  <rect width="1000" height="525" rx="20" fill="#fcfdfd"/>
+  <rect x="18" y="18" width="964" height="489" rx="18" fill="none" stroke="#c7d5e1" stroke-width="2"/>
+  <text x="45" y="63" font-size="32" font-weight="750">Natulib • NL-209A — Photodiode BPW34</text>
+  <text x="45" y="97" font-size="19" class="muted">Montage d'essai sur ESP32-C6 N16 • éteindre l'USB avant de câbler</text>
+  <rect x="50" y="160" width="190" height="256" rx="18" fill="#233247"/>
+  <text x="145" y="205" text-anchor="middle" class="dark" font-size="23" font-weight="700">ESP32-C6</text>
+  <text x="145" y="236" text-anchor="middle" class="dark" font-size="17">Natulib OS</text>
+  <circle cx="226" cy="270" r="8" fill="#de5a61"/><circle cx="226" cy="336" r="8" fill="#4eb3df"/><circle cx="226" cy="400" r="8" fill="#d3d8df"/>
+  <text x="198" y="276" text-anchor="end" class="dark" font-size="22" font-weight="650">3V3</text>
+  <text x="198" y="342" text-anchor="end" class="dark" font-size="22" font-weight="650">GPIO2</text>
+  <text x="198" y="406" text-anchor="end" class="dark" font-size="22" font-weight="650">GND</text>
+  <path d="M234 270 H385 V237 H495" class="supply"/>
+  <text x="328" y="253" text-anchor="middle" font-size="18" fill="#b72c3d">3,3 V</text>
+  <rect x="495" y="205" width="215" height="95" rx="15" fill="#e4f0ff" stroke="#4a729f" stroke-width="3"/>
+  <text x="602" y="241" text-anchor="middle" font-size="27" font-weight="750">BPW34</text>
+  <text x="602" y="274" text-anchor="middle" font-size="19">Photodiode PIN</text>
+  <circle cx="495" cy="237" r="7" fill="#c44956"/><circle cx="710" cy="237" r="7" fill="#256d9d"/>
+  <text x="481" y="195" font-size="24" font-weight="800" fill="#b72c3d">K</text>
+  <text x="713" y="195" font-size="24" font-weight="800" fill="#256d9d">A</text>
+  <text x="445" y="322" text-anchor="middle" class="small muted">Cathode</text>
+  <text x="735" y="322" text-anchor="middle" class="small muted">Anode</text>
+  <path d="M710 237 H785 V336 H234" class="wire"/>
+  <circle cx="785" cy="336" r="7" fill="#256d9d"/>
+  <text x="784" y="359" text-anchor="middle" font-size="17">Point commun</text>
+  <path d="M785 336 V372" class="wire"/>
+  <rect x="763" y="372" width="44" height="73" rx="8" fill="#f4e4ba" stroke="#967034" stroke-width="3"/>
+  <text x="834" y="405" class="note">100 kΩ</text>
+  <path d="M785 445 V468 H300 V400 H234" class="ground"/>
+  <text x="500" y="458" font-size="16" class="muted">Retour à la masse</text>
+  <path d="M540 147 L566 175 M605 139 L605 175 M674 146 L648 175" stroke="#e2ad3b" stroke-width="5" stroke-linecap="round"/>
+  <text x="610" y="131" text-anchor="middle" font-size="18" fill="#aa7800">Lumière ↓</text>
+  <text x="45" y="492" class="small muted">K = cathode (repère à vérifier sur la pièce) • A = anode • Schéma électrique, pas vue physique du composant</text>
+</svg>

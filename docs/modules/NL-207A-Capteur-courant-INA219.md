@@ -16,8 +16,10 @@ temps: 10
 interface: I²C
 prix: ≈ 1.5 €
 description: Le INA219 est un capteur de courant et de tension communiquant en I²C.
-images: []
-photos_a_ajouter: true
+images:
+  - fichier: /assets/NL-207A-INA219-1.png
+    titre: 
+    alt: 
 elements:
 - ⚡ Courant
 - 🔋 Tension

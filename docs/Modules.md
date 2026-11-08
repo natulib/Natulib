@@ -7,6 +7,58 @@ has_children: true
 ---
 {% comment %}Liens construits par Jekyll : compatibles GitHub Pages et site local.{% endcomment %}
 <link rel="stylesheet" href="{{ '/assets/css/natulib-pages.css' | relative_url }}">
+<style>
+/* Galerie des vignettes du catalogue : n'affecte pas les fiches individuelles. */
+#nl-catalog .nl-module-media-gallery {
+  position: relative;
+  min-width: 0;
+  isolation: isolate;
+}
+#nl-catalog .nl-module-gallery-arrow {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 50%;
+  background: rgba(17,24,39,.76);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  font: 32px/1 Arial, sans-serif;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color .15s ease, box-shadow .15s ease;
+}
+#nl-catalog .nl-module-gallery-prev { left: 8px; }
+#nl-catalog .nl-module-gallery-next { right: 8px; }
+#nl-catalog .nl-module-gallery-arrow:hover { background: rgba(17,24,39,.95); }
+#nl-catalog .nl-module-gallery-arrow:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+#nl-catalog .nl-module-gallery-count {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 8px;
+  transform: translateX(-50%);
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: rgba(17,24,39,.72);
+  color: #fff;
+  font: 600 12px/1.5 system-ui, sans-serif;
+  pointer-events: none;
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  #nl-catalog .nl-module-gallery-arrow { width: 32px; height: 32px; font-size: 29px; }
+}
+</style>
 <section class="nl-catalog" id="nl-catalog">
   <header class="nl-catalog-hero"><p class="nl-eyebrow">Catalogue matériel</p><h1>🧱 Modules Natulib</h1><p class="nl-catalog-intro">Explorez les briques matérielles de Natulib : recherche, famille, statut et informations pratiques en un coup d’œil.</p></header>
   <div class="nl-catalog-toolbar nl-compact-toolbar">
@@ -70,13 +122,33 @@ has_children: true
         <a class="nl-module-ref nl-card-filter-link" data-nl-filter-link data-nl-filter-key="recherche" data-nl-filter-value="{{ module_ref | escape }}" href="{{ '/Modules.html' | relative_url }}?recherche={{ module_ref | url_encode }}" title="Filtrer par référence">{{ module_ref | escape }}</a>
         <a class="nl-module-family nl-card-filter-link" data-nl-filter-link data-nl-filter-key="famille" data-nl-filter-value="{{ module_family | downcase | escape }}" href="{{ '/Modules.html' | relative_url }}?famille={{ module_family | downcase | url_encode }}" title="Voir les modules {{ module_family | escape }}">{{ module_family | escape }}</a>
       </span>
+      {% comment %}Une galerie par module, uniquement si plusieurs images sont renseignées.{% endcomment %}
       {% assign first_image = mod.images | first %}
-      <a class="nl-module-media" href="{{ mod.url | relative_url }}" tabindex="-1" aria-hidden="true">
-        {% if first_image and first_image.fichier %}
-          <img src="{{ first_image.fichier | relative_url }}" alt="" loading="lazy" decoding="async" onerror="this.hidden=true;this.parentNode.classList.add('nl-media-unavailable')">
+      {% assign image_count = 0 %}
+      {% for gallery_image in mod.images %}
+        {% if gallery_image.fichier %}{% assign image_count = image_count | plus: 1 %}{% endif %}
+      {% endfor %}
+      <div class="nl-module-media-gallery" data-nl-gallery data-nl-gallery-title="{{ mod.title | escape }}">
+        <a class="nl-module-media" href="{{ mod.url | relative_url }}" tabindex="-1" aria-hidden="true">
+          {% if first_image and first_image.fichier %}
+            <img src="{{ first_image.fichier | relative_url }}" alt="" loading="lazy" decoding="async" onerror="this.hidden=true;this.parentNode.classList.add('nl-media-unavailable')">
+          {% endif %}
+          <span class="nl-module-media-fallback" aria-hidden="true">{% case mod.famille %}{% when 'displays' %}📺{% when 'sensors' %}🌡️{% when 'power' %}🔋{% when 'actuators' %}⚡{% when 'connectivity' %}📡{% when 'enclosures' %}📦{% else %}🧩{% endcase %}</span>
+        </a>
+        {% if image_count > 1 %}
+          {% comment %}Les images suivantes ne sont chargées que lorsqu'on les affiche.{% endcomment %}
+          <div class="nl-module-gallery-sources" hidden>
+            {% for gallery_image in mod.images %}
+              {% if gallery_image.fichier %}
+                <span data-nl-gallery-src="{{ gallery_image.fichier | relative_url }}"></span>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <button type="button" class="nl-module-gallery-arrow nl-module-gallery-prev" data-nl-gallery-step="-1" aria-label="Image précédente : {{ mod.title | escape }}" title="Image précédente">&#8249;</button>
+          <button type="button" class="nl-module-gallery-arrow nl-module-gallery-next" data-nl-gallery-step="1" aria-label="Image suivante : {{ mod.title | escape }}" title="Image suivante">&#8250;</button>
+          <span class="nl-module-gallery-count" aria-live="polite" aria-atomic="true">1 / {{ image_count }}</span>
         {% endif %}
-        <span class="nl-module-media-fallback" aria-hidden="true">{% case mod.famille %}{% when 'displays' %}📺{% when 'sensors' %}🌡️{% when 'power' %}🔋{% when 'actuators' %}⚡{% when 'connectivity' %}📡{% when 'enclosures' %}📦{% else %}🧩{% endcase %}</span>
-      </a>
+      </div>
       <div class="nl-module-info">
       <a class="nl-module-title nl-card-main-link" href="{{ mod.url | relative_url }}">{{ mod.title | escape }}</a>
       {% if mod.description %}<span class="nl-module-desc">{{ mod.description | escape }}</span>{% endif %}
@@ -112,4 +184,39 @@ has_children: true
   <p id="nl-catalog-empty" class="nl-empty" hidden>Aucun module ne correspond à cette recherche.</p>
   <section class="nl-catalog-note"><h2>🔌 GPIO et brochage</h2><p>Chaque fiche module propose un GPIO recommandé pour un montage isolé. Dans une station, le câblage final est documenté dans les <a href="{{ '/Projets.html' | relative_url }}">projets</a>. Les périphériques I²C peuvent partager SDA/SCL si leurs adresses ne sont pas en conflit ; les modules SPI partagent certaines lignes mais nécessitent une sélection adaptée.</p><p><strong>⚡ Sécurité électrique :</strong> les GPIO de l’ESP32-C6 fonctionnent en 3,3 V. Pour commander des charges, utilisez des circuits de puissance adaptés, notamment les modules <a href="{{ '/hardware/NL-401A-PowerSwitch.html' | relative_url }}">NL-401A</a> ou <a href="{{ '/hardware/NL-402A-Mosfet-PWM.html' | relative_url }}">NL-402A</a>.</p></section>
 </section>
+<script>
+/* Navigation indépendante dans chaque carte ; les autres liens et filtres restent intacts. */
+(function () {
+  var catalog = document.getElementById('nl-catalog');
+  if (!catalog) return;
+
+  catalog.addEventListener('click', function (event) {
+    var button = event.target.closest('[data-nl-gallery-step]');
+    if (!button || !catalog.contains(button)) return;
+    event.preventDefault();
+    event.stopPropagation();
+
+    var gallery = button.closest('[data-nl-gallery]');
+    if (!gallery) return;
+    var image = gallery.querySelector('.nl-module-media img');
+    var link = gallery.querySelector('.nl-module-media');
+    var sources = gallery.querySelectorAll('[data-nl-gallery-src]');
+    var count = gallery.querySelector('.nl-module-gallery-count');
+    if (!image || !link || !count || sources.length < 2) return;
+
+    var current = Number(gallery.dataset.nlGalleryIndex || 0);
+    var step = Number(button.dataset.nlGalleryStep || 1);
+    var next = (current + step + sources.length) % sources.length;
+    var src = sources[next].getAttribute('data-nl-gallery-src');
+    if (!src) return;
+
+    gallery.dataset.nlGalleryIndex = String(next);
+    link.classList.remove('nl-media-unavailable');
+    image.hidden = false;
+    image.src = src;
+    count.textContent = (next + 1) + ' / ' + sources.length;
+    count.setAttribute('aria-label', 'Image ' + (next + 1) + ' sur ' + sources.length + ' : ' + (gallery.dataset.nlGalleryTitle || 'module'));
+  });
+})();
+</script>
 <script defer src="{{ '/assets/js/natulib-catalogue.js' | relative_url }}?v=20261029-panneau-ferme"></script>

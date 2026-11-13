@@ -27,7 +27,6 @@ starter_sections:
   - 🛒 Ce qu'il vous faut
   - 🚀 Pour commencer
   - 🧪 Validation rapide
-  - 🔌 Branchement
 ---
 
 Ce **switch mécanique de clavier** permet de déclencher une action physique dans **Natulib OS** : changer une scène, commander un équipement ou lancer une Synapse. Les versions **rouge**, **brune** et **bleue** se branchent de la même façon ; seule la sensation d'appui change.
@@ -41,27 +40,14 @@ Il s'agit d'un **contact sec normalement ouvert** : le switch n'a pas besoin d'a
 |**Switch mécanique compatible MX**|[AliExpress — Recherche de switchs MX](https://fr.aliexpress.com/w/wholesale-switch-m%C3%A9canique-mx.html)|Bouton à 2 contacts électriques et 1 ergot plastique de positionnement.|
 |**Fils de raccordement**|—|Pour connecter le switch à la carte.|
 
-## 🔌 Branchement
-
-Relier les **deux pattes métalliques** du switch à la carte ESP32-C6 :
-
-|Switch|ESP32-C6|Rôle|
-|---|---|---|
-|Contact métallique 1|**GPIO11**|Entrée de détection|
-|Contact métallique 2|**GND**|Masse (0 V)|
-|Ergot central en plastique|**Aucun raccordement**|Guidage et fixation uniquement|
-
-Les deux contacts métalliques sont **sans polarité** : leur ordre n'a pas d'importance. Le GPIO11 correspond au profil de référence de cette fiche ; utiliser une autre broche **disponible et accessible** si nécessaire, puis adapter la configuration Hardware.
-
 ## 🚀 Pour commencer
 
-1. **Couper l'alimentation** de l'ESP32-C6 avant de raccorder le switch.
-2. Relier les deux contacts métalliques du switch à **GPIO11** et **GND**, puis remettre la carte sous tension.
-3. Ouvrir l'interface Web locale de **Natulib OS**, puis accéder à **Hardware**.
-4. Ajouter le module **⌨️ Interrupteur Mécanique (Switch Clavier / Poussoir)**.
-5. Vérifier la broche **GPIO11**, l'option **Pull-up activé** et l'option **Inverser activé** (`pullup: true`, `invert: true`). Enregistrer la configuration.
-6. **Redémarrer l'ESP32-C6 après l'ajout du module** pour que Natulib OS le prenne en compte. Attendre que l'interface Web redevienne accessible.
-7. Appuyer sur le switch, le maintenir enfoncé puis le relâcher pour vérifier le changement d'état.
+1. Relier les deux contacts métalliques du switch à **GPIO11** et **GND** (les contacts sont **sans polarité** leur ordre n'a donc pas d'importance).
+2. Ouvrir l'interface Web locale de **Natulib OS**, puis accéder à **Hardware**.
+3. Ajouter le module **⌨️ Interrupteur Mécanique (Switch Clavier / Poussoir)**.
+4. Vérifier la broche **GPIO11**, l'option **Pull-up activé** et l'option **Inverser activé** (`pullup: true`, `invert: true`). Enregistrer la configuration.
+5. **Redémarrer l'ESP32-C6 après l'ajout du module** pour que Natulib OS le prenne en compte. Attendre que l'interface Web redevienne accessible.
+6. Appuyer sur le switch, le maintenir enfoncé puis le relâcher pour vérifier le changement d'état.
 
 > **Important :** après l'ajout du module dans Hardware, **un redémarrage de l'ESP32-C6 est nécessaire** avant de tester le switch dans Natulib OS et Synapses.
 

@@ -6,8 +6,8 @@ reference: NL-210A
 ref: NL-210A
 famille: sensors
 categorie: Capteurs
-statut: En test
-etat: test
+statut: Validé
+etat: valide
 soudure: Selon le support (soudure ou socket hot-swap)
 montage: soudure
 niveau: Débutant

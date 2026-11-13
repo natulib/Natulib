@@ -1,7 +1,7 @@
 ---
 layout: module
 bare: true
-title: Switch mécanique de clavier (3 broches)
+title: Switch mécanique de clavier
 reference: NL-210A
 ref: NL-210A
 famille: sensors
@@ -16,85 +16,107 @@ temps: 5
 interface: GPIO
 alimentation: Aucune (contact sec)
 description: Bouton mécanique personnalisable, de type clavier MX, pour déclencher des actions Natulib depuis un GPIO.
-images: 
+images:
   - fichier: /assets/NL-210A-SWITCH-1.png
     titre: Vue du switch
 elements:
-  - "👆 Appui"
-  - "⌨️ Bouton"
-  - "⚡ Déclenchement"
-
-# Référence proposée : vérifier sa disponibilité dans le catalogue Natulib.
-# Les autres titres H2 sont placés automatiquement dans « Pour aller plus loin ».
+  - 👆 Appui
+  - ⌨️ Bouton
+  - ⚡ Déclenchement
 starter_sections:
-  - "🛒 Ce qu'il vous faut"
-  - "🔌 Branchement — GPIO11"
-  - "🚀 Pour commencer"
-  - "🛠️ Problèmes courants"
+  - 🛒 Ce qu'il vous faut
+  - 🚀 Pour commencer
+  - 🧪 Validation rapide
+  - 🔌 Branchement
 ---
 
 Ce **switch mécanique de clavier** permet de déclencher une action physique dans **Natulib OS** : changer une scène, commander un équipement ou lancer une Synapse. Les versions **rouge**, **brune** et **bleue** se branchent de la même façon ; seule la sensation d'appui change.
 
+Il s'agit d'un **contact sec normalement ouvert** : le switch n'a pas besoin d'alimentation propre. Il fonctionne ici sur une **entrée GPIO à logique 3,3 V**, grâce à la résistance de tirage interne (_pull-up_) de l'ESP32-C6. **Ne pas raccorder directement le 3,3 V au switch.**
+
 ## 🛒 Ce qu'il vous faut
 
-| Composant | Qté | À savoir |
-|---|:---:|---|
-| **Switch mécanique compatible MX, 3 broches** | 1 | Rouge, brun ou bleu, avec tige en croix. |
-| **Deux fils de connexion** | 2 | Pour relier les deux **contacts métalliques** à l'ESP32. |
-| **Support ou socket adapté** | 1 | Recommandé pour maintenir le switch et pouvoir le remplacer facilement. |
-
-> **Attention aux « 3 broches » :** ce format possède **deux contacts électriques en métal** et **un ergot central en plastique** servant au positionnement. L'ergot plastique **ne se câble pas**. La tige en croix, située au-dessus, sert à fixer le capuchon de touche.
-
-## 🔌 Branchement — GPIO11
-
-| Switch mécanique | ESP32-C6 | Rôle |
+|Composant|Lien d'achat|Note / Rôle|
 |---|---|---|
-| **Contact métallique 1** | **GND** | Masse |
-| **Contact métallique 2** | **GPIO11** | Entrée du bouton |
-| **Ergot central en plastique** | **Non connecté** | Positionnement mécanique |
+|**Switch mécanique compatible MX**|[AliExpress — Recherche de switchs MX](https://fr.aliexpress.com/w/wholesale-switch-m%C3%A9canique-mx.html)|Bouton à 2 contacts électriques et 1 ergot plastique de positionnement.|
+|**Fils de raccordement**|—|Pour connecter le switch à la carte.|
 
-**Montage :** `GPIO11 ── [switch] ── GND`
+## 🔌 Branchement
 
-- **Aucun fil VCC, 3V3 ou 5V** n'est nécessaire : c'est un **contact sec**.
-- **Aucune résistance externe** n'est nécessaire avec le réglage Natulib `pullup: true`.
-- Les deux contacts métalliques sont **sans polarité** : leur sens n'a pas d'importance.
-- **GPIO11** est le choix du profil de référence Natulib ; si ta carte utilise une autre broche disponible, adapte-la dans **Hardware**.
+Relier les **deux pattes métalliques** du switch à la carte ESP32-C6 :
 
-> ⚠️ Couper l'alimentation avant le câblage. Ne jamais relier directement le switch au **5 V** ni brancher un fil électrique sur son ergot plastique.
+|Switch|ESP32-C6|Rôle|
+|---|---|---|
+|Contact métallique 1|**GPIO11**|Entrée de détection|
+|Contact métallique 2|**GND**|Masse (0 V)|
+|Ergot central en plastique|**Aucun raccordement**|Guidage et fixation uniquement|
+
+Les deux contacts métalliques sont **sans polarité** : leur ordre n'a pas d'importance. Le GPIO11 correspond au profil de référence de cette fiche ; utiliser une autre broche **disponible et accessible** si nécessaire, puis adapter la configuration Hardware.
 
 ## 🚀 Pour commencer
 
-1. Relier les **deux contacts métalliques** du switch à **GND** et **GPIO11**.
-2. Démarrer Natulib OS puis ouvrir **Hardware**.
-3. Ajouter **⌨️ Interrupteur Mécanique (Switch Clavier / Poussoir)**.
-4. Vérifier **GPIO11**, **Pull-up activé** et **Inverser activé** (`pullup: true`, `invert: true`).
-5. Appuyer puis relâcher : la mesure **`pressed`** doit passer d'un état à l'autre.
+1. **Couper l'alimentation** de l'ESP32-C6 avant de raccorder le switch.
+2. Relier les deux contacts métalliques du switch à **GPIO11** et **GND**, puis remettre la carte sous tension.
+3. Ouvrir l'interface Web locale de **Natulib OS**, puis accéder à **Hardware**.
+4. Ajouter le module **⌨️ Interrupteur Mécanique (Switch Clavier / Poussoir)**.
+5. Vérifier la broche **GPIO11**, l'option **Pull-up activé** et l'option **Inverser activé** (`pullup: true`, `invert: true`). Enregistrer la configuration.
+6. **Redémarrer l'ESP32-C6 après l'ajout du module** pour que Natulib OS le prenne en compte. Attendre que l'interface Web redevienne accessible.
+7. Appuyer sur le switch, le maintenir enfoncé puis le relâcher pour vérifier le changement d'état.
 
-**Comportement attendu :** le GPIO est à l'état **HIGH au repos** grâce au pull-up interne ; il passe à **LOW pendant l'appui**. L'option `invert: true` permet de présenter l'appui comme un état actif dans Natulib.
+> **Important :** après l'ajout du module dans Hardware, **un redémarrage de l'ESP32-C6 est nécessaire** avant de tester le switch dans Natulib OS et Synapses.
+
+**Comportement électrique :** au repos, le *pull-up* interne maintient le GPIO à l'état **HIGH** ; pendant l'appui, le contact relie le GPIO à GND et son état passe à **LOW**. Avec `invert: true`, Natulib présente l'appui comme un état actif.
+
+## 🧪 Validation rapide
+
+| Action | Résultat attendu |
+| --- | --- |
+| Laisser le switch au repos | Mesure **`pressed = 0`** (non appuyé). |
+| Appuyer et maintenir le switch | Mesure **`pressed = 1`** (appuyé). |
+| Relâcher le switch | Retour à **`pressed = 0`**. |
+| Répéter plusieurs appuis | L'état suit chaque pression et chaque relâchement détectés. |
+| Redémarrer l'ESP32-C6 | Le module reste configuré et la détection fonctionne à nouveau. |
+
+**Validation réussie :** le switch apparaît dans Hardware et son état change correctement après le redémarrage de l'ESP32-C6.
 
 ## 🧩 Dans Natulib
 
-Dans **Hardware**, ce switch utilise le type interne **`button`**. Il apparaît comme un **interrupteur mécanique** grâce à ses réglages `pullup: true` et `invert: true`.
+### Hardware
 
-Dans **Synapses**, sélectionner le bouton et sa mesure **`pressed`** pour créer une automatisation à partir d'un appui. Le moteur Synapses prévoit les entrées de type `button` pour la gestion des interactions, notamment les appuis et relâchements.
+Le modèle **`mech_button`** utilise le type interne **`button`**. La mesure **`pressed`** indique si le bouton est actionné. Les options `pullup: true` et `invert: true` permettent de raccorder un contact sec entre GPIO et GND et d'obtenir un état logique actif pendant l'appui.
 
-La disponibilité exacte des gestes (appui long, relâchement, etc.) dépend du firmware installé et de la règle créée.
+### Synapses : deux façons d'utiliser le switch
+
+**1. Utiliser la mesure**
+
+Sélectionner le switch dans **Synapses**, puis sa **mesure** :
+
+- **`0`** : bouton relâché.
+- **`1`** : bouton appuyé.
+
+Cette approche permet de créer une condition fondée sur l'état instantané du bouton, par exemple agir lorsque la mesure vaut **1**.
+
+**2. Utiliser le champ « Appuyé »**
+
+Sélectionner le switch, puis le champ **« Appuyé »**. Il est possible d'ajouter la condition **« depuis X secondes »** pour détecter un appui maintenu.
+
+**Exemple :** **« Appuyé depuis 2 secondes »** permet de détecter un appui long lorsque le bouton est resté enfoncé pendant au moins 2 secondes.
+
+> **À distinguer :** une mesure à `1` signale un bouton actuellement enfoncé ; **« Appuyé depuis X secondes »** permet de caractériser un maintien prolongé. La détection d'un *clic court* au sens strict (pression suivie d'un relâchement avant une durée limite) dépend de la règle Synapses construite.
 
 ## 🎨 Switch rouge, brun ou bleu ?
 
 | Couleur | Sensation habituelle | Particularité |
-|---|---|---|
+| --- | --- | --- |
 | 🔴 **Rouge** | Linéaire | Appui fluide, sans cran tactile marqué. |
-| 🟤 **Brun** | Tactile | Petit retour tactile, généralement sans clic sonore marqué. |
+| 🟤 **Brun** | Tactile | Retour tactile, généralement sans clic sonore marqué. |
 | 🔵 **Bleu** | Tactile et sonore | Clic audible lors de l'actionnement. |
 
-Ces descriptions correspondent aux familles de switchs mécaniques **de type MX** ; les sensations réelles peuvent varier selon la marque. **Le câblage et la configuration GPIO11 sont identiques** pour les trois versions passives.
-
-**Échange à chaud :** le remplacement sans dessouder nécessite un **socket hot-swap compatible** et un montage mécanique adapté. Un switch nu n'est pas automatiquement échangeable sans soudure ; pour une station Natulib, couper l'alimentation avant de le retirer.
+Ces caractéristiques décrivent des familles courantes de switchs **de type MX** : le ressenti peut varier selon le fabricant. Leur raccordement électrique est identique lorsqu'il s'agit de modèles mécaniques passifs.
 
 ## ⚙️ Configuration de référence
 
-Extrait des réglages du modèle **`mech_button`** présents dans l'interface Hardware fournie :
+Exemple de configuration du modèle **`mech_button`** dans Hardware :
 
 ```json
 {
@@ -109,25 +131,25 @@ Extrait des réglages du modèle **`mech_button`** présents dans l'interface Ha
 }
 ```
 
-La clé **`mech_button`** désigne le modèle dans le catalogue Hardware ; le **type réellement enregistré** reste `button`. Le modèle expose notamment la mesure booléenne **`pressed`** dans Synapses. Ce JSON décrit une **configuration prévue par l'interface** ; la réaction du matériel doit être vérifiée avec la version du firmware installée.
+La clé **`mech_button`** identifie le modèle dans le catalogue Hardware ; le **type enregistré** est `button`. La mesure **`pressed`** est exploitée dans Synapses sous forme d'état **0 / 1**.
+
+Cette configuration est donnée comme **référence d'interface**. Son comportement effectif reste à vérifier avec la version de Natulib OS utilisée, en particulier les appuis très brefs et la gestion temporelle.
 
 ## 🛠️ Problèmes courants
 
-| Problème | Vérification |
-|---|---|
-| **Aucun appui détecté** | Contrôler les **deux pattes métalliques** et la broche sélectionnée dans Hardware. |
-| **Toujours indiqué comme appuyé** | Vérifier le câblage vers **GND** et les réglages `pullup` / `invert`. |
-| **Plusieurs appuis pour une seule pression** | Vérifier les contacts ; prévoir un anti-rebond logiciel adapté si nécessaire. |
-| **Le switch tient mal ou ses pattes se plient** | Utiliser un support mécanique ou un socket hot-swap adapté. |
-
-## 🔗 Ressources
-
-- [ESP32-C6 N16 — carte principale Natulib](./NL-001A-ESP32-C6-N16.md)
-- [CHERRY — familles de switchs mécaniques MX](https://www.cherry.de/fr-fr/produits/interrupteurs)
-- [Natulib — dépôt GitHub](https://github.com/Natulib/Natulib)
+| Problème | Vérification / Solution |
+| --- | --- |
+| **Le switch n'apparaît pas ou ne réagit pas après ajout** | Enregistrer le module dans Hardware, puis **redémarrer l'ESP32-C6**. |
+| **Aucun appui détecté** | Vérifier les **deux contacts métalliques**, la connexion à GND et le GPIO choisi. |
+| **Toujours indiqué comme appuyé** | Contrôler le câblage et les options **`pullup`** / **`invert`**. |
+| **La valeur est inversée** | Vérifier que **Inverser** est activé dans Hardware. |
+| **Plusieurs détections pour un appui** | Vérifier les connexions et le traitement de l'anti-rebond logiciel. |
+| **Un appui très bref n'est pas détecté** | Vérifier la fréquence d'acquisition et les réglages de détection du firmware. |
+| **L'appui long ne fonctionne pas dans Synapses** | Utiliser le champ **« Appuyé »**, puis ajouter **« depuis X secondes »**. |
+| **Le switch tient mal ou ses pattes se plient** | Prévoir un support adapté ou un **socket hot-swap MX**. |
 
 ## 🕓 Historique
 
 | Version | Évolution |
-|---|---|
-| A | Première fiche du switch mécanique de clavier, branchement GPIO11 et modèle Hardware `mech_button`. |
+| --- | --- |
+| A | Première fiche : branchement GPIO11 et modèle Hardware `mech_button`. |

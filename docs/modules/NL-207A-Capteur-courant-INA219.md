@@ -24,11 +24,10 @@ elements:
   - ⚡ Courant
   - 🔋 Tension
   - 📊 Puissance
-natulib_os_driver: DeviceINA219
-natulib_os_type: ina219
-validation_statut: Cahier de tests à renseigner
-documentation_modele: Natulib V3
-validation_note: Essais matériels à documenter
+starter_sections:
+  - 🛒 Ce qu'il vous faut
+  - 🚀 Pour commencer
+  - 🧪 Validation rapide
 ---
 Le **INA219** est un capteur **I²C** qui mesure la **tension**, le **courant** dans les deux sens et la **puissance** consommés par un périphérique. 
 
